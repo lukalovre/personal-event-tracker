@@ -9,12 +9,21 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaApplication1">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+		<vm:MainWindowViewModel />
+	</Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<StackPanel>
+		<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
+		<DataGrid Margin="20"
+                  ItemsSource="{Binding Movies}"
+                  AutoGenerateColumns="True"
+                  IsReadOnly="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="2"
+                  BorderBrush="Teal" />
+	</StackPanel>
 </Window>
