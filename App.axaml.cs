@@ -20,6 +20,9 @@ namespace AvaloniaApplication1
 				desktop.MainWindow = new MainWindow
 				{
 					DataContext = new MainWindowViewModel(),
+					Width = 640,
+					Height = 480,
+					Position = new PixelPoint(-1032, 1371)
 				};
 			}
 
