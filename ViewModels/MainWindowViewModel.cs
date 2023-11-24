@@ -4,7 +4,7 @@ namespace AvaloniaApplication1.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-	public string Greeting => "Welcome to Avalonia!";
+	public string Title => "Data";
 
-	public List<string> Movies => new() { "1", "2", "3" };
+	public List<string> Movies { get; set; }
 }

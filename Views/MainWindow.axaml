@@ -16,7 +16,7 @@
 	</Design.DataContext>
 
 	<StackPanel>
-		<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+		<TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
 		<DataGrid Margin="20"
                   ItemsSource="{Binding Movies}"
