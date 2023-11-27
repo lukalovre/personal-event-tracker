@@ -14,7 +14,7 @@ public class MainWindowViewModel : ViewModelBase
 
         for (int i = 0; i < 500; i++)
         {
-            Movies.Add(new() { Director = $"Directore {i}" });
+            Movies.Add(new() { Director = $"Directors {i}" });
         }
     }
 }
