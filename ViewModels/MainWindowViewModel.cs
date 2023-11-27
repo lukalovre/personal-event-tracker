@@ -19,11 +19,6 @@ public class MainWindowViewModel : ViewModelBase
 
     private MovieGridItem Convert(Movie o)
     {
-        return new MovieGridItem
-        {
-            Title = o.Actors,
-            Director = o.Director,
-            Year = 2001
-        };
+        return new MovieGridItem(o.Actors, o.Director, 2001);
     }
 }
