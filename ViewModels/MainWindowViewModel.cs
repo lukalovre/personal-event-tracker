@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
@@ -6,22 +8,22 @@ public class MainWindowViewModel : ViewModelBase
 {
     public string Title => "Data";
 
-    public List<MovieViewModel> Movies { get; set; }
+    public List<MovieGridItem> Movies { get; set; }
 
     public MainWindowViewModel()
     {
-        Movies = new List<MovieViewModel>();
+        var movieList = new JsonnDatasource().GetList<Movie>();
 
-        for (int i = 0; i < 500; i++)
+        Movies = movieList.Select(o => Convert(o)).ToList();
+    }
+
+    private MovieGridItem Convert(Movie o)
+    {
+        return new MovieGridItem
         {
-            Movies.Add(
-                new()
-                {
-                    Title = "title",
-                    Director = $"Director {i}",
-                    Year = 2000 + i
-                }
-            );
-        }
+            Title = o.Actors,
+            Director = o.Director,
+            Year = 2001
+        };
     }
 }

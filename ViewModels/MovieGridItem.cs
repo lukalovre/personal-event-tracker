@@ -1,4 +1,4 @@
-public class MovieViewModel
+public class MovieGridItem
 {
     public string Title { get; set; }
     public string Director { get; set; }
