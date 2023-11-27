@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Repositories;
 
@@ -20,7 +21,9 @@ internal class JsonnDatasource : IDatasource
             result.Add(new() { Director = $"Director {i}", });
         }
 
-        return result as List<T>;
+        var json = JsonConvert.SerializeObject(result);
+
+        return JsonConvert.DeserializeObject<List<T>>(json);
     }
 
     public void MakeBackup(string path)
