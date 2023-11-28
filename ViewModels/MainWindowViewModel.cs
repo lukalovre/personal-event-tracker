@@ -12,13 +12,12 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        var movieList = new JsonnDatasource().GetList<Movie>();
-
+        var movieList = new TsvDatasource().GetList<Movie>();
         Movies = movieList.Select(o => Convert(o)).ToList();
     }
 
     private MovieGridItem Convert(Movie o)
     {
-        return new MovieGridItem(o.Actors, o.Director, 2001);
+        return new MovieGridItem(o.Title, o.Director, o.Year);
     }
 }
