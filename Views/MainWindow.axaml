@@ -16,9 +16,10 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
     <DockPanel>
-        <TabControl Margin="5">
+        <TabControl Margin="5"
+                    TabStripPlacement="Left">
             <TabItem Header="Tab 1">
-                                <TextBlock Text="{Binding Title}"
+                <TextBlock Text="{Binding Title}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center" />
             </TabItem>
