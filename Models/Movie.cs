@@ -1,3 +1,5 @@
+namespace Models;
+
 public class Movie
 {
     public string Actors { get; set; }
