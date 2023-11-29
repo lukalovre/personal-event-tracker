@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Repositories;
 
@@ -15,7 +16,11 @@ public class MainWindowViewModel : ViewModelBase
         var movieList = new TsvDatasource().GetList<Movie>();
         var movieEventList = new TsvDatasource().GetList<MovieEvent>();
 
-        Movies = movieList.Select(o => Convert(o, movieEventList)).OrderBy(o => o.Date).ToList();
+        Movies = movieList
+            .Select(o => Convert(o, movieEventList))
+            .Where(o => o.Date.HasValue && o.Date.Value.Year == DateTime.Now.Year)
+            .OrderBy(o => o.Date)
+            .ToList();
     }
 
     private MovieGridItem Convert(Movie o, List<MovieEvent> movieEventList)
