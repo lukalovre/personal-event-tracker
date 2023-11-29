@@ -13,7 +13,16 @@ internal class TsvDatasource : IDatasource
     public void Add<T>(T item)
         where T : class
     {
-        throw new System.NotImplementedException();
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
+
+        var tAttribute = (TableAttribute)
+            typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
+        var tableName = tAttribute?.Name;
+        var listPath = Path.Combine($"{tableName}.tsv");
+
+        using var writer = new StreamWriter(listPath, true);
+        using var csv = new CsvWriter(writer, config);
+        csv.WriteRecord(item);
     }
 
     public List<T> GetList<T>()
@@ -22,7 +31,7 @@ internal class TsvDatasource : IDatasource
         var tAttribute = (TableAttribute)
             typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
         var tableName = tAttribute?.Name;
-        var listPath = Path.Combine($"{tableName}.tsv");
+        var listPath = Path.Combine($"../../Data/{tableName}.tsv");
         var text = File.ReadAllText(listPath);
 
         var reader = new StringReader(text);
@@ -36,10 +45,8 @@ internal class TsvDatasource : IDatasource
             BadDataFound = null
         };
 
-        using (var csv = new CsvReader(reader, config))
-        {
-            return csv.GetRecords<T>().ToList();
-        }
+        using var csv = new CsvReader(reader, config);
+        return csv.GetRecords<T>().ToList();
     }
 
     public void MakeBackup(string path)

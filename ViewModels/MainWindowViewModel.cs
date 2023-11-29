@@ -13,11 +13,15 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         var movieList = new TsvDatasource().GetList<Movie>();
-        Movies = movieList.Select(o => Convert(o)).ToList();
+        var movieEventList = new TsvDatasource().GetList<MovieEvent>();
+
+        Movies = movieList.Select(o => Convert(o, movieEventList)).OrderBy(o => o.Date).ToList();
     }
 
-    private MovieGridItem Convert(Movie o)
+    private MovieGridItem Convert(Movie o, List<MovieEvent> movieEventList)
     {
-        return new MovieGridItem(o.Title, o.Director, o.Year);
+        var even = movieEventList.LastOrDefault(obj => obj.Imdb == o.Imdb);
+
+        return new MovieGridItem(o.Title, o.Director, o.Year, even.Date);
     }
 }
