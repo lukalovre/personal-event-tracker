@@ -11,21 +11,21 @@ public class MainWindowViewModel : ViewModelBase
 
     public List<MovieGridItem> Movies { get; set; }
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(IDatasource datasource)
     {
-        var movieList = new TsvDatasource().GetList<Movie>();
-        var movieEventList = new TsvDatasource().GetList<MovieEvent>();
+        var movieList = datasource.GetList<Movie>();
+        var eventList = datasource.GetEventList<Movie>();
 
         Movies = movieList
-            .Select(o => Convert(o, movieEventList))
+            .Select(o => Convert(o, eventList))
             .Where(o => o.Date.HasValue && o.Date.Value.Year == DateTime.Now.Year)
             .OrderBy(o => o.Date)
             .ToList();
     }
 
-    private MovieGridItem Convert(Movie o, List<MovieEvent> movieEventList)
+    private MovieGridItem Convert(Movie o, List<Event> eventList)
     {
-        var even = movieEventList.LastOrDefault(obj => obj.Imdb == o.Imdb);
+        var even = eventList.LastOrDefault(obj => obj.ItemID == o.Imdb);
 
         return new MovieGridItem(o.Title, o.Director, o.Year, even.Date);
     }

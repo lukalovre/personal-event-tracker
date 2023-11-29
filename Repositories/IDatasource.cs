@@ -10,6 +10,9 @@ public interface IDatasource
     List<T> GetList<T>()
         where T : class;
 
+    List<Event> GetEventList<T>()
+        where T : class;
+
     void MakeBackup(string path);
 
     void Update<T>(T item)

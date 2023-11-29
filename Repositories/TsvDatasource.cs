@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
@@ -47,6 +48,26 @@ internal class TsvDatasource : IDatasource
 
         using var csv = new CsvReader(reader, config);
         return csv.GetRecords<T>().ToList();
+    }
+
+    List<Event> IDatasource.GetEventList<T>()
+    {
+        var listPath = Path.Combine($"../../Data/{typeof(T)}Events.tsv");
+        var text = File.ReadAllText(listPath);
+
+        var reader = new StringReader(text);
+
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HeaderValidated = null,
+            HasHeaderRecord = false,
+            MissingFieldFound = null,
+            Delimiter = "\t",
+            BadDataFound = null
+        };
+
+        using var csv = new CsvReader(reader, config);
+        return csv.GetRecords<Event>().ToList();
     }
 
     public void MakeBackup(string path)
