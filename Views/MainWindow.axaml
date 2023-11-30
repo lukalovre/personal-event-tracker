@@ -3,13 +3,15 @@
         xmlns:vm="using:AvaloniaApplication1.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
         mc:Ignorable="d"
         d:DesignWidth="800"
         d:DesignHeight="450"
         x:Class="AvaloniaApplication1.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="AvaloniaApplication1">
+        Title="AvaloniaApplication1"
+        xmlns:view="using:AvaloniaApplication1.Views" >
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -27,7 +29,7 @@
                     </TabItem>
                     <TabItem Header="Tab 2">
                         <DataGrid Margin="20"
-                                  ItemsSource="{Binding Movies}"
+                                  ItemsSource="{Binding Books}"
                                   AutoGenerateColumns="True"
                                   IsReadOnly="True"
                                   GridLinesVisibility="All"
@@ -43,7 +45,10 @@
                 <TextBlock Margin="5">This is tab 3 content</TextBlock>
             </TabItem>
             <TabItem Header="Tab 3">
-                <TextBlock Margin="5">This is tab 3 content</TextBlock>
+                
+                <view:BasicView/>
+
+
             </TabItem>
         </TabControl>
     </DockPanel>
