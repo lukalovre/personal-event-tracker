@@ -10,23 +10,38 @@ public class MainWindowViewModel : ViewModelBase
     public string Title => "Data";
 
     public List<MovieGridItem> Movies { get; set; }
+    public List<MovieGridItem> Books { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
-        var movieList = datasource.GetList<Movie>();
-        var eventList = datasource.GetEventList<Movie>();
+        // var movieList = datasource.GetList<Movie>();
+        // var movieEventList = datasource.GetEventList<Movie>();
 
-        Movies = movieList
-            .Select(o => Convert(o, eventList))
-            .Where(o => o.Date.HasValue && o.Date.Value.Year == DateTime.Now.Year)
-            .OrderBy(o => o.Date)
+        // Movies = movieEventList
+        //     .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == DateTime.Now.Year)
+        //     .OrderBy(o => o.DateEnd)
+        //     .Select(o => Convert(o, movieList.First(m => m.ID == o.ItemID)))
+        //     .ToList();
+
+        var bookList = datasource.GetList<Book>();
+        var bookEventList = datasource.GetEventList<Book>();
+
+        Books = bookEventList
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == DateTime.Now.Year)
+            .OrderByDescending(o => o.DateEnd)
+            .DistinctBy(o => o.ItemID)
+            .OrderBy(o => o.DateEnd)
+            .Select(o => Convert(o, bookList.First(m => m.ID == o.ItemID)))
             .ToList();
     }
 
-    private MovieGridItem Convert(Movie o, List<Event> eventList)
+    private MovieGridItem Convert(Event e, Movie m)
     {
-        var even = eventList.LastOrDefault(obj => obj.ItemID == o.Imdb);
+        return new MovieGridItem(m.Title, m.Director, m.Year, e.DateEnd);
+    }
 
-        return new MovieGridItem(o.Title, o.Director, o.Year, even.Date);
+    private MovieGridItem Convert(Event e, Book m)
+    {
+        return new MovieGridItem(m.Title, m.Author, m.Year, e.DateEnd);
     }
 }
