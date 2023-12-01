@@ -67,6 +67,15 @@
                                   BorderThickness="2"
                                   BorderBrush="Teal" />
                     </TabItem>
+                    <TabItem Header="Songs">
+                        <DataGrid Margin="20"
+                                  ItemsSource="{Binding Songs}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal" />
+                    </TabItem>
                 </TabControl>
             </TabItem>
             <TabItem Header="Tab 3">
