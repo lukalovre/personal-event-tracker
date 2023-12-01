@@ -15,17 +15,19 @@ public class MainWindowViewModel : ViewModelBase
     public List<BookGridItem> Books { get; set; }
     public List<MusicGridItem> Music { get; set; }
     public List<TVShowGridItem> TVShows { get; set; }
+    public List<ComicGridItem> Comics { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
         _datasource = datasource;
 
-        //  _datasource.GetEventListConvert<TVShow>();
+        // _datasource.GetEventListConvert<Comic>();
 
         Movies = GetData<Movie, MovieGridItem>();
         Books = GetData<Book, BookGridItem>();
         Music = GetData<Music, MusicGridItem>();
         TVShows = GetData<TVShow, TVShowGridItem>();
+        Comics = GetData<Comic, ComicGridItem>();
     }
 
     private List<T2> GetData<T1, T2>()
@@ -81,6 +83,18 @@ public class MainWindowViewModel : ViewModelBase
                     i.Title,
                     e.Chapter ?? 1,
                     eventList.Count(o => o.Chapter == e.Chapter)
+                ) as T2;
+        }
+
+        if (typeof(T1) == typeof(Comic))
+        {
+            var i = item as Comic;
+            return new ComicGridItem(
+                    i.Title,
+                    i.Writer,
+                    e.Chapter,
+                    eventList.Where(o => o.Chapter == e.Chapter).Sum(o => o.Amount),
+                    e.Rating
                 ) as T2;
         }
 

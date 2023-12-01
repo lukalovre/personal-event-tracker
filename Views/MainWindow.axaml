@@ -58,6 +58,15 @@
                                   BorderThickness="2"
                                   BorderBrush="Teal" />
                     </TabItem>
+                    <TabItem Header="Comics">
+                        <DataGrid Margin="20"
+                                  ItemsSource="{Binding Comics}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal" />
+                    </TabItem>
                 </TabControl>
             </TabItem>
             <TabItem Header="Tab 3">
