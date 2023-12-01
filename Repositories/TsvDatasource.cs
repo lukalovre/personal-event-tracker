@@ -427,7 +427,7 @@ internal class TsvDatasource : IDatasource
             }
             else
             {
-                dateStart = dateEnd.Value.AddMinutes(-(int)(amount / 0.5f));
+                dateStart = dateEnd.Value.AddMinutes(-(int)(amount * 0.3f));
             }
         }
 
@@ -761,10 +761,10 @@ internal class TsvDatasource : IDatasource
 
         using var csv = new CsvReader(reader, config);
 
-        var oldEventList = csv.GetRecords<GameEvent>().ToList();
-        var item = GetList<Game>();
+        var oldEventList = csv.GetRecords<ComicEvent>().ToList();
+        var item = GetList<Comic>();
 
-        var convertedEventsList = oldEventList.Select(o => ConvertGame(o, item)).ToList();
+        var convertedEventsList = oldEventList.Select(o => ConvertComic(o, item)).ToList();
 
         var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
         using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
