@@ -49,6 +49,15 @@
                                   BorderThickness="2"
                                   BorderBrush="Teal" />
                     </TabItem>
+                    <TabItem Header="TV Shows">
+                        <DataGrid Margin="20"
+                                  ItemsSource="{Binding TVShows}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal" />
+                    </TabItem>
                 </TabControl>
             </TabItem>
             <TabItem Header="Tab 3">

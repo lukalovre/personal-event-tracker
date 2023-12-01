@@ -40,10 +40,9 @@ internal class TsvDatasource : IDatasource
 
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            HeaderValidated = null,
+            Delimiter = "\t",
             HasHeaderRecord = false,
             MissingFieldFound = null,
-            Delimiter = "\t",
             BadDataFound = null
         };
 
@@ -315,6 +314,90 @@ internal class TsvDatasource : IDatasource
         };
     }
 
+    private Event ConvertTVShow(TVShowEvent e, List<TVShow> itemList)
+    {
+        var item = itemList.First(o => o.Imdb == e.Imdb);
+
+        var amount = e.Runtime;
+        DateTime? dateEnd = null;
+
+        if (
+            DateTime.TryParse(
+                e.Date,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var fromDtEnd
+            )
+        )
+        {
+            dateEnd = fromDtEnd;
+        }
+
+        DateTime? dateStart = null;
+
+        if (dateEnd.HasValue)
+        {
+            if (e.Date.Contains("00:00:00"))
+            {
+                dateStart = dateEnd;
+            }
+            else
+            {
+                dateStart = dateEnd.Value.AddMinutes(-amount);
+            }
+        }
+
+        int? rating = null;
+
+        if (int.TryParse(e.Rating, out var retInt))
+        {
+            rating = retInt;
+        }
+
+        var peopleSplit = e.People.Split(',');
+
+        var pepleList = new List<int>();
+
+        if (peopleSplit.Any())
+        {
+            foreach (var splitItem in peopleSplit)
+            {
+                if (int.TryParse(splitItem, out var resInt))
+                {
+                    pepleList.Add(resInt);
+                }
+            }
+        }
+
+        string ShemaZenNull(string s)
+        {
+            if (s == "--SchemaZenNull--" || string.IsNullOrWhiteSpace(s))
+            {
+                return null;
+            }
+            return s;
+        }
+
+        return new Event
+        {
+            ID = e.ID,
+            Amount = amount,
+            AmountType = eAmountType.Minutes,
+            Comment = ShemaZenNull(e.Comment),
+            Completed = false,
+            DateEnd = dateEnd,
+            DateStart = dateStart,
+            Rating = rating,
+            Platform = null,
+            ExternalID = ShemaZenNull(item.Imdb),
+            ItemID = item.ID,
+            People = ShemaZenNull(string.Join(",", pepleList)),
+            Bookmakred = false,
+            Chapter = e.Season,
+            LocationID = null
+        };
+    }
+
     public void MakeBackup(string path)
     {
         throw new System.NotImplementedException();
@@ -342,11 +425,10 @@ internal class TsvDatasource : IDatasource
 
         using var csv = new CsvReader(reader, config);
 
-        var oldEventList = csv.GetRecords<MusicEvent>().ToList();
+        var oldEventList = csv.GetRecords<TVShowEvent>().ToList();
+        var item = GetList<TVShow>();
 
-        var item = GetList<Music>();
-
-        var convertedEventsList = oldEventList.Select(o => ConvertMusic(o, item)).ToList();
+        var convertedEventsList = oldEventList.Select(o => ConvertTVShow(o, item)).ToList();
 
         var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
         using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);

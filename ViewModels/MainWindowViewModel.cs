@@ -14,16 +14,18 @@ public class MainWindowViewModel : ViewModelBase
     public List<MovieGridItem> Movies { get; set; }
     public List<BookGridItem> Books { get; set; }
     public List<MusicGridItem> Music { get; set; }
+    public List<TVShowGridItem> TVShows { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
         _datasource = datasource;
 
-        // _datasource.GetEventListConvert<Music>();
+        //  _datasource.GetEventListConvert<TVShow>();
 
         Movies = GetData<Movie, MovieGridItem>();
         Books = GetData<Book, BookGridItem>();
         Music = GetData<Music, MusicGridItem>();
+        TVShows = GetData<TVShow, TVShowGridItem>();
     }
 
     private List<T2> GetData<T1, T2>()
@@ -70,6 +72,16 @@ public class MainWindowViewModel : ViewModelBase
             var i = item as Music;
             return new MusicGridItem(i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count())
                 as T2;
+        }
+
+        if (typeof(T1) == typeof(TVShow))
+        {
+            var i = item as TVShow;
+            return new TVShowGridItem(
+                    i.Title,
+                    e.Chapter ?? 1,
+                    eventList.Count(o => o.Chapter == e.Chapter)
+                ) as T2;
         }
 
         return null;
