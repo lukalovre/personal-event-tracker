@@ -11,7 +11,7 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaApplication1"
-        xmlns:view="using:AvaloniaApplication1.Views" >
+        xmlns:view="using:AvaloniaApplication1.Views">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -110,8 +110,8 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Tab 3">                
-                <view:BasicView/>
+            <TabItem Header="Tab 3">
+                <view:BasicView />
             </TabItem>
         </TabControl>
     </DockPanel>

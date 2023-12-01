@@ -1,30 +1,21 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:AvaloniaApplication1.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
-        mc:Ignorable="d"
-        d:DesignWidth="800"
-        d:DesignHeight="450"
-        x:Class="AvaloniaApplication1.Views.BasicView"
-        x:DataType="vm:MainWindowViewModel">
-
-
-<DockPanel>
-                    <DataGrid Margin="20"
-                                  ItemsSource="{Binding Books}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
-
-
-                  <TextBlock Text="{Binding Title}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" />
-  </DockPanel>
-
-
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:AvaloniaApplication1.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
+             x:Class="AvaloniaApplication1.Views.BasicView"
+             x:DataType="vm:MainWindowViewModel">
+    <DockPanel>
+        <DataGrid Margin="20"
+                  ItemsSource="{Binding Books}"
+                  AutoGenerateColumns="True"
+                  IsReadOnly="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="2"
+                  BorderBrush="Teal" />
+    </DockPanel>
 </UserControl>
