@@ -22,12 +22,16 @@
             <TabItem Header="Tab 1">
                 <TabControl Margin="5"
                             TabStripPlacement="Left">
-                    <TabItem Header="Tab 1">
-                        <TextBlock Text="{Binding Title}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" />
+                    <TabItem Header="Movies">
+                        <DataGrid Margin="20"
+                                  ItemsSource="{Binding Movies}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal" />
                     </TabItem>
-                    <TabItem Header="Tab 2">
+                    <TabItem Header="Books">
                         <DataGrid Margin="20"
                                   ItemsSource="{Binding Books}"
                                   AutoGenerateColumns="True"

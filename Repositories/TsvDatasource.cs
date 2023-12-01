@@ -13,7 +13,7 @@ namespace Repositories;
 internal class TsvDatasource : IDatasource
 {
     public void Add<T>(T item)
-        where T : class
+        where T : IItem
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
 
@@ -28,7 +28,7 @@ internal class TsvDatasource : IDatasource
     }
 
     public List<T> GetList<T>()
-        where T : class
+        where T : IItem
     {
         var tAttribute = (TableAttribute)
             typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
@@ -57,49 +57,10 @@ internal class TsvDatasource : IDatasource
         var text = File.ReadAllText(listPath);
 
         var reader = new StringReader(text);
-
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = false,
-            Delimiter = "\t"
-        };
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = "\t" };
 
         using var csv = new CsvReader(reader, config);
-
-        var oldEventList = csv.GetRecords<BookEvent>().ToList();
-
-        var movies = GetList<Book>();
-
-        var convertedEventsList = oldEventList.Select(o => ConvertBook(o, movies)).ToList();
-
-        var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
-        using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
-
-        var configWrite = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = true,
-            Delimiter = "\t"
-        };
-
-        var csvText = new CsvWriter(writer, configWrite);
-        csvText.WriteRecords(convertedEventsList);
-        writer.Flush();
-
-        text = File.ReadAllText(newPath);
-        reader = new StringReader(text);
-        using var csv2 = new CsvReader(reader, configWrite);
-
-        var newList = csv2.GetRecords<Event>().ToList();
-
-        var newListIds = newList.Select(o => o.ID);
-        var missingItems = oldEventList
-            .Select(o => o.ID)
-            .Where(o => !newListIds.Contains(o))
-            .ToList();
-
-        if (missingItems.Any()) { }
-
-        return newList;
+        return csv.GetRecords<Event>().ToList();
     }
 
     private Event ConvertMovie(MovieEvent me, List<Movie> movies)
@@ -276,8 +237,63 @@ internal class TsvDatasource : IDatasource
     }
 
     public void Update<T>(T item)
-        where T : class
+        where T : IItem
     {
         throw new System.NotImplementedException();
+    }
+
+    public List<Event> GetEventListConvert<T>()
+        where T : IItem
+    {
+        var listPath = Path.Combine($"../../Data/{typeof(T)}Events.tsv");
+        var text = File.ReadAllText(listPath);
+
+        var reader = new StringReader(text);
+
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HasHeaderRecord = false,
+            Delimiter = "\t"
+        };
+
+        using var csv = new CsvReader(reader, config);
+
+        var oldEventList = csv.GetRecords<BookEvent>().ToList();
+
+        var movies = GetList<Book>();
+
+        var convertedEventsList = oldEventList.Select(o => ConvertBook(o, movies)).ToList();
+
+        var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
+        using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
+
+        var configWrite = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HasHeaderRecord = true,
+            Delimiter = "\t"
+        };
+
+        var csvText = new CsvWriter(writer, configWrite);
+        csvText.WriteRecords(convertedEventsList);
+        writer.Flush();
+
+        text = File.ReadAllText(newPath);
+        reader = new StringReader(text);
+        using var csv2 = new CsvReader(reader, configWrite);
+
+        var newList = csv2.GetRecords<Event>().ToList();
+
+        var newListIds = newList.Select(o => o.ID);
+        var missingItems = oldEventList
+            .Select(o => o.ID)
+            .Where(o => !newListIds.Contains(o))
+            .ToList();
+
+        if (missingItems.Any())
+        {
+            throw new Exception("Yo!");
+        }
+
+        return newList;
     }
 }
