@@ -13,13 +13,17 @@ public class MainWindowViewModel : ViewModelBase
 
     public List<MovieGridItem> Movies { get; set; }
     public List<BookGridItem> Books { get; set; }
+    public List<MusicGridItem> Music { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
         _datasource = datasource;
 
+        // _datasource.GetEventListConvert<Music>();
+
         Movies = GetData<Movie, MovieGridItem>();
         Books = GetData<Book, BookGridItem>();
+        Music = GetData<Music, MusicGridItem>();
     }
 
     private List<T2> GetData<T1, T2>()
@@ -34,24 +38,38 @@ public class MainWindowViewModel : ViewModelBase
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
-            .Select(o => Convert<T1, T2>(o, itemList.First(m => m.ID == o.ItemID)))
+            .Select(
+                o =>
+                    Convert<T1, T2>(
+                        o,
+                        itemList.First(m => m.ID == o.ItemID),
+                        eventList.Where(e => e.ItemID == o.ItemID)
+                    )
+            )
             .ToList();
     }
 
-    private T2 Convert<T1, T2>(Event e, T1 item)
+    private T2 Convert<T1, T2>(Event e, T1 item, IEnumerable<Event> eventList)
         where T1 : IItem
         where T2 : class
     {
         if (typeof(T1) == typeof(Movie))
         {
-            var movie = item as Movie;
-            return new MovieGridItem(movie.Title, movie.Director, movie.Year, e.DateEnd) as T2;
+            var i = item as Movie;
+            return new MovieGridItem(i.Title, i.Director, i.Year, e.DateEnd) as T2;
         }
 
         if (typeof(T1) == typeof(Book))
         {
-            var book = item as Book;
-            return new BookGridItem(book.Title, book.Author, book.Year, e.Rating, e.DateEnd) as T2;
+            var i = item as Book;
+            return new BookGridItem(i.Title, i.Author, i.Year, e.Rating, e.DateEnd) as T2;
+        }
+
+        if (typeof(T1) == typeof(Music))
+        {
+            var i = item as Music;
+            return new MusicGridItem(i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count())
+                as T2;
         }
 
         return null;

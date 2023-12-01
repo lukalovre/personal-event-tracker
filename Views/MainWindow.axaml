@@ -40,8 +40,14 @@
                                   BorderThickness="2"
                                   BorderBrush="Teal" />
                     </TabItem>
-                    <TabItem Header="Tab 3">
-                        <TextBlock Margin="5">This is tab 3 content</TextBlock>
+                    <TabItem Header="Music">
+                        <DataGrid Margin="20"
+                                  ItemsSource="{Binding Music}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal" />
                     </TabItem>
                 </TabControl>
             </TabItem>

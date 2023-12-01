@@ -231,6 +231,90 @@ internal class TsvDatasource : IDatasource
         };
     }
 
+    private Event ConvertMusic(MusicEvent e, List<Music> itemList)
+    {
+        var item = itemList.First(o => o.ItemID == e.ItemID);
+
+        var amount = item.Runtime;
+        DateTime? dateEnd = null;
+
+        if (
+            DateTime.TryParse(
+                e.Date,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var fromDtEnd
+            )
+        )
+        {
+            dateEnd = fromDtEnd;
+        }
+
+        DateTime? dateStart = null;
+
+        if (dateEnd.HasValue)
+        {
+            if (e.Date.Contains("00:00:00"))
+            {
+                dateStart = dateEnd;
+            }
+            else
+            {
+                dateStart = dateEnd.Value.AddMinutes(-amount);
+            }
+        }
+
+        int? rating = null;
+
+        if (int.TryParse(e.Rating, out var retInt))
+        {
+            rating = retInt;
+        }
+
+        var peopleSplit = e.People.Split(',');
+
+        var pepleList = new List<int>();
+
+        if (peopleSplit.Any())
+        {
+            foreach (var splitItem in peopleSplit)
+            {
+                if (int.TryParse(splitItem, out var resInt))
+                {
+                    pepleList.Add(resInt);
+                }
+            }
+        }
+
+        string ShemaZenNull(string s)
+        {
+            if (s == "--SchemaZenNull--" || string.IsNullOrWhiteSpace(s))
+            {
+                return null;
+            }
+            return s;
+        }
+
+        return new Event
+        {
+            ID = e.ID,
+            Amount = amount,
+            AmountType = eAmountType.Minutes,
+            Comment = ShemaZenNull(e.Comment),
+            Completed = true,
+            DateEnd = dateEnd,
+            DateStart = dateStart,
+            Rating = rating,
+            Platform = null,
+            ExternalID = ShemaZenNull(item.SpotifyID),
+            ItemID = item.ID,
+            People = ShemaZenNull(string.Join(",", pepleList)),
+            Bookmakred = e.In,
+            Chapter = null,
+            LocationID = null
+        };
+    }
+
     public void MakeBackup(string path)
     {
         throw new System.NotImplementedException();
@@ -245,7 +329,7 @@ internal class TsvDatasource : IDatasource
     public List<Event> GetEventListConvert<T>()
         where T : IItem
     {
-        var listPath = Path.Combine($"../../Data/{typeof(T)}Events.tsv");
+        var listPath = Path.Combine($"../../Data/TODO/{typeof(T)}Events.tsv");
         var text = File.ReadAllText(listPath);
 
         var reader = new StringReader(text);
@@ -258,11 +342,11 @@ internal class TsvDatasource : IDatasource
 
         using var csv = new CsvReader(reader, config);
 
-        var oldEventList = csv.GetRecords<BookEvent>().ToList();
+        var oldEventList = csv.GetRecords<MusicEvent>().ToList();
 
-        var movies = GetList<Book>();
+        var item = GetList<Music>();
 
-        var convertedEventsList = oldEventList.Select(o => ConvertBook(o, movies)).ToList();
+        var convertedEventsList = oldEventList.Select(o => ConvertMusic(o, item)).ToList();
 
         var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
         using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
