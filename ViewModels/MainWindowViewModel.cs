@@ -24,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         _datasource = datasource;
 
-        _datasource.GetEventListConvert<Comic>();
+        // _datasource.GetEventListConvert<Comic>();
 
         Movies = GetData<Movie, MovieGridItem>();
         Books = GetData<Book, BookGridItem>();

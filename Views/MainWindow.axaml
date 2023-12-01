@@ -19,7 +19,7 @@
     </Design.DataContext>
     <DockPanel>
         <TabControl Margin="5">
-            <TabItem Header="Tab 1">
+            <TabItem Header="Main">
                 <TabControl Margin="5"
                             TabStripPlacement="Left">
                     <TabItem Header="Movies">
@@ -96,14 +96,22 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Tab 3">
-                <TextBlock Margin="5">This is tab 3 content</TextBlock>
+            <TabItem Header="My">
+                <TabControl Margin="5"
+                            TabStripPlacement="Left">
+                    <TabItem Header="D&amp;D">
+                        <DataGrid Margin="20"
+                                  ItemsSource="{Binding Movies}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal" />
+                    </TabItem>
+                </TabControl>
             </TabItem>
-            <TabItem Header="Tab 3">
-                
+            <TabItem Header="Tab 3">                
                 <view:BasicView/>
-
-
             </TabItem>
         </TabControl>
     </DockPanel>
