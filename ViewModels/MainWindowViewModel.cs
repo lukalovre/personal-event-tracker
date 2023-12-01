@@ -17,12 +17,13 @@ public class MainWindowViewModel : ViewModelBase
     public List<TVShowGridItem> TVShows { get; set; }
     public List<ComicGridItem> Comics { get; set; }
     public List<SongGridItem> Songs { get; set; }
+    public List<ZooGridItem> Zoo { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
         _datasource = datasource;
 
-        // _datasource.GetEventListConvert<Song>();
+        // _datasource.GetEventListConvert<Zoo>();
 
         Movies = GetData<Movie, MovieGridItem>();
         Books = GetData<Book, BookGridItem>();
@@ -30,6 +31,7 @@ public class MainWindowViewModel : ViewModelBase
         TVShows = GetData<TVShow, TVShowGridItem>();
         Comics = GetData<Comic, ComicGridItem>();
         Songs = GetData<Song, SongGridItem>();
+        Zoo = GetData<Zoo, ZooGridItem>();
     }
 
     private List<T2> GetData<T1, T2>()
@@ -105,6 +107,12 @@ public class MainWindowViewModel : ViewModelBase
             var i = item as Song;
             return new SongGridItem(i.Artist, i.Title, i.Year, eventList.Count(), e.Bookmakred)
                 as T2;
+        }
+
+        if (typeof(T1) == typeof(Zoo))
+        {
+            var i = item as Zoo;
+            return new ZooGridItem(i.Name, i.City, i.Country, e.DateEnd.Value.Year) as T2;
         }
 
         return null;

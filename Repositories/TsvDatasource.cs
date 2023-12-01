@@ -566,6 +566,90 @@ internal class TsvDatasource : IDatasource
         };
     }
 
+    private Event ConvertZoo(ZooEvent e, List<Zoo> itemList)
+    {
+        var item = itemList.First(o => o.ID == e.ItemID);
+
+        var amount = 1;
+        DateTime? dateEnd = null;
+
+        if (
+            DateTime.TryParse(
+                e.Date,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var fromDtEnd
+            )
+        )
+        {
+            dateEnd = fromDtEnd;
+        }
+
+        DateTime? dateStart = null;
+
+        if (dateEnd.HasValue)
+        {
+            if (e.Date.Contains("00:00:00"))
+            {
+                dateStart = dateEnd;
+            }
+            else
+            {
+                dateStart = dateEnd.Value.AddMinutes(-(int)(amount / 0.5f));
+            }
+        }
+
+        int? rating = null;
+
+        if (int.TryParse(e.Rating, out var retInt))
+        {
+            rating = retInt;
+        }
+
+        var peopleSplit = e.People.Split(',');
+
+        var pepleList = new List<int>();
+
+        if (peopleSplit.Any())
+        {
+            foreach (var splitItem in peopleSplit)
+            {
+                if (int.TryParse(splitItem, out var resInt))
+                {
+                    pepleList.Add(resInt);
+                }
+            }
+        }
+
+        string ShemaZenNull(string s)
+        {
+            if (s == "--SchemaZenNull--" || string.IsNullOrWhiteSpace(s))
+            {
+                return null;
+            }
+            return s;
+        }
+
+        return new Event
+        {
+            ID = e.ID,
+            Amount = amount,
+            AmountType = eAmountType.Visit,
+            Comment = ShemaZenNull(e.Comment),
+            Completed = true,
+            DateEnd = dateEnd,
+            DateStart = dateStart,
+            Rating = rating,
+            Platform = null,
+            ExternalID = null,
+            ItemID = item.ID,
+            People = ShemaZenNull(string.Join(",", pepleList)),
+            Bookmakred = false,
+            Chapter = null,
+            LocationID = null
+        };
+    }
+
     public void MakeBackup(string path)
     {
         throw new System.NotImplementedException();
@@ -593,10 +677,10 @@ internal class TsvDatasource : IDatasource
 
         using var csv = new CsvReader(reader, config);
 
-        var oldEventList = csv.GetRecords<SongEvent>().ToList();
-        var item = GetList<Song>();
+        var oldEventList = csv.GetRecords<ZooEvent>().ToList();
+        var item = GetList<Zoo>();
 
-        var convertedEventsList = oldEventList.Select(o => ConvertSong(o, item)).ToList();
+        var convertedEventsList = oldEventList.Select(o => ConvertZoo(o, item)).ToList();
 
         var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
         using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
