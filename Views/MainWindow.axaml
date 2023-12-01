@@ -5,13 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
         mc:Ignorable="d"
-        d:DesignWidth="800"
-        d:DesignHeight="450"
         x:Class="AvaloniaApplication1.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaApplication1"
-        xmlns:view="using:AvaloniaApplication1.Views">
+        xmlns:v="using:AvaloniaApplication1.Views">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -111,7 +109,7 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="Tab 3">
-                <view:BasicView />
+                <v:GridView DataContext="{Binding GridViewModel}" />
             </TabItem>
         </TabControl>
     </DockPanel>

@@ -7,6 +7,8 @@ namespace AvaloniaApplication1.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    public GridViewModel GridViewModel { get; } = new GridViewModel();
+
     public string Title => "Data";
 
     private readonly IDatasource _datasource;
