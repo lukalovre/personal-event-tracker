@@ -8,6 +8,7 @@ namespace AvaloniaApplication1.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
+    public MusicViewModel MusicViewModel { get; } = new MusicViewModel();
 
     public string Title => "Data";
 
@@ -74,13 +75,6 @@ public class MainWindowViewModel : ViewModelBase
         {
             var i = item as Book;
             return new BookGridItem(i.Title, i.Author, i.Year, e.Rating, e.DateEnd) as T2;
-        }
-
-        if (typeof(T1) == typeof(Music))
-        {
-            var i = item as Music;
-            return new MusicGridItem(i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count())
-                as T2;
         }
 
         if (typeof(T1) == typeof(TVShow))

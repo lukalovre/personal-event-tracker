@@ -34,13 +34,7 @@
                                   BorderBrush="Teal" />
                     </TabItem>
                     <TabItem Header="Music">
-                        <DataGrid Margin="20"
-                                  ItemsSource="{Binding Music}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
+                        <v:MusicView DataContext="{Binding MusicViewModel}" />
                     </TabItem>
                     <TabItem Header="TV Shows">
                         <DataGrid Margin="20"
