@@ -8,7 +8,7 @@ namespace AvaloniaApplication1.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
-    public MusicViewModel MusicViewModel { get; } = new MusicViewModel();
+    public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource());
 
     public string Title => "Data";
 
@@ -27,7 +27,6 @@ public class MainWindowViewModel : ViewModelBase
         _datasource = datasource;
 
         // _datasource.GetEventListConvert<Comic>();
-
 
         Books = GetData<Book, BookGridItem>();
         Music = GetData<Music, MusicGridItem>();

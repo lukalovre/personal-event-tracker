@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
@@ -9,12 +11,22 @@ public class MusicViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
 
-    public List<MusicGridItem> Music { get; set; }
+    public ObservableCollection<MusicGridItem> Music { get; set; }
+    public ObservableCollection<InfoModel> Info { get; set; }
 
-    public MusicViewModel()
+    public record InfoModel(string Property, object Value);
+
+    public MusicViewModel(IDatasource datasource)
     {
-        _datasource = new TsvDatasource();
-        Music = GetData<Music, MusicGridItem>();
+        _datasource = datasource;
+
+        Music = new ObservableCollection<MusicGridItem>(GetData<Music, MusicGridItem>());
+        Info = new ObservableCollection<InfoModel>(GetSelectedItemInfo());
+    }
+
+    private static List<InfoModel> GetSelectedItemInfo()
+    {
+        return new List<InfoModel> { new("ID", 123) };
     }
 
     private List<T2> GetData<T1, T2>()
