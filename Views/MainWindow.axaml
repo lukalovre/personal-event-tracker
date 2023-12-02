@@ -9,7 +9,8 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaApplication1"
-        xmlns:v="using:AvaloniaApplication1.Views">
+        xmlns:v="using:AvaloniaApplication1.Views"
+        x:CompileBindings="True">
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -21,13 +22,7 @@
                 <TabControl Margin="5"
                             TabStripPlacement="Left">
                     <TabItem Header="Movies">
-                        <DataGrid Margin="20"
-                                  ItemsSource="{Binding Movies}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
+                        <v:MoviesView DataContext="{Binding MoviesViewModel}" />
                     </TabItem>
                     <TabItem Header="Books">
                         <DataGrid Margin="20"
@@ -99,7 +94,7 @@
                             TabStripPlacement="Left">
                     <TabItem Header="D&amp;D">
                         <DataGrid Margin="20"
-                                  ItemsSource="{Binding Movies}"
+                                  ItemsSource="{Binding Books}"
                                   AutoGenerateColumns="True"
                                   IsReadOnly="True"
                                   GridLinesVisibility="All"
@@ -108,9 +103,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Tab 3">
-                <v:GridView DataContext="{Binding GridViewModel}" />
-            </TabItem>
+            <TabItem Header="Tab 3" />
         </TabControl>
     </DockPanel>
 </Window>

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace AvaloniaApplication1.Views;
 
-public partial class GridView : UserControl
+public partial class MoviesView : UserControl
 {
-    public GridView()
+    public MoviesView()
     {
         InitializeComponent();
     }

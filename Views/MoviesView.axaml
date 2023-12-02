@@ -5,10 +5,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
              mc:Ignorable="d"
-             x:DataType="vm:GridViewModel"
-             x:Class="AvaloniaApplication1.Views.GridView"
+             x:DataType="vm:MoviesViewModel"
+             x:Class="AvaloniaApplication1.Views.MoviesView"
              xmlns:view="using:AvaloniaApplication1.Views">
     <DockPanel>
-        <TextBlock Text="{Binding TTTTTTitle}" />
+        <DataGrid Margin="20"
+                  ItemsSource="{Binding Movies}"
+                  AutoGenerateColumns="True"
+                  IsReadOnly="True"
+                  GridLinesVisibility="All"
+                  BorderThickness="2"
+                  BorderBrush="Teal" />
     </DockPanel>
 </UserControl>

@@ -7,13 +7,12 @@ namespace AvaloniaApplication1.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public GridViewModel GridViewModel { get; } = new GridViewModel();
+    public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
 
     public string Title => "Data";
 
     private readonly IDatasource _datasource;
 
-    public List<MovieGridItem> Movies { get; set; }
     public List<BookGridItem> Books { get; set; }
     public List<MusicGridItem> Music { get; set; }
     public List<TVShowGridItem> TVShows { get; set; }
@@ -28,7 +27,7 @@ public class MainWindowViewModel : ViewModelBase
 
         // _datasource.GetEventListConvert<Comic>();
 
-        Movies = GetData<Movie, MovieGridItem>();
+
         Books = GetData<Book, BookGridItem>();
         Music = GetData<Music, MusicGridItem>();
         TVShows = GetData<TVShow, TVShowGridItem>();
