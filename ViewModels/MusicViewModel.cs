@@ -19,6 +19,7 @@ public partial class MusicViewModel : ViewModelBase
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
+    public ObservableCollection<InfoModel> EventInfo { get; set; }
 
     public MusicGridItem SelectedItem
     {
@@ -38,14 +39,15 @@ public partial class MusicViewModel : ViewModelBase
 
         Music = new ObservableCollection<MusicGridItem>(GetData());
         Info = new ObservableCollection<InfoModel>();
-        EventViewModel = new EventViewModel(Info);
+        EventInfo = new ObservableCollection<InfoModel>();
+        EventViewModel = new EventViewModel(EventInfo);
     }
 
-    private List<InfoModel> GetSelectedItemInfo()
+    private List<InfoModel> GetSelectedItemInfo<T>()
     {
         var result = new List<InfoModel>();
 
-        var properties = typeof(Music).GetProperties();
+        var properties = typeof(T).GetProperties();
 
         foreach (PropertyInfo property in properties)
         {
@@ -53,6 +55,23 @@ public partial class MusicViewModel : ViewModelBase
             var i = _itemList.First(o => o.ID == e.ItemID);
 
             var value = property.GetValue(i);
+            result.Add(new InfoModel(property.Name, value));
+        }
+
+        return result;
+    }
+
+    private List<InfoModel> GetSelectedEventInfo<T>()
+    {
+        var result = new List<InfoModel>();
+
+        var properties = typeof(T).GetProperties();
+
+        foreach (PropertyInfo property in properties)
+        {
+            var e = _eventList.First(o => o.ID == selectedItem.ID);
+
+            var value = property.GetValue(e);
             result.Add(new InfoModel(property.Name, value));
         }
 
@@ -85,6 +104,9 @@ public partial class MusicViewModel : ViewModelBase
     public void SelectedItemChanged()
     {
         Info.Clear();
-        Info.AddRange(GetSelectedItemInfo());
+        Info.AddRange(GetSelectedItemInfo<Music>());
+
+        EventInfo.Clear();
+        EventInfo.AddRange(GetSelectedEventInfo<Event>());
     }
 }
