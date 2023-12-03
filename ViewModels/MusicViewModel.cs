@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reflection;
 using DynamicData;
 using Repositories;
 
@@ -12,6 +13,8 @@ public partial class MusicViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
     private MusicGridItem selectedItem;
+    private List<Music> _itemList;
+    private List<Event> _eventList;
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
@@ -29,49 +32,52 @@ public partial class MusicViewModel : ViewModelBase
     public MusicViewModel(IDatasource datasource)
     {
         _datasource = datasource;
+        _itemList = _datasource.GetList<Music>();
+        _eventList = _datasource.GetEventList<Music>();
 
-        Music = new ObservableCollection<MusicGridItem>(GetData<Music, MusicGridItem>());
+        Music = new ObservableCollection<MusicGridItem>(GetData());
         Info = new ObservableCollection<InfoModel>();
     }
 
     private List<InfoModel> GetSelectedItemInfo()
     {
-        return new List<InfoModel>
+        var result = new List<InfoModel>();
+
+        var properties = typeof(Music).GetProperties();
+
+        foreach (PropertyInfo property in properties)
         {
-            new("Artist", selectedItem.Artist),
-            new("Title", selectedItem.Title)
-        };
+            var e = _eventList.First(o => o.ID == selectedItem.ID);
+            var i = _itemList.First(o => o.ID == e.ItemID);
+
+            var value = property.GetValue(i);
+            result.Add(new InfoModel(property.Name, value));
+        }
+
+        return result;
     }
 
-    private List<T2> GetData<T1, T2>()
-        where T1 : IItem
-        where T2 : class
+    private List<MusicGridItem> GetData()
     {
-        var itemList = _datasource.GetList<T1>();
-        var eventList = _datasource.GetEventList<T1>();
-
-        return eventList
+        return _eventList
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == DateTime.Now.Year)
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
             .Select(
                 o =>
-                    Convert<T1, T2>(
+                    Convert(
                         o,
-                        itemList.First(m => m.ID == o.ItemID),
-                        eventList.Where(e => e.ItemID == o.ItemID)
+                        _itemList.First(m => m.ID == o.ItemID),
+                        _eventList.Where(e => e.ItemID == o.ItemID)
                     )
             )
             .ToList();
     }
 
-    private T2 Convert<T1, T2>(Event e, T1 item, IEnumerable<Event> eventList)
-        where T1 : IItem
-        where T2 : class
+    private MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
     {
-        var i = item as Music;
-        return new MusicGridItem(i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count()) as T2;
+        return new MusicGridItem(e.ID, i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count());
     }
 
     public void SelectedItemChanged()
