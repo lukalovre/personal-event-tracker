@@ -15,7 +15,8 @@
                   IsReadOnly="True"
                   GridLinesVisibility="All"
                   BorderThickness="2"
-                  BorderBrush="Teal">
+                  BorderBrush="Teal"
+                  SelectedItem="{Binding SelectedItem}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Artist}"
                                     Header="Artist"
