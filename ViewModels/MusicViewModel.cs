@@ -53,7 +53,7 @@ public partial class MusicViewModel : ViewModelBase
 
         foreach (PropertyInfo property in properties)
         {
-            var e = _eventList.First(o => o.ID == selectedItem.ID);
+            var e = _eventList.First(o => o.ItemID == selectedItem.ID);
             var i = _itemList.First(o => o.ID == e.ItemID);
 
             var value = property.GetValue(i);
@@ -100,14 +100,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
     {
-        return new MusicGridItem(
-            e.ItemID,
-            i.Artist,
-            i.Title,
-            i.Year,
-            e.Bookmakred,
-            eventList.Count()
-        );
+        return new MusicGridItem(i.ID, i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count());
     }
 
     public void SelectedItemChanged()
