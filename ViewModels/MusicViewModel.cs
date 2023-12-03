@@ -20,7 +20,7 @@ public partial class MusicViewModel : ViewModelBase
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
     public ObservableCollection<InfoModel> EventInfo { get; set; }
-    public Event Event { get; set; }
+    public ObservableCollection<Event> Events { get; set; }
 
     public MusicGridItem SelectedItem
     {
@@ -41,9 +41,8 @@ public partial class MusicViewModel : ViewModelBase
         Music = new ObservableCollection<MusicGridItem>(GetData());
         Info = new ObservableCollection<InfoModel>();
         EventInfo = new ObservableCollection<InfoModel>();
-
-        Event = new Event { DateStart = DateTime.Now };
-        EventViewModel = new EventViewModel(EventInfo, Event);
+        Events = new ObservableCollection<Event>();
+        EventViewModel = new EventViewModel(EventInfo, Events);
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()
@@ -111,5 +110,8 @@ public partial class MusicViewModel : ViewModelBase
 
         EventInfo.Clear();
         EventInfo.AddRange(GetSelectedEventInfo<Event>());
+
+        Events.Clear();
+        Events.AddRange(_eventList.Where(o => o.ID == selectedItem.ID));
     }
 }

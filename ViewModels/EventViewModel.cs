@@ -6,11 +6,11 @@ public partial class EventViewModel : ViewModelBase
 {
     public ObservableCollection<InfoModel> Info { get; set; }
 
-    public Event Event { get; set; }
+    public ObservableCollection<Event> Events { get; set; }
 
-    public EventViewModel(ObservableCollection<InfoModel> info, Event e)
+    public EventViewModel(ObservableCollection<InfoModel> info, ObservableCollection<Event> events)
     {
         Info = info;
-        Event = e;
+        Events = events;
     }
 }
