@@ -9,7 +9,8 @@
              x:Class="AvaloniaApplication1.Views.EventView"
              xmlns:view="using:AvaloniaApplication1.Views"
              x:CompileBindings="True">
-    <DockPanel>
+    <StackPanel>
+        <TextBlock Text="{Binding Event.DateStart}" />
         <ItemsControl ItemsSource="{Binding Info}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -28,5 +29,5 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </DockPanel>
+    </StackPanel>
 </UserControl>
