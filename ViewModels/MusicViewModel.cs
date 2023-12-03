@@ -11,6 +11,7 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class MusicViewModel : ViewModelBase
 {
+    public EventViewModel EventViewModel { get; }
     private readonly IDatasource _datasource;
     private MusicGridItem selectedItem;
     private List<Music> _itemList;
@@ -37,6 +38,7 @@ public partial class MusicViewModel : ViewModelBase
 
         Music = new ObservableCollection<MusicGridItem>(GetData());
         Info = new ObservableCollection<InfoModel>();
+        EventViewModel = new EventViewModel(Info);
     }
 
     private List<InfoModel> GetSelectedItemInfo()
