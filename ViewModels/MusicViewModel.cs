@@ -15,8 +15,8 @@ public partial class MusicViewModel : ViewModelBase
     public EventViewModel EventViewModel { get; }
     private readonly IDatasource _datasource;
     private MusicGridItem selectedItem;
-    private List<Music> _itemList;
-    private List<Event> _eventList;
+    private readonly List<Music> _itemList;
+    private readonly List<Event> _eventList;
     private string inputUrl;
     private Music newMusic;
 
@@ -104,7 +104,7 @@ public partial class MusicViewModel : ViewModelBase
             .ToList();
     }
 
-    private MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
+    private static MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
     {
         return new MusicGridItem(i.ID, i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count());
     }
