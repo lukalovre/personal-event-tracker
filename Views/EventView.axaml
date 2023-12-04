@@ -19,10 +19,12 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding SelectedEvent.Bookmakred}" />
-            <TextBlock Margin="5 0"
-                       FontWeight="Bold"
-                       Text="{Binding SelectedEvent.Rating}" />
+            <TextBlock Text="Rating" />
+            <TextBlock Text="{Binding SelectedEvent.Rating}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Comment" />
+            <TextBlock Text="{Binding SelectedEvent.Comment}" />
         </StackPanel>
     </StackPanel>
 </UserControl>
