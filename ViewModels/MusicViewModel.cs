@@ -18,11 +18,17 @@ public partial class MusicViewModel : ViewModelBase
     private List<Music> _itemList;
     private List<Event> _eventList;
     private string inputUrl;
-    private string url;
+    private Music newMusic;
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
     public ObservableCollection<Event> Events { get; set; }
+
+    public Music NewMusic
+    {
+        get => newMusic;
+        set => this.RaiseAndSetIfChanged(ref newMusic, value);
+    }
 
     public string InputUrl
     {
@@ -34,15 +40,9 @@ public partial class MusicViewModel : ViewModelBase
         }
     }
 
-    public string Url
-    {
-        get => url;
-        set => this.RaiseAndSetIfChanged(ref url, value);
-    }
-
     private void InputUrlChanged()
     {
-        Url = "great success!:  " + InputUrl;
+        NewMusic = new Music { Artist = "Mike", Title = "Crazy" };
     }
 
     public MusicGridItem SelectedItem
