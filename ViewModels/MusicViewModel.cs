@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
 using DynamicData;
+using ReactiveUI;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
@@ -16,10 +17,33 @@ public partial class MusicViewModel : ViewModelBase
     private MusicGridItem selectedItem;
     private List<Music> _itemList;
     private List<Event> _eventList;
+    private string inputUrl;
+    private string url;
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
     public ObservableCollection<Event> Events { get; set; }
+
+    public string InputUrl
+    {
+        get => inputUrl;
+        set
+        {
+            inputUrl = value;
+            InputUrlChanged();
+        }
+    }
+
+    public string Url
+    {
+        get => url;
+        set => this.RaiseAndSetIfChanged(ref url, value);
+    }
+
+    private void InputUrlChanged()
+    {
+        Url = "great success!:  " + InputUrl;
+    }
 
     public MusicGridItem SelectedItem
     {
