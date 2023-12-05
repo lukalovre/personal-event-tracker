@@ -42,7 +42,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private void InputUrlChanged()
     {
-        NewMusic = new Music { Artist = "Mike", Title = "Crazy" };
+        NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
     }
 
     public MusicGridItem SelectedItem
