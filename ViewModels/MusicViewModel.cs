@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
 using Avalonia.Media.Imaging;
@@ -24,6 +25,8 @@ public partial class MusicViewModel : ViewModelBase
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
     public ObservableCollection<Event> Events { get; set; }
+
+    public ReactiveCommand<Unit, Unit> AddClick { get; }
 
     public Music NewMusic
     {
@@ -84,6 +87,13 @@ public partial class MusicViewModel : ViewModelBase
 
         Events = new ObservableCollection<Event>();
         EventViewModel = new EventViewModel(Events);
+
+        AddClick = ReactiveCommand.Create(AddClickAction);
+    }
+
+    private void AddClickAction()
+    {
+        throw new Exception();
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()

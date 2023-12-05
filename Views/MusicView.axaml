@@ -65,6 +65,7 @@
             </TabItem>
             <TabItem Header="New">
                 <StackPanel>
+                    <Button Command="{Binding AddClick}">Add</Button>
                     <TextBox Watermark="Paste url"
                              Text="{Binding InputUrl}" />
                     <TextBox Watermark="Artist"
