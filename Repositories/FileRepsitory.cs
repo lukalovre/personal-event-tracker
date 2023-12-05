@@ -17,4 +17,14 @@ public class FileRepsitory
 
         return new Bitmap(filePath);
     }
+
+    public static void Delete(string filePath)
+    {
+        if (!File.Exists(filePath))
+        {
+            return;
+        }
+
+        File.Delete($"{filePath}.png");
+    }
 }

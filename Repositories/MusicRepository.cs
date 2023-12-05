@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace Repositories;
@@ -76,14 +75,13 @@ public class MusicRepository
                     totalMinutes
                     + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero);
 
-                // var destinationFile = Paths.TempAlbumCover;
-                // File.Delete($"{destinationFile}.png");
-                // Web.DownloadPNG(
-                //     htmlDocument.DocumentNode
-                //         .SelectSingleNode("//a[@class='popupImage']")
-                //         .Attributes["href"].Value.Trim(),
-                //     destinationFile
-                // );
+                string destinationFile = Paths.GetTempPath<Music>();
+                HtmlHelper.DownloadPNG(
+                    htmlDocument.DocumentNode
+                        .SelectSingleNode("//a[@class='popupImage']")
+                        .Attributes["href"].Value.Trim(),
+                    destinationFile
+                );
 
                 return new Music
                 {
