@@ -107,16 +107,7 @@ public partial class MusicViewModel : ViewModelBase
 
         _datasource.Add(NewMusic, NewEvent);
 
-        var sourceFile = $"{Paths.GetTempPath<Music>()}.png";
-
-        var destinationFile = Path.Combine(
-            Paths.Images,
-            typeof(Music).ToString(),
-            $"{NewMusic.ID}.png"
-        );
-
-        File.Copy(sourceFile, destinationFile);
-        File.Delete(sourceFile);
+        FileRepsitory.MoveTempImage<Music>(NewMusic.ID);
 
         Music = new ObservableCollection<MusicGridItem>(GetData());
     }
@@ -172,6 +163,6 @@ public partial class MusicViewModel : ViewModelBase
 
         var item = _itemList.First(o => o.ID == selectedItem.ID);
 
-        Cover = FileRepsitory.GetImage<Music>(item.ID.ToString());
+        Cover = FileRepsitory.GetImage<Music>(item.ID);
     }
 }

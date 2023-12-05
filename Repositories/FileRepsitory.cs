@@ -6,10 +6,10 @@ namespace Repositories;
 
 public class FileRepsitory
 {
-    public static Bitmap? GetImage<T>(string fileName)
+    public static Bitmap? GetImage<T>(int itemID)
         where T : IItem
     {
-        var filePath = Path.Combine(Paths.Images, typeof(T).ToString(), $"{fileName}.png");
+        var filePath = Path.Combine(Paths.Images, typeof(T).ToString(), $"{itemID}.png");
 
         if (!File.Exists(filePath))
         {
@@ -40,5 +40,14 @@ public class FileRepsitory
         }
 
         File.Delete(filePath);
+    }
+
+    public static void MoveTempImage<T>(int itemID)
+    {
+        var tempFile = $"{Paths.GetTempPath<T>()}.png";
+        var destinationFile = Path.Combine(Paths.GetImagesPath<T>(), $"{itemID}.png");
+
+        File.Copy(tempFile, destinationFile);
+        File.Delete(tempFile);
     }
 }
