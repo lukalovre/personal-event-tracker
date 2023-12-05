@@ -129,12 +129,15 @@ public partial class MusicViewModel : ViewModelBase
 
         var item = _itemList.First(o => o.ID == selectedItem.ID);
 
-        Cover = SetPoster($"../../Data/Images/Music/{item.ItemID}.png");
+        Cover = GetImage<Music>(item.ItemID.ToString());
     }
 
-    internal static Bitmap? SetPoster(string filePath)
+    internal static Bitmap? GetImage<T>(string fileName)
+        where T : IItem
     {
-        if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+        var filePath = Path.Combine("../../Data/Images/", typeof(T).ToString(), $"{fileName}.png");
+
+        if (!File.Exists(filePath))
         {
             return null;
         }
