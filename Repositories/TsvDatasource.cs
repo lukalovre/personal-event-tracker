@@ -26,14 +26,16 @@ internal class TsvDatasource : IDatasource
         maxID = events.MaxBy(o => o.ID).ID;
         e.ID = maxID + 1;
 
-        string itemFilePath = GetFilePath<T>();
+        var itemFilePath = GetFilePath<T>();
+
         using (var writer = new StreamWriter(itemFilePath, true))
         {
             using var csv = new CsvWriter(writer, _config);
             csv.WriteRecord(item);
         }
 
-        string eventFilePath = GetEventFilePath<T>();
+        var eventFilePath = GetEventFilePath<T>();
+
         using (var writer = new StreamWriter(eventFilePath, true))
         {
             using var csv = new CsvWriter(writer, _config);
@@ -43,32 +45,32 @@ internal class TsvDatasource : IDatasource
 
     private static string GetFilePath<T>()
     {
-        var tAttribute = (TableAttribute)
-            typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
-        var tableName = tAttribute?.Name;
+        var tableName = GetDataName<T>();
         return Path.Combine(Paths.Data, $"{tableName}.tsv");
     }
 
     private static string GetEventFilePath<T>()
     {
+        return Path.Combine(Paths.Data, $"{typeof(T)}Events.tsv");
+    }
+
+    private static string? GetDataName<T>()
+    {
         var tAttribute = (TableAttribute)
-            typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
+            typeof(T)?.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
         var tableName = tAttribute?.Name;
-        var listPath = Path.Combine(Paths.Data, $"{tableName}Events.tsv");
-        return listPath;
+        return tableName;
     }
 
     public List<T> GetList<T>()
         where T : IItem
     {
-        var tAttribute = (TableAttribute)
-            typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
-        var tableName = tAttribute?.Name;
-        var listPath = Path.Combine($"../../Data/{tableName}.tsv");
-        var text = File.ReadAllText(listPath);
+        var itemFilePath = GetFilePath<T>();
+        var text = File.ReadAllText(itemFilePath);
 
         var reader = new StringReader(text);
 
+        // Use _config once all old tsvs are converted
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             Delimiter = "\t",
@@ -84,16 +86,25 @@ internal class TsvDatasource : IDatasource
     public List<Event> GetEventList<T>()
         where T : IItem
     {
-        var listPath = Path.Combine($"../../Data/{typeof(T)}Events.tsv");
-        var text = File.ReadAllText(listPath);
-
+        var eventFilePath = GetEventFilePath<T>();
+        var text = File.ReadAllText(eventFilePath);
         var reader = new StringReader(text);
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = "\t" };
-
-        using var csv = new CsvReader(reader, config);
+        using var csv = new CsvReader(reader, _config);
         return csv.GetRecords<Event>().ToList();
     }
 
+    public void MakeBackup(string path)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Update<T>(T item)
+        where T : IItem
+    {
+        throw new System.NotImplementedException();
+    }
+
+    #region Remove after converted all data
     private Event ConvertGame(GameEvent e, List<Game> itemList)
     {
         var item = itemList.First(o => o.Igdb == e.Igdb);
@@ -178,17 +189,6 @@ internal class TsvDatasource : IDatasource
         };
     }
 
-    public void MakeBackup(string path)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Update<T>(T item)
-        where T : IItem
-    {
-        throw new System.NotImplementedException();
-    }
-
     public List<Event> GetEventListConvert<T>()
         where T : IItem
     {
@@ -205,10 +205,10 @@ internal class TsvDatasource : IDatasource
 
         using var csv = new CsvReader(reader, config);
 
-        var oldEventList = csv.GetRecords<ComicEvent>().ToList();
-        var item = GetList<Comic>();
+        var oldEventList = csv.GetRecords<GameEvent>().ToList();
+        var item = GetList<Game>();
 
-        var convertedEventsList = oldEventList.Select(o => ConvertComic(o, item)).ToList();
+        var convertedEventsList = oldEventList.Select(o => ConvertGame(o, item)).ToList();
 
         var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
         using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
@@ -242,4 +242,5 @@ internal class TsvDatasource : IDatasource
 
         return newList;
     }
+    #endregion
 }
