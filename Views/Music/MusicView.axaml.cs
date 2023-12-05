@@ -7,7 +7,5 @@ public partial class MusicView : UserControl
     public MusicView()
     {
         InitializeComponent();
-
-        GGG.MaxWidth = 700;
     }
 }

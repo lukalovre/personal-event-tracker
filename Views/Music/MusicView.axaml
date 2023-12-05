@@ -9,8 +9,7 @@
              x:Class="AvaloniaApplication1.Views.MusicView"
              xmlns:view="using:AvaloniaApplication1.Views">
     <DockPanel>
-        <DataGrid Name="GGG"
-                  Margin="20"
+        <DataGrid Margin="20"
                   ItemsSource="{Binding Music}"
                   IsReadOnly="True"
                   GridLinesVisibility="All"
