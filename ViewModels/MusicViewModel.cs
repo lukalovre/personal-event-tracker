@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
+using Avalonia.Media.Imaging;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
@@ -38,6 +39,14 @@ public partial class MusicViewModel : ViewModelBase
             inputUrl = value;
             InputUrlChanged();
         }
+    }
+
+    private Bitmap? _cover;
+
+    public Bitmap? Cover
+    {
+        get => _cover;
+        private set => this.RaiseAndSetIfChanged(ref _cover, value);
     }
 
     private void InputUrlChanged()
@@ -116,5 +125,9 @@ public partial class MusicViewModel : ViewModelBase
 
         Events.Clear();
         Events.AddRange(_eventList.Where(o => o.ItemID == selectedItem.ID));
+
+        var item = _itemList.First(o => o.ID == selectedItem.ID);
+
+        Cover = new Bitmap($"../../Data/Images/Music/{item.ItemID}.png");
     }
 }

@@ -57,6 +57,7 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <Image Source="{Binding Cover}" />
                         <TextBlock Text="Event" />
                         <view:EventView DataContext="{Binding EventViewModel}" />
                     </StackPanel>
