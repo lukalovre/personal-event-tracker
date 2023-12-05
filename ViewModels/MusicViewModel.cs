@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -128,6 +129,16 @@ public partial class MusicViewModel : ViewModelBase
 
         var item = _itemList.First(o => o.ID == selectedItem.ID);
 
-        Cover = new Bitmap($"../../Data/Images/Music/{item.ItemID}.png");
+        Cover = SetPoster($"../../Data/Images/Music/{item.ItemID}.png");
+    }
+
+    internal static Bitmap? SetPoster(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+        {
+            return null;
+        }
+
+        return new Bitmap(filePath);
     }
 }
