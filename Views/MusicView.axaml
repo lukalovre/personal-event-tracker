@@ -77,6 +77,7 @@
                              Text="{Binding NewMusic.Runtime}" />
                     <TextBox Watermark="SpotifyID"
                              Text="{Binding NewMusic.SpotifyID}" />
+                    <Image Source="{Binding NewMusicCover}" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Edit">

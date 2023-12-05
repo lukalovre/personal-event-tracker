@@ -49,9 +49,18 @@ public partial class MusicViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _cover, value);
     }
 
+    private Bitmap? _newMusicCover;
+
+    public Bitmap? NewMusicCover
+    {
+        get => _newMusicCover;
+        private set => this.RaiseAndSetIfChanged(ref _newMusicCover, value);
+    }
+
     private void InputUrlChanged()
     {
         NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
+        NewMusicCover = FileRepsitory.GetImageTemp<Music>();
     }
 
     public MusicGridItem SelectedItem
