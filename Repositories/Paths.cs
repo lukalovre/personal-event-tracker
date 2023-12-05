@@ -11,4 +11,7 @@ public static class Paths
     public static string GetTempPath<T>() => Path.Combine(_root, "Temp", typeof(T).ToString());
 
     public static string GetImagesPath<T>() => Path.Combine(Images, typeof(T).ToString());
+
+    public static string GetImagePath<T>(int itemID) =>
+        Path.Combine(Images, typeof(T).ToString(), $"{itemID}.png");
 }
