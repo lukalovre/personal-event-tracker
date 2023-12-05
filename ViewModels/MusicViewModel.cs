@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -129,19 +128,6 @@ public partial class MusicViewModel : ViewModelBase
 
         var item = _itemList.First(o => o.ID == selectedItem.ID);
 
-        Cover = GetImage<Music>(item.ItemID.ToString());
-    }
-
-    internal static Bitmap? GetImage<T>(string fileName)
-        where T : IItem
-    {
-        var filePath = Path.Combine("../../Data/Images/", typeof(T).ToString(), $"{fileName}.png");
-
-        if (!File.Exists(filePath))
-        {
-            return null;
-        }
-
-        return new Bitmap(filePath);
+        Cover = FileRepsitory.GetImage<Music>(item.ItemID.ToString());
     }
 }
