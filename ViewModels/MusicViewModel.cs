@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -34,6 +35,12 @@ public partial class MusicViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref newMusic, value);
     }
 
+    public Event NewEvent
+    {
+        get => newEvent;
+        set => this.RaiseAndSetIfChanged(ref newEvent, value);
+    }
+
     public string InputUrl
     {
         get => inputUrl;
@@ -53,6 +60,7 @@ public partial class MusicViewModel : ViewModelBase
     }
 
     private Bitmap? _newMusicCover;
+    private Event newEvent;
 
     public Bitmap? NewMusicCover
     {
@@ -64,6 +72,7 @@ public partial class MusicViewModel : ViewModelBase
     {
         NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
         NewMusicCover = FileRepsitory.GetImageTemp<Music>();
+        NewEvent = new Event { Amount = NewMusic.Runtime, ExternalID = newMusic.SpotifyID };
     }
 
     public MusicGridItem SelectedItem
@@ -93,7 +102,23 @@ public partial class MusicViewModel : ViewModelBase
 
     private void AddClickAction()
     {
-        throw new Exception();
+        NewEvent.DateEnd = DateTime.Now;
+        NewEvent.DateStart = NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+
+        _datasource.Add(NewMusic, NewEvent);
+
+        var sourceFile = $"{Paths.GetTempPath<Music>()}.png";
+
+        var destinationFile = Path.Combine(
+            Paths.Images,
+            typeof(Music).ToString(),
+            $"{NewMusic.ID}.png"
+        );
+
+        File.Copy(sourceFile, destinationFile);
+        File.Delete(sourceFile);
+
+        Music = new ObservableCollection<MusicGridItem>(GetData());
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()
@@ -147,6 +172,6 @@ public partial class MusicViewModel : ViewModelBase
 
         var item = _itemList.First(o => o.ID == selectedItem.ID);
 
-        Cover = FileRepsitory.GetImage<Music>(item.ItemID.ToString());
+        Cover = FileRepsitory.GetImage<Music>(item.ID.ToString());
     }
 }

@@ -11,19 +11,51 @@ namespace Repositories;
 
 internal class TsvDatasource : IDatasource
 {
-    public void Add<T>(T item)
+    private readonly CsvConfiguration _config =
+        new(CultureInfo.InvariantCulture) { Delimiter = "\t" };
+
+    public void Add<T>(T item, Event e)
         where T : IItem
     {
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
+        var items = GetList<T>();
+        var maxID = items.MaxBy(o => o.ID).ID;
+        item.ID = maxID + 1;
+        e.ItemID = item.ID;
 
+        var events = GetEventList<T>();
+        maxID = events.MaxBy(o => o.ID).ID;
+        e.ID = maxID + 1;
+
+        string itemFilePath = GetFilePath<T>();
+        using (var writer = new StreamWriter(itemFilePath, true))
+        {
+            using var csv = new CsvWriter(writer, _config);
+            csv.WriteRecord(item);
+        }
+
+        string eventFilePath = GetEventFilePath<T>();
+        using (var writer = new StreamWriter(eventFilePath, true))
+        {
+            using var csv = new CsvWriter(writer, _config);
+            csv.WriteRecord(e);
+        }
+    }
+
+    private static string GetFilePath<T>()
+    {
         var tAttribute = (TableAttribute)
             typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
         var tableName = tAttribute?.Name;
-        var listPath = Path.Combine($"{tableName}.tsv");
+        return Path.Combine(Paths.Data, $"{tableName}.tsv");
+    }
 
-        using var writer = new StreamWriter(listPath, true);
-        using var csv = new CsvWriter(writer, config);
-        csv.WriteRecord(item);
+    private static string GetEventFilePath<T>()
+    {
+        var tAttribute = (TableAttribute)
+            typeof(T).GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
+        var tableName = tAttribute?.Name;
+        var listPath = Path.Combine(Paths.Data, $"{tableName}Events.tsv");
+        return listPath;
     }
 
     public List<T> GetList<T>()
@@ -49,7 +81,8 @@ internal class TsvDatasource : IDatasource
         return csv.GetRecords<T>().ToList();
     }
 
-    List<Event> IDatasource.GetEventList<T>()
+    public List<Event> GetEventList<T>()
+        where T : IItem
     {
         var listPath = Path.Combine($"../../Data/{typeof(T)}Events.tsv");
         var text = File.ReadAllText(listPath);

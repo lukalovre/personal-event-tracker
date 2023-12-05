@@ -64,22 +64,40 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="New">
-                <StackPanel>
-                    <Button Command="{Binding AddClick}">Add</Button>
-                    <TextBox Watermark="Paste url"
-                             Text="{Binding InputUrl}" />
-                    <TextBox Watermark="Artist"
-                             Text="{Binding NewMusic.Artist}" />
-                    <TextBox Watermark="Title"
-                             Text="{Binding NewMusic.Title}" />
-                    <TextBox Watermark="Year"
-                             Text="{Binding NewMusic.Year}" />
-                    <TextBox Watermark="Runtime"
-                             Text="{Binding NewMusic.Runtime}" />
-                    <TextBox Watermark="SpotifyID"
-                             Text="{Binding NewMusic.SpotifyID}" />
-                    <Image Source="{Binding NewMusicCover}" />
-                </StackPanel>
+                <ScrollViewer>
+                    <StackPanel>
+                        <Button Command="{Binding AddClick}">Add</Button>
+                        <TextBox Watermark="Paste url"
+                                 Text="{Binding InputUrl}" />
+                        <TextBox Watermark="Artist"
+                                 Text="{Binding NewMusic.Artist}" />
+                        <TextBox Watermark="Title"
+                                 Text="{Binding NewMusic.Title}" />
+                        <TextBox Watermark="Year"
+                                 Text="{Binding NewMusic.Year}" />
+                        <TextBox Watermark="Runtime"
+                                 Text="{Binding NewMusic.Runtime}" />
+                        <TextBox Watermark="SpotifyID"
+                                 Text="{Binding NewMusic.SpotifyID}" />
+                        <Image Source="{Binding NewMusicCover}" />
+                        <TextBox Watermark="ExternalID"
+                                 Text="{Binding NewEvent.ExternalID}" />
+                        <TextBox Watermark="DateEnd"
+                                 Text="{Binding NewEvent.DateEnd}" />
+                        <TextBox Watermark="Rating"
+                                 Text="{Binding NewEvent.Rating}" />
+                        <TextBox Watermark="Bookmakred"
+                                 Text="{Binding NewEvent.Bookmakred}" />
+                        <TextBox Watermark="Amount"
+                                 Text="{Binding NewEvent.Amount}" />
+                        <TextBox Watermark="Comment"
+                                 Text="{Binding NewEvent.Comment}" />
+                        <TextBox Watermark="People"
+                                 Text="{Binding NewEvent.People}" />
+                        <TextBox Watermark="Platform"
+                                 Text="{Binding NewEvent.Platform}" />
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Edit">
                 <TextBlock Text="Event" />

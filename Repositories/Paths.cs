@@ -6,6 +6,7 @@ public static class Paths
 {
     private static string _root = "../../Data";
     public static string Images => Path.Combine(_root, "Images");
+    public static string Data => _root;
 
     public static string GetTempPath<T>() => Path.Combine(_root, "Temp", typeof(T).ToString());
 }

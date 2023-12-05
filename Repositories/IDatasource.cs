@@ -4,7 +4,7 @@ namespace Repositories;
 
 public interface IDatasource
 {
-    void Add<T>(T item)
+    void Add<T>(T item, Event e)
         where T : IItem;
 
     List<T> GetList<T>()
