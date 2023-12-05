@@ -38,7 +38,7 @@ public class MusicRepository
                 artist = WebUtility.HtmlDecode(artist);
 
                 var year = Convert.ToInt32(
-                    GetYear(
+                    HtmlHelper.GetYear(
                         htmlDocument.DocumentNode
                             .SelectSingleNode("//div[@class='tralbumData tralbum-credits']")
                             .InnerText.Trim()
@@ -96,10 +96,5 @@ public class MusicRepository
                 };
             }
         }
-    }
-
-    public static string GetYear(string str)
-    {
-        return Regex.Match(str, @"\d{4}").Value;
     }
 }
