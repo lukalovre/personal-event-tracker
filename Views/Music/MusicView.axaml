@@ -72,8 +72,13 @@
                                  Text="{Binding NewMusic.Artist}" />
                         <TextBox Watermark="Title"
                                  Text="{Binding NewMusic.Title}" />
-                        <TextBox Watermark="Year"
-                                 Text="{Binding NewMusic.Year}" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Year" />
+                            <NumericUpDown Value="{Binding NewMusic.Year}"
+                                           FormatString="0"
+                                           Minimum="2000"
+                                           Maximum="2100" />
+                        </StackPanel>
                         <TextBox Watermark="Runtime"
                                  Text="{Binding NewMusic.Runtime}" />
                         <TextBox Watermark="SpotifyID"
