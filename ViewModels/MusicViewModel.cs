@@ -72,7 +72,12 @@ public partial class MusicViewModel : ViewModelBase
     {
         NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
         NewMusicCover = FileRepsitory.GetImageTemp<Music>();
-        NewEvent = new Event { Amount = NewMusic.Runtime, ExternalID = newMusic.SpotifyID };
+        NewEvent = new Event
+        {
+            Amount = NewMusic.Runtime,
+            ExternalID = newMusic.SpotifyID,
+            DateEnd = DateTime.Now
+        };
     }
 
     public MusicGridItem SelectedItem

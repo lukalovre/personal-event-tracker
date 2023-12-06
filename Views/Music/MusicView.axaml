@@ -72,13 +72,8 @@
                                  Text="{Binding NewMusic.Artist}" />
                         <TextBox Watermark="Title"
                                  Text="{Binding NewMusic.Title}" />
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Year" />
-                            <NumericUpDown Value="{Binding NewMusic.Year}"
-                                           FormatString="0"
-                                           Minimum="2000"
-                                           Maximum="2100" />
-                        </StackPanel>
+                        <TextBox Watermark="Year"
+                                 Text="{Binding NewMusic.Year}" />
                         <TextBox Watermark="Runtime"
                                  Text="{Binding NewMusic.Runtime}" />
                         <TextBox Watermark="SpotifyID"
@@ -86,13 +81,19 @@
                         <Image Source="{Binding NewMusicCover}" />
                         <TextBox Watermark="ExternalID"
                                  Text="{Binding NewEvent.ExternalID}" />
-                        <TextBox Watermark="DateEnd"
-                                 Text="{Binding NewEvent.DateEnd}" />
-                        <TextBox Watermark="Rating"
-                                 Text="{Binding NewEvent.Rating}" />
-                        <TextBox Watermark="Bookmakred"
-                                 Text="{Binding NewEvent.Bookmakred}" />
-                        <TextBox Watermark="Amount"
+                        <StackPanel Orientation="Horizontal">
+                            <DatePicker SelectedDate="{Binding NewEvent.DateEnd.Value}" />
+                            <TimePicker SelectedTime="{Binding NewEvent.DateEnd.Value.TimeOfDay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Rating" />
+                            <NumericUpDown Value="{Binding NewEvent.Rating}"
+                                           FormatString="0"
+                                           Minimum="1"
+                                           Maximum="5" />
+                        </StackPanel>
+                        <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">Bookmakred</CheckBox>
+                        <TextBox Watermark="Minutes"
                                  Text="{Binding NewEvent.Amount}" />
                         <TextBox Watermark="Comment"
                                  Text="{Binding NewEvent.Comment}" />
