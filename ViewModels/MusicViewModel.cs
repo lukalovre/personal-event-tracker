@@ -160,6 +160,7 @@ public partial class MusicViewModel : ViewModelBase
         NewEvent = default;
         NewMusicCover = default;
         InputUrl = default;
+        ArtistMusic.Clear();
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()
