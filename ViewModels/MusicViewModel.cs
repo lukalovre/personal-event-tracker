@@ -76,7 +76,8 @@ public partial class MusicViewModel : ViewModelBase
         {
             Amount = NewMusic.Runtime,
             ExternalID = newMusic.SpotifyID,
-            DateEnd = DateTime.Now
+            DateEnd = DateTime.Now,
+            Rating = 1
         };
     }
 
