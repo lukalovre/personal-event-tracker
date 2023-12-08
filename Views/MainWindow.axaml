@@ -21,6 +21,9 @@
             <TabItem Header="Main">
                 <TabControl Margin="5"
                             TabStripPlacement="Left">
+                    <TabItem Header="Music">
+                        <v:MusicView DataContext="{Binding MusicViewModel}" />
+                    </TabItem>
                     <TabItem Header="Movies">
                         <v:MoviesView DataContext="{Binding MoviesViewModel}" />
                     </TabItem>
@@ -32,9 +35,6 @@
                                   GridLinesVisibility="All"
                                   BorderThickness="2"
                                   BorderBrush="Teal" />
-                    </TabItem>
-                    <TabItem Header="Music">
-                        <v:MusicView DataContext="{Binding MusicViewModel}" />
                     </TabItem>
                     <TabItem Header="TV Shows">
                         <DataGrid Margin="20"

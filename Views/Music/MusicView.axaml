@@ -105,8 +105,8 @@
                                  Text="{Binding NewEvent.Comment}" />
                         <TextBox Watermark="People"
                                  Text="{Binding NewEvent.People}" />
-                        <TextBox Watermark="Platform"
-                                 Text="{Binding NewEvent.Platform}" />
+                        <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
+                                  SelectedItem="{Binding NewEvent.Platform}" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

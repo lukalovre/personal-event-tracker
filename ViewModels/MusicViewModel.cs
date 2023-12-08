@@ -28,6 +28,13 @@ public partial class MusicViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref useNewDate, value);
     }
 
+    public ObservableCollection<string> MusicPlatformTypes =>
+        new ObservableCollection<string>(
+            Enum.GetValues(typeof(eMusicPlatformType))
+                .Cast<eMusicPlatformType>()
+                .Select(v => v.ToString())
+        );
+
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
     public ObservableCollection<Event> Events { get; set; }
@@ -83,7 +90,12 @@ public partial class MusicViewModel : ViewModelBase
     {
         NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
         NewMusicCover = FileRepsitory.GetImageTemp<Music>();
-        NewEvent = new Event { Amount = NewMusic.Runtime, Rating = 1 };
+        NewEvent = new Event
+        {
+            Amount = NewMusic.Runtime,
+            Rating = 1,
+            Platform = eMusicPlatformType.Streaming.ToString()
+        };
     }
 
     public MusicGridItem SelectedItem
