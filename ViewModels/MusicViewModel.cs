@@ -131,8 +131,11 @@ public partial class MusicViewModel : ViewModelBase
     private void AddClickAction()
     {
         NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
-        NewEvent.DateStart = NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
-        NewEvent.People = SelectedPerson.ID.ToString();
+        NewEvent.DateStart =
+            NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
+                ? NewEvent.DateEnd.Value
+                : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+        NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
 
         _datasource.Add(NewMusic, NewEvent);
     }
