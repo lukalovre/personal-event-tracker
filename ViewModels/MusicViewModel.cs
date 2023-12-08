@@ -157,11 +157,16 @@ public partial class MusicViewModel : ViewModelBase
     {
         var result = new List<InfoModel>();
 
+        if (SelectedItem == null)
+        {
+            return result;
+        }
+
         var properties = typeof(T).GetProperties();
 
         foreach (PropertyInfo property in properties)
         {
-            var e = _eventList.First(o => o.ItemID == _selectedItem.ID);
+            var e = _eventList?.First(o => o.ItemID == SelectedItem.ID);
             var i = _itemList.First(o => o.ID == e.ItemID);
 
             var value = property.GetValue(i);
@@ -177,7 +182,7 @@ public partial class MusicViewModel : ViewModelBase
         _eventList = _datasource.GetEventList<Music>();
 
         return _eventList
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == DateTime.Now.Year)
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-10))
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
@@ -200,13 +205,18 @@ public partial class MusicViewModel : ViewModelBase
     public void SelectedItemChanged()
     {
         Info.Clear();
-        Info.AddRange(GetSelectedItemInfo<Music>());
-
         Events.Clear();
-        Events.AddRange(_eventList.Where(o => o.ItemID == _selectedItem.ID));
+        Cover = null;
 
-        var item = _itemList.First(o => o.ID == _selectedItem.ID);
+        if (SelectedItem == null)
+        {
+            return;
+        }
 
+        Info.AddRange(GetSelectedItemInfo<Music>());
+        Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID));
+
+        var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Cover = FileRepsitory.GetImage<Music>(item.ID);
     }
 }
