@@ -143,6 +143,16 @@ public partial class MusicViewModel : ViewModelBase
         Music.Clear();
         Music.AddRange(GetData());
         SelectedItem = Music.LastOrDefault();
+
+        ClearNewItemControls();
+    }
+
+    private void ClearNewItemControls()
+    {
+        NewMusic = default;
+        NewEvent = default;
+        NewMusicCover = default;
+        InputUrl = default;
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()
