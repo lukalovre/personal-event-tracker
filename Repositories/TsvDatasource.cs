@@ -31,6 +31,7 @@ internal class TsvDatasource : IDatasource
         using (var writer = new StreamWriter(itemFilePath, true))
         {
             using var csv = new CsvWriter(writer, _config);
+            csv.NextRecord();
             csv.WriteRecord(item);
         }
 
@@ -39,6 +40,7 @@ internal class TsvDatasource : IDatasource
         using (var writer = new StreamWriter(eventFilePath, true))
         {
             using var csv = new CsvWriter(writer, _config);
+            csv.NextRecord();
             csv.WriteRecord(e);
         }
 
