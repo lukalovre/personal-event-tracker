@@ -104,7 +104,7 @@
                         <TextBox Watermark="Comment"
                                  Text="{Binding NewEvent.Comment}" />
                         <ComboBox ItemsSource="{Binding PeopleList}"
-                                  SelectedItem="{Binding NewEvent.People}" />
+                                  SelectedItem="{Binding SelectedPerson}" />
                         <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
                                   SelectedItem="{Binding NewEvent.Platform}" />
                     </StackPanel>

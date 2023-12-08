@@ -38,6 +38,8 @@ public partial class MusicViewModel : ViewModelBase
     public ObservableCollection<PersonComboboxItem> PeopleList =>
         new ObservableCollection<PersonComboboxItem>(PeopleManager.Instance.GetComboboxList());
 
+    public PersonComboboxItem SelectedPerson { get; set; }
+
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
     public ObservableCollection<Event> Events { get; set; }
@@ -130,6 +132,7 @@ public partial class MusicViewModel : ViewModelBase
     {
         NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
         NewEvent.DateStart = NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+        NewEvent.People = SelectedPerson.ID.ToString();
 
         _datasource.Add(NewMusic, NewEvent);
     }
