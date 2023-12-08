@@ -6,7 +6,7 @@ using HtmlAgilityPack;
 
 namespace Repositories;
 
-public class MusicRepository
+public class BandcampRepository
 {
     public static Music GetAlbumInfoBandcamp(string url)
     {
