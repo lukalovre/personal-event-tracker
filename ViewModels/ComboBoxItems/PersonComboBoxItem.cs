@@ -1,4 +1,4 @@
-public record PersonComboboxItem(int ID, string FirstName, string LastName, string Nickname)
+public record PersonComboBoxItem(int ID, string FirstName, string LastName, string Nickname)
 {
     public override string ToString()
     {

@@ -29,10 +29,10 @@ public class PeopleManager
         }
     }
 
-    public List<PersonComboboxItem> GetComboboxList()
+    public List<PersonComboBoxItem> GetComboboxList()
     {
         return _peopleList
-            .Select(o => new PersonComboboxItem(o.ID, o.FirstName, o.LastName, o.Nickname))
+            .Select(o => new PersonComboBoxItem(o.ID, o.FirstName, o.LastName, o.Nickname))
             .ToList();
     }
 }

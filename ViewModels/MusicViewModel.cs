@@ -35,10 +35,10 @@ public partial class MusicViewModel : ViewModelBase
                 .Select(v => v.ToString())
         );
 
-    public ObservableCollection<PersonComboboxItem> PeopleList =>
-        new ObservableCollection<PersonComboboxItem>(PeopleManager.Instance.GetComboboxList());
+    public ObservableCollection<PersonComboBoxItem> PeopleList =>
+        new ObservableCollection<PersonComboBoxItem>(PeopleManager.Instance.GetComboboxList());
 
-    public PersonComboboxItem SelectedPerson { get; set; }
+    public PersonComboBoxItem SelectedPerson { get; set; }
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
