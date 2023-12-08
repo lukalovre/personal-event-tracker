@@ -93,7 +93,7 @@
                                            Minimum="1"
                                            Maximum="5" />
                         </StackPanel>
-                        <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">Bookmakred</CheckBox>
+                        <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
                         <TextBox Watermark="Minutes"
                                  Text="{Binding NewEvent.Amount}" />
                         <TextBox Watermark="Comment"
