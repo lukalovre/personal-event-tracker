@@ -83,7 +83,8 @@
                                  Text="{Binding NewEvent.ExternalID}" />
                         <StackPanel Orientation="Horizontal">
                             <DatePicker SelectedDate="{Binding NewEvent.DateEnd.Value}" />
-                            <TimePicker SelectedTime="{Binding NewEvent.DateEnd.Value.TimeOfDay}" />
+                            <TimePicker SelectedTime="{Binding NewEvent.DateEnd.Value.TimeOfDay}"
+                                        ClockIdentifier="24HourClock" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
