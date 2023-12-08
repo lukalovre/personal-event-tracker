@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Repositories;
+using SpotifyAPI.Web;
 
 namespace Repositories;
 
@@ -15,11 +15,11 @@ public class SpotifyRepository
 
         var album = spotify.Albums.Get(albumID).Result;
 
-        var destinationFile = Paths.TempAlbumCover;
+        var destinationFile = Paths.GetTempPath<Music>();
 
         File.Delete($"{destinationFile}.png");
 
-        Web.DownloadPNG(album.Images.FirstOrDefault().Url, destinationFile);
+        HtmlHelper.DownloadPNG(album.Images.FirstOrDefault().Url, destinationFile);
 
         return new Music
         {
@@ -49,4 +49,52 @@ public class SpotifyRepository
 
         return new SpotifyClient(config.WithToken(response.AccessToken));
     }
+
+    #region FindAlbum
+    //public static void FindAlbum(Music music)
+    //{
+    //    var destinationFile = Path.Combine(Paths.Albums, $"{music.ItemID}.png");
+
+    //    if (File.Exists(destinationFile) && music.SpotifyID != null)
+    //    {
+    //        return;
+    //    }
+
+    //    var spotify = GetSpotifyClient();
+
+    //    var albumSearchList = spotify.Search.Item(new SearchRequest(SearchRequest.Types.Album, music.Title)).Result;
+
+    //    SimpleAlbum foundAlbum = null;
+
+    //    foreach (var albumInfo in albumSearchList.Albums.Items)
+    //    {
+    //        DateTime.TryParse(albumInfo.ReleaseDate, out var date);
+
+    //        if (albumInfo.Artists.Any(o => o.Name == music.Artist)
+    //            &&
+    //            (albumInfo.ReleaseDate == music.Year.ToString()
+    //            || date.Year == music.Year))
+    //        {
+    //            foundAlbum = albumInfo;
+    //            break;
+    //        }
+    //    }
+
+    //    if (foundAlbum != null)
+    //    {
+    //        Web.Download(foundAlbum.Images.FirstOrDefault().Url, destinationFile);
+
+    //        music.SpotifyID = foundAlbum.Id;
+
+    //        using (var sqlConnection = new SqlConnection(Resources.MainConnectionString))
+    //        {
+    //            sqlConnection.Open();
+    //            sqlConnection.Update(music);
+    //        }
+    //    }
+    //    else
+    //    {
+    //    }
+    //}
+    #endregion
 }
