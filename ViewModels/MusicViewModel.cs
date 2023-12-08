@@ -41,6 +41,8 @@ public partial class MusicViewModel : ViewModelBase
     public PersonComboBoxItem SelectedPerson { get; set; }
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
+    public ObservableCollection<MusicGridItem> ArtistMusic { get; set; }
+
     public ObservableCollection<InfoModel> Info { get; set; }
     public ObservableCollection<Event> Events { get; set; }
 
@@ -101,6 +103,9 @@ public partial class MusicViewModel : ViewModelBase
             Rating = 1,
             Platform = eMusicPlatformType.Streaming.ToString()
         };
+
+        ArtistMusic.Clear();
+        ArtistMusic.AddRange(LoadArtistData(NewMusic));
     }
 
     public MusicGridItem SelectedItem
@@ -119,6 +124,7 @@ public partial class MusicViewModel : ViewModelBase
 
         Music = new ObservableCollection<MusicGridItem>(LoadData());
         Info = new ObservableCollection<InfoModel>();
+        ArtistMusic = new ObservableCollection<MusicGridItem>();
 
         Events = new ObservableCollection<Event>();
         EventViewModel = new EventViewModel(Events);
@@ -194,6 +200,27 @@ public partial class MusicViewModel : ViewModelBase
                         _eventList.Where(e => e.ItemID == o.ItemID)
                     )
             )
+            .ToList();
+    }
+
+    private List<MusicGridItem> LoadArtistData(Music item)
+    {
+        _itemList = _datasource.GetList<Music>();
+        _eventList = _datasource.GetEventList<Music>();
+
+        return _eventList
+            .OrderByDescending(o => o.DateEnd)
+            .DistinctBy(o => o.ItemID)
+            .OrderBy(o => o.DateEnd)
+            .Select(
+                o =>
+                    Convert(
+                        o,
+                        _itemList.First(m => m.ID == o.ItemID),
+                        _eventList.Where(e => e.ItemID == o.ItemID)
+                    )
+            )
+            .Where(o => o.Artist.Contains(item.Artist) || o.Title.Contains(item.Title))
             .ToList();
     }
 

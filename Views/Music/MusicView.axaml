@@ -113,6 +113,33 @@
                                   SelectedItem="{Binding SelectedPerson}" />
                         <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
                                   SelectedItem="{Binding NewEvent.Platform}" />
+                        <DataGrid Margin="5"
+                                  ItemsSource="{Binding ArtistMusic}"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal"
+                                  SelectedItem="{Binding SelectedItem}"
+                                  Height="500"
+                                  CanUserResizeColumns="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Artist}"
+                                                    Header="Artist"
+                                                    Width="150" />
+                                <DataGridTextColumn Binding="{Binding Title}"
+                                                    Header="Title"
+                                                    Width="150" />
+                                <DataGridTextColumn Binding="{Binding Year}"
+                                                    Header="Year"
+                                                    Width="65" />
+                                <DataGridTextColumn Binding="{Binding Played}"
+                                                    Header="#"
+                                                    Width="60" />
+                                <DataGridCheckBoxColumn Binding="{Binding Bookmarked}"
+                                                        Header="★"
+                                                        Width="60" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
