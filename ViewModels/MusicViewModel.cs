@@ -67,7 +67,7 @@ public partial class MusicViewModel : ViewModelBase
         get => inputUrl;
         set
         {
-            inputUrl = value;
+            this.RaiseAndSetIfChanged(ref inputUrl, value);
             InputUrlChanged();
         }
     }
