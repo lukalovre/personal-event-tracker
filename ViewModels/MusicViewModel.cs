@@ -95,10 +95,8 @@ public partial class MusicViewModel : ViewModelBase
 
     private void InputUrlChanged()
     {
-        var url = InputUrl;
-        _inputUrl = default;
+        NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
 
-        NewMusic = MusicRepository.GetAlbumInfoBandcamp(url);
         NewMusicCover = FileRepsitory.GetImageTemp<Music>();
         NewEvent = new Event
         {
@@ -109,6 +107,8 @@ public partial class MusicViewModel : ViewModelBase
 
         ArtistMusic.Clear();
         ArtistMusic.AddRange(LoadArtistData(NewMusic));
+
+        _inputUrl = default;
     }
 
     public MusicGridItem SelectedItem
