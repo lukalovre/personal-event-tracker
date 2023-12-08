@@ -117,8 +117,6 @@ public partial class MusicViewModel : ViewModelBase
         NewEvent.DateStart = NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
 
         _datasource.Add(NewMusic, NewEvent);
-
-        FileRepsitory.MoveTempImage<Music>(NewMusic.ID);
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()

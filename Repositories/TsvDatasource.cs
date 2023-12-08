@@ -41,6 +41,8 @@ internal class TsvDatasource : IDatasource
             using var csv = new CsvWriter(writer, _config);
             csv.WriteRecord(e);
         }
+
+        FileRepsitory.MoveTempImage<Music>(item.ID);
     }
 
     private static string GetFilePath<T>()
