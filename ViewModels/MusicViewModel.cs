@@ -95,7 +95,10 @@ public partial class MusicViewModel : ViewModelBase
 
     private void InputUrlChanged()
     {
-        NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
+        var url = InputUrl;
+        _inputUrl = default;
+
+        NewMusic = MusicRepository.GetAlbumInfoBandcamp(url);
         NewMusicCover = FileRepsitory.GetImageTemp<Music>();
         NewEvent = new Event
         {
