@@ -126,6 +126,7 @@ public partial class MusicViewModel : ViewModelBase
         EventViewModel = new EventViewModel(Events);
 
         AddClick = ReactiveCommand.Create(AddClickAction);
+        SelectedItem = Music.LastOrDefault();
     }
 
     private void AddClickAction()
@@ -138,6 +139,10 @@ public partial class MusicViewModel : ViewModelBase
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
 
         _datasource.Add(NewMusic, NewEvent);
+
+        Music.Clear();
+        Music.AddRange(GetData());
+        SelectedItem = Music.LastOrDefault();
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()
