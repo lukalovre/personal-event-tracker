@@ -72,15 +72,21 @@
                                      Text="{Binding InputUrl}"
                                      Margin="15" />
                         </StackPanel>
-                        <TextBox Watermark="Artist"
-                                 Text="{Binding NewMusic.Artist}" />
-                        <TextBox Watermark="Title"
-                                 Text="{Binding NewMusic.Title}" />
-                        <TextBox Watermark="Year"
-                                 Text="{Binding NewMusic.Year}" />
-                        <TextBox Watermark="Runtime"
-                                 Text="{Binding NewMusic.Runtime}" />
-                        <TextBox Watermark="SpotifyID"
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Watermark="Artist"
+                                     Text="{Binding NewMusic.Artist}"
+                                     HorizontalAlignment="Stretch" />
+                            <TextBox Watermark="Title"
+                                     Text="{Binding NewMusic.Title}"
+                                     HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Watermark="Year"
+                                     Text="{Binding NewMusic.Year}" />
+                            <TextBox Watermark="Runtime"
+                                     Text="{Binding NewMusic.Runtime}" />
+                        </StackPanel>
+                        <TextBox Watermark="External Link"
                                  Text="{Binding NewMusic.SpotifyID}" />
                         <Image Source="{Binding NewMusicCover}" />
                         <StackPanel Orientation="Horizontal">
