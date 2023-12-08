@@ -22,7 +22,7 @@ public partial class MusicViewModel : ViewModelBase
     private string inputUrl;
     private Music newMusic;
 
-    public bool UseDate { get; set; }
+    public bool UseNewDate { get; set; }
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
@@ -34,6 +34,12 @@ public partial class MusicViewModel : ViewModelBase
     {
         get => newMusic;
         set => this.RaiseAndSetIfChanged(ref newMusic, value);
+    }
+
+    public DateTime NewDate
+    {
+        get => newDate;
+        set => this.RaiseAndSetIfChanged(ref newDate, value);
     }
 
     public Event NewEvent
@@ -62,6 +68,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private Bitmap? _newMusicCover;
     private Event newEvent;
+    private DateTime newDate;
 
     public Bitmap? NewMusicCover
     {
@@ -73,13 +80,7 @@ public partial class MusicViewModel : ViewModelBase
     {
         NewMusic = MusicRepository.GetAlbumInfoBandcamp(InputUrl);
         NewMusicCover = FileRepsitory.GetImageTemp<Music>();
-        NewEvent = new Event
-        {
-            Amount = NewMusic.Runtime,
-            ExternalID = newMusic.SpotifyID,
-            DateEnd = DateTime.Now,
-            Rating = 1
-        };
+        NewEvent = new Event { Amount = NewMusic.Runtime, Rating = 1 };
     }
 
     public MusicGridItem SelectedItem
@@ -109,14 +110,12 @@ public partial class MusicViewModel : ViewModelBase
 
     private void AddClickAction()
     {
-        NewEvent.DateEnd = DateTime.Now;
+        NewEvent.DateEnd = UseNewDate ? NewDate : DateTime.Now;
         NewEvent.DateStart = NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
 
         _datasource.Add(NewMusic, NewEvent);
 
         FileRepsitory.MoveTempImage<Music>(NewMusic.ID);
-
-        Music = new ObservableCollection<MusicGridItem>(GetData());
     }
 
     private List<InfoModel> GetSelectedItemInfo<T>()
