@@ -40,12 +40,10 @@ public partial class MusicViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref newMusic, value);
     }
 
-    public DateTime NewDate
-    {
-        get => newDate;
-        set => this.RaiseAndSetIfChanged(ref newDate, value);
-    }
+    public DateTime NewDate { get; set; } =
+        new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
+    public TimeSpan NewTime { get; set; } = new TimeSpan();
     public Event NewEvent
     {
         get => newEvent;
@@ -72,7 +70,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private Bitmap? _newMusicCover;
     private Event newEvent;
-    private DateTime newDate;
+
     private bool useNewDate;
 
     public Bitmap? NewMusicCover
@@ -115,7 +113,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private void AddClickAction()
     {
-        NewEvent.DateEnd = UseNewDate ? NewDate : DateTime.Now;
+        NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
         NewEvent.DateStart = NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
 
         _datasource.Add(NewMusic, NewEvent);
