@@ -10,9 +10,9 @@ public class SpotifyRepository
     private const string API_KEY_FILE_NAME = "spotify_key.txt";
     public static string UrlIdentifier => "spotify.com";
 
-    public static Music GetAlbumInfoSpotify(string albumID)
+    public static Music GetAlbumInfoSpotify(string url)
     {
-        albumID = albumID.Split('/').LastOrDefault();
+        var albumID = url.Split('/').LastOrDefault();
 
         var spotify = GetSpotifyClient();
 
@@ -34,7 +34,7 @@ public class SpotifyRepository
                     : DateTime.Parse(album.ReleaseDate).Year,
             _1001 = false,
             Runtime = album.Tracks.Items.Sum(o => o.DurationMs) / 1000 / 60,
-            SpotifyID = album.Id
+            SpotifyID = url
         };
     }
 
