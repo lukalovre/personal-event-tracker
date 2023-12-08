@@ -26,5 +26,9 @@
             <TextBlock Text="Comment" />
             <TextBlock Text="{Binding SelectedEvent.Comment}" />
         </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="People" />
+            <TextBlock Text="{Binding SelectedEvent.People}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>
