@@ -7,6 +7,9 @@ namespace Repositories;
 
 public class SpotifyRepository
 {
+    private const string API_KEY_FILE_NAME = "spotify_key.txt";
+    public static string UrlIdentifier => "spotify.com";
+
     public static Music GetAlbumInfoSpotify(string albumID)
     {
         albumID = albumID.Split('/').LastOrDefault();
@@ -39,7 +42,7 @@ public class SpotifyRepository
     {
         var config = SpotifyClientConfig.CreateDefault();
 
-        var lines = File.ReadAllLines(@"..\..\..\Keys\spotify_key.txt");
+        var lines = File.ReadAllLines(Path.Combine(Paths.APIKeys, API_KEY_FILE_NAME));
 
         var clientId = lines[0];
         var clientSecret = lines[1];

@@ -8,6 +8,8 @@ namespace Repositories;
 
 public class BandcampRepository
 {
+    public static string UrlIdentifier => "bandcamp.com";
+
     public static Music GetAlbumInfoBandcamp(string url)
     {
         using (var client = new WebClient())

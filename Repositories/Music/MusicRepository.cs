@@ -4,12 +4,12 @@ public class MusicRepository
 {
     public static Music GetAlbumInfo(string url)
     {
-        if (url.Contains("bandcamp.com"))
+        if (url.Contains(BandcampRepository.UrlIdentifier))
         {
             return BandcampRepository.GetAlbumInfoBandcamp(url);
         }
 
-        if (url.Contains("bspotify.com"))
+        if (url.Contains(SpotifyRepository.UrlIdentifier))
         {
             return SpotifyRepository.GetAlbumInfoSpotify(url);
         }
