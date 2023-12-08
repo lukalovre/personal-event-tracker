@@ -29,15 +29,10 @@ public class PeopleManager
         }
     }
 
-    public List<string> GetList()
+    public List<PersonComboboxItem> GetComboboxList()
     {
         return _peopleList
-            .Select(
-                o =>
-                    string.IsNullOrWhiteSpace(o.Nickname)
-                        ? $"{o.FirstName} {o.LastName}"
-                        : o.Nickname
-            )
+            .Select(o => new PersonComboboxItem(o.ID, o.FirstName, o.LastName, o.Nickname))
             .ToList();
     }
 }
