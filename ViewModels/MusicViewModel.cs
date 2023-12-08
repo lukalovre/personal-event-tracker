@@ -17,8 +17,8 @@ public partial class MusicViewModel : ViewModelBase
     public EventViewModel EventViewModel { get; }
     private readonly IDatasource _datasource;
     private MusicGridItem _selectedItem;
-    private readonly List<Music> _itemList;
-    private readonly List<Event> _eventList;
+    private List<Music> _itemList;
+    private List<Event> _eventList;
     private string _inputUrl;
     private Music _newMusic;
 
@@ -116,10 +116,8 @@ public partial class MusicViewModel : ViewModelBase
     public MusicViewModel(IDatasource datasource)
     {
         _datasource = datasource;
-        _itemList = _datasource.GetList<Music>();
-        _eventList = _datasource.GetEventList<Music>();
 
-        Music = new ObservableCollection<MusicGridItem>(GetData());
+        Music = new ObservableCollection<MusicGridItem>(LoadData());
         Info = new ObservableCollection<InfoModel>();
 
         Events = new ObservableCollection<Event>();
@@ -141,7 +139,7 @@ public partial class MusicViewModel : ViewModelBase
         _datasource.Add(NewMusic, NewEvent);
 
         Music.Clear();
-        Music.AddRange(GetData());
+        Music.AddRange(LoadData());
         SelectedItem = Music.LastOrDefault();
 
         ClearNewItemControls();
@@ -173,8 +171,11 @@ public partial class MusicViewModel : ViewModelBase
         return result;
     }
 
-    private List<MusicGridItem> GetData()
+    private List<MusicGridItem> LoadData()
     {
+        _itemList = _datasource.GetList<Music>();
+        _eventList = _datasource.GetEventList<Music>();
+
         return _eventList
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == DateTime.Now.Year)
             .OrderByDescending(o => o.DateEnd)
