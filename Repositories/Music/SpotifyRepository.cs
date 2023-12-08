@@ -20,8 +20,6 @@ public class SpotifyRepository
 
         var destinationFile = Paths.GetTempPath<Music>();
 
-        File.Delete($"{destinationFile}.png");
-
         HtmlHelper.DownloadPNG(album.Images.FirstOrDefault().Url, destinationFile);
 
         return new Music
