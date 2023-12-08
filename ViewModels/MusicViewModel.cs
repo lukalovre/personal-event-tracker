@@ -22,7 +22,11 @@ public partial class MusicViewModel : ViewModelBase
     private string inputUrl;
     private Music newMusic;
 
-    public bool UseNewDate { get; set; }
+    public bool UseNewDate
+    {
+        get => useNewDate;
+        set => this.RaiseAndSetIfChanged(ref useNewDate, value);
+    }
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
@@ -69,6 +73,7 @@ public partial class MusicViewModel : ViewModelBase
     private Bitmap? _newMusicCover;
     private Event newEvent;
     private DateTime newDate;
+    private bool useNewDate;
 
     public Bitmap? NewMusicCover
     {
