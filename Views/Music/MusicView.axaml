@@ -65,9 +65,13 @@
             <TabItem Header="New">
                 <ScrollViewer>
                     <StackPanel>
-                        <Button Command="{Binding AddClick}">Add</Button>
-                        <TextBox Watermark="Paste url"
-                                 Text="{Binding InputUrl}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddClick}"
+                                    Margin="15">Add</Button>
+                            <TextBox Watermark="Paste url"
+                                     Text="{Binding InputUrl}"
+                                     Margin="15" />
+                        </StackPanel>
                         <TextBox Watermark="Artist"
                                  Text="{Binding NewMusic.Artist}" />
                         <TextBox Watermark="Title"
@@ -79,12 +83,13 @@
                         <TextBox Watermark="SpotifyID"
                                  Text="{Binding NewMusic.SpotifyID}" />
                         <Image Source="{Binding NewMusicCover}" />
-                        <TextBox Watermark="ExternalID"
-                                 Text="{Binding NewEvent.ExternalID}" />
                         <StackPanel Orientation="Horizontal">
-                            <DatePicker SelectedDate="{Binding NewEvent.DateEnd.Value}" />
+                            <CheckBox IsChecked="{Binding UseDate}" />
+                            <DatePicker SelectedDate="{Binding NewEvent.DateEnd, Mode=TwoWay}"
+                                        IsEnabled="{Binding UseDate}" />
                             <TimePicker SelectedTime="{Binding NewEvent.DateEnd.Value.TimeOfDay}"
-                                        ClockIdentifier="24HourClock" />
+                                        ClockIdentifier="24HourClock"
+                                        IsEnabled="{Binding UseDate}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
@@ -94,8 +99,6 @@
                                            Maximum="5" />
                         </StackPanel>
                         <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
-                        <TextBox Watermark="Minutes"
-                                 Text="{Binding NewEvent.Amount}" />
                         <TextBox Watermark="Comment"
                                  Text="{Binding NewEvent.Comment}" />
                         <TextBox Watermark="People"

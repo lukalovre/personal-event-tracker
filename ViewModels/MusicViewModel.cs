@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -22,6 +21,8 @@ public partial class MusicViewModel : ViewModelBase
     private readonly List<Event> _eventList;
     private string inputUrl;
     private Music newMusic;
+
+    public bool UseDate { get; set; }
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
     public ObservableCollection<InfoModel> Info { get; set; }
