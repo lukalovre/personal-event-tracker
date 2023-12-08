@@ -103,8 +103,8 @@
                         <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
                         <TextBox Watermark="Comment"
                                  Text="{Binding NewEvent.Comment}" />
-                        <TextBox Watermark="People"
-                                 Text="{Binding NewEvent.People}" />
+                        <ComboBox ItemsSource="{Binding PeopleList}"
+                                  SelectedItem="{Binding NewEvent.People}" />
                         <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
                                   SelectedItem="{Binding NewEvent.Platform}" />
                     </StackPanel>
