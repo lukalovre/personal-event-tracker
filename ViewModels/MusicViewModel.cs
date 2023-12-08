@@ -16,16 +16,16 @@ public partial class MusicViewModel : ViewModelBase
 {
     public EventViewModel EventViewModel { get; }
     private readonly IDatasource _datasource;
-    private MusicGridItem selectedItem;
+    private MusicGridItem _selectedItem;
     private readonly List<Music> _itemList;
     private readonly List<Event> _eventList;
-    private string inputUrl;
-    private Music newMusic;
+    private string _inputUrl;
+    private Music _newMusic;
 
     public bool UseNewDate
     {
-        get => useNewDate;
-        set => this.RaiseAndSetIfChanged(ref useNewDate, value);
+        get => _useNewDate;
+        set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
     }
 
     public ObservableCollection<string> MusicPlatformTypes =>
@@ -48,8 +48,8 @@ public partial class MusicViewModel : ViewModelBase
 
     public Music NewMusic
     {
-        get => newMusic;
-        set => this.RaiseAndSetIfChanged(ref newMusic, value);
+        get => _newMusic;
+        set => this.RaiseAndSetIfChanged(ref _newMusic, value);
     }
 
     public DateTime NewDate { get; set; } =
@@ -58,16 +58,16 @@ public partial class MusicViewModel : ViewModelBase
     public TimeSpan NewTime { get; set; } = new TimeSpan();
     public Event NewEvent
     {
-        get => newEvent;
-        set => this.RaiseAndSetIfChanged(ref newEvent, value);
+        get => _newEvent;
+        set => this.RaiseAndSetIfChanged(ref _newEvent, value);
     }
 
     public string InputUrl
     {
-        get => inputUrl;
+        get => _inputUrl;
         set
         {
-            this.RaiseAndSetIfChanged(ref inputUrl, value);
+            this.RaiseAndSetIfChanged(ref _inputUrl, value);
             InputUrlChanged();
         }
     }
@@ -81,9 +81,9 @@ public partial class MusicViewModel : ViewModelBase
     }
 
     private Bitmap? _newMusicCover;
-    private Event newEvent;
+    private Event _newEvent;
 
-    private bool useNewDate;
+    private bool _useNewDate;
 
     public Bitmap? NewMusicCover
     {
@@ -105,10 +105,10 @@ public partial class MusicViewModel : ViewModelBase
 
     public MusicGridItem SelectedItem
     {
-        get => selectedItem;
+        get => _selectedItem;
         set
         {
-            selectedItem = value;
+            _selectedItem = value;
             SelectedItemChanged();
         }
     }
@@ -163,7 +163,7 @@ public partial class MusicViewModel : ViewModelBase
 
         foreach (PropertyInfo property in properties)
         {
-            var e = _eventList.First(o => o.ItemID == selectedItem.ID);
+            var e = _eventList.First(o => o.ItemID == _selectedItem.ID);
             var i = _itemList.First(o => o.ID == e.ItemID);
 
             var value = property.GetValue(i);
@@ -202,9 +202,9 @@ public partial class MusicViewModel : ViewModelBase
         Info.AddRange(GetSelectedItemInfo<Music>());
 
         Events.Clear();
-        Events.AddRange(_eventList.Where(o => o.ItemID == selectedItem.ID));
+        Events.AddRange(_eventList.Where(o => o.ItemID == _selectedItem.ID));
 
-        var item = _itemList.First(o => o.ID == selectedItem.ID);
+        var item = _itemList.First(o => o.ID == _selectedItem.ID);
 
         Cover = FileRepsitory.GetImage<Music>(item.ID);
     }
