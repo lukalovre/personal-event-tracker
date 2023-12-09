@@ -1,9 +1,12 @@
+using System.Linq;
+
 namespace Repositories;
 
 public class MusicRepository
 {
     public static Music GetAlbumInfo(string url)
     {
+        url = url.Split('?').FirstOrDefault();
         url = url.Trim();
 
         if (url.Contains(BandcampRepository.UrlIdentifier))
