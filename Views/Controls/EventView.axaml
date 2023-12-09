@@ -26,8 +26,12 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Date" />
-                <TextBox Text="{Binding SelectedEvent.DateEnd}" />
+                <CheckBox IsChecked="{Binding IsEditDate}" />
+                <CalendarDatePicker SelectedDate="{Binding Date, Mode=TwoWay}"
+                                    SelectedDateFormat="Custom"
+                                    CustomDateFormatString="yyyy-MM-dd" />
+                <TimePicker SelectedTime="{Binding Time, Mode=TwoWay}"
+                            ClockIdentifier="24HourClock" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Rating" />
