@@ -44,9 +44,16 @@ public partial class MusicViewModel : ViewModelBase
     public ObservableCollection<MusicGridItem> ArtistMusic { get; set; }
 
     public ObservableCollection<InfoModel> Info { get; set; }
+
+    public Music SelectedMusic
+    {
+        get => _selectedMusic;
+        set => this.RaiseAndSetIfChanged(ref _selectedMusic, value);
+    }
     public ObservableCollection<Event> Events { get; set; }
 
     public ReactiveCommand<Unit, Unit> AddClick { get; }
+    public ReactiveCommand<Unit, Unit> OpenLink { get; }
 
     public Music NewMusic
     {
@@ -86,6 +93,7 @@ public partial class MusicViewModel : ViewModelBase
     private Event _newEvent;
 
     private bool _useNewDate;
+    private Music _selectedMusic;
 
     public Bitmap? NewMusicCover
     {
@@ -133,7 +141,30 @@ public partial class MusicViewModel : ViewModelBase
         EventViewModel = new EventViewModel(Events);
 
         AddClick = ReactiveCommand.Create(AddClickAction);
+        OpenLink = ReactiveCommand.Create(OpenLinkAction);
         SelectedItem = Music.LastOrDefault();
+    }
+
+    private void OpenLinkAction()
+    {
+        var hyperlink = SelectedMusic.SpotifyID;
+
+        if (string.IsNullOrWhiteSpace(SelectedMusic.SpotifyID))
+        {
+            var artist = SelectedMusic.Artist.Split(' ').ToList();
+            var title = SelectedMusic.Title.Split(' ').ToList();
+            var year = SelectedMusic.Year.ToString();
+
+            var parts = new List<string>();
+
+            parts.AddRange(artist);
+            parts.AddRange(title);
+            parts.Add(year);
+
+            hyperlink = $"https://duckduckgo.com/?q={string.Join("+", parts)}";
+        }
+
+        HtmlHelper.OpenLink(hyperlink);
     }
 
     private void AddClickAction()
@@ -249,6 +280,7 @@ public partial class MusicViewModel : ViewModelBase
             return;
         }
 
+        SelectedMusic = _itemList.First(o => o.ID == SelectedItem.ID);
         Info.AddRange(GetSelectedItemInfo<Music>());
         Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID));
 
