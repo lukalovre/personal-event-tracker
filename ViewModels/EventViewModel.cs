@@ -38,6 +38,11 @@ public partial class EventViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref selectedEvent, value);
     }
 
+    public ObservableCollection<PersonComboBoxItem> PeopleList =>
+        new ObservableCollection<PersonComboBoxItem>(PeopleManager.Instance.GetComboboxList());
+
+    public PersonComboBoxItem SelectedPerson { get; set; }
+
     public EventViewModel(ObservableCollection<Event> events)
     {
         Events = events;

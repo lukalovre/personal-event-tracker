@@ -47,10 +47,8 @@
                 <TextBlock Text="Comment" />
                 <TextBox Text="{Binding SelectedEvent.Comment}" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="People" />
-                <TextBox Text="{Binding SelectedEvent.People}" />
-            </StackPanel>
+            <ComboBox ItemsSource="{Binding PeopleList}"
+                      SelectedItem="{Binding SelectedPerson}" />
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Platform" />
                 <TextBox Text="{Binding SelectedEvent.Platform}" />
