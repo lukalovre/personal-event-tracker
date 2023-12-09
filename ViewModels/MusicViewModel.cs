@@ -225,7 +225,11 @@ public partial class MusicViewModel : ViewModelBase
                         _eventList.Where(e => e.ItemID == o.ItemID)
                     )
             )
-            .Where(o => o.Artist.Contains(item.Artist) || o.Title.Contains(item.Title))
+            .Where(
+                o =>
+                    o.Artist.Contains(item.Artist, StringComparison.InvariantCultureIgnoreCase)
+                    || o.Title.Contains(item.Title, StringComparison.InvariantCultureIgnoreCase)
+            )
             .ToList();
     }
 
