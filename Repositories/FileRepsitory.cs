@@ -6,6 +6,13 @@ namespace Repositories;
 
 public class FileRepsitory
 {
+    public static bool ImageExists<T>(int itemID)
+        where T : IItem
+    {
+        var filePath = Path.Combine(Paths.Images, typeof(T).ToString(), $"{itemID}.png");
+        return File.Exists(filePath);
+    }
+
     public static Bitmap? GetImage<T>(int itemID)
         where T : IItem
     {
@@ -46,6 +53,11 @@ public class FileRepsitory
     {
         var tempFile = $"{Paths.GetTempPath<T>()}.png";
         var destinationFile = Path.Combine(Paths.GetImagesPath<T>(), $"{itemID}.png");
+
+        if (!File.Exists(tempFile))
+        {
+            return;
+        }
 
         File.Copy(tempFile, destinationFile);
         File.Delete(tempFile);

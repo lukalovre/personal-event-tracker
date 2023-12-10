@@ -30,7 +30,7 @@ internal class TsvDatasource : IDatasource
             using var csvItem = new CsvWriter(writerItem, _config);
             csvItem.NextRecord();
             csvItem.WriteRecord(item);
-            FileRepsitory.MoveTempImage<Music>(item.ID);
+            FileRepsitory.MoveTempImage<T>(item.ID);
         }
 
         var events = GetEventList<T>();
@@ -44,6 +44,11 @@ internal class TsvDatasource : IDatasource
         using var csvEvent = new CsvWriter(writerEvent, _config);
         csvEvent.NextRecord();
         csvEvent.WriteRecord(e);
+
+        if (!FileRepsitory.ImageExists<T>(item.ID))
+        {
+            FileRepsitory.MoveTempImage<T>(item.ID);
+        }
     }
 
     private static string GetFilePath<T>()
