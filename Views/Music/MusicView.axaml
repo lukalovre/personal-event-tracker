@@ -15,7 +15,8 @@
                      Watermark="Filter"
                      DockPanel.Dock="Top"
                      Width="150" />
-            <Button Command="{Binding Search}">Search</Button>
+            <Button Command="{Binding Search}"
+                    HotKey="Enter">Search</Button>
         </StackPanel>
         <DataGrid Margin="20"
                   ItemsSource="{Binding Music}"
