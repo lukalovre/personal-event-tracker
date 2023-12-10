@@ -22,6 +22,8 @@ public partial class MusicViewModel : ViewModelBase
     private string _inputUrl;
     private Music _newMusic;
 
+    public string SearchText { get; set; }
+
     public bool UseNewDate
     {
         get => _useNewDate;
@@ -56,6 +58,7 @@ public partial class MusicViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
     public ReactiveCommand<Unit, Unit> OpenImage { get; }
     public ReactiveCommand<Unit, Unit> ListenAgain { get; }
+    public ReactiveCommand<Unit, Unit> Search { get; }
 
     public Music NewMusic
     {
@@ -151,8 +154,23 @@ public partial class MusicViewModel : ViewModelBase
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         OpenImage = ReactiveCommand.Create(OpenImageAction);
         ListenAgain = ReactiveCommand.Create(ListenAgainAction);
+        Search = ReactiveCommand.Create(SearchAction);
 
         SelectedItem = Music.LastOrDefault();
+    }
+
+    private void SearchAction()
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            Music.Clear();
+            Music.AddRange(LoadData());
+        }
+
+        var searchMusic = new Music { Artist = SearchText, Title = SearchText };
+
+        Music.Clear();
+        Music.AddRange(LoadArtistData(searchMusic));
     }
 
     private void OpenImageAction() { }

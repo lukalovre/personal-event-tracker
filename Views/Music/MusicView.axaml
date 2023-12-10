@@ -9,6 +9,14 @@
              x:Class="AvaloniaApplication1.Views.MusicView"
              xmlns:view="using:AvaloniaApplication1.Views">
     <DockPanel>
+        <StackPanel Orientation="Horizontal"
+                    DockPanel.Dock="Top">
+            <TextBox Text="{Binding SearchText}"
+                     Watermark="Filter"
+                     DockPanel.Dock="Top"
+                     Width="150" />
+            <Button Command="{Binding Search}">Search</Button>
+        </StackPanel>
         <DataGrid Margin="20"
                   ItemsSource="{Binding Music}"
                   IsReadOnly="True"
