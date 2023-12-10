@@ -195,7 +195,14 @@ public partial class MusicViewModel : ViewModelBase
     private void ListenAgainAction()
     {
         var lastEvent = Events.MaxBy(o => o.DateEnd);
+
         lastEvent.ID = 0;
+
+        if (!EventViewModel.IsEditDate)
+        {
+            lastEvent.DateEnd = DateTime.Now;
+        }
+
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
