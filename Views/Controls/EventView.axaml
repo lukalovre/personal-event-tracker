@@ -27,7 +27,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IsEditDate}" />
+                <CheckBox IsChecked="{Binding IsEditDate, Mode=TwoWay}" />
                 <CalendarDatePicker SelectedDate="{Binding Date, Mode=TwoWay}"
                                     SelectedDateFormat="Custom"
                                     CustomDateFormatString="yyyy-MM-dd" />
