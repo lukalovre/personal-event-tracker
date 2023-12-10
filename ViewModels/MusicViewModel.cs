@@ -229,7 +229,7 @@ public partial class MusicViewModel : ViewModelBase
         _eventList = _datasource.GetEventList<Music>();
 
         return _eventList
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-10))
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-5))
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
