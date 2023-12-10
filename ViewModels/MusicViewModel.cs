@@ -55,6 +55,7 @@ public partial class MusicViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> AddClick { get; }
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
     public ReactiveCommand<Unit, Unit> OpenImage { get; }
+    public ReactiveCommand<Unit, Unit> ListenAgain { get; }
 
     public Music NewMusic
     {
@@ -144,6 +145,7 @@ public partial class MusicViewModel : ViewModelBase
         AddClick = ReactiveCommand.Create(AddClickAction);
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         OpenImage = ReactiveCommand.Create(OpenImageAction);
+        ListenAgain = ReactiveCommand.Create(ListenAgainAction);
 
         SelectedItem = Music.LastOrDefault();
     }
@@ -182,6 +184,24 @@ public partial class MusicViewModel : ViewModelBase
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
 
         _datasource.Add(NewMusic, NewEvent);
+
+        Music.Clear();
+        Music.AddRange(LoadData());
+        SelectedItem = Music.LastOrDefault();
+
+        ClearNewItemControls();
+    }
+
+    private void ListenAgainAction()
+    {
+        var lastEvent = Events.MaxBy(o => o.DateEnd);
+        lastEvent.ID = 0;
+        lastEvent.DateStart =
+            lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
+                ? lastEvent.DateEnd.Value
+                : lastEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+
+        _datasource.Add(SelectedMusic, lastEvent);
 
         Music.Clear();
         Music.AddRange(LoadData());

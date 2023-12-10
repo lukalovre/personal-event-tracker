@@ -68,6 +68,7 @@
                                    Height="430" />
                         </Button>
                         <view:EventView DataContext="{Binding EventViewModel}" />
+                        <Button Command="{Binding ListenAgain}">Listen again</Button>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

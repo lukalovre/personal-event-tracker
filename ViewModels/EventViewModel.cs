@@ -18,12 +18,21 @@ public partial class EventViewModel : ViewModelBase
     public DateTime Date
     {
         get => _date;
-        set => this.RaiseAndSetIfChanged(ref _date, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _date, value);
+            DateTimeChanged();
+        }
     }
+
     public TimeSpan Time
     {
         get => _time;
-        set => this.RaiseAndSetIfChanged(ref _time, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _time, value);
+            DateTimeChanged();
+        }
     }
 
     public bool IsEditDate
@@ -41,7 +50,21 @@ public partial class EventViewModel : ViewModelBase
     public ObservableCollection<PersonComboBoxItem> PeopleList =>
         new ObservableCollection<PersonComboBoxItem>(PeopleManager.Instance.GetComboboxList());
 
-    public PersonComboBoxItem SelectedPerson { get; set; }
+    private PersonComboBoxItem _selectedPerson;
+    public PersonComboBoxItem SelectedPerson
+    {
+        get => _selectedPerson;
+        set
+        {
+            _selectedPerson = value;
+            SelectedPersonChanged();
+        }
+    }
+
+    private void SelectedPersonChanged()
+    {
+        SelectedEvent.People = SelectedPerson.ID.ToString();
+    }
 
     public EventViewModel(ObservableCollection<Event> events)
     {
@@ -61,5 +84,10 @@ public partial class EventViewModel : ViewModelBase
 
         Date = SelectedEvent.DateEnd.Value;
         Time = SelectedEvent.DateEnd.Value.TimeOfDay;
+    }
+
+    private void DateTimeChanged()
+    {
+        SelectedEvent.DateEnd = Date + Time;
     }
 }

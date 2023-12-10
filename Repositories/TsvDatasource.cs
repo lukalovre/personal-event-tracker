@@ -18,33 +18,32 @@ internal class TsvDatasource : IDatasource
         where T : IItem
     {
         var items = GetList<T>();
-        var maxID = items.MaxBy(o => o.ID).ID;
-        item.ID = maxID + 1;
-        e.ItemID = item.ID;
+
+        if (!items.Any(o => o.ID == item.ID))
+        {
+            var maxItemID = items.MaxBy(o => o.ID).ID;
+            item.ID = maxItemID + 1;
+
+            var itemFilePath = GetFilePath<T>();
+
+            using var writerItem = new StreamWriter(itemFilePath, true);
+            using var csvItem = new CsvWriter(writerItem, _config);
+            csvItem.NextRecord();
+            csvItem.WriteRecord(item);
+            FileRepsitory.MoveTempImage<Music>(item.ID);
+        }
 
         var events = GetEventList<T>();
-        maxID = events.MaxBy(o => o.ID).ID;
-        e.ID = maxID + 1;
-
-        var itemFilePath = GetFilePath<T>();
-
-        using (var writer = new StreamWriter(itemFilePath, true))
-        {
-            using var csv = new CsvWriter(writer, _config);
-            csv.NextRecord();
-            csv.WriteRecord(item);
-        }
+        var maxEventID = events.MaxBy(o => o.ID).ID;
+        e.ID = maxEventID + 1;
+        e.ItemID = item.ID;
 
         var eventFilePath = GetEventFilePath<T>();
 
-        using (var writer = new StreamWriter(eventFilePath, true))
-        {
-            using var csv = new CsvWriter(writer, _config);
-            csv.NextRecord();
-            csv.WriteRecord(e);
-        }
-
-        FileRepsitory.MoveTempImage<Music>(item.ID);
+        using var writerEvent = new StreamWriter(eventFilePath, true);
+        using var csvEvent = new CsvWriter(writerEvent, _config);
+        csvEvent.NextRecord();
+        csvEvent.WriteRecord(e);
     }
 
     private static string GetFilePath<T>()
