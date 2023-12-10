@@ -115,10 +115,15 @@ public partial class MusicViewModel : ViewModelBase
             Platform = eMusicPlatformType.Streaming.ToString()
         };
 
-        ArtistMusic.Clear();
-        ArtistMusic.AddRange(LoadArtistData(NewMusic));
+        FindMusic(NewMusic);
 
         _inputUrl = default;
+    }
+
+    private void FindMusic(Music music)
+    {
+        ArtistMusic.Clear();
+        ArtistMusic.AddRange(LoadArtistData(music));
     }
 
     public MusicGridItem SelectedItem
