@@ -62,7 +62,9 @@
                             <TextBlock Text="  " />
                             <Button Command="{Binding OpenLink}">Open Link</Button>
                         </StackPanel>
-                        <Image Source="{Binding Cover}" />
+                        <Image Source="{Binding Cover}"
+                               Width="430"
+                               Height="430" />
                         <view:EventView DataContext="{Binding EventViewModel}" />
                     </StackPanel>
                 </ScrollViewer>
