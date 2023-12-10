@@ -56,8 +56,7 @@
                                        FontSize="20" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding SelectedMusic.Runtime}" />
-                            <TextBlock Text="mins" />
+                            <TextBlock Text="{Binding SelectedMusic.Runtime, Converter={StaticResource TimeToStringConverter}}" />
                             <TextBlock Text="  " />
                             <Button Command="{Binding OpenLink}">Open Link</Button>
                         </StackPanel>

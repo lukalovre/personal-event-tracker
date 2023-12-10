@@ -6,6 +6,7 @@ public partial class MusicView : UserControl
 {
     public MusicView()
     {
+        Resources.Add("TimeToStringConverter", new TimeToStringConverter());
         InitializeComponent();
     }
 }
