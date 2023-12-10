@@ -266,7 +266,15 @@ public partial class MusicViewModel : ViewModelBase
 
     private static MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
     {
-        return new MusicGridItem(i.ID, i.Artist, i.Title, i.Year, e.Bookmakred, eventList.Count());
+        return new MusicGridItem(
+            i.ID,
+            i.Artist,
+            i.Title,
+            i.Year,
+            i.Runtime,
+            e.Bookmakred,
+            eventList.Count()
+        );
     }
 
     public void SelectedItemChanged()

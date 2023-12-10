@@ -3,6 +3,7 @@ public record MusicGridItem(
     string Artist,
     string Title,
     int Year,
+    int Minutes,
     bool Bookmarked,
     int Played
 );

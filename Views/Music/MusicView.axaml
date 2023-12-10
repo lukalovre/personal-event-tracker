@@ -26,6 +26,9 @@
                 <DataGridTextColumn Binding="{Binding Year}"
                                     Header="Year"
                                     Width="65" />
+                <DataGridTextColumn Binding="{Binding Minutes}"
+                                    Header="Min"
+                                    Width="65" />
                 <DataGridTextColumn Binding="{Binding Played}"
                                     Header="#"
                                     Width="60" />
@@ -55,8 +58,9 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding SelectedMusic.Runtime}" />
                             <TextBlock Text="mins" />
+                            <TextBlock Text="  " />
+                            <Button Command="{Binding OpenLink}">Open Link</Button>
                         </StackPanel>
-                        <Button Command="{Binding OpenLink}">Open Link</Button>
                         <Image Source="{Binding Cover}" />
                         <view:EventView DataContext="{Binding EventViewModel}" />
                     </StackPanel>
