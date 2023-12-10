@@ -54,6 +54,7 @@ public partial class MusicViewModel : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> AddClick { get; }
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
+    public ReactiveCommand<Unit, Unit> OpenImage { get; }
 
     public Music NewMusic
     {
@@ -142,8 +143,12 @@ public partial class MusicViewModel : ViewModelBase
 
         AddClick = ReactiveCommand.Create(AddClickAction);
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
+        OpenImage = ReactiveCommand.Create(OpenImageAction);
+
         SelectedItem = Music.LastOrDefault();
     }
+
+    private void OpenImageAction() { }
 
     private void OpenLinkAction()
     {
