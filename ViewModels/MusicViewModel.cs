@@ -14,13 +14,20 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class MusicViewModel : ViewModelBase
 {
-    public EventViewModel EventViewModel { get; }
     private readonly IDatasource _datasource;
     private MusicGridItem _selectedItem;
     private List<Music> _itemList;
     private List<Event> _eventList;
     private string _inputUrl;
     private Music _newMusic;
+    private Bitmap? _cover;
+    private Bitmap? _newMusicCover;
+    private Event _newEvent;
+
+    private bool _useNewDate;
+    private Music _selectedMusic;
+
+    public EventViewModel EventViewModel { get; }
 
     public string SearchText { get; set; }
 
@@ -86,24 +93,36 @@ public partial class MusicViewModel : ViewModelBase
         }
     }
 
-    private Bitmap? _cover;
-
     public Bitmap? Cover
     {
         get => _cover;
         private set => this.RaiseAndSetIfChanged(ref _cover, value);
     }
 
-    private Bitmap? _newMusicCover;
-    private Event _newEvent;
-
-    private bool _useNewDate;
-    private Music _selectedMusic;
-
     public Bitmap? NewMusicCover
     {
         get => _newMusicCover;
         private set => this.RaiseAndSetIfChanged(ref _newMusicCover, value);
+    }
+
+    public MusicViewModel(IDatasource datasource)
+    {
+        _datasource = datasource;
+
+        Music = new ObservableCollection<MusicGridItem>(LoadData());
+        Info = new ObservableCollection<InfoModel>();
+        ArtistMusic = new ObservableCollection<MusicGridItem>();
+
+        Events = new ObservableCollection<Event>();
+        EventViewModel = new EventViewModel(Events);
+
+        AddClick = ReactiveCommand.Create(AddClickAction);
+        OpenLink = ReactiveCommand.Create(OpenLinkAction);
+        OpenImage = ReactiveCommand.Create(OpenImageAction);
+        ListenAgain = ReactiveCommand.Create(ListenAgainAction);
+        Search = ReactiveCommand.Create(SearchAction);
+
+        SelectedItem = Music.LastOrDefault();
     }
 
     private void InputUrlChanged()
@@ -137,26 +156,6 @@ public partial class MusicViewModel : ViewModelBase
             _selectedItem = value;
             SelectedItemChanged();
         }
-    }
-
-    public MusicViewModel(IDatasource datasource)
-    {
-        _datasource = datasource;
-
-        Music = new ObservableCollection<MusicGridItem>(LoadData());
-        Info = new ObservableCollection<InfoModel>();
-        ArtistMusic = new ObservableCollection<MusicGridItem>();
-
-        Events = new ObservableCollection<Event>();
-        EventViewModel = new EventViewModel(Events);
-
-        AddClick = ReactiveCommand.Create(AddClickAction);
-        OpenLink = ReactiveCommand.Create(OpenLinkAction);
-        OpenImage = ReactiveCommand.Create(OpenImageAction);
-        ListenAgain = ReactiveCommand.Create(ListenAgainAction);
-        Search = ReactiveCommand.Create(SearchAction);
-
-        SelectedItem = Music.LastOrDefault();
     }
 
     private void SearchAction()
