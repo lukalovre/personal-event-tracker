@@ -136,7 +136,36 @@ internal class TsvDatasource : IDatasource
     public void Update<T>(T item)
         where T : IItem
     {
-        throw new System.NotImplementedException();
+        var items = GetList<Music>();
+
+        foreach (var i in items)
+        {
+            if (i.SpotifyID == "--SchemaZenNull--")
+            {
+                i.SpotifyID = null;
+            }
+
+            if (
+                i != null
+                && !i.SpotifyID.Contains(BandcampRepository.UrlIdentifier)
+                && !i.SpotifyID.Contains(SpotifyRepository.UrlIdentifier)
+            )
+            {
+                i.SpotifyID = "https://open.spotify.com/album/" + i.SpotifyID;
+            }
+        }
+
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HasHeaderRecord = false,
+            Delimiter = "\t"
+        };
+
+        var itemFilePath = GetFilePath<T>();
+        using var writer = new StreamWriter(itemFilePath, false, System.Text.Encoding.UTF8);
+        using var csvText = new CsvWriter(writer, config);
+        csvText.WriteRecords(items);
+        writer.Flush();
     }
 
     #region Remove after converted all data
