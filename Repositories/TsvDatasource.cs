@@ -75,6 +75,12 @@ internal class TsvDatasource : IDatasource
         where T : IItem
     {
         var itemFilePath = GetFilePath<T>();
+
+        if (!File.Exists(itemFilePath))
+        {
+            return new List<T>();
+        }
+
         var text = File.ReadAllText(itemFilePath);
 
         var reader = new StringReader(text);
@@ -96,6 +102,12 @@ internal class TsvDatasource : IDatasource
         where T : IItem
     {
         var eventFilePath = GetEventFilePath<T>();
+
+        if (!File.Exists(eventFilePath))
+        {
+            return new List<Event>();
+        }
+
         var text = File.ReadAllText(eventFilePath);
         var reader = new StringReader(text);
         using var csv = new CsvReader(reader, _config);
