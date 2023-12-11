@@ -12,89 +12,83 @@ public class BandcampRepository
 
     public static Music GetAlbumInfoBandcamp(string url)
     {
-        using (var client = new WebClient())
+        using var client = new WebClient();
+        var content = client.DownloadData(url);
+        using var stream = new MemoryStream(content);
+        var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+        var htmlDocument = new HtmlDocument();
+        htmlDocument.LoadHtml(text);
+
+        var title = htmlDocument.DocumentNode
+            .SelectSingleNode("//meta[@property='og:title']")
+            .Attributes["content"].Value
+            .Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
+            .FirstOrDefault()
+            .Trim();
+        var artist = htmlDocument.DocumentNode
+            .SelectSingleNode("//meta[@property='og:title']")
+            .Attributes["content"].Value
+            .Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
+            .LastOrDefault()
+            .Trim();
+
+        title = WebUtility.HtmlDecode(title);
+        artist = WebUtility.HtmlDecode(artist);
+
+        var year = Convert.ToInt32(
+            HtmlHelper.GetYear(
+                htmlDocument.DocumentNode
+                    .SelectSingleNode("//div[@class='tralbumData tralbum-credits']")
+                    .InnerText.Trim()
+            )
+        );
+        var bandcampLink = htmlDocument.DocumentNode
+            .SelectSingleNode("//meta[@property='og:url']")
+            .Attributes["content"].Value.Trim();
+
+        var totalMinutes = 0;
+        var totalSeconds = 0;
+
+        foreach (
+            var item in htmlDocument.DocumentNode.SelectNodes(
+                "//span[contains(@class, 'time secondaryText')]"
+            )
+        )
         {
-            var content = client.DownloadData(url);
+            var timeString = item.InnerText.Trim();
+            var split = timeString.Split(':');
 
-            using (var stream = new MemoryStream(content))
+            if (split.Count() != 2)
             {
-                var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-                var htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(text);
-
-                var title = htmlDocument.DocumentNode
-                    .SelectSingleNode("//meta[@property='og:title']")
-                    .Attributes["content"].Value
-                    .Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
-                    .FirstOrDefault()
-                    .Trim();
-                var artist = htmlDocument.DocumentNode
-                    .SelectSingleNode("//meta[@property='og:title']")
-                    .Attributes["content"].Value
-                    .Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
-                    .LastOrDefault()
-                    .Trim();
-
-                title = WebUtility.HtmlDecode(title);
-                artist = WebUtility.HtmlDecode(artist);
-
-                var year = Convert.ToInt32(
-                    HtmlHelper.GetYear(
-                        htmlDocument.DocumentNode
-                            .SelectSingleNode("//div[@class='tralbumData tralbum-credits']")
-                            .InnerText.Trim()
-                    )
-                );
-                var bandcampLink = htmlDocument.DocumentNode
-                    .SelectSingleNode("//meta[@property='og:url']")
-                    .Attributes["content"].Value.Trim();
-
-                var totalMinutes = 0;
-                var totalSeconds = 0;
-
-                foreach (
-                    var item in htmlDocument.DocumentNode.SelectNodes(
-                        "//span[contains(@class, 'time secondaryText')]"
-                    )
-                )
-                {
-                    var timeString = item.InnerText.Trim();
-                    var split = timeString.Split(':');
-
-                    if (split.Count() != 2)
-                    {
-                        continue;
-                    }
-
-                    var minutes = Convert.ToInt32(split[0]);
-                    var seconds = Convert.ToInt32(split[1]);
-
-                    totalMinutes += minutes;
-                    totalSeconds += seconds;
-                }
-
-                var runtime =
-                    totalMinutes
-                    + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero);
-
-                string destinationFile = Paths.GetTempPath<Music>();
-                HtmlHelper.DownloadPNG(
-                    htmlDocument.DocumentNode
-                        .SelectSingleNode("//a[@class='popupImage']")
-                        .Attributes["href"].Value.Trim(),
-                    destinationFile
-                );
-
-                return new Music
-                {
-                    Artist = artist,
-                    Title = title,
-                    Year = year,
-                    _1001 = false,
-                    Runtime = runtime,
-                    SpotifyID = bandcampLink
-                };
+                continue;
             }
+
+            var minutes = Convert.ToInt32(split[0]);
+            var seconds = Convert.ToInt32(split[1]);
+
+            totalMinutes += minutes;
+            totalSeconds += seconds;
         }
+
+        var runtime =
+            totalMinutes + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero);
+
+        string destinationFile = Paths.GetTempPath<Music>();
+        HtmlHelper.DownloadPNG(
+            htmlDocument.DocumentNode.SelectSingleNode("//a[@class='popupImage']").Attributes[
+                "href"
+            ].Value.Trim(),
+            destinationFile
+        );
+
+        return new Music
+        {
+            Artist = artist,
+            Title = title,
+            Year = year,
+            _1001 = false,
+            Runtime = runtime,
+            SpotifyID = bandcampLink
+        };
     }
 }
