@@ -51,6 +51,9 @@ public partial class MusicViewModel : ViewModelBase
     public PersonComboBoxItem SelectedPerson { get; set; }
 
     public ObservableCollection<MusicGridItem> Music { get; set; }
+    public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; }
+    public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; }
+    public ObservableCollection<MusicGridItem> MusicBookmarked { get; set; }
     public ObservableCollection<MusicGridItem> ArtistMusic { get; set; }
 
     public ObservableCollection<InfoModel> Info { get; set; }
@@ -111,6 +114,10 @@ public partial class MusicViewModel : ViewModelBase
         _datasource = datasource;
 
         Music = new ObservableCollection<MusicGridItem>(LoadData());
+        MusicTodo2 = new ObservableCollection<MusicGridItem>(LoadDataBookmarked(2));
+        MusicTodo1 = new ObservableCollection<MusicGridItem>(LoadDataBookmarked(1));
+        MusicBookmarked = new ObservableCollection<MusicGridItem>(LoadDataBookmarked());
+
         Info = new ObservableCollection<InfoModel>();
         ArtistMusic = new ObservableCollection<MusicGridItem>();
 
@@ -280,10 +287,36 @@ public partial class MusicViewModel : ViewModelBase
         _eventList = _datasource.GetEventList<Music>();
 
         return _eventList
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-5))
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-5))
+            .Select(
+                o =>
+                    Convert(
+                        o,
+                        _itemList.First(m => m.ID == o.ItemID),
+                        _eventList.Where(e => e.ItemID == o.ItemID)
+                    )
+            )
+            .ToList();
+    }
+
+    private List<MusicGridItem> LoadDataBookmarked(int? yearsAgo = null)
+    {
+        _itemList = _datasource.GetList<Music>();
+        _eventList = _datasource.GetEventList<Music>();
+
+        var dateFilter = yearsAgo.HasValue
+            ? DateTime.Now.AddYears(-yearsAgo.Value)
+            : DateTime.MaxValue;
+
+        return _eventList
+            .OrderByDescending(o => o.DateEnd)
+            .DistinctBy(o => o.ItemID)
+            .OrderBy(o => o.DateEnd)
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value <= dateFilter)
+            .Where(o => o.Bookmakred)
             .Select(
                 o =>
                     Convert(
