@@ -14,9 +14,14 @@ public class SpotifyRepository
     {
         var albumID = url.Split('/').LastOrDefault();
 
-        var spotify = GetSpotifyClient();
+        var spotifyClient = GetSpotifyClient();
 
-        var album = spotify.Albums.Get(albumID).Result;
+        if (spotifyClient == null)
+        {
+            return new Music();
+        }
+
+        var album = spotifyClient.Albums.Get(albumID).Result;
 
         var destinationFile = Paths.GetTempPath<Music>();
 
@@ -40,7 +45,27 @@ public class SpotifyRepository
     {
         var config = SpotifyClientConfig.CreateDefault();
 
-        var lines = File.ReadAllLines(Path.Combine(Paths.APIKeys, API_KEY_FILE_NAME));
+        var keyFilePath = Path.Combine(Paths.APIKeys, API_KEY_FILE_NAME);
+
+        if (!File.Exists(keyFilePath))
+        {
+            var directoryPath = Path.GetDirectoryName(keyFilePath);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            File.Create(keyFilePath);
+        }
+
+        var lines = File.ReadAllLines(keyFilePath);
+
+        if (!lines.Any())
+        {
+            // Api keys missing.
+            return null;
+        }
 
         var clientId = lines[0];
         var clientSecret = lines[1];
