@@ -29,6 +29,9 @@
                               BorderBrush="Teal"
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Index}"
+                                                Header=" "
+                                                Width="60" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />
@@ -61,6 +64,9 @@
                               BorderBrush="Teal"
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Index}"
+                                                Header=" "
+                                                Width="60" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />
@@ -93,6 +99,9 @@
                               BorderBrush="Teal"
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Index}"
+                                                Header=" "
+                                                Width="60" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />
@@ -125,6 +134,9 @@
                               BorderBrush="Teal"
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Index}"
+                                                Header=" "
+                                                Width="60" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />

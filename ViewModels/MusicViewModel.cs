@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.ViewModels.GridItems;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
@@ -306,8 +307,9 @@ public partial class MusicViewModel : ViewModelBase
             .OrderBy(o => o.DateEnd)
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-5))
             .Select(
-                o =>
+                (o, i) =>
                     Convert(
+                        i,
                         o,
                         _itemList.First(m => m.ID == o.ItemID),
                         _eventList.Where(e => e.ItemID == o.ItemID)
@@ -332,8 +334,9 @@ public partial class MusicViewModel : ViewModelBase
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value <= dateFilter)
             .Where(o => o.Bookmakred)
             .Select(
-                o =>
+                (o, i) =>
                     Convert(
+                        i,
                         o,
                         _itemList.First(m => m.ID == o.ItemID),
                         _eventList.Where(e => e.ItemID == o.ItemID)
@@ -352,8 +355,9 @@ public partial class MusicViewModel : ViewModelBase
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
             .Select(
-                o =>
+                (o, i) =>
                     Convert(
+                        i,
                         o,
                         _itemList.First(m => m.ID == o.ItemID),
                         _eventList.Where(e => e.ItemID == o.ItemID)
@@ -367,10 +371,11 @@ public partial class MusicViewModel : ViewModelBase
             .ToList();
     }
 
-    private static MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
+    private static MusicGridItem Convert(int index, Event e, Music i, IEnumerable<Event> eventList)
     {
         return new MusicGridItem(
             i.ID,
+            index + 1,
             i.Artist,
             i.Title,
             i.Year,
