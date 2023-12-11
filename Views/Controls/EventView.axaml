@@ -64,8 +64,8 @@
                 <TextBlock Text="Platform"
                            VerticalAlignment="Center" />
                 <TextBlock Text="     " />
-                <TextBox Text="{Binding SelectedEvent.Platform}"
-                         Width="100" />
+                <ComboBox ItemsSource="{Binding PlatformTypes}"
+                          Width="100" />
             </StackPanel>
         </StackPanel>
     </Border>

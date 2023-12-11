@@ -114,7 +114,7 @@ public partial class MusicViewModel : ViewModelBase
         ArtistMusic = new ObservableCollection<MusicGridItem>();
 
         Events = new ObservableCollection<Event>();
-        EventViewModel = new EventViewModel(Events);
+        EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
 
         AddClick = ReactiveCommand.Create(AddClickAction);
         OpenLink = ReactiveCommand.Create(OpenLinkAction);

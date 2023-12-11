@@ -48,7 +48,7 @@ public partial class EventViewModel : ViewModelBase
     }
 
     public ObservableCollection<PersonComboBoxItem> PeopleList =>
-        new ObservableCollection<PersonComboBoxItem>(PeopleManager.Instance.GetComboboxList());
+        new(PeopleManager.Instance.GetComboboxList());
 
     private PersonComboBoxItem _selectedPerson;
     public PersonComboBoxItem SelectedPerson
@@ -61,15 +61,21 @@ public partial class EventViewModel : ViewModelBase
         }
     }
 
-    private void SelectedPersonChanged()
-    {
-        SelectedEvent.People = SelectedPerson.ID.ToString();
-    }
+    public ObservableCollection<string> PlatformTypes { get; private set; }
 
-    public EventViewModel(ObservableCollection<Event> events)
+    public EventViewModel(
+        ObservableCollection<Event> events,
+        ObservableCollection<string> platformTypes
+    )
     {
         Events = events;
         Events.CollectionChanged += CollectionChanged;
+        PlatformTypes = platformTypes;
+    }
+
+    private void SelectedPersonChanged()
+    {
+        SelectedEvent.People = SelectedPerson.ID.ToString();
     }
 
     private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
