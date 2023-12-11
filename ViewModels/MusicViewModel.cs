@@ -164,6 +164,7 @@ public partial class MusicViewModel : ViewModelBase
         {
             Music.Clear();
             Music.AddRange(LoadData());
+            return;
         }
 
         var searchMusic = new Music { Artist = SearchText, Title = SearchText };
