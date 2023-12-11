@@ -19,8 +19,7 @@
     <DockPanel>
         <TabControl Margin="5">
             <TabItem Header="Main">
-                <TabControl Margin="5"
-                            TabStripPlacement="Left">
+                <TabControl TabStripPlacement="Left">
                     <TabItem Header="Music">
                         <v:MusicView DataContext="{Binding MusicViewModel}" />
                     </TabItem>

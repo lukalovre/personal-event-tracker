@@ -21,7 +21,8 @@
                         <Button Command="{Binding Search}"
                                 HotKey="Enter">Search</Button>
                     </StackPanel>
-                    <DataGrid Margin="20"
+                    <DataGrid Margin="1"
+                              Width="570"
                               ItemsSource="{Binding Music}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
@@ -37,7 +38,7 @@
                                                 Width="150" />
                             <DataGridTextColumn Binding="{Binding Title}"
                                                 Header="Title"
-                                                Width="150" />
+                                                Width="*" />
                             <DataGridTextColumn Binding="{Binding Year}"
                                                 Header="Year"
                                                 Width="65" />
@@ -56,7 +57,8 @@
             </TabItem>
             <TabItem Header="Todo 2">
                 <DockPanel>
-                    <DataGrid Margin="20"
+                    <DataGrid Margin="1"
+                              Width="570"
                               ItemsSource="{Binding MusicTodo2}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
@@ -91,7 +93,8 @@
             </TabItem>
             <TabItem Header="Todo 1">
                 <DockPanel>
-                    <DataGrid Margin="20"
+                    <DataGrid Margin="1"
+                              Width="570"
                               ItemsSource="{Binding MusicTodo1}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
@@ -126,7 +129,8 @@
             </TabItem>
             <TabItem Header="★">
                 <DockPanel>
-                    <DataGrid Margin="20"
+                    <DataGrid Margin="1"
+                              Width="570"
                               ItemsSource="{Binding MusicBookmarked}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
