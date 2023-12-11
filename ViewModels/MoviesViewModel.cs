@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AvaloniaApplication1.Models;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;

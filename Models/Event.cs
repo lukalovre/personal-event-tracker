@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-public partial class Event
+namespace AvaloniaApplication1.Models;
+
+public class Event
 {
     [Key]
     public int ID { get; set; }
