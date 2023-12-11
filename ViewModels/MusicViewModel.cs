@@ -6,6 +6,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
 using Avalonia.Media.Imaging;
+using AvaloniaApplication1.Models;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
@@ -345,7 +346,7 @@ public partial class MusicViewModel : ViewModelBase
 
         SelectedMusic = _itemList.First(o => o.ID == SelectedItem.ID);
         Info.AddRange(GetSelectedItemInfo<Music>());
-        Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID));
+        Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID).OrderBy(o => o.DateEnd));
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Cover = FileRepsitory.GetImage<Music>(item.ID);
