@@ -62,7 +62,8 @@ public partial class EventViewModel : ViewModelBase
         }
     }
 
-    public ObservableCollection<string> PlatformTypes { get; private set; }
+    public ObservableCollection<string> PlatformTypes { get; set; }
+    public string SelectedPlatformType { get; set; }
 
     public EventViewModel(
         ObservableCollection<Event> events,

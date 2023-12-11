@@ -169,6 +169,8 @@ public partial class MusicViewModel : ViewModelBase
 
     private void SearchAction()
     {
+        SearchText = SearchText.Trim();
+
         if (string.IsNullOrWhiteSpace(SearchText))
         {
             Music.Clear();
@@ -221,21 +223,6 @@ public partial class MusicViewModel : ViewModelBase
         ClearNewItemControls();
     }
 
-    private void ReloadData()
-    {
-        Music.Clear();
-        Music.AddRange(LoadData());
-
-        MusicTodo2.Clear();
-        MusicTodo2.AddRange(LoadDataBookmarked(2));
-
-        MusicTodo1.Clear();
-        MusicTodo1.AddRange(LoadDataBookmarked(1));
-
-        MusicBookmarked.Clear();
-        MusicBookmarked.AddRange(LoadDataBookmarked());
-    }
-
     private void ListenAgainAction()
     {
         var lastEvent = Events.MaxBy(o => o.DateEnd);
@@ -250,12 +237,29 @@ public partial class MusicViewModel : ViewModelBase
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+                : lastEvent.DateEnd.Value.AddMinutes(-SelectedMusic.Runtime);
+
+        lastEvent.Platform = EventViewModel.SelectedPlatformType;
 
         _datasource.Add(SelectedMusic, lastEvent);
 
         ReloadData();
         ClearNewItemControls();
+    }
+
+    private void ReloadData()
+    {
+        Music.Clear();
+        Music.AddRange(LoadData());
+
+        MusicTodo2.Clear();
+        MusicTodo2.AddRange(LoadDataBookmarked(2));
+
+        MusicTodo1.Clear();
+        MusicTodo1.AddRange(LoadDataBookmarked(1));
+
+        MusicBookmarked.Clear();
+        MusicBookmarked.AddRange(LoadDataBookmarked());
     }
 
     private void ClearNewItemControls()
