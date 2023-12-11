@@ -37,15 +37,15 @@ public partial class MusicViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
     }
 
-    public ObservableCollection<string> MusicPlatformTypes =>
-        new ObservableCollection<string>(
+    public static ObservableCollection<string> MusicPlatformTypes =>
+        new(
             Enum.GetValues(typeof(eMusicPlatformType))
                 .Cast<eMusicPlatformType>()
                 .Select(v => v.ToString())
         );
 
-    public ObservableCollection<PersonComboBoxItem> PeopleList =>
-        new ObservableCollection<PersonComboBoxItem>(PeopleManager.Instance.GetComboboxList());
+    public static ObservableCollection<PersonComboBoxItem> PeopleList =>
+        new(PeopleManager.Instance.GetComboboxList());
 
     public PersonComboBoxItem SelectedPerson { get; set; }
 
