@@ -113,10 +113,11 @@ public partial class MusicViewModel : ViewModelBase
     {
         _datasource = datasource;
 
-        Music = new ObservableCollection<MusicGridItem>(LoadData());
-        MusicTodo2 = new ObservableCollection<MusicGridItem>(LoadDataBookmarked(2));
-        MusicTodo1 = new ObservableCollection<MusicGridItem>(LoadDataBookmarked(1));
-        MusicBookmarked = new ObservableCollection<MusicGridItem>(LoadDataBookmarked());
+        Music = new ObservableCollection<MusicGridItem>();
+        MusicTodo2 = new ObservableCollection<MusicGridItem>();
+        MusicTodo1 = new ObservableCollection<MusicGridItem>();
+        MusicBookmarked = new ObservableCollection<MusicGridItem>();
+        ReloadData();
 
         Info = new ObservableCollection<InfoModel>();
         ArtistMusic = new ObservableCollection<MusicGridItem>();
@@ -216,11 +217,23 @@ public partial class MusicViewModel : ViewModelBase
 
         _datasource.Add(NewMusic, NewEvent);
 
+        ReloadData();
+        ClearNewItemControls();
+    }
+
+    private void ReloadData()
+    {
         Music.Clear();
         Music.AddRange(LoadData());
-        SelectedItem = Music.LastOrDefault();
 
-        ClearNewItemControls();
+        MusicTodo2.Clear();
+        MusicTodo2.AddRange(LoadDataBookmarked(2));
+
+        MusicTodo1.Clear();
+        MusicTodo1.AddRange(LoadDataBookmarked(1));
+
+        MusicBookmarked.Clear();
+        MusicBookmarked.AddRange(LoadDataBookmarked());
     }
 
     private void ListenAgainAction()
@@ -241,10 +254,7 @@ public partial class MusicViewModel : ViewModelBase
 
         _datasource.Add(SelectedMusic, lastEvent);
 
-        Music.Clear();
-        Music.AddRange(LoadData());
-        SelectedItem = Music.LastOrDefault();
-
+        ReloadData();
         ClearNewItemControls();
     }
 
