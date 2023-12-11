@@ -30,8 +30,8 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header=" "
-                                                Width="60" />
+                                                Header="{Binding GridCountMusic}"
+                                                Width="70" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />
@@ -65,8 +65,8 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header=" "
-                                                Width="60" />
+                                                Header="{Binding GridCountMusicTodo2}"
+                                                Width="70" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />
@@ -100,8 +100,8 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header=" "
-                                                Width="60" />
+                                                Header="{Binding GridCountMusicTodo1}"
+                                                Width="70" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />
@@ -135,8 +135,8 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header=" "
-                                                Width="60" />
+                                                Header="{Binding GridCountMusicBookmarked}"
+                                                Width="70" />
                             <DataGridTextColumn Binding="{Binding Artist}"
                                                 Header="Artist"
                                                 Width="150" />

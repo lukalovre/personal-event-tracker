@@ -28,6 +28,10 @@ public partial class MusicViewModel : ViewModelBase
 
     private bool _useNewDate;
     private Music _selectedMusic;
+    private int _gridCountMusic;
+    private int _gridCountMusicTodo1;
+    private int _gridCountMusicTodo2;
+    private int _gridCountMusicBookmarked;
 
     public EventViewModel EventViewModel { get; }
 
@@ -108,6 +112,30 @@ public partial class MusicViewModel : ViewModelBase
     {
         get => _newMusicCover;
         private set => this.RaiseAndSetIfChanged(ref _newMusicCover, value);
+    }
+
+    public int GridCountMusic
+    {
+        get => _gridCountMusic;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountMusic, value);
+    }
+
+    public int GridCountMusicTodo1
+    {
+        get => _gridCountMusicTodo1;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountMusicTodo1, value);
+    }
+
+    public int GridCountMusicTodo2
+    {
+        get => _gridCountMusicTodo2;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountMusicTodo2, value);
+    }
+
+    public int GridCountMusicBookmarked
+    {
+        get => _gridCountMusicBookmarked;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountMusicBookmarked, value);
     }
 
     public MusicViewModel(IDatasource datasource)
@@ -252,15 +280,19 @@ public partial class MusicViewModel : ViewModelBase
     {
         Music.Clear();
         Music.AddRange(LoadData());
+        GridCountMusic = Music.Count;
 
         MusicTodo2.Clear();
         MusicTodo2.AddRange(LoadDataBookmarked(2));
+        GridCountMusicTodo2 = MusicTodo2.Count;
 
         MusicTodo1.Clear();
         MusicTodo1.AddRange(LoadDataBookmarked(1));
+        GridCountMusicTodo1 = MusicTodo1.Count;
 
         MusicBookmarked.Clear();
         MusicBookmarked.AddRange(LoadDataBookmarked());
+        GridCountMusicBookmarked = MusicBookmarked.Count;
     }
 
     private void ClearNewItemControls()
