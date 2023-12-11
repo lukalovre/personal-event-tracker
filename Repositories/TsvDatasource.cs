@@ -22,20 +22,27 @@ internal class TsvDatasource : IDatasource
 
         if (!items.Any(o => o.ID == item.ID))
         {
-            var maxItemID = items.MaxBy(o => o.ID).ID;
+            var maxItemID = items.MaxBy(o => o.ID)?.ID ?? 0;
             item.ID = maxItemID + 1;
 
             var itemFilePath = GetFilePath<T>();
 
             using var writerItem = new StreamWriter(itemFilePath, true);
             using var csvItem = new CsvWriter(writerItem, _config);
+
+            // if (item.ID == 1)
+            // {
+            //     // Start of file, write header first
+            //     csvItem.WriteHeader<T>();
+            // }
+
             csvItem.NextRecord();
             csvItem.WriteRecord(item);
             FileRepsitory.MoveTempImage<T>(item.ID);
         }
 
         var events = GetEventList<T>();
-        var maxEventID = events.MaxBy(o => o.ID).ID;
+        var maxEventID = events.MaxBy(o => o.ID)?.ID ?? 0;
         e.ID = maxEventID + 1;
         e.ItemID = item.ID;
 
@@ -43,6 +50,13 @@ internal class TsvDatasource : IDatasource
 
         using var writerEvent = new StreamWriter(eventFilePath, true);
         using var csvEvent = new CsvWriter(writerEvent, _config);
+
+        if (e.ID == 1)
+        {
+            // Start of file, write header first
+            csvEvent.WriteHeader<Event>();
+        }
+
         csvEvent.NextRecord();
         csvEvent.WriteRecord(e);
 
