@@ -96,7 +96,8 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            <TabItem Header="Tab 3" />
+            <TabItem Header="Collection" />
+            <TabItem Header="Stats" />
         </TabControl>
     </DockPanel>
 </Window>
