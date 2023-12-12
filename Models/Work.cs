@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("MyWork")]
-public class MyWork : IItem
+[Table("Work")]
+public class Work : IItem
 {
     [Key]
     public int ID { get; set; }

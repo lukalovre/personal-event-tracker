@@ -24,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
     public List<SongGridItem> Songs { get; set; }
     public List<ZooGridItem> Zoo { get; set; }
     public List<GameGridItem> Games { get; set; }
-    public List<MyWorkGridItem> MyWork { get; set; }
+    public List<WorkGridItem> MyWork { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
@@ -39,7 +39,7 @@ public class MainWindowViewModel : ViewModelBase
         Songs = GetData<Song, SongGridItem>();
         Zoo = GetData<Zoo, ZooGridItem>();
         Games = GetData<Game, GameGridItem>();
-        MyWork = GetData<MyWork, MyWorkGridItem>(getAllData: true);
+        MyWork = GetData<Work, WorkGridItem>(getAllData: true);
     }
 
     private List<T2> GetData<T1, T2>(bool getAllData = false)
@@ -129,11 +129,12 @@ public class MainWindowViewModel : ViewModelBase
                 ) as T2;
         }
 
-        if (typeof(T1) == typeof(MyWork))
+        if (typeof(T1) == typeof(Work))
         {
-            var i = item as MyWork;
-            return new MyWorkGridItem(
+            var i = item as Work;
+            return new WorkGridItem(
                     i.ID,
+                    0,
                     i.Title,
                     i.Type,
                     eventList.Sum(o => o.Amount),

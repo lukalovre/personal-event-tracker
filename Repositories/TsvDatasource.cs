@@ -163,7 +163,7 @@ internal class TsvDatasource : IDatasource
     }
 
     #region Remove after converted all data
-    private Event Convert(MyWorkEvent e, List<MyWork> itemList)
+    private Event Convert(MyWorkEvent e, List<Work> itemList)
     {
         var item = itemList.First(o => o.ItemID == e.ItemID);
 
@@ -264,7 +264,7 @@ internal class TsvDatasource : IDatasource
         using var csv = new CsvReader(reader, config);
 
         var oldEventList = csv.GetRecords<MyWorkEvent>().ToList();
-        var item = GetList<MyWork>();
+        var item = GetList<Work>();
 
         var convertedEventsList = oldEventList.Select(o => Convert(o, item)).ToList();
 

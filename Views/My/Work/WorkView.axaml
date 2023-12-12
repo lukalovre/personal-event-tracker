@@ -12,18 +12,9 @@
         <TabControl>
             <TabItem Header="Info">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal"
-                                DockPanel.Dock="Top">
-                        <TextBox Text="{Binding SearchText}"
-                                 Watermark="Filter"
-                                 DockPanel.Dock="Top"
-                                 Width="150" />
-                        <Button Command="{Binding Search}"
-                                HotKey="Enter">Search</Button>
-                    </StackPanel>
                     <DataGrid Margin="1"
                               Width="570"
-                              ItemsSource="{Binding Music}"
+                              ItemsSource="{Binding Work}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
                               BorderThickness="2"
@@ -31,98 +22,20 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountMusic}"
+                                                Header="{Binding GridCountWork}"
                                                 Width="70" />
-                            <DataGridTextColumn Binding="{Binding Artist}"
+                            <DataGridTextColumn Binding="{Binding Title}"
                                                 Header="Artist"
                                                 Width="150" />
-                            <DataGridTextColumn Binding="{Binding Title}"
+                            <DataGridTextColumn Binding="{Binding Type}"
                                                 Header="Title"
                                                 Width="*" />
-                            <DataGridTextColumn Binding="{Binding Year}"
-                                                Header="Year"
-                                                Width="65" />
                             <DataGridTextColumn Binding="{Binding Minutes}"
                                                 Header="Min"
                                                 Width="65" />
-                            <DataGridTextColumn Binding="{Binding Played}"
+                            <DataGridTextColumn Binding="{Binding LastDate}"
                                                 Header="#"
                                                 Width="60" />
-                            <DataGridCheckBoxColumn Binding="{Binding Bookmarked}"
-                                                    Header="★"
-                                                    Width="60" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
-            </TabItem>
-            <TabItem Header="Todo 2">
-                <DockPanel>
-                    <DataGrid Margin="1"
-                              Width="570"
-                              ItemsSource="{Binding MusicTodo2}"
-                              IsReadOnly="True"
-                              GridLinesVisibility="All"
-                              BorderThickness="2"
-                              BorderBrush="Teal"
-                              SelectedItem="{Binding SelectedItem}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountMusicTodo2}"
-                                                Width="70" />
-                            <DataGridTextColumn Binding="{Binding Artist}"
-                                                Header="Artist"
-                                                Width="150" />
-                            <DataGridTextColumn Binding="{Binding Title}"
-                                                Header="Title"
-                                                Width="150" />
-                            <DataGridTextColumn Binding="{Binding Year}"
-                                                Header="Year"
-                                                Width="65" />
-                            <DataGridTextColumn Binding="{Binding Minutes}"
-                                                Header="Min"
-                                                Width="65" />
-                            <DataGridTextColumn Binding="{Binding Played}"
-                                                Header="#"
-                                                Width="60" />
-                            <DataGridCheckBoxColumn Binding="{Binding Bookmarked}"
-                                                    Header="★"
-                                                    Width="60" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
-            </TabItem>
-            <TabItem Header="Todo 1">
-                <DockPanel>
-                    <DataGrid Margin="1"
-                              Width="570"
-                              ItemsSource="{Binding MusicTodo1}"
-                              IsReadOnly="True"
-                              GridLinesVisibility="All"
-                              BorderThickness="2"
-                              BorderBrush="Teal"
-                              SelectedItem="{Binding SelectedItem}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountMusicTodo1}"
-                                                Width="70" />
-                            <DataGridTextColumn Binding="{Binding Artist}"
-                                                Header="Artist"
-                                                Width="150" />
-                            <DataGridTextColumn Binding="{Binding Title}"
-                                                Header="Title"
-                                                Width="150" />
-                            <DataGridTextColumn Binding="{Binding Year}"
-                                                Header="Year"
-                                                Width="65" />
-                            <DataGridTextColumn Binding="{Binding Minutes}"
-                                                Header="Min"
-                                                Width="65" />
-                            <DataGridTextColumn Binding="{Binding Played}"
-                                                Header="#"
-                                                Width="60" />
-                            <DataGridCheckBoxColumn Binding="{Binding Bookmarked}"
-                                                    Header="★"
-                                                    Width="60" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -131,7 +44,7 @@
                 <DockPanel>
                     <DataGrid Margin="1"
                               Width="570"
-                              ItemsSource="{Binding MusicBookmarked}"
+                              ItemsSource="{Binding WorkBookmarked}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
                               BorderThickness="2"
@@ -139,26 +52,20 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountMusicBookmarked}"
+                                                Header="{Binding GridCountWorkBookmarked}"
                                                 Width="70" />
-                            <DataGridTextColumn Binding="{Binding Artist}"
+                            <DataGridTextColumn Binding="{Binding Title}"
                                                 Header="Artist"
                                                 Width="150" />
-                            <DataGridTextColumn Binding="{Binding Title}"
+                            <DataGridTextColumn Binding="{Binding Type}"
                                                 Header="Title"
-                                                Width="150" />
-                            <DataGridTextColumn Binding="{Binding Year}"
-                                                Header="Year"
-                                                Width="65" />
+                                                Width="*" />
                             <DataGridTextColumn Binding="{Binding Minutes}"
                                                 Header="Min"
                                                 Width="65" />
-                            <DataGridTextColumn Binding="{Binding Played}"
+                            <DataGridTextColumn Binding="{Binding LastDate}"
                                                 Header="#"
                                                 Width="60" />
-                            <DataGridCheckBoxColumn Binding="{Binding Bookmarked}"
-                                                    Header="★"
-                                                    Width="60" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -168,29 +75,11 @@
             <TabItem Header="Info">
                 <ScrollViewer>
                     <StackPanel>
-                        <TextBlock Text="{Binding SelectedMusic.Artist}"
+                        <TextBlock Text="{Binding SelectedWork.Title}"
                                    FontSize="20"
                                    FontWeight="Bold" />
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding SelectedMusic.Title}"
-                                       FontSize="20" />
-                            <TextBlock Text=" "
-                                       FontSize="20" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding SelectedMusic.Year}"
-                                       FontWeight="Bold"
-                                       VerticalAlignment="Center" />
-                            <TextBlock Text="   " />
-                            <TextBlock Text="{Binding SelectedMusic.Runtime, Converter={StaticResource TimeToStringConverter}}"
-                                       Width="65"
-                                       FontSize="15"
-                                       VerticalAlignment="Center" />
-                            <TextBlock Text="  " />
-                            <Button Command="{Binding OpenLink}">Open Link</Button>
-                        </StackPanel>
-                        <Button Command="{Binding OpenImage}">
-                            <Image Source="{Binding Cover}"
+                        <Button>
+                            <Image Source="{Binding Image}"
                                    Width="430"
                                    Height="430" />
                         </Button>
@@ -205,27 +94,12 @@
                         <StackPanel Orientation="Horizontal">
                             <Button Command="{Binding AddClick}"
                                     Margin="15">Add</Button>
-                            <TextBox Watermark="Paste url"
-                                     Text="{Binding InputUrl}"
-                                     Margin="15" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBox Watermark="Artist"
-                                     Text="{Binding NewMusic.Artist}"
-                                     HorizontalAlignment="Stretch" />
-                            <TextBox Watermark="Title"
-                                     Text="{Binding NewMusic.Title}"
+                                     Text="{Binding NewWork.Title}"
                                      HorizontalAlignment="Stretch" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Watermark="Year"
-                                     Text="{Binding NewMusic.Year}" />
-                            <TextBox Watermark="Runtime"
-                                     Text="{Binding NewMusic.Runtime}" />
-                        </StackPanel>
-                        <TextBox Watermark="External Link"
-                                 Text="{Binding NewMusic.SpotifyID}" />
-                        <Image Source="{Binding NewMusicCover}" />
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding UseNewDate}" />
                             <CalendarDatePicker SelectedDate="{Binding NewDate, Mode=TwoWay}"
@@ -250,33 +124,6 @@
                                   SelectedItem="{Binding SelectedPerson}" />
                         <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
                                   SelectedItem="{Binding NewEvent.Platform}" />
-                        <DataGrid Margin="5"
-                                  ItemsSource="{Binding ArtistMusic}"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal"
-                                  SelectedItem="{Binding SelectedItem}"
-                                  Height="500"
-                                  CanUserResizeColumns="True">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Artist}"
-                                                    Header="Artist"
-                                                    Width="150" />
-                                <DataGridTextColumn Binding="{Binding Title}"
-                                                    Header="Title"
-                                                    Width="150" />
-                                <DataGridTextColumn Binding="{Binding Year}"
-                                                    Header="Year"
-                                                    Width="65" />
-                                <DataGridTextColumn Binding="{Binding Played}"
-                                                    Header="#"
-                                                    Width="60" />
-                                <DataGridCheckBoxColumn Binding="{Binding Bookmarked}"
-                                                        Header="★"
-                                                        Width="60" />
-                            </DataGrid.Columns>
-                        </DataGrid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
