@@ -11,6 +11,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
     public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource());
+    public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
 
     public string Title => "Data";
 
@@ -23,12 +24,13 @@ public class MainWindowViewModel : ViewModelBase
     public List<SongGridItem> Songs { get; set; }
     public List<ZooGridItem> Zoo { get; set; }
     public List<GameGridItem> Games { get; set; }
+    public List<MyWorkGridItem> MyWork { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
         _datasource = datasource;
 
-        // _datasource.GetEventListConvert<Comic>();
+        // _datasource.GetEventListConvert<MyWork>();
 
         Books = GetData<Book, BookGridItem>();
         Music = GetData<Music, MusicGridItem>();
@@ -37,17 +39,20 @@ public class MainWindowViewModel : ViewModelBase
         Songs = GetData<Song, SongGridItem>();
         Zoo = GetData<Zoo, ZooGridItem>();
         Games = GetData<Game, GameGridItem>();
+        MyWork = GetData<MyWork, MyWorkGridItem>(getAllData: true);
     }
 
-    private List<T2> GetData<T1, T2>()
+    private List<T2> GetData<T1, T2>(bool getAllData = false)
         where T1 : IItem
         where T2 : class
     {
         var itemList = _datasource.GetList<T1>();
         var eventList = _datasource.GetEventList<T1>();
 
+        var dateFilter = getAllData ? DateTime.MinValue : DateTime.Now.AddYears(-1);
+
         return eventList
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == DateTime.Now.Year)
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= dateFilter)
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
@@ -121,6 +126,18 @@ public class MainWindowViewModel : ViewModelBase
                     i.Platform,
                     eventList.Sum(o => o.Amount).ToString(),
                     e.Completed
+                ) as T2;
+        }
+
+        if (typeof(T1) == typeof(MyWork))
+        {
+            var i = item as MyWork;
+            return new MyWorkGridItem(
+                    i.ID,
+                    i.Title,
+                    i.Type,
+                    eventList.Sum(o => o.Amount),
+                    e.DateEnd.Value
                 ) as T2;
         }
 

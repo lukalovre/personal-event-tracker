@@ -87,9 +87,17 @@
                 <TabControl TabStripPlacement="Left">
                     <TabItem Header="Work"
                              Width="150">
-                        <v:MusicView DataContext="{Binding MusicViewModel}" />
+                        <v:WorkView DataContext="{Binding WorkViewModel}" />
                     </TabItem>
-                    <TabItem Header="D&amp;D" />
+                    <TabItem Header="D&amp;D">
+                        <DataGrid Margin="20"
+                                  ItemsSource="{Binding MyWork}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  GridLinesVisibility="All"
+                                  BorderThickness="2"
+                                  BorderBrush="Teal" />
+                    </TabItem>
                 </TabControl>
             </TabItem>
             <TabItem Header="Collection" />

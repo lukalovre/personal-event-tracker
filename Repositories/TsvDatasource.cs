@@ -163,9 +163,9 @@ internal class TsvDatasource : IDatasource
     }
 
     #region Remove after converted all data
-    private Event ConvertGame(GameEvent e, List<Game> itemList)
+    private Event Convert(MyWorkEvent e, List<MyWork> itemList)
     {
-        var item = itemList.First(o => o.Igdb == e.Igdb);
+        var item = itemList.First(o => o.ItemID == e.ItemID);
 
         var amount = e.Time;
         DateTime? dateEnd = null;
@@ -233,12 +233,12 @@ internal class TsvDatasource : IDatasource
             Amount = amount,
             AmountType = eAmountType.Minutes,
             Comment = ShemaZenNull(e.Comment),
-            Completed = e.Completed,
+            Completed = false,
             DateEnd = dateEnd,
             DateStart = dateStart,
             Rating = rating,
-            Platform = item.Platform,
-            ExternalID = item.Igdb.ToString(),
+            Platform = null,
+            ExternalID = null,
             ItemID = item.ID,
             People = ShemaZenNull(string.Join(",", pepleList)),
             Bookmakred = false,
@@ -263,10 +263,10 @@ internal class TsvDatasource : IDatasource
 
         using var csv = new CsvReader(reader, config);
 
-        var oldEventList = csv.GetRecords<GameEvent>().ToList();
-        var item = GetList<Game>();
+        var oldEventList = csv.GetRecords<MyWorkEvent>().ToList();
+        var item = GetList<MyWork>();
 
-        var convertedEventsList = oldEventList.Select(o => ConvertGame(o, item)).ToList();
+        var convertedEventsList = oldEventList.Select(o => Convert(o, item)).ToList();
 
         var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
         using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
