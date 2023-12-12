@@ -140,18 +140,12 @@ internal class TsvDatasource : IDatasource
 
         foreach (var i in items)
         {
-            if (i.SpotifyID == "--SchemaZenNull--")
-            {
-                i.SpotifyID = null;
-            }
-
             if (
-                i != null
-                && !i.SpotifyID.Contains(BandcampRepository.UrlIdentifier)
-                && !i.SpotifyID.Contains(SpotifyRepository.UrlIdentifier)
+                i.SpotifyID.Length == "https://open.spotify.com/album/".Length
+                && i.SpotifyID.Contains("https://open.spotify.com/album/")
             )
             {
-                i.SpotifyID = "https://open.spotify.com/album/" + i.SpotifyID;
+                i.SpotifyID = null;
             }
         }
 

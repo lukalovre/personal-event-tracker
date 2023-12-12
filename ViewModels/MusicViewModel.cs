@@ -330,7 +330,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private List<MusicGridItem> LoadData()
     {
-        //_datasource.Update<Music>(null);
+        // _datasource.Update<Music>(null);
 
         _itemList = _datasource.GetList<Music>();
         _eventList = _datasource.GetEventList<Music>();
@@ -339,7 +339,7 @@ public partial class MusicViewModel : ViewModelBase
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-5))
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-3))
             .Select(
                 (o, i) =>
                     Convert(
