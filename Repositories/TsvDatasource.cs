@@ -136,29 +136,35 @@ internal class TsvDatasource : IDatasource
     public void Update<T>(T item)
         where T : IItem
     {
-        var items = GetList<Music>();
+        var events = GetEventList<T>();
 
-        foreach (var i in items)
+        var bookmarkedItemIDs = new List<int> { 2, 7, 5, 11, 16, 18, 13, 22, 24, 25, 1025, 1026 };
+
+        foreach (var e in events)
         {
-            if (
-                i.SpotifyID.Length == "https://open.spotify.com/album/".Length
-                && i.SpotifyID.Contains("https://open.spotify.com/album/")
-            )
+            e.Bookmakred = true;
+        }
+
+        foreach (var i in GetList<Work>())
+        {
+            var lastEvent = events.Where(o => o.ItemID == i.ID).MaxBy(o => o.DateEnd.Value);
+
+            if (!bookmarkedItemIDs.Contains(i.ID))
             {
-                i.SpotifyID = null;
+                lastEvent.Bookmakred = false;
             }
         }
 
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = false,
-            Delimiter = "\t"
-        };
+        // var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        // {
+        //     HasHeaderRecord = false,
+        //     Delimiter = "\t"
+        // };
 
-        var itemFilePath = GetFilePath<T>();
+        var itemFilePath = GetEventFilePath<T>();
         using var writer = new StreamWriter(itemFilePath, false, System.Text.Encoding.UTF8);
-        using var csvText = new CsvWriter(writer, config);
-        csvText.WriteRecords(items);
+        using var csvText = new CsvWriter(writer, _config);
+        csvText.WriteRecords(events);
         writer.Flush();
     }
 

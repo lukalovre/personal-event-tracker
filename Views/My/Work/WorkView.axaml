@@ -10,11 +10,11 @@
              xmlns:view="using:AvaloniaApplication1.Views">
     <DockPanel>
         <TabControl>
-            <TabItem Header="Info">
+            <TabItem Header="★">
                 <DockPanel>
                     <DataGrid Margin="1"
                               Width="570"
-                              ItemsSource="{Binding Work}"
+                              ItemsSource="{Binding WorkBookmarked}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
                               BorderThickness="2"
@@ -37,11 +37,11 @@
                     </DataGrid>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="★">
+            <TabItem Header="All">
                 <DockPanel>
                     <DataGrid Margin="1"
                               Width="570"
-                              ItemsSource="{Binding WorkBookmarked}"
+                              ItemsSource="{Binding Work}"
                               IsReadOnly="True"
                               GridLinesVisibility="All"
                               BorderThickness="2"
@@ -49,20 +49,17 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountWorkBookmarked}"
+                                                Header="{Binding GridCountWork}"
                                                 Width="70" />
                             <DataGridTextColumn Binding="{Binding Title}"
-                                                Header="Artist"
-                                                Width="150" />
-                            <DataGridTextColumn Binding="{Binding Type}"
                                                 Header="Title"
                                                 Width="*" />
-                            <DataGridTextColumn Binding="{Binding Minutes}"
+                            <DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}"
                                                 Header="Min"
-                                                Width="65" />
-                            <DataGridTextColumn Binding="{Binding LastDate}"
-                                                Header="#"
-                                                Width="60" />
+                                                Width="150" />
+                            <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"
+                                                Header="Last Date"
+                                                Width="200" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
