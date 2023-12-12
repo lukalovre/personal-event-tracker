@@ -20,7 +20,8 @@
         <TabControl Margin="5">
             <TabItem Header="Main">
                 <TabControl TabStripPlacement="Left">
-                    <TabItem Header="Music">
+                    <TabItem Header="Music"
+                             Width="150">
                         <v:MusicView DataContext="{Binding MusicViewModel}" />
                     </TabItem>
                     <TabItem Header="Movies">
@@ -83,17 +84,12 @@
                 </TabControl>
             </TabItem>
             <TabItem Header="My">
-                <TabControl Margin="5"
-                            TabStripPlacement="Left">
-                    <TabItem Header="D&amp;D">
-                        <DataGrid Margin="20"
-                                  ItemsSource="{Binding Books}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
+                <TabControl TabStripPlacement="Left">
+                    <TabItem Header="Work"
+                             Width="150">
+                        <v:MusicView DataContext="{Binding MusicViewModel}" />
                     </TabItem>
+                    <TabItem Header="D&amp;D" />
                 </TabControl>
             </TabItem>
             <TabItem Header="Collection" />
