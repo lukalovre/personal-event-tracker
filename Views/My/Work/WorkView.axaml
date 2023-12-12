@@ -25,17 +25,14 @@
                                                 Header="{Binding GridCountWork}"
                                                 Width="70" />
                             <DataGridTextColumn Binding="{Binding Title}"
-                                                Header="Artist"
-                                                Width="150" />
-                            <DataGridTextColumn Binding="{Binding Type}"
                                                 Header="Title"
                                                 Width="*" />
-                            <DataGridTextColumn Binding="{Binding Minutes}"
+                            <DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}"
                                                 Header="Min"
-                                                Width="65" />
-                            <DataGridTextColumn Binding="{Binding LastDate}"
-                                                Header="#"
-                                                Width="60" />
+                                                Width="150" />
+                            <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"
+                                                Header="Last Date"
+                                                Width="200" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>

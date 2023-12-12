@@ -29,8 +29,7 @@ public partial class WorkViewModel : ViewModelBase
     private bool _useNewDate;
     private Work _selectedWork;
     private int _gridCountMusic;
-    private int _gridCountMusicTodo1;
-    private int _gridCountMusicTodo2;
+
     private int _gridCountMusicBookmarked;
 
     public EventViewModel EventViewModel { get; }
@@ -223,8 +222,6 @@ public partial class WorkViewModel : ViewModelBase
 
     private List<WorkGridItem> LoadData()
     {
-        // _datasource.Update<Music>(null);
-
         _itemList = _datasource.GetList<Work>();
         _eventList = _datasource.GetEventList<Work>();
 
@@ -232,7 +229,6 @@ public partial class WorkViewModel : ViewModelBase
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-3))
             .Select(
                 (o, i) =>
                     Convert(
@@ -274,7 +270,14 @@ public partial class WorkViewModel : ViewModelBase
 
     private static WorkGridItem Convert(int index, Event e, Work i, IEnumerable<Event> eventList)
     {
-        return new WorkGridItem(i.ID, index + 1, i.Title, i.Type, e.Amount, e.DateEnd.Value);
+        return new WorkGridItem(
+            i.ID,
+            index + 1,
+            i.Title,
+            i.Type,
+            eventList.Sum(o => o.Amount),
+            e.DateEnd.Value
+        );
     }
 
     public void SelectedItemChanged()
