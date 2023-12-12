@@ -1,3 +1,12 @@
 using System;
 
-public record BookGridItem(string Title, string Author, int Year, int? Rating, DateTime? Date);
+public record BookGridItem(
+    int ID,
+    int Index,
+    string Title,
+    string Author,
+    int Year,
+    int? Rating,
+    int Pages,
+    DateTime? LastDate
+);

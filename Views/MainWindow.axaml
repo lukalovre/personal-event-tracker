@@ -28,13 +28,7 @@
                         <v:MoviesView DataContext="{Binding MoviesViewModel}" />
                     </TabItem>
                     <TabItem Header="Books">
-                        <DataGrid Margin="20"
-                                  ItemsSource="{Binding Books}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
+                        <v:BooksView DataContext="{Binding BooksViewModel}" />
                     </TabItem>
                     <TabItem Header="TV Shows">
                         <DataGrid Margin="20"
@@ -89,15 +83,7 @@
                              Width="150">
                         <v:WorkView DataContext="{Binding WorkViewModel}" />
                     </TabItem>
-                    <TabItem Header="D&amp;D">
-                        <DataGrid Margin="20"
-                                  ItemsSource="{Binding MyWork}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
-                    </TabItem>
+                    <TabItem Header="D&amp;D" />
                 </TabControl>
             </TabItem>
             <TabItem Header="Collection" />

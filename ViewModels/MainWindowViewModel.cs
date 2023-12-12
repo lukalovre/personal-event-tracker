@@ -12,19 +12,18 @@ public class MainWindowViewModel : ViewModelBase
     public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
     public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource());
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
+    public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource());
 
     public string Title => "Data";
 
     private readonly IDatasource _datasource;
 
-    public List<BookGridItem> Books { get; set; }
     public List<MusicGridItem> Music { get; set; }
     public List<TVShowGridItem> TVShows { get; set; }
     public List<ComicGridItem> Comics { get; set; }
     public List<SongGridItem> Songs { get; set; }
     public List<ZooGridItem> Zoo { get; set; }
     public List<GameGridItem> Games { get; set; }
-    public List<WorkGridItem> MyWork { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
@@ -32,14 +31,12 @@ public class MainWindowViewModel : ViewModelBase
 
         // _datasource.GetEventListConvert<MyWork>();
 
-        Books = GetData<Book, BookGridItem>();
         Music = GetData<Music, MusicGridItem>();
         TVShows = GetData<TVShow, TVShowGridItem>();
         Comics = GetData<Comic, ComicGridItem>();
         Songs = GetData<Song, SongGridItem>();
         Zoo = GetData<Zoo, ZooGridItem>();
         Games = GetData<Game, GameGridItem>();
-        MyWork = GetData<Work, WorkGridItem>(getAllData: true);
     }
 
     private List<T2> GetData<T1, T2>(bool getAllData = false)
@@ -75,12 +72,6 @@ public class MainWindowViewModel : ViewModelBase
         {
             var i = item as Movie;
             return new MovieGridItem(i.Title, i.Director, i.Year, e.DateEnd) as T2;
-        }
-
-        if (typeof(T1) == typeof(Book))
-        {
-            var i = item as Book;
-            return new BookGridItem(i.Title, i.Author, i.Year, e.Rating, e.DateEnd) as T2;
         }
 
         if (typeof(T1) == typeof(TVShow))
@@ -126,19 +117,6 @@ public class MainWindowViewModel : ViewModelBase
                     i.Platform,
                     eventList.Sum(o => o.Amount).ToString(),
                     e.Completed
-                ) as T2;
-        }
-
-        if (typeof(T1) == typeof(Work))
-        {
-            var i = item as Work;
-            return new WorkGridItem(
-                    i.ID,
-                    0,
-                    i.Title,
-                    i.Type,
-                    eventList.Sum(o => o.Amount),
-                    e.DateEnd.Value
                 ) as T2;
         }
 
