@@ -22,7 +22,7 @@
                               SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountWork}"
+                                                Header="{Binding GridCountWorkBookmarked}"
                                                 Width="70" />
                             <DataGridTextColumn Binding="{Binding Title}"
                                                 Header="Title"
@@ -78,7 +78,11 @@
                                    Height="430" />
                         </Button>
                         <view:EventView DataContext="{Binding EventViewModel}" />
-                        <Button Command="{Binding ListenAgain}">Listen again</Button>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding ListenAgain}">Add minutes</Button>
+                            <TextBox Text="{Binding AddMinutes}"
+                                     Watermark="Minutes" />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

@@ -34,7 +34,7 @@ public partial class WorkViewModel : ViewModelBase
 
     public EventViewModel EventViewModel { get; }
 
-    public string SearchText { get; set; }
+    public int AddMinutes { get; set; }
 
     public bool UseNewDate
     {
@@ -168,9 +168,10 @@ public partial class WorkViewModel : ViewModelBase
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-lastEvent.Amount);
+                : lastEvent.DateEnd.Value.AddMinutes(-AddMinutes);
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
+        lastEvent.Amount = AddMinutes;
 
         _datasource.Add(SelectedWork, lastEvent);
 
