@@ -24,11 +24,14 @@
                              Width="150">
                         <v:MusicView DataContext="{Binding MusicViewModel}" />
                     </TabItem>
-                    <TabItem Header="Movies">
-                        <v:MoviesView DataContext="{Binding MoviesViewModel}" />
+                    <TabItem Header="Games">
+                        <v:GamesView DataContext="{Binding GamesViewModel}" />
                     </TabItem>
                     <TabItem Header="Books">
                         <v:BooksView DataContext="{Binding BooksViewModel}" />
+                    </TabItem>
+                    <TabItem Header="Movies">
+                        <v:MoviesView DataContext="{Binding MoviesViewModel}" />
                     </TabItem>
                     <TabItem Header="TV Shows">
                         <DataGrid Margin="20"
@@ -60,15 +63,6 @@
                     <TabItem Header="Zoo">
                         <DataGrid Margin="20"
                                   ItemsSource="{Binding Zoo}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
-                    </TabItem>
-                    <TabItem Header="Games">
-                        <DataGrid Margin="20"
-                                  ItemsSource="{Binding Games}"
                                   AutoGenerateColumns="True"
                                   IsReadOnly="True"
                                   GridLinesVisibility="All"
