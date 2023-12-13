@@ -67,7 +67,7 @@
                            VerticalAlignment="Center" />
                 <TextBlock Text="     " />
                 <ComboBox ItemsSource="{Binding PlatformTypes}"
-                          SelectedItem="{Binding SelectedPlatformType}"
+                          SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"
                           Width="100" />
             </StackPanel>
         </StackPanel>

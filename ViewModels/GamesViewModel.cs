@@ -40,8 +40,6 @@ public partial class GamesViewModel : ViewModelBase
         set { _addAmount = SetAmount(value); }
     }
 
-    private int _newAmount;
-
     public string AddAmountString
     {
         get => _addAmountString;
@@ -56,8 +54,8 @@ public partial class GamesViewModel : ViewModelBase
 
     public static ObservableCollection<string> MusicPlatformTypes =>
         new(
-            Enum.GetValues(typeof(eMusicPlatformType))
-                .Cast<eMusicPlatformType>()
+            Enum.GetValues(typeof(eGamePlatformTypes))
+                .Cast<eGamePlatformTypes>()
                 .Select(v => v.ToString())
         );
 
@@ -150,12 +148,8 @@ public partial class GamesViewModel : ViewModelBase
 
     private int SetAmount(int value)
     {
-        var events = _eventList.Where(o => o.ItemID == SelectedItem.ID);
-        var currentAmount = events.Sum(o => o.Amount);
-        var newAmount = value - currentAmount;
-
-        _newAmount = newAmount;
-        AddAmountString = $"    Adding {newAmount} minutes";
+        _addAmount = value;
+        AddAmountString = $"    Adding {_addAmount} minutes";
         return value;
     }
 
@@ -188,10 +182,13 @@ public partial class GamesViewModel : ViewModelBase
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-_newAmount * 2);
+                : lastEvent.DateEnd.Value.AddMinutes(-_addAmount);
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
-        lastEvent.Amount = _newAmount;
+        lastEvent.Amount = _addAmount;
+
+        // For now
+        lastEvent.Comment = null;
 
         _datasource.Add(SelectedItem, lastEvent);
 
