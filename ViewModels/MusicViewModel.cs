@@ -339,7 +339,7 @@ public partial class MusicViewModel : ViewModelBase
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddDays(-3))
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTime.Now.AddHours(-24))
             .Select(
                 (o, i) =>
                     Convert(
