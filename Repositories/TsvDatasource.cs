@@ -138,22 +138,25 @@ internal class TsvDatasource : IDatasource
     {
         var events = GetEventList<T>();
 
-        var bookmarkedItemIDs = new List<int> { 2, 7, 5, 11, 16, 18, 13, 22, 24, 25, 1025, 1026 };
+        var bookmarkedItemIDs = new List<int> { };
 
         foreach (var e in events)
         {
-            e.Bookmakred = true;
-        }
-
-        foreach (var i in GetList<Work>())
-        {
-            var lastEvent = events.Where(o => o.ItemID == i.ID).MaxBy(o => o.DateEnd.Value);
-
-            if (!bookmarkedItemIDs.Contains(i.ID))
+            if (e.Completed != true)
             {
-                lastEvent.Bookmakred = false;
+                e.Bookmakred = true;
             }
         }
+
+        // foreach (var i in GetList<Work>())
+        // {
+        //     var lastEvent = events.Where(o => o.ItemID == i.ID).MaxBy(o => o.DateEnd.Value);
+
+        //     if (!bookmarkedItemIDs.Contains(i.ID))
+        //     {
+        //         lastEvent.Bookmakred = false;
+        //     }
+        // }
 
         // var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         // {
