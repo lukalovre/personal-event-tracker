@@ -45,6 +45,8 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding SelectedEvent.Bookmakred}">★</CheckBox>
+                <TextBlock Text="    " />
+                <CheckBox IsChecked="{Binding SelectedEvent.Completed}">Completed</CheckBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Comment"
