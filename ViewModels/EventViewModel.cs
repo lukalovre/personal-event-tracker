@@ -90,8 +90,8 @@ public partial class EventViewModel : ViewModelBase
             return;
         }
 
-        _date = SelectedEvent.DateEnd.Value;
-        _time = SelectedEvent.DateEnd.Value.TimeOfDay;
+        Date = SelectedEvent.DateEnd.Value;
+        Time = SelectedEvent.DateEnd.Value.TimeOfDay;
     }
 
     private void DateTimeChanged()
