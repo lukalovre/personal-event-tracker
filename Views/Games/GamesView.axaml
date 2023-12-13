@@ -36,9 +36,9 @@
                             <DataGridTextColumn Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}"
                                                 Header="Time"
                                                 Width="80" />
-                            <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd}}"
-                                                Header="Last Date"
-                                                Width="120" />
+                            <DataGridTextColumn Binding="{Binding DaysAgo}"
+                                                Header="Days ago"
+                                                Width="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>

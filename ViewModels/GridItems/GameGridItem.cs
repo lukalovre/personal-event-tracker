@@ -8,5 +8,6 @@ public record GameGridItem(
     string Platform,
     int Time,
     bool Completed,
-    DateTime? LastDate
+    DateTime? LastDate,
+    int DaysAgo
 );

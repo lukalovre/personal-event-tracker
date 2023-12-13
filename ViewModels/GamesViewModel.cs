@@ -291,6 +291,9 @@ public partial class GamesViewModel : ViewModelBase
 
     private static GameGridItem Convert(int index, Event e, Game i, IEnumerable<Event> eventList)
     {
+        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
+        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
+
         return new GameGridItem(
             i.ID,
             index + 1,
@@ -299,7 +302,8 @@ public partial class GamesViewModel : ViewModelBase
             i.Platform,
             eventList.Sum(o => o.Amount),
             e.Completed,
-            eventList.MaxBy(o => o.DateEnd).DateEnd
+            lastDate,
+            daysAgo
         );
     }
 
