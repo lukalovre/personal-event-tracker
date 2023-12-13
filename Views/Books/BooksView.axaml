@@ -23,19 +23,19 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
                                                 Header="{Binding GridCountItemsBookmarked}"
-                                                Width="70" />
+                                                Width="45" />
                             <DataGridTextColumn Binding="{Binding Title}"
                                                 Header="Title"
                                                 Width="*" />
                             <DataGridTextColumn Binding="{Binding Author}"
-                                                Header="Min"
+                                                Header="Author"
                                                 Width="150" />
                             <DataGridTextColumn Binding="{Binding Pages}"
                                                 Header="Pages"
                                                 Width="70" />
-                            <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"
+                            <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd}}"
                                                 Header="Last Date"
-                                                Width="200" />
+                                                Width="120" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -53,19 +53,19 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
                                                 Header="{Binding GridCountItems}"
-                                                Width="70" />
+                                                Width="45" />
                             <DataGridTextColumn Binding="{Binding Title}"
                                                 Header="Title"
                                                 Width="*" />
                             <DataGridTextColumn Binding="{Binding Author}"
-                                                Header="Min"
+                                                Header="Author"
                                                 Width="150" />
                             <DataGridTextColumn Binding="{Binding Pages}"
                                                 Header="Pages"
                                                 Width="70" />
                             <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd}}"
                                                 Header="Last Date"
-                                                Width="200" />
+                                                Width="120" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
