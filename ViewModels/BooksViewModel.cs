@@ -29,10 +29,22 @@ public partial class BooksViewModel : ViewModelBase
     private int _gridCountItems;
 
     private int _gridCountItemsBookmarked;
+    private int _addAmount;
+    private string _addAmountString;
 
     public EventViewModel EventViewModel { get; }
 
-    public int AddAmount { get; set; }
+    public int AddAmount
+    {
+        get => _addAmount;
+        set { _addAmount = SetAmount(value); }
+    }
+
+    public string AddAmountString
+    {
+        get => _addAmountString;
+        set => this.RaiseAndSetIfChanged(ref _addAmountString, value);
+    }
 
     public bool UseNewDate
     {
@@ -132,6 +144,12 @@ public partial class BooksViewModel : ViewModelBase
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
+    }
+
+    private int SetAmount(int value)
+    {
+        AddAmountString = $"    Adding {value} pages";
+        return value;
     }
 
     private void AddItemClickAction()

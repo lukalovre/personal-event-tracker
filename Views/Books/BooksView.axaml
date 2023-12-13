@@ -88,6 +88,7 @@
                             <Button Command="{Binding AddEventClick}">Add pages</Button>
                             <TextBox Text="{Binding AddAmount}"
                                      Watermark="Pages" />
+                            <TextBlock Text="{Binding AddAmountString}" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
