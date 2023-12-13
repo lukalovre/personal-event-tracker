@@ -334,7 +334,11 @@ public partial class BooksViewModel : ViewModelBase
 
         SelectedItem = _itemList.First(o => o.ID == SelectedGridItem.ID);
         Info.AddRange(GetSelectedItemInfo<Book>());
-        Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID).OrderBy(o => o.DateEnd));
+        Events.AddRange(
+            _eventList
+                .Where(o => o.ItemID == SelectedItem.ID && o.DateEnd.HasValue)
+                .OrderBy(o => o.DateEnd)
+        );
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<Book>(item.ID);
