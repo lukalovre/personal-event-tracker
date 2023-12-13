@@ -138,15 +138,36 @@ internal class TsvDatasource : IDatasource
     {
         var events = GetEventList<T>();
 
-        var bookmarkedItemIDs = new List<int> { };
+        // var items = GetList<Game>();
 
-        foreach (var e in events)
-        {
-            if (e.Completed != true)
-            {
-                e.Bookmakred = true;
-            }
-        }
+        // foreach (var i in items)
+        // {
+        //     var oldPath = Path.Combine(Paths.Images, typeof(Game).ToString(), $"{i.Igdb}.png");
+        //     ;
+        //     var newPath = Path.Combine(Paths.Images, "Game_fixed", $"{i.ID}.png");
+        //     ;
+
+        //     if (!File.Exists(oldPath))
+        //     {
+        //         continue;
+        //     }
+
+        //     File.Move(oldPath, newPath);
+        // }
+
+        // var bookmarkedItemIDs = new List<int> { 8064, 11221, 16368, 16413, 17480, 17485, 17486 };
+
+        // foreach (var e in events)
+        // {
+        //     if (bookmarkedItemIDs.Contains(e.ItemID))
+        //     {
+        //         e.Bookmakred = true;
+        //     }
+        //     else
+        //     {
+        //         e.Bookmakred = false;
+        //     }
+        // }
 
         // foreach (var i in GetList<Work>())
         // {
