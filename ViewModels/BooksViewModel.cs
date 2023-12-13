@@ -40,6 +40,8 @@ public partial class BooksViewModel : ViewModelBase
         set { _addAmount = SetAmount(value); }
     }
 
+    private int _newAmount;
+
     public string AddAmountString
     {
         get => _addAmountString;
@@ -148,7 +150,12 @@ public partial class BooksViewModel : ViewModelBase
 
     private int SetAmount(int value)
     {
-        AddAmountString = $"    Adding {value} pages";
+        var events = _eventList.Where(o => o.ItemID == SelectedItem.ID);
+        var currentAmount = GetBookPages(events);
+        var newAmount = value - currentAmount;
+
+        _newAmount = newAmount;
+        AddAmountString = $"    Adding {newAmount} pages";
         return value;
     }
 
@@ -181,10 +188,10 @@ public partial class BooksViewModel : ViewModelBase
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-AddAmount);
+                : lastEvent.DateEnd.Value.AddMinutes(-_newAmount * 2);
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
-        lastEvent.Amount = AddAmount;
+        lastEvent.Amount = _newAmount;
 
         _datasource.Add(SelectedItem, lastEvent);
 
@@ -282,6 +289,24 @@ public partial class BooksViewModel : ViewModelBase
             .ToList();
     }
 
+    private static int GetBookPages(IEnumerable<Event> eventList)
+    {
+        // This is for the case that the book is already completed by you are rereading it.
+        var lastCompletedDate =
+            eventList.Where(o => o.Completed)?.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
+
+        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
+
+        var dateFilter = lastCompletedDate;
+
+        if (lastCompletedDate == lastDate)
+        {
+            return eventList.Sum(o => o.Amount);
+        }
+
+        return eventList.Where(o => o.DateEnd > dateFilter).Sum(o => o.Amount);
+    }
+
     private static BookGridItem Convert(int index, Event e, Book i, IEnumerable<Event> eventList)
     {
         return new BookGridItem(
@@ -291,7 +316,7 @@ public partial class BooksViewModel : ViewModelBase
             i.Author,
             i.Year,
             e.Rating,
-            eventList.Sum(o => o.Amount),
+            GetBookPages(eventList),
             e.DateEnd
         );
     }
