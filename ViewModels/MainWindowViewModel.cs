@@ -14,13 +14,11 @@ public class MainWindowViewModel : ViewModelBase
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource());
     public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource());
-
-    public string Title => "Data";
+    public TVShowsViewModel TVShowsViewModel { get; } = new TVShowsViewModel(new TsvDatasource());
 
     private readonly IDatasource _datasource;
 
     public List<MusicGridItem> Music { get; set; }
-    public List<TVShowGridItem> TVShows { get; set; }
     public List<ComicGridItem> Comics { get; set; }
     public List<SongGridItem> Songs { get; set; }
     public List<ZooGridItem> Zoo { get; set; }
@@ -32,7 +30,6 @@ public class MainWindowViewModel : ViewModelBase
         // _datasource.GetEventListConvert<MyWork>();
 
         Music = GetData<Music, MusicGridItem>();
-        TVShows = GetData<TVShow, TVShowGridItem>();
         Comics = GetData<Comic, ComicGridItem>();
         Songs = GetData<Song, SongGridItem>();
         Zoo = GetData<Zoo, ZooGridItem>();
@@ -71,16 +68,6 @@ public class MainWindowViewModel : ViewModelBase
         {
             var i = item as Movie;
             return new MovieGridItem(i.Title, i.Director, i.Year, e.DateEnd) as T2;
-        }
-
-        if (typeof(T1) == typeof(TVShow))
-        {
-            var i = item as TVShow;
-            return new TVShowGridItem(
-                    i.Title,
-                    e.Chapter ?? 1,
-                    eventList.Count(o => o.Chapter == e.Chapter)
-                ) as T2;
         }
 
         if (typeof(T1) == typeof(Comic))

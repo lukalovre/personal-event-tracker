@@ -30,17 +30,11 @@
                     <TabItem Header="Books">
                         <v:BooksView DataContext="{Binding BooksViewModel}" />
                     </TabItem>
+                    <TabItem Header="TV Shows">
+                        <v:TVShowsView DataContext="{Binding TVShowsViewModel}" />
+                    </TabItem>
                     <TabItem Header="Movies">
                         <v:MoviesView DataContext="{Binding MoviesViewModel}" />
-                    </TabItem>
-                    <TabItem Header="TV Shows">
-                        <DataGrid Margin="20"
-                                  ItemsSource="{Binding TVShows}"
-                                  AutoGenerateColumns="True"
-                                  IsReadOnly="True"
-                                  GridLinesVisibility="All"
-                                  BorderThickness="2"
-                                  BorderBrush="Teal" />
                     </TabItem>
                     <TabItem Header="Comics">
                         <DataGrid Margin="20"
