@@ -16,7 +16,12 @@ public class TimeToStringConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return new NotImplementedException();
+        if (value is string str)
+        {
+            // return DateTime.ParseExact(str, (string)parameter, CultureInfo.InvariantCulture);
+        }
+
+        return null;
     }
 
     public static string GetFormatedTime(int minutes)
