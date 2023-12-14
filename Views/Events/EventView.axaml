@@ -70,6 +70,13 @@
                           SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"
                           Width="100" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ExternalID"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="     " />
+                <TextBox Text="{Binding SelectedEvent.ExternalID}"
+                         Width="100" />
+            </StackPanel>
         </StackPanel>
     </Border>
 </UserControl>
