@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -45,5 +46,10 @@ public static class HtmlHelper
         {
             client.DownloadFile(new Uri(webFile), destinationFile);
         }
+    }
+
+    public static string CleanUrl(string url)
+    {
+        return url.Split('?').FirstOrDefault().Trim();
     }
 }
