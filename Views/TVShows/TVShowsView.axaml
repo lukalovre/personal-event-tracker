@@ -104,8 +104,23 @@
                                      Margin="15" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Watermark="Author"
-                                     Text="{Binding NewItem.Title}"
+                            <TextBlock Text="Imdb" />
+                            <TextBox Text="{Binding NewItem.Imdb}"
+                                     HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Title" />
+                            <TextBox Text="{Binding NewItem.Title}"
+                                     HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Year" />
+                            <TextBox Text="{Binding NewItem.Year}"
+                                     HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Runtime" />
+                            <TextBox Text="{Binding NewItem.Runtime}"
                                      HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
@@ -120,10 +135,15 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
-                            <NumericUpDown Value="{Binding NewEvent.Rating}"
+                            <NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}"
                                            FormatString="0"
                                            Minimum="1"
                                            Maximum="5" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Season" />
+                            <TextBox Text="{Binding NewEvent.Chapter}"
+                                     HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
                         <TextBox Watermark="Comment"
