@@ -37,8 +37,8 @@ public class YouTube : IExternal<TVShow>
         {
             Title = title,
             Imdb = handle,
-            Year = DateTime.Now.Year.ToString(),
-            Runtime = "10"
+            Year = DateTime.Now.Year,
+            Runtime = 10
         };
     }
 

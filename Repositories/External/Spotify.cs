@@ -15,7 +15,7 @@ public class Spotify : IExternal<Music>
     {
         var albumID = url.Split('/').LastOrDefault();
 
-        var spotifyClient = GetSpotifyClient();
+        var spotifyClient = GetClient();
 
         if (spotifyClient == null)
         {
@@ -25,8 +25,7 @@ public class Spotify : IExternal<Music>
         var album = spotifyClient.Albums.Get(albumID).Result;
 
         var destinationFile = Paths.GetTempPath<Music>();
-
-        HtmlHelper.DownloadPNG(album.Images.FirstOrDefault().Url, destinationFile);
+        HtmlHelper.DownloadPNG(album.Images.FirstOrDefault()?.Url, destinationFile);
 
         return new Music
         {
@@ -42,24 +41,11 @@ public class Spotify : IExternal<Music>
         };
     }
 
-    private static SpotifyClient GetSpotifyClient()
+    private static SpotifyClient GetClient()
     {
         var config = SpotifyClientConfig.CreateDefault();
 
-        var keyFilePath = Path.Combine(Paths.APIKeys, API_KEY_FILE_NAME);
-
-        if (!File.Exists(keyFilePath))
-        {
-            var directoryPath = Path.GetDirectoryName(keyFilePath);
-
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-
-            File.Create(keyFilePath);
-        }
-
+        var keyFilePath = Paths.GetAPIKeyFilePath(API_KEY_FILE_NAME);
         var lines = File.ReadAllLines(keyFilePath);
 
         if (!lines.Any())

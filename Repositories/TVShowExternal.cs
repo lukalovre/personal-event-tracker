@@ -5,21 +5,30 @@ namespace AvaloniaApplication1.Repositories;
 
 public class TVShowExternal : IExternal<TVShow>
 {
+    private readonly Imdb _imdb;
+    private readonly YouTube _youtube;
+
+    public TVShowExternal()
+    {
+        _imdb = new Imdb();
+        _youtube = new YouTube();
+    }
+
     public TVShow GetItem(string url)
     {
         url = HtmlHelper.CleanUrl(url);
 
         if (url.Contains(Imdb.UrlIdentifier))
         {
-            // return new Bandcamp().GetItem(url);
+            return _imdb.GetItem(url);
         }
 
         if (url.Contains(YouTube.UrlIdentifier))
         {
-            return new YouTube().GetItem(url);
+            return _youtube.GetItem(url);
         }
 
-        return null;
+        return new TVShow();
     }
 
     // public static TVShow GetTVShow(string url)

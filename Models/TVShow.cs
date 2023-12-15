@@ -9,8 +9,8 @@ public class TVShow : IItem
     public string Imdb { get; set; }
     public string Title { get; set; }
     public string OriginalTitle { get; set; }
-    public string Year { get; set; }
-    public string Runtime { get; set; }
+    public int Year { get; set; }
+    public int Runtime { get; set; }
     public string Actors { get; set; }
     public string Country { get; set; }
     public string Genre { get; set; }

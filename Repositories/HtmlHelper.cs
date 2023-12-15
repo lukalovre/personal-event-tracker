@@ -21,6 +21,11 @@ public static class HtmlHelper
 
     internal static void DownloadPNG(string webFile, string destinationFile)
     {
+        if (string.IsNullOrEmpty(webFile))
+        {
+            return;
+        }
+
         destinationFile = $"{destinationFile}.png";
 
         FileRepsitory.Delete(destinationFile);

@@ -39,4 +39,18 @@ public static class Paths
             Directory.CreateDirectory(path);
         }
     }
+
+    public static string GetAPIKeyFilePath(string fileName)
+    {
+        var keyFilePath = Path.Combine(APIKeys, fileName);
+
+        if (!File.Exists(keyFilePath))
+        {
+            var directoryPath = Path.GetDirectoryName(keyFilePath);
+            CreatePath(directoryPath);
+            File.Create(keyFilePath);
+        }
+
+        return keyFilePath;
+    }
 }

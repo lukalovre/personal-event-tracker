@@ -158,12 +158,7 @@ public partial class TVShowsViewModel : ViewModelBase
         NewItem = _external.GetItem(InputUrl);
 
         NewImage = FileRepsitory.GetImageTemp<TVShow>();
-        NewEvent = new Event
-        {
-            // Amount = NewItem.Runtime,
-            Rating = 1,
-            Platform = eMusicPlatformType.Streaming.ToString()
-        };
+        NewEvent = new Event { Amount = NewItem.Runtime, Rating = 1 };
 
         _inputUrl = string.Empty;
     }
