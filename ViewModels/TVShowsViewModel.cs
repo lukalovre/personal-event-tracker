@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
@@ -16,6 +17,7 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class TVShowsViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
+    private readonly IExternal<TVShow> _external;
     private TVShowGridItem _selectedGridItem;
     private List<TVShow> _itemList;
     private List<Event> _eventList;
@@ -122,9 +124,10 @@ public partial class TVShowsViewModel : ViewModelBase
         }
     }
 
-    public TVShowsViewModel(IDatasource datasource)
+    public TVShowsViewModel(IDatasource datasource, IExternal<TVShow> external)
     {
         _datasource = datasource;
+        _external = external;
 
         GridItems = new ObservableCollection<TVShowGridItem>();
         GridItemsBookmarked = new ObservableCollection<TVShowGridItem>();

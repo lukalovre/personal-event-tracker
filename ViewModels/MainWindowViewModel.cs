@@ -16,7 +16,8 @@ public class MainWindowViewModel : ViewModelBase
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource());
     public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource());
-    public TVShowsViewModel TVShowsViewModel { get; } = new TVShowsViewModel(new TsvDatasource());
+    public TVShowsViewModel TVShowsViewModel { get; } =
+        new TVShowsViewModel(new TsvDatasource(), new TVShowExternal());
 
     private readonly IDatasource _datasource;
 

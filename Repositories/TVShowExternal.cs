@@ -3,9 +3,9 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories;
 
-public class TVShowRepository
+public class TVShowExternal : IExternal<TVShow>
 {
-    public static TVShow GetItem(string url)
+    public TVShow GetItem(string url)
     {
         url = HtmlHelper.CleanUrl(url);
 
