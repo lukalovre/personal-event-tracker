@@ -13,37 +13,33 @@ public class YouTube : IExternal<TVShow>
 
     public TVShow GetItem(string url)
     {
-        using (var client = new WebClient())
+        using var client = new WebClient();
+        var content = client.DownloadData(url);
+        using var stream = new MemoryStream(content);
+        string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+
+        var htmlDocument = new HtmlDocument();
+        htmlDocument.LoadHtml(result);
+
+        var title = GetTitle(htmlDocument);
+
+        var handle = url.TrimStart("https://www.youtube.com/");
+
+        var posterNode = htmlDocument.DocumentNode.SelectSingleNode(
+            "//meta[contains(@property, 'og:image')]"
+        );
+        var imageLink = posterNode.GetAttributeValue("content", string.Empty).Trim();
+
+        // var destinationFile = Path.Combine(Paths.Posters, $"{handle}");
+        // Web.DownloadPNG(imageLink, destinationFile);
+
+        return new TVShow
         {
-            var content = client.DownloadData(url);
-            using (var stream = new MemoryStream(content))
-            {
-                string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-
-                var htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(result);
-
-                var title = GetTitle(htmlDocument);
-
-                var handle = url.TrimStart("https://www.youtube.com/");
-
-                var posterNode = htmlDocument.DocumentNode.SelectSingleNode(
-                    "//meta[contains(@property, 'og:image')]"
-                );
-                var imageLink = posterNode.GetAttributeValue("content", string.Empty).Trim();
-
-                // var destinationFile = Path.Combine(Paths.Posters, $"{handle}");
-                // Web.DownloadPNG(imageLink, destinationFile);
-
-                return new TVShow
-                {
-                    Title = title,
-                    Imdb = handle,
-                    Year = DateTime.Now.Year.ToString(),
-                    Runtime = "10"
-                };
-            }
-        }
+            Title = title,
+            Imdb = handle,
+            Year = DateTime.Now.Year.ToString(),
+            Runtime = "10"
+        };
     }
 
     private static string GetTitle(HtmlDocument htmlDocument)
