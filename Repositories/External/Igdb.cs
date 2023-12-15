@@ -1,4 +1,6 @@
-public class IgdbRepository
+namespace AvaloniaApplication1.Repositories.External;
+
+public class Igdb
 {
     // public static async Task<Model.dbo.Game> GetDataFromAPIAsync(string igdbUrl, bool downloadPoster = true)
     // {
@@ -39,25 +41,25 @@ public class IgdbRepository
     // }
 
 
-    	// 	public static async void OpenLink(Game1001 listItem)
-		// {
-		// 	var url = await GetUrlFromAPIAsync(listItem.Igdb);
-		// 	Web.OpenLink(url);
-		// }
+    // 	public static async void OpenLink(Game1001 listItem)
+    // {
+    // 	var url = await GetUrlFromAPIAsync(listItem.Igdb);
+    // 	Web.OpenLink(url);
+    // }
 
 
-        // 		private static IGDBClient GetApiClient()
-		// {
-		// 	if (m_api != null)
-		// 	{
-		// 		return m_api;
-		// 	}
+    // 		private static IGDBClient GetApiClient()
+    // {
+    // 	if (m_api != null)
+    // 	{
+    // 		return m_api;
+    // 	}
 
-		// 	var lines = File.ReadAllLines(@"..\..\..\Keys\igdb_keys.txt");
+    // 	var lines = File.ReadAllLines(@"..\..\..\Keys\igdb_keys.txt");
 
-		// 	var clientId = lines[0];
-		// 	var clientSecret = lines[1];
+    // 	var clientId = lines[0];
+    // 	var clientSecret = lines[1];
 
-		// 	return new IGDBClient(clientId, clientSecret);
-		// }
+    // 	return new IGDBClient(clientId, clientSecret);
+    // }
 }

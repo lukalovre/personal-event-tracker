@@ -5,7 +5,9 @@ using System.Net;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
 
-public class YouTubeRepository
+namespace AvaloniaApplication1.Repositories.External;
+
+public class YouTube
 {
     public class YoutubeChannelData
     {

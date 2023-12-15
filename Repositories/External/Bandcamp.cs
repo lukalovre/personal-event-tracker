@@ -3,10 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
+using Repositories;
 
-namespace Repositories;
+namespace AvaloniaApplication1.Repositories.External;
 
-public class BandcampRepository
+public class Bandcamp
 {
     public static string UrlIdentifier => "bandcamp.com";
 

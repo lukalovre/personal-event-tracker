@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-public class ImdbRepository
+namespace AvaloniaApplication1.Repositories.External;
+
+public class Imdb
 {
     private const string API_KEY_FILE_NAME = "omdbapi_key.txt";
 

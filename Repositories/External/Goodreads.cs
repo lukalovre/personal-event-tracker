@@ -4,7 +4,9 @@ using System.Net;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
 
-public class GoodreadsRepository
+namespace AvaloniaApplication1.Repositories.External;
+
+public class Goodreads
 {
     public static Comic GetGoodreadsDataComic(string url)
     {

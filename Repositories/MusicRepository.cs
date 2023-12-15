@@ -1,4 +1,5 @@
 using System.Linq;
+using AvaloniaApplication1.Repositories.External;
 
 namespace Repositories;
 
@@ -9,14 +10,14 @@ public class MusicRepository
         url = url.Split('?').FirstOrDefault();
         url = url.Trim();
 
-        if (url.Contains(BandcampRepository.UrlIdentifier))
+        if (url.Contains(Bandcamp.UrlIdentifier))
         {
-            return BandcampRepository.GetAlbumInfoBandcamp(url);
+            return Bandcamp.GetAlbumInfoBandcamp(url);
         }
 
-        if (url.Contains(SpotifyRepository.UrlIdentifier))
+        if (url.Contains(Spotify.UrlIdentifier))
         {
-            return SpotifyRepository.GetAlbumInfoSpotify(url);
+            return Spotify.GetAlbumInfoSpotify(url);
         }
 
         return null;

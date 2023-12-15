@@ -1,11 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
+using Repositories;
 using SpotifyAPI.Web;
 
-namespace Repositories;
+namespace AvaloniaApplication1.Repositories.External;
 
-public class SpotifyRepository
+public class Spotify
 {
     private const string API_KEY_FILE_NAME = "spotify_key.txt";
     public static string UrlIdentifier => "spotify.com";
