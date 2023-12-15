@@ -6,178 +6,185 @@ using HtmlAgilityPack;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Goodreads
+public class Goodreads : IExternal<Book>
 {
-    public static Comic GetGoodreadsDataComic(string url)
+    public static string UrlIdentifier => "goodreads.com";
+
+    public Book GetItem(string url)
     {
-        Comic result = null;
-
-        using (var client = new WebClient())
-        {
-            var content = client.DownloadData(url);
-            using (var stream = new MemoryStream(content))
-            {
-                var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-                var htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(text);
-
-                var title = GetTitle(htmlDocument);
-                var writer = GetWriter(htmlDocument);
-                var year = GetYear(htmlDocument);
-                var goodreadsID = GetGoogreadsID(url);
-                var illustrator = htmlDocument.DocumentNode
-                    .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
-                    .LastOrDefault()
-                    .InnerText.Trim()
-                    .TrimEnd("(Illustrator)")
-                    .Trim();
-
-                result = new Comic
-                {
-                    Title = title,
-                    Writer = writer,
-                    Illustrator = illustrator,
-                    Year = year,
-                    GoodreadsID = goodreadsID
-                };
-            }
-        }
-
-        return result;
+        throw new System.NotImplementedException();
     }
 
-    private static int GetGoogreadsID(string url)
-    {
-        return System.Convert.ToInt32(
-            url.TrimStart("https://www.goodreads.com/book/show/")
-                .TrimStart("https://www.goodreads.com/en/book/show/")
-                .Trim()
-                .Split('.')
-                .First()
-                .Split('-')
-                .First()
-        );
-    }
+    // public static Comic GetGoodreadsDataComic(string url)
+    // {
+    //     Comic result = null;
 
-    private static int GetYear(HtmlDocument htmlDocument)
-    {
-        return System.Convert.ToInt32(
-            Igdb.GetYear(
-                htmlDocument.DocumentNode
-                    .SelectNodes("//p[contains(@data-testid, 'publicationInfo')]")
-                    .FirstOrDefault()
-                    .InnerText.Trim()
-            )
-        );
-    }
+    //     using (var client = new WebClient())
+    //     {
+    //         var content = client.DownloadData(url);
+    //         using (var stream = new MemoryStream(content))
+    //         {
+    //             var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+    //             var htmlDocument = new HtmlDocument();
+    //             htmlDocument.LoadHtml(text);
 
-    private static string GetWriter(HtmlDocument htmlDocument)
-    {
-        return htmlDocument.DocumentNode
-            .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
-            .FirstOrDefault()
-            .InnerText.Replace("(Goodreads Author)", "")
-            .Trim()
-            .TrimEnd(',');
-    }
+    //             var title = GetTitle(htmlDocument);
+    //             var writer = GetWriter(htmlDocument);
+    //             var year = GetYear(htmlDocument);
+    //             var goodreadsID = GetGoogreadsID(url);
+    //             var illustrator = htmlDocument.DocumentNode
+    //                 .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
+    //                 .LastOrDefault()
+    //                 .InnerText.Trim()
+    //                 .TrimEnd("(Illustrator)")
+    //                 .Trim();
 
-    private static string GetTitle(HtmlDocument htmlDocument)
-    {
-        return htmlDocument.DocumentNode
-            .SelectNodes("//h1[contains(@class, 'Text Text__title1')]")
-            .FirstOrDefault()
-            .InnerText.Trim()
-            .TrimEnd(", Volume 1")
-            .TrimEnd(", Vol. 1")
-            .Trim();
-    }
+    //             result = new Comic
+    //             {
+    //                 Title = title,
+    //                 Writer = writer,
+    //                 Illustrator = illustrator,
+    //                 Year = year,
+    //                 GoodreadsID = goodreadsID
+    //             };
+    //         }
+    //     }
 
-    public static Model.Collection.Comic GetGoodreadsDataComicCollection(string url)
-    {
-        var comic = GetGoodreadsDataComic(url);
+    //     return result;
+    // }
 
-        return new Model.Collection.Comic
-        {
-            Title = comic.Title,
-            Writer = comic.Writer,
-            Illustrator = comic.Illustrator,
-            GoodreadsID = comic.GoodreadsID
-        };
-    }
+    // private static int GetGoogreadsID(string url)
+    // {
+    //     return System.Convert.ToInt32(
+    //         url.TrimStart("https://www.goodreads.com/book/show/")
+    //             .TrimStart("https://www.goodreads.com/en/book/show/")
+    //             .Trim()
+    //             .Split('.')
+    //             .First()
+    //             .Split('-')
+    //             .First()
+    //     );
+    // }
 
-    public static Model.Collection.Book GetGoodreadsDataBook(string url)
-    {
-        Model.Collection.Book result = null;
+    // private static int GetYear(HtmlDocument htmlDocument)
+    // {
+    //     return System.Convert.ToInt32(
+    //         Igdb.GetYear(
+    //             htmlDocument.DocumentNode
+    //                 .SelectNodes("//p[contains(@data-testid, 'publicationInfo')]")
+    //                 .FirstOrDefault()
+    //                 .InnerText.Trim()
+    //         )
+    //     );
+    // }
 
-        using (var client = new WebClient())
-        {
-            var content = client.DownloadData(url);
-            using (var stream = new MemoryStream(content))
-            {
-                var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-                var htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(text);
+    // private static string GetWriter(HtmlDocument htmlDocument)
+    // {
+    //     return htmlDocument.DocumentNode
+    //         .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
+    //         .FirstOrDefault()
+    //         .InnerText.Replace("(Goodreads Author)", "")
+    //         .Trim()
+    //         .TrimEnd(',');
+    // }
 
-                var title = GetTitle(htmlDocument);
-                var writer = GetWriter(htmlDocument);
-                var year = GetYear(htmlDocument);
-                var goodreadsID = GetGoogreadsID(url);
-                var pages = System.Convert.ToInt32(
-                    GetPages(
-                        htmlDocument.DocumentNode
-                            .SelectNodes("//p[contains(@data-testid, 'pagesFormat')]")
-                            .FirstOrDefault()
-                            .InnerText.Trim()
-                    )
-                );
+    // private static string GetTitle(HtmlDocument htmlDocument)
+    // {
+    //     return htmlDocument.DocumentNode
+    //         .SelectNodes("//h1[contains(@class, 'Text Text__title1')]")
+    //         .FirstOrDefault()
+    //         .InnerText.Trim()
+    //         .TrimEnd(", Volume 1")
+    //         .TrimEnd(", Vol. 1")
+    //         .Trim();
+    // }
 
-                result = new Model.Collection.Book
-                {
-                    Title = title,
-                    Author = writer,
-                    Year = year,
-                    GoodreadsID = goodreadsID,
-                    Pages = pages
-                };
-            }
-        }
+    // public static Model.Collection.Comic GetGoodreadsDataComicCollection(string url)
+    // {
+    //     var comic = GetGoodreadsDataComic(url);
 
-        return result;
-    }
+    //     return new Model.Collection.Comic
+    //     {
+    //         Title = comic.Title,
+    //         Writer = comic.Writer,
+    //         Illustrator = comic.Illustrator,
+    //         GoodreadsID = comic.GoodreadsID
+    //     };
+    // }
 
-    public static string GetPages(string str)
-    {
-        var rows = str.Split('\n');
-        var pagesRow = rows.FirstOrDefault(o => o.Contains("pages"));
+    // public static Model.Collection.Book GetGoodreadsDataBook(string url)
+    // {
+    //     Model.Collection.Book result = null;
 
-        if (pagesRow == null)
-        {
-            return null;
-        }
+    //     using (var client = new WebClient())
+    //     {
+    //         var content = client.DownloadData(url);
+    //         using (var stream = new MemoryStream(content))
+    //         {
+    //             var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+    //             var htmlDocument = new HtmlDocument();
+    //             htmlDocument.LoadHtml(text);
 
-        return Regex.Match(pagesRow, @"\d+").Value;
-    }
+    //             var title = GetTitle(htmlDocument);
+    //             var writer = GetWriter(htmlDocument);
+    //             var year = GetYear(htmlDocument);
+    //             var goodreadsID = GetGoogreadsID(url);
+    //             var pages = System.Convert.ToInt32(
+    //                 GetPages(
+    //                     htmlDocument.DocumentNode
+    //                         .SelectNodes("//p[contains(@data-testid, 'pagesFormat')]")
+    //                         .FirstOrDefault()
+    //                         .InnerText.Trim()
+    //                 )
+    //             );
 
-    public static string GetTitle(string url)
-    {
-        using (var client = new WebClient())
-        {
-            var content = client.DownloadData(url);
-            using (var stream = new MemoryStream(content))
-            {
-                string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+    //             result = new Model.Collection.Book
+    //             {
+    //                 Title = title,
+    //                 Author = writer,
+    //                 Year = year,
+    //                 GoodreadsID = goodreadsID,
+    //                 Pages = pages
+    //             };
+    //         }
+    //     }
 
-                var htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(result);
-                var node = htmlDocument.DocumentNode.SelectSingleNode("//head/title");
+    //     return result;
+    // }
 
-                if (node == null || string.IsNullOrWhiteSpace(node.InnerText))
-                {
-                    return string.Empty;
-                }
+    // public static string GetPages(string str)
+    // {
+    //     var rows = str.Split('\n');
+    //     var pagesRow = rows.FirstOrDefault(o => o.Contains("pages"));
 
-                return node.InnerText.Trim();
-            }
-        }
-    }
+    //     if (pagesRow == null)
+    //     {
+    //         return null;
+    //     }
+
+    //     return Regex.Match(pagesRow, @"\d+").Value;
+    // }
+
+    // public static string GetTitle(string url)
+    // {
+    //     using (var client = new WebClient())
+    //     {
+    //         var content = client.DownloadData(url);
+    //         using (var stream = new MemoryStream(content))
+    //         {
+    //             string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+
+    //             var htmlDocument = new HtmlDocument();
+    //             htmlDocument.LoadHtml(result);
+    //             var node = htmlDocument.DocumentNode.SelectSingleNode("//head/title");
+
+    //             if (node == null || string.IsNullOrWhiteSpace(node.InnerText))
+    //             {
+    //                 return string.Empty;
+    //             }
+
+    //             return node.InnerText.Trim();
+    //         }
+    //     }
+    // }
 }

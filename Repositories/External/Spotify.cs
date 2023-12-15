@@ -6,12 +6,12 @@ using SpotifyAPI.Web;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Spotify
+public class Spotify : IExternal<Music>
 {
     private const string API_KEY_FILE_NAME = "spotify_key.txt";
     public static string UrlIdentifier => "spotify.com";
 
-    public static Music GetAlbumInfoSpotify(string url)
+    public Music GetItem(string url)
     {
         var albumID = url.Split('/').LastOrDefault();
 

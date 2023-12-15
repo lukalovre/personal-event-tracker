@@ -7,76 +7,11 @@ using HtmlAgilityPack;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class YouTube
+public class YouTube : IExternal<TVShow>
 {
-    public class YoutubeChannelData
-    {
-        public string Title { get; set; }
-        public string ID { get; set; }
-    }
+    public static string UrlIdentifier => "youtube.com";
 
-    public class YoutubeSongData
-    {
-        public string Artist { get; set; }
-        public string Title { get; set; }
-        public string Link { get; set; }
-        public int Year { get; set; }
-        public int Runtime { get; set; }
-    }
-
-    public static TVShow GetTVShow(string url)
-    {
-        string inputImdb = Imdb.GetImdbIDFromUrl(url);
-
-        if (!string.IsNullOrWhiteSpace(url) && string.IsNullOrWhiteSpace(inputImdb))
-        {
-            return GetYoutubeChannel(url);
-        }
-
-        var imdbData = Imdb.GetDataFromAPI(inputImdb);
-
-        var runtime = 0;
-
-        try
-        {
-            runtime =
-                imdbData.Runtime == @"\N" || imdbData.Runtime == @"N/A"
-                    ? 0
-                    : int.Parse(imdbData.Runtime.TrimEnd(" min".ToArray()));
-        }
-        catch { }
-
-        return new TVShow
-        {
-            Title = imdbData.Title,
-            Runtime = runtime,
-            Year = int.Parse(imdbData.Year.Split('–').FirstOrDefault()),
-            Imdb = imdbData.imdbID,
-            Actors = imdbData.Actors,
-            Country = imdbData.Country,
-            Director = imdbData.Director,
-            Genre = imdbData.Genre,
-            Language = imdbData.Language,
-            Plot = imdbData.Plot,
-            Type = imdbData.Type,
-            Writer = imdbData.Writer
-        };
-    }
-
-    private static TVShow GetYoutubeChannel(string url)
-    {
-        var youtubeData = Links.GetYouTubeChannelNameData(url);
-
-        return new TVShow
-        {
-            Title = youtubeData.Title,
-            Imdb = youtubeData.ID,
-            Year = DateTime.Now.Year,
-            Runtime = 10
-        };
-    }
-
-    public static YoutubeChannelData GetYouTubeChannelNameData(string url)
+    public TVShow GetItem(string url)
     {
         using (var client = new WebClient())
         {
@@ -87,15 +22,8 @@ public class YouTube
 
                 var htmlDocument = new HtmlDocument();
                 htmlDocument.LoadHtml(result);
-                var node = htmlDocument.DocumentNode.SelectSingleNode(
-                    "//meta[contains(@property, 'og:title')]"
-                );
-                var title = node.GetAttributeValue("content", string.Empty).Trim();
 
-                if (node == null || string.IsNullOrWhiteSpace(title))
-                {
-                    return null;
-                }
+                var title = GetTitle(htmlDocument);
 
                 var handle = url.TrimStart("https://www.youtube.com/");
 
@@ -107,9 +35,24 @@ public class YouTube
                 // var destinationFile = Path.Combine(Paths.Posters, $"{handle}");
                 // Web.DownloadPNG(imageLink, destinationFile);
 
-                return new YoutubeChannelData { Title = title, ID = handle };
+                return new TVShow
+                {
+                    Title = title,
+                    Imdb = handle,
+                    Year = DateTime.Now.Year.ToString(),
+                    Runtime = "10"
+                };
             }
         }
+    }
+
+    private static string GetTitle(HtmlDocument htmlDocument)
+    {
+        var node = htmlDocument.DocumentNode.SelectSingleNode(
+            "//meta[contains(@property, 'og:title')]"
+        );
+
+        return node.GetAttributeValue("content", string.Empty).Trim();
     }
 
     public static YoutubeSongData GetYouTubeSongData(string url)
@@ -177,5 +120,20 @@ public class YouTube
                 };
             }
         }
+    }
+
+    public class YoutubeChannelData
+    {
+        public string Title { get; set; }
+        public string ID { get; set; }
+    }
+
+    public class YoutubeSongData
+    {
+        public string Artist { get; set; }
+        public string Title { get; set; }
+        public string Link { get; set; }
+        public int Year { get; set; }
+        public int Runtime { get; set; }
     }
 }

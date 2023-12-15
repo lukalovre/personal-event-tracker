@@ -7,11 +7,11 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Bandcamp
+public class Bandcamp : IExternal<Music>
 {
     public static string UrlIdentifier => "bandcamp.com";
 
-    public static Music GetAlbumInfoBandcamp(string url)
+    public Music GetItem(string url)
     {
         using var client = new WebClient();
         var content = client.DownloadData(url);
@@ -25,14 +25,10 @@ public class Bandcamp
         var year = GetYear(htmlDocument);
         var bandcampLink = GetLink(htmlDocument);
         var runtime = GetRuntime(htmlDocument);
+        var imageUrl = GetImageUrl(htmlDocument);
 
         string destinationFile = Paths.GetTempPath<Music>();
-        HtmlHelper.DownloadPNG(
-            htmlDocument.DocumentNode.SelectSingleNode("//a[@class='popupImage']").Attributes[
-                "href"
-            ].Value.Trim(),
-            destinationFile
-        );
+        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         return new Music
         {
@@ -43,6 +39,20 @@ public class Bandcamp
             Runtime = runtime,
             SpotifyID = bandcampLink
         };
+    }
+
+    private static string GetImageUrl(HtmlDocument htmlDocument)
+    {
+        try
+        {
+            return htmlDocument.DocumentNode
+                .SelectSingleNode("//a[@class='popupImage']")
+                .Attributes["href"].Value.Trim();
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private static int GetRuntime(HtmlDocument htmlDocument)
@@ -63,7 +73,7 @@ public class Bandcamp
                 var timeString = item.InnerText.Trim();
                 var split = timeString.Split(':');
 
-                if (split.Count() != 2)
+                if (split.Length != 2)
                 {
                     continue;
                 }

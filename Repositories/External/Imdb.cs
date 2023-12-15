@@ -6,9 +6,11 @@ using System.Net.Http.Headers;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Imdb
+public class Imdb : IExternal<Movie>, IExternal<TVShow>
 {
     private const string API_KEY_FILE_NAME = "omdbapi_key.txt";
+
+    public static string UrlIdentifier => "imdb.com";
 
     public class ImdbData
     {
@@ -127,6 +129,16 @@ public class Imdb
     public static string GetImdbIDFromUrl(string url)
     {
         return url.Split('/').FirstOrDefault(i => i.StartsWith("tt"));
+    }
+
+    public TVShow GetItem(string url)
+    {
+        throw new NotImplementedException();
+    }
+
+    Movie IExternal<Movie>.GetItem(string url)
+    {
+        throw new NotImplementedException();
     }
 
     // 	public static void OpenHyperlink(Movie movie)

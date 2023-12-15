@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
 using AvaloniaApplication1.ViewModels.GridItems;
 using Repositories;
 
@@ -10,7 +11,8 @@ namespace AvaloniaApplication1.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
-    public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource());
+    public MusicViewModel MusicViewModel { get; } =
+        new MusicViewModel(new TsvDatasource(), new MusicExternal());
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource());
     public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource());

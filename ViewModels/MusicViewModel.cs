@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
 using AvaloniaApplication1.ViewModels.GridItems;
 using DynamicData;
 using ReactiveUI;
@@ -17,6 +18,7 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class MusicViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
+    private readonly IExternal<Music> _external;
     private MusicGridItem _selectedItem;
     private List<Music> _itemList;
     private List<Event> _eventList;
@@ -138,9 +140,10 @@ public partial class MusicViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _gridCountMusicBookmarked, value);
     }
 
-    public MusicViewModel(IDatasource datasource)
+    public MusicViewModel(IDatasource datasource, IExternal<Music> external)
     {
         _datasource = datasource;
+        _external = external;
 
         Music = new ObservableCollection<MusicGridItem>();
         MusicTodo2 = new ObservableCollection<MusicGridItem>();
@@ -165,7 +168,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private void InputUrlChanged()
     {
-        NewMusic = MusicRepository.GetAlbumInfo(InputUrl);
+        NewMusic = _external.GetItem(InputUrl);
 
         NewMusicCover = FileRepsitory.GetImageTemp<Music>();
         NewEvent = new Event

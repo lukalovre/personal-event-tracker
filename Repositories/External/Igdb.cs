@@ -1,7 +1,14 @@
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Igdb
+public class Igdb : IExternal<Game>
 {
+    public static string UrlIdentifier => "igdb.com";
+
+    public Game GetItem(string url)
+    {
+        throw new System.NotImplementedException();
+    }
+
     // public static async Task<Model.dbo.Game> GetDataFromAPIAsync(string igdbUrl, bool downloadPoster = true)
     // {
     // 	m_api = GetApiClient();
