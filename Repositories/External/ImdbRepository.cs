@@ -60,55 +60,55 @@ public class ImdbRepository
     // }
 
     // public static TVShow GetTVShow(string url)
-	// 	{
-	// 		string inputImdb = Imdb.GetImdbIDFromUrl(url);
+    // 	{
+    // 		string inputImdb = Imdb.GetImdbIDFromUrl(url);
 
-	// 		if (!string.IsNullOrWhiteSpace(url) && string.IsNullOrWhiteSpace(inputImdb))
-	// 		{
-	// 			return GetYoutubeChannel(url);
-	// 		}
+    // 		if (!string.IsNullOrWhiteSpace(url) && string.IsNullOrWhiteSpace(inputImdb))
+    // 		{
+    // 			return GetYoutubeChannel(url);
+    // 		}
 
-	// 		var imdbData = Imdb.GetDataFromAPI(inputImdb);
+    // 		var imdbData = Imdb.GetDataFromAPI(inputImdb);
 
-	// 		var runtime = 0;
+    // 		var runtime = 0;
 
-	// 		try
-	// 		{
-	// 			runtime = imdbData.Runtime == @"\N" || imdbData.Runtime == @"N/A" ? 0 : int.Parse(imdbData.Runtime.TrimEnd(" min".ToArray()));
-	// 		}
-	// 		catch
-	// 		{
-	// 		}
+    // 		try
+    // 		{
+    // 			runtime = imdbData.Runtime == @"\N" || imdbData.Runtime == @"N/A" ? 0 : int.Parse(imdbData.Runtime.TrimEnd(" min".ToArray()));
+    // 		}
+    // 		catch
+    // 		{
+    // 		}
 
-	// 		return new TVShow
-	// 		{
-	// 			Title = imdbData.Title,
-	// 			Runtime = runtime,
-	// 			Year = int.Parse(imdbData.Year.Split('–').FirstOrDefault()),
-	// 			Imdb = imdbData.imdbID,
-	// 			Actors = imdbData.Actors,
-	// 			Country = imdbData.Country,
-	// 			Director = imdbData.Director,
-	// 			Genre = imdbData.Genre,
-	// 			Language = imdbData.Language,
-	// 			Plot = imdbData.Plot,
-	// 			Type = imdbData.Type,
-	// 			Writer = imdbData.Writer
-	// 		};
-	// 	}
+    // 		return new TVShow
+    // 		{
+    // 			Title = imdbData.Title,
+    // 			Runtime = runtime,
+    // 			Year = int.Parse(imdbData.Year.Split('–').FirstOrDefault()),
+    // 			Imdb = imdbData.imdbID,
+    // 			Actors = imdbData.Actors,
+    // 			Country = imdbData.Country,
+    // 			Director = imdbData.Director,
+    // 			Genre = imdbData.Genre,
+    // 			Language = imdbData.Language,
+    // 			Plot = imdbData.Plot,
+    // 			Type = imdbData.Type,
+    // 			Writer = imdbData.Writer
+    // 		};
+    // 	}
 
-		// private static TVShow GetYoutubeChannel(string url)
-		// {
-		// 	var youtubeData = Links.GetYouTubeChannelNameData(url);
+    // private static TVShow GetYoutubeChannel(string url)
+    // {
+    // 	var youtubeData = Links.GetYouTubeChannelNameData(url);
 
-		// 	return new TVShow
-		// 	{
-		// 		Title = youtubeData.Title,
-		// 		Imdb = youtubeData.ID,
-		// 		Year = DateTime.Now.Year,
-		// 		Runtime = 10
-		// 	};
-		// }
+    // 	return new TVShow
+    // 	{
+    // 		Title = youtubeData.Title,
+    // 		Imdb = youtubeData.ID,
+    // 		Year = DateTime.Now.Year,
+    // 		Runtime = 10
+    // 	};
+    // }
 
     private static void SavePoster(ImdbData imdbData)
     {
@@ -116,8 +116,20 @@ public class ImdbRepository
         // Web.DownloadPNG(imdbData.Poster, destinationFile);
     }
 
+    // public static void OpenLink(IImdb imdb)
+    // {
+    //     var hyperlink = $"https://www.imdb.com/title/{imdb.Imdb}/";
+    //     Web.OpenLink(hyperlink);
+    // }
+
     public static string GetImdbIDFromUrl(string url)
     {
         return url.Split('/').FirstOrDefault(i => i.StartsWith("tt"));
     }
+
+    // 	public static void OpenHyperlink(Movie movie)
+    // {
+    // 	var hyperlink = $"https://www.imdb.com/title/{movie.Imdb}";
+    // 	Web.OpenLink(hyperlink);
+    // }
 }
