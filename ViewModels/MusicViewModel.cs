@@ -180,7 +180,7 @@ public partial class MusicViewModel : ViewModelBase
 
         FindMusic(NewMusic);
 
-        _inputUrl = default;
+        _inputUrl = string.Empty;
     }
 
     private void FindMusic(Music music)

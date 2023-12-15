@@ -25,14 +25,13 @@ public partial class TVShowsViewModel : ViewModelBase
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
     private Event _newEvent;
-
     private bool _useNewDate;
     private TVShow _selectedItem;
     private int _gridCountItems;
-
     private int _gridCountItemsBookmarked;
     private int _addAmount;
     private string _addAmountString;
+    private string _inputUrl;
 
     public EventViewModel EventViewModel { get; }
 
@@ -124,6 +123,16 @@ public partial class TVShowsViewModel : ViewModelBase
         }
     }
 
+    public string InputUrl
+    {
+        get => _inputUrl;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _inputUrl, value);
+            InputUrlChanged();
+        }
+    }
+
     public TVShowsViewModel(IDatasource datasource, IExternal<TVShow> external)
     {
         _datasource = datasource;
@@ -142,6 +151,21 @@ public partial class TVShowsViewModel : ViewModelBase
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
+    }
+
+    private void InputUrlChanged()
+    {
+        NewItem = _external.GetItem(InputUrl);
+
+        NewImage = FileRepsitory.GetImageTemp<TVShow>();
+        NewEvent = new Event
+        {
+            // Amount = NewItem.Runtime,
+            Rating = 1,
+            Platform = eMusicPlatformType.Streaming.ToString()
+        };
+
+        _inputUrl = string.Empty;
     }
 
     private int SetAmount(int value)
