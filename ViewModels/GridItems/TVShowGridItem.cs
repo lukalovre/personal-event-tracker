@@ -6,5 +6,6 @@ public record TVShowGridItem(
     string Title,
     int Season,
     int Episode,
-    DateTime? LastDate
+    DateTime? LastDate,
+    int DaysAgo
 );

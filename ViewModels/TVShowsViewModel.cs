@@ -319,7 +319,8 @@ public partial class TVShowsViewModel : ViewModelBase
             i.Title,
             e.Chapter.Value,
             eventList.Count(o => o.Chapter == e.Chapter),
-            lastDate
+            lastDate,
+            daysAgo
         );
     }
 
