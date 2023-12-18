@@ -59,7 +59,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>
             return 0;
         }
 
-        if (int.TryParse(yearString.Split('-').FirstOrDefault(), out var year))
+        if (int.TryParse(yearString.Split('–').FirstOrDefault(), out var year))
         {
             return year;
         }
