@@ -11,19 +11,19 @@ namespace AvaloniaApplication1.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
-    public MusicViewModel MusicViewModel { get; } =
-        new MusicViewModel(new TsvDatasource(), new MusicExternal());
+    public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource(), new MusicExternal());
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource());
     public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource());
     public TVShowsViewModel TVShowsViewModel { get; } =
         new TVShowsViewModel(new TsvDatasource(), new TVShowExternal());
 
+    public SongsViewModel SongsViewModel { get; } = new SongsViewModel(new TsvDatasource(), new MusicExternal());
+
     private readonly IDatasource _datasource;
 
     public List<MusicGridItem> Music { get; set; }
     public List<ComicGridItem> Comics { get; set; }
-    public List<SongGridItem> Songs { get; set; }
     public List<ZooGridItem> Zoo { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
@@ -34,7 +34,6 @@ public class MainWindowViewModel : ViewModelBase
 
         Music = GetData<Music, MusicGridItem>();
         Comics = GetData<Comic, ComicGridItem>();
-        Songs = GetData<Song, SongGridItem>();
         Zoo = GetData<Zoo, ZooGridItem>();
     }
 
@@ -83,13 +82,6 @@ public class MainWindowViewModel : ViewModelBase
                     eventList.Where(o => o.Chapter == e.Chapter).Sum(o => o.Amount),
                     e.Rating
                 ) as T2;
-        }
-
-        if (typeof(T1) == typeof(Song))
-        {
-            var i = item as Song;
-            return new SongGridItem(i.Artist, i.Title, i.Year, eventList.Count(), e.Bookmakred)
-                as T2;
         }
 
         if (typeof(T1) == typeof(Zoo))

@@ -3,7 +3,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories;
 
-public class MusicExternal : IExternal<Music>
+public class MusicExternal : IExternal<Music>, IExternal<Song>
 {
     private readonly Bandcamp _bandcamp;
     private readonly Spotify _spotify;
@@ -29,5 +29,10 @@ public class MusicExternal : IExternal<Music>
         }
 
         return new Music();
+    }
+
+    Song IExternal<Song>.GetItem(string url)
+    {
+        throw new System.NotImplementedException();
     }
 }
