@@ -1,82 +1,122 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:AvaloniaApplication1.ViewModels"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
-             mc:Ignorable="d"
-             x:DataType="vm:EventViewModel"
-             x:Class="AvaloniaApplication1.Views.EventView"
-             xmlns:view="using:AvaloniaApplication1.Views"
-             x:CompileBindings="True">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:AvaloniaApplication1.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
+    mc:Ignorable="d"
+    x:DataType="vm:EventViewModel"
+    x:Class="AvaloniaApplication1.Views.EventView"
+    xmlns:view="using:AvaloniaApplication1.Views"
+    x:CompileBindings="True">
     <Border Background="Teal"
-            BorderBrush="Black"
-            BorderThickness="2"
-            CornerRadius="3"
-            Padding="10"
-            Margin="10">
-        <StackPanel>
-            <ComboBox ItemsSource="{Binding Events}"
-                      SelectedItem="{Binding SelectedEvent}"
-                      Margin="0,0,0,10">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"
-                                   Width="130" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IsEditDate, Mode=TwoWay}" />
-                <CalendarDatePicker SelectedDate="{Binding Date, Mode=TwoWay}"
-                                    SelectedDateFormat="Custom"
-                                    CustomDateFormatString="yyyy-MM-dd" />
-                <TimePicker SelectedTime="{Binding Time, Mode=TwoWay}"
-                            ClockIdentifier="24HourClock" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Rating"
-                           VerticalAlignment="Center" />
-                <NumericUpDown Value="{Binding SelectedEvent.Rating}"
-                               FormatString="0"
-                               Minimum="1"
-                               Maximum="5"
-                               Width="100" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">★</CheckBox>
-                <TextBlock Text="    " />
-                <CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Comment"
-                           VerticalAlignment="Center" />
-                <TextBlock Text="    " />
-                <TextBox Text="{Binding SelectedEvent.Comment}"
-                         Width="200" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="People"
-                           VerticalAlignment="Center" />
-                <TextBlock Text="       " />
-                <ComboBox ItemsSource="{Binding PeopleList}"
-                          SelectedItem="{Binding SelectedPerson}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Platform"
-                           VerticalAlignment="Center" />
-                <TextBlock Text="     " />
-                <ComboBox ItemsSource="{Binding PlatformTypes}"
-                          SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"
-                          Width="100" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="ExternalID"
-                           VerticalAlignment="Center" />
-                <TextBlock Text="     " />
-                <TextBox Text="{Binding SelectedEvent.ExternalID}"
-                         Width="100" />
-            </StackPanel>
-        </StackPanel>
+        BorderBrush="Black"
+        BorderThickness="2"
+        CornerRadius="3"
+        Padding="10"
+        Margin="10">
+        <TabControl>
+            <TabItem Header="Event">
+                <StackPanel>
+                    <ComboBox ItemsSource="{Binding Events}"
+                        SelectedItem="{Binding SelectedEvent}"
+                        Margin="0,0,0,10">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"
+                                    Width="130" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Rating" />
+                        <TextBlock Text="    " />
+                        <TextBlock Text="{Binding SelectedEvent.Rating}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">★</CheckBox>
+                        <TextBlock Text="    " />
+                        <CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Comment" />
+                        <TextBlock Text="    " />
+                        <TextBlock Text="{Binding SelectedEvent.Comment}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="People" />
+                        <TextBlock Text="       " />
+                        <TextBlock Text="{Binding SelectedPerson}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Platform"
+                            VerticalAlignment="Center" />
+                        <TextBlock Text="     " />
+                        <TextBlock Text="{Binding SelectedPlatformType}"
+                            Width="100" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ExternalID"
+                            VerticalAlignment="Center" />
+                        <TextBlock Text="     " />
+                        <TextBlock Text="{Binding SelectedEvent.ExternalID}"
+                            Width="100" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="New">
+                <StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Date" />
+                        <TextBlock Text="    " />
+                        <TextBox Text = "{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Rating"
+                            VerticalAlignment="Center" />
+                        <NumericUpDown Value="{Binding SelectedEvent.Rating}"
+                            FormatString="0"
+                            Minimum="1"
+                            Maximum="5"
+                            Width="100" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">★</CheckBox>
+                        <TextBlock Text="    " />
+                        <CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Comment"
+                            VerticalAlignment="Center" />
+                        <TextBlock Text="    " />
+                        <TextBox Text="{Binding SelectedEvent.Comment}"
+                            Width="200" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="People"
+                            VerticalAlignment="Center" />
+                        <TextBlock Text="       " />
+                        <ComboBox ItemsSource="{Binding PeopleList}"
+                            SelectedItem="{Binding SelectedPerson}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Platform"
+                            VerticalAlignment="Center" />
+                        <TextBlock Text="     " />
+                        <ComboBox ItemsSource="{Binding PlatformTypes}"
+                            SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}"
+                            Width="100" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ExternalID"
+                            VerticalAlignment="Center" />
+                        <TextBlock Text="     " />
+                        <TextBox Text="{Binding SelectedEvent.ExternalID}"
+                            Width="100" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Border>
 </UserControl>
