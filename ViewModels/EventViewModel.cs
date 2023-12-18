@@ -9,7 +9,7 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class EventViewModel : ViewModelBase
 {
-    private Event selectedEvent;
+    private Event _selectedEvent;
     private bool _isEditDate;
     private TimeSpan _time;
     private DateTime _date;
@@ -44,8 +44,12 @@ public partial class EventViewModel : ViewModelBase
 
     public Event SelectedEvent
     {
-        get => selectedEvent;
-        set => this.RaiseAndSetIfChanged(ref selectedEvent, value);
+        get => _selectedEvent;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedEvent, value);
+            SelectedEventChanged();
+        }
     }
 
     public ObservableCollection<PersonComboBoxItem> PeopleList =>
@@ -53,6 +57,7 @@ public partial class EventViewModel : ViewModelBase
 
     private PersonComboBoxItem _selectedPerson;
     private string _selectedPlatformType;
+    private string _selectedPersonString;
 
     public PersonComboBoxItem SelectedPerson
     {
@@ -62,6 +67,12 @@ public partial class EventViewModel : ViewModelBase
             _selectedPerson = value;
             SelectedPersonChanged();
         }
+    }
+
+    public string SelectedPersonString
+    {
+        get => _selectedPersonString;
+        set => this.RaiseAndSetIfChanged(ref _selectedPersonString, value);
     }
 
     public ObservableCollection<string> PlatformTypes { get; set; }
@@ -84,6 +95,11 @@ public partial class EventViewModel : ViewModelBase
     private void SelectedPersonChanged()
     {
         SelectedEvent.People = SelectedPerson.ID.ToString();
+    }
+
+    private void SelectedEventChanged()
+    {
+        SelectedPersonString = PeopleManager.Instance.GetDisplayNames(SelectedEvent?.People);
     }
 
     private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

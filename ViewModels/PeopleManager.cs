@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AvaloniaApplication1.ViewModels.Extensions;
 using Repositories;
 
 public class PeopleManager
@@ -34,5 +35,36 @@ public class PeopleManager
         return _peopleList
             .Select(o => new PersonComboBoxItem(o.ID, o.FirstName, o.LastName, o.Nickname))
             .ToList();
+    }
+
+    public string GetDisplayNames(string idStringList)
+    {
+        if (string.IsNullOrWhiteSpace(idStringList))
+        {
+            return string.Empty;
+        }
+
+        var idList = idStringList.Split(',').Select(o => int.Parse(o));
+
+        var result = string.Empty;
+
+        foreach (var id in idList)
+        {
+            result = result + ", " + GetDisplayName(id);
+        }
+
+        return result.TrimStart(", ");
+    }
+
+    public string GetDisplayName(int id)
+    {
+        var person = _peopleList.First(o => o.ID == id);
+
+        if (!string.IsNullOrWhiteSpace(person.Nickname))
+        {
+            return person.Nickname;
+        }
+
+        return $"{person.FirstName} {person.LastName}";
     }
 }

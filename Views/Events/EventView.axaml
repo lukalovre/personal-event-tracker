@@ -46,7 +46,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="People" />
                         <TextBlock Text="       " />
-                        <TextBlock Text="{Binding SelectedPerson}" />
+                        <TextBlock Text="{Binding SelectedPersonString}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Platform"
