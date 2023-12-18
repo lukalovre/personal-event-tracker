@@ -61,6 +61,7 @@ public class Bandcamp : IExternal<Music>
 
         try
         {
+            var totalHours = 0;
             var totalMinutes = 0;
             var totalSeconds = 0;
 
@@ -73,20 +74,31 @@ public class Bandcamp : IExternal<Music>
                 var timeString = item.InnerText.Trim();
                 var split = timeString.Split(':');
 
-                if (split.Length != 2)
+                var hours = 0;
+                var minutes = 0;
+                var seconds = 0;
+
+                if (split.Length == 2)
                 {
-                    continue;
+                    minutes = Convert.ToInt32(split[0]);
+                    seconds = Convert.ToInt32(split[1]);
                 }
 
-                var minutes = Convert.ToInt32(split[0]);
-                var seconds = Convert.ToInt32(split[1]);
+                if (split.Length == 3)
+                {
+                    hours = Convert.ToInt32(split[0]);
+                    minutes = Convert.ToInt32(split[1]);
+                    seconds = Convert.ToInt32(split[2]);
+                }
 
+                totalHours += hours;
                 totalMinutes += minutes;
                 totalSeconds += seconds;
             }
 
-            result =
-                totalMinutes + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero);
+            result = totalMinutes
+            + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero)
+            + totalHours * 60;
         }
         catch { }
 
