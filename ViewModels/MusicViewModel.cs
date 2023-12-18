@@ -242,6 +242,7 @@ public partial class MusicViewModel : ViewModelBase
 
     private void AddClickAction()
     {
+        NewEvent.Amount = NewMusic.Runtime;
         NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
         NewEvent.DateStart =
             NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
