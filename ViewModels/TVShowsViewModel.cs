@@ -156,7 +156,6 @@ public partial class TVShowsViewModel : ViewModelBase
     private void InputUrlChanged()
     {
         NewItem = _external.GetItem(InputUrl);
-
         NewImage = FileRepsitory.GetImageTemp<TVShow>();
         NewEvent = new Event { Amount = NewItem.Runtime, Rating = 1 };
 
@@ -172,12 +171,14 @@ public partial class TVShowsViewModel : ViewModelBase
 
     private void AddItemClickAction()
     {
+        NewEvent.Amount = NewItem.Runtime;
         NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
         NewEvent.DateStart =
             NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? NewEvent.DateEnd.Value
                 : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
+        NewEvent.Chapter = 1;
 
         _datasource.Add(NewItem, NewEvent);
 
