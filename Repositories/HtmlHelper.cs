@@ -55,6 +55,6 @@ public static class HtmlHelper
 
     public static string CleanUrl(string url)
     {
-        return url.Split('?').FirstOrDefault().Trim();
+        return url?.Split('?')?.FirstOrDefault()?.Trim() ?? string.Empty;
     }
 }
