@@ -1,9 +1,12 @@
+using System;
 using System.IO;
+using AvaloniaApplication1.ViewModels;
 
 namespace Repositories;
 
 public static class Paths
 {
+    public static string SettingsFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.json");
     public static string Images => Path.Combine(GetRootPath(), "Images");
     public static string APIKeys => Path.Combine(GetRootPath(), ".Keys");
     public static string Data => GetRootPath();
@@ -27,7 +30,7 @@ public static class Paths
 
     private static string GetRootPath()
     {
-        var rootPath = "../../Data";
+        var rootPath = Path.Combine(Settings.Instance.DatasourcePath, "Data");
         CreatePath(rootPath);
         return rootPath;
     }
