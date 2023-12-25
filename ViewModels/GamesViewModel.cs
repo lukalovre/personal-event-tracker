@@ -131,13 +131,13 @@ public partial class GamesViewModel : ViewModelBase
     {
         _datasource = datasource;
 
-        GridItems = new ObservableCollection<GameGridItem>();
-        GridItemsBookmarked = new ObservableCollection<GameGridItem>();
+        GridItems = [];
+        GridItemsBookmarked = [];
         ReloadData();
 
-        Info = new ObservableCollection<InfoModel>();
+        Info = [];
 
-        Events = new ObservableCollection<Event>();
+        Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);

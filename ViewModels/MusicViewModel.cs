@@ -145,16 +145,16 @@ public partial class MusicViewModel : ViewModelBase
         _datasource = datasource;
         _external = external;
 
-        Music = new ObservableCollection<MusicGridItem>();
-        MusicTodo2 = new ObservableCollection<MusicGridItem>();
-        MusicTodo1 = new ObservableCollection<MusicGridItem>();
-        MusicBookmarked = new ObservableCollection<MusicGridItem>();
+        Music = [];
+        MusicTodo2 = [];
+        MusicTodo1 = [];
+        MusicBookmarked = [];
         ReloadData();
 
-        Info = new ObservableCollection<InfoModel>();
-        ArtistMusic = new ObservableCollection<MusicGridItem>();
+        Info = [];
+        ArtistMusic = [];
 
-        Events = new ObservableCollection<Event>();
+        Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
 
         AddClick = ReactiveCommand.Create(AddClickAction);

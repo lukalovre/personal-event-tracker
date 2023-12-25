@@ -12,9 +12,8 @@ public class Settings
         Formatting = Formatting.Indented,
     };
 
-    private static Settings _instance;
+    private static Settings? _instance;
     public string DatasourcePath { get; set; } = string.Empty;
-
 
     public static Settings Instance
     {

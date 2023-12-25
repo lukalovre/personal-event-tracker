@@ -53,7 +53,7 @@ public partial class TVShowsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
     }
 
-    public static ObservableCollection<string> MusicPlatformTypes => new();
+    public static ObservableCollection<string> MusicPlatformTypes => [];
 
     public static ObservableCollection<PersonComboBoxItem> PeopleList =>
         new(PeopleManager.Instance.GetComboboxList());
@@ -138,13 +138,13 @@ public partial class TVShowsViewModel : ViewModelBase
         _datasource = datasource;
         _external = external;
 
-        GridItems = new ObservableCollection<TVShowGridItem>();
-        GridItemsBookmarked = new ObservableCollection<TVShowGridItem>();
+        GridItems = [];
+        GridItemsBookmarked = [];
         ReloadData();
 
-        Info = new ObservableCollection<InfoModel>();
+        Info = [];
 
-        Events = new ObservableCollection<Event>();
+        Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);

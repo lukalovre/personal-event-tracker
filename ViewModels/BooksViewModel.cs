@@ -133,13 +133,13 @@ public partial class BooksViewModel : ViewModelBase
     {
         _datasource = datasource;
 
-        GridItems = new ObservableCollection<BookGridItem>();
-        GridItemsBookmarked = new ObservableCollection<BookGridItem>();
+        GridItems = [];
+        GridItemsBookmarked = [];
         ReloadData();
 
-        Info = new ObservableCollection<InfoModel>();
+        Info = [];
 
-        Events = new ObservableCollection<Event>();
+        Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);

@@ -92,7 +92,7 @@ internal class TsvDatasource : IDatasource
 
         if (!File.Exists(itemFilePath))
         {
-            return new List<T>();
+            return [];
         }
 
         var text = File.ReadAllText(itemFilePath);
@@ -119,7 +119,7 @@ internal class TsvDatasource : IDatasource
 
         if (!File.Exists(eventFilePath))
         {
-            return new List<Event>();
+            return [];
         }
 
         var text = File.ReadAllText(eventFilePath);

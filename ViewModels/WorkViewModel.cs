@@ -112,13 +112,13 @@ public partial class WorkViewModel : ViewModelBase
     {
         _datasource = datasource;
 
-        Work = new ObservableCollection<WorkGridItem>();
-        WorkBookmarked = new ObservableCollection<WorkGridItem>();
+        Work = [];
+        WorkBookmarked = [];
         ReloadData();
 
-        Info = new ObservableCollection<InfoModel>();
+        Info = [];
 
-        Events = new ObservableCollection<Event>();
+        Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
 
         AddClick = ReactiveCommand.Create(AddClickAction);
