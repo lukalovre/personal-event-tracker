@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
@@ -19,31 +20,42 @@ public class Goodreads : IExternal<Book>
 
         using (var client = new WebClient())
         {
-            var content = client.DownloadData(url);
-            using (var stream = new MemoryStream(content))
+            byte[]? content = null;
+
+            try
             {
-                var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-                var htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(text);
 
-                var title = GetTitle(htmlDocument);
-                var writer = GetWriter(htmlDocument);
-                var year = GetYear(htmlDocument);
-                var goodreadsID = GetGoogreadsID(url);
-                var pages = GetPages(htmlDocument);
-                var imageUrl = GetImageUrl(htmlDocument);
-
-                var destinationFile = Paths.GetTempPath<Book>();
-                HtmlHelper.DownloadPNG(imageUrl, destinationFile);
-
-                result = new Book
-                {
-                    Title = title,
-                    Author = writer,
-                    Year = year,
-                    GoodreadsID = goodreadsID
-                };
+                content = client.DownloadData(url);
             }
+            catch { }
+
+            if (content is null)
+            {
+                return new Book();
+            }
+
+            using var stream = new MemoryStream(content);
+            var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(text);
+
+            var title = GetTitle(htmlDocument);
+            var writer = GetWriter(htmlDocument);
+            var year = GetYear(htmlDocument);
+            var goodreadsID = GetGoogreadsID(url);
+            var pages = GetPages(htmlDocument);
+            var imageUrl = GetImageUrl(htmlDocument);
+
+            var destinationFile = Paths.GetTempPath<Book>();
+            HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+
+            result = new Book
+            {
+                Title = title,
+                Author = writer,
+                Year = year,
+                GoodreadsID = goodreadsID
+            };
         }
 
         return result;
@@ -51,11 +63,17 @@ public class Goodreads : IExternal<Book>
 
     private string GetImageUrl(HtmlDocument htmlDocument)
     {
-        var result = htmlDocument.DocumentNode
-            .SelectNodes("//img[contains(@class, 'ResponsiveImage')]")
-            .FirstOrDefault()
-            .Attributes["src"]
-            .Value;
+        var result = string.Empty;
+
+        try
+        {
+            result = htmlDocument.DocumentNode
+               .SelectNodes("//img[contains(@class, 'ResponsiveImage')]")
+               .FirstOrDefault()
+               .Attributes["src"]
+               .Value;
+        }
+        catch { }
 
         return result;
     }
@@ -100,7 +118,7 @@ public class Goodreads : IExternal<Book>
 
     private static int GetGoogreadsID(string url)
     {
-        return System.Convert.ToInt32(
+        return Convert.ToInt32(
             url.TrimStart("https://www.goodreads.com/book/show/")
                 .TrimStart("https://www.goodreads.com/en/book/show/")
                 .Trim()
@@ -113,37 +131,59 @@ public class Goodreads : IExternal<Book>
 
     private static int GetYear(HtmlDocument htmlDocument)
     {
-        return System.Convert.ToInt32(
-            HtmlHelper.GetYear(
-                htmlDocument.DocumentNode
-                    .SelectNodes("//p[contains(@data-testid, 'publicationInfo')]")
-                    .FirstOrDefault()
-                    .InnerText.Trim()
-            )
-        );
+
+        var result = 0;
+
+        try
+        {
+
+            result = Convert.ToInt32(
+                HtmlHelper.GetYear(
+                    htmlDocument.DocumentNode
+                        .SelectNodes("//p[contains(@data-testid, 'publicationInfo')]")
+                        .FirstOrDefault()
+                        .InnerText.Trim()
+                )
+            );
+        }
+        catch { }
+
+        return result;
     }
 
     private static string GetWriter(HtmlDocument htmlDocument)
     {
-        var result = htmlDocument.DocumentNode
-            .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
-            .FirstOrDefault()
-            .InnerText.Replace("(Goodreads Author)", "")
-            .Trim()
-            .TrimEnd(',');
+        var result = string.Empty;
 
-        return WebUtility.HtmlDecode(result);
+        try
+        {
+            result = htmlDocument.DocumentNode
+               .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
+               .FirstOrDefault()
+               .InnerText.Replace("(Goodreads Author)", "")
+               .Trim()
+               .TrimEnd(',');
+        }
+        catch { }
+
+        return WebUtility.HtmlDecode(result); ;
     }
 
     private static string GetTitle(HtmlDocument htmlDocument)
     {
-        var result = htmlDocument.DocumentNode
-            .SelectNodes("//h1[contains(@class, 'Text Text__title1')]")
-            .FirstOrDefault()
-            .InnerText.Trim()
-            .TrimEnd(", Volume 1")
-            .TrimEnd(", Vol. 1")
-            .Trim();
+        var result = string.Empty;
+
+        try
+        {
+            result = htmlDocument.DocumentNode
+               .SelectNodes("//h1[contains(@class, 'Text Text__title1')]")
+               .FirstOrDefault()
+               .InnerText.Trim()
+               .TrimEnd(", Volume 1")
+               .TrimEnd(", Vol. 1")
+               .Trim();
+        }
+        catch { }
 
         return WebUtility.HtmlDecode(result);
     }
@@ -163,22 +203,33 @@ public class Goodreads : IExternal<Book>
 
     public static int GetPages(HtmlDocument htmlDocument)
     {
-        var str = htmlDocument.DocumentNode
-                                           .SelectNodes("//p[contains(@data-testid, 'pagesFormat')]")
-                                           .FirstOrDefault()
-                                           .InnerText.Trim();
 
-        var rows = str.Split('\n');
-        var pagesRow = rows.FirstOrDefault(o => o.Contains("pages"));
+        var result = 0;
 
-        if (pagesRow == null)
+        try
         {
-            return 0;
+
+            var str = htmlDocument.DocumentNode
+                                               .SelectNodes("//p[contains(@data-testid, 'pagesFormat')]")
+                                               .FirstOrDefault()
+                                               .InnerText.Trim();
+
+            var rows = str.Split('\n');
+            var pagesRow = rows.FirstOrDefault(o => o.Contains("pages"));
+
+            if (pagesRow == null)
+            {
+                return 0;
+            }
+
+            var pageString = Regex.Match(pagesRow, @"\d+").Value;
+
+            result = int.Parse(pageString);
         }
+        catch { }
 
-        var pageString = Regex.Match(pagesRow, @"\d+").Value;
+        return result;
 
-        return int.Parse(pageString);
     }
 
     // public static string GetTitle(string url)
