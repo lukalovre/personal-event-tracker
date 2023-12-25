@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -275,6 +276,19 @@ public partial class BooksViewModel : ViewModelBase
     {
         _itemList = _datasource.GetList<Book>();
         _eventList = _datasource.GetEventList<Book>();
+
+        //Getting data from goodreds (do for commics also) - images
+        // foreach (var item in _itemList)
+        // {
+        //     if (File.Exists(Paths.GetImagePath<Book>(item.ID)))
+        //     {
+        //         continue;
+        //     }
+
+        //     var url = $"https://www.goodreads.com/book/show/{item.GoodreadsID}";
+        //     var newItem = _external.GetItem(url);
+        //     FileRepsitory.MoveTempImage<Book>(item.ID);
+        // }
 
         return _eventList
             .OrderByDescending(o => o.DateEnd)
