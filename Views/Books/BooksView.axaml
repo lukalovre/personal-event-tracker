@@ -116,15 +116,14 @@
                         <TextBox Watermark="GoodreadsID"
                             Text="{Binding NewItem.GoodreadsID}"/>
                         <CheckBox IsChecked="{Binding NewItem.is1001}">1001</CheckBox>
+                        <Image Source="{Binding NewImage}" />
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding UseNewDate}" />
-                            <CalendarDatePicker SelectedDate="{Binding NewDate, Mode=TwoWay}"
-                                IsEnabled="{Binding UseNewDate}"
-                                SelectedDateFormat="Custom"
-                                CustomDateFormatString="yyyy-MM-dd" />
-                            <TimePicker SelectedTime="{Binding NewTime, Mode=TwoWay}"
-                                ClockIdentifier="24HourClock"
-                                IsEnabled="{Binding UseNewDate}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Date" />
+                                <TextBlock Text="    " />
+                                <TextBox Text = "{Binding NewDateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
@@ -136,6 +135,8 @@
                         <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
                         <TextBox Watermark="Comment"
                             Text="{Binding NewEvent.Comment}" />
+                        <TextBox Watermark="Pages"
+                            Text="{Binding NewEvent.Amount}" />
                         <ComboBox ItemsSource="{Binding PeopleList}"
                             SelectedItem="{Binding SelectedPerson}" />
                         <ComboBox ItemsSource="{Binding MusicPlatformTypes}"

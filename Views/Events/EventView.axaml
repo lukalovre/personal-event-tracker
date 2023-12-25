@@ -66,11 +66,11 @@
             </TabItem>
             <TabItem Header="New">
                 <StackPanel>
-
                     <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsEditDate}"/>
                         <TextBlock Text="Date" />
                         <TextBlock Text="    " />
-                        <TextBox Text = "{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"/>
+                        <TextBox Text = "{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Rating"

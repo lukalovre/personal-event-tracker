@@ -16,6 +16,7 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class BooksViewModel : ViewModelBase
 {
+    private const int AMOUNT_TO_MINUTES_MODIFIER = 2;
     private readonly IDatasource _datasource;
     private readonly IExternal<Book> _external;
     private BookGridItem _selectedGridItem;
@@ -57,12 +58,7 @@ public partial class BooksViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
     }
 
-    public static ObservableCollection<string> MusicPlatformTypes =>
-        new(
-            Enum.GetValues(typeof(eMusicPlatformType))
-                .Cast<eMusicPlatformType>()
-                .Select(v => v.ToString())
-        );
+    public static ObservableCollection<string> MusicPlatformTypes => [];
 
     public static ObservableCollection<PersonComboBoxItem> PeopleList =>
         new(PeopleManager.Instance.GetComboboxList());
@@ -78,6 +74,9 @@ public partial class BooksViewModel : ViewModelBase
         get => _selectedItem;
         set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
     }
+
+    public DateTime NewDateEnd { get; set; }
+
     public ObservableCollection<Event> Events { get; set; }
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
@@ -177,7 +176,7 @@ public partial class BooksViewModel : ViewModelBase
     {
         NewItem = _external.GetItem(InputUrl);
 
-        NewImage = FileRepsitory.GetImageTemp<Music>();
+        NewImage = FileRepsitory.GetImageTemp<Book>();
         NewEvent = new Event
         {
             Rating = 1,
@@ -189,11 +188,8 @@ public partial class BooksViewModel : ViewModelBase
 
     private void AddItemClickAction()
     {
-        NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
-        NewEvent.DateStart =
-            NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
-                ? NewEvent.DateEnd.Value
-                : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+        NewEvent.DateEnd = UseNewDate ? NewDateEnd : DateTime.Now;
+        NewEvent.DateStart = CalculateDateStart(NewEvent, NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
 
         _datasource.Add(NewItem, NewEvent);
@@ -212,12 +208,12 @@ public partial class BooksViewModel : ViewModelBase
         {
             lastEvent.DateEnd = DateTime.Now;
         }
+        else
+        {
+            lastEvent.DateEnd = EventViewModel.SelectedEvent.DateEnd;
+        }
 
-        lastEvent.DateStart =
-            lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
-                ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-_newAmount * 2);
-
+        lastEvent.DateStart = CalculateDateStart(lastEvent, _newAmount);
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = _newAmount;
 
@@ -238,6 +234,12 @@ public partial class BooksViewModel : ViewModelBase
         GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
+    private static DateTime CalculateDateStart(Event e, int amount)
+    {
+        return e.DateEnd.Value.TimeOfDay.Ticks == 0
+             ? e.DateEnd.Value
+             : e.DateEnd.Value.AddMinutes(-amount * AMOUNT_TO_MINUTES_MODIFIER);
+    }
     private void ClearNewItemControls()
     {
         NewItem = default;
