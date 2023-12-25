@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
@@ -16,6 +17,7 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class BooksViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
+    private readonly IExternal<Book> _external;
     private BookGridItem _selectedGridItem;
     private List<Book> _itemList;
     private List<Event> _eventList;
@@ -41,6 +43,7 @@ public partial class BooksViewModel : ViewModelBase
     }
 
     private int _newAmount;
+    private string _inputUrl;
 
     public string AddAmountString
     {
@@ -129,9 +132,20 @@ public partial class BooksViewModel : ViewModelBase
         }
     }
 
-    public BooksViewModel(IDatasource datasource)
+    public string InputUrl
+    {
+        get => _inputUrl;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _inputUrl, value);
+            InputUrlChanged();
+        }
+    }
+
+    public BooksViewModel(IDatasource datasource, IExternal<Book> external)
     {
         _datasource = datasource;
+        _external = external;
 
         GridItems = [];
         GridItemsBookmarked = [];
@@ -157,6 +171,20 @@ public partial class BooksViewModel : ViewModelBase
         _newAmount = newAmount;
         AddAmountString = $"    Adding {newAmount} pages";
         return value;
+    }
+
+    private void InputUrlChanged()
+    {
+        NewItem = _external.GetItem(InputUrl);
+
+        NewImage = FileRepsitory.GetImageTemp<Music>();
+        NewEvent = new Event
+        {
+            Rating = 1,
+            Platform = eMusicPlatformType.Streaming.ToString()
+        };
+
+        _inputUrl = string.Empty;
     }
 
     private void AddItemClickAction()
