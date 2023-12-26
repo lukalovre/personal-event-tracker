@@ -1,51 +1,350 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reflection;
+using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
+using DynamicData;
+using ReactiveUI;
 using Repositories;
+using SpotifyAPI.Web;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public class MoviesViewModel : ViewModelBase
+public partial class MoviesViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
+    private readonly IExternal<Movie> _external;
+    private MovieGridItem _selectedGridItem;
+    private List<Movie> _itemList;
+    private List<Event> _eventList;
+    private Movie _newItem;
+    private Bitmap? _itemImage;
+    private Bitmap? _newItemImage;
+    private Event _newEvent;
+    private bool _useNewDate;
+    private Movie _selectedItem;
+    private int _gridCountItems;
+    private int _gridCountItemsBookmarked;
+    private int _addAmount;
+    private string _addAmountString;
+    private string _inputUrl;
 
-    public List<MovieGridItem> Movies { get; set; }
+    public EventViewModel EventViewModel { get; }
 
-    public MoviesViewModel()
+    public int AddAmount
     {
-        _datasource = new TsvDatasource();
-        Movies = GetData<Movie, MovieGridItem>();
+        get => _addAmount;
+        set { _addAmount = SetAmount(value); }
     }
 
-    private List<T2> GetData<T1, T2>()
-        where T1 : IItem
-        where T2 : class
+    public string AddAmountString
     {
-        var itemList = _datasource.GetList<T1>();
-        var eventList = _datasource.GetEventList<T1>();
+        get => _addAmountString;
+        set => this.RaiseAndSetIfChanged(ref _addAmountString, value);
+    }
 
-        return eventList
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == DateTime.Now.Year)
+    public bool UseNewDate
+    {
+        get => _useNewDate;
+        set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
+    }
+
+    public static ObservableCollection<string> MusicPlatformTypes => [];
+
+    public static ObservableCollection<PersonComboBoxItem> PeopleList =>
+        new(PeopleManager.Instance.GetComboboxList());
+
+    public PersonComboBoxItem SelectedPerson { get; set; }
+
+    public ObservableCollection<MovieGridItem> GridItems { get; set; }
+    public ObservableCollection<MovieGridItem> GridItemsBookmarked { get; set; }
+    public ObservableCollection<InfoModel> Info { get; set; }
+
+    public Movie SelectedItem
+    {
+        get => _selectedItem;
+        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+    }
+    public ObservableCollection<Event> Events { get; set; }
+
+    public ReactiveCommand<Unit, Unit> AddItemClick { get; }
+    public ReactiveCommand<Unit, Unit> AddEventClick { get; }
+
+    public Movie NewItem
+    {
+        get => _newItem;
+        set => this.RaiseAndSetIfChanged(ref _newItem, value);
+    }
+
+    public DateTime NewDate { get; set; } =
+        new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
+    public TimeSpan NewTime { get; set; } = new TimeSpan();
+    public Event NewEvent
+    {
+        get => _newEvent;
+        set => this.RaiseAndSetIfChanged(ref _newEvent, value);
+    }
+
+    public Bitmap? Image
+    {
+        get => _itemImage;
+        private set => this.RaiseAndSetIfChanged(ref _itemImage, value);
+    }
+
+    public Bitmap? NewImage
+    {
+        get => _newItemImage;
+        private set => this.RaiseAndSetIfChanged(ref _newItemImage, value);
+    }
+
+    public int GridCountItems
+    {
+        get => _gridCountItems;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountItems, value);
+    }
+
+    public int GridCountItemsBookmarked
+    {
+        get => _gridCountItemsBookmarked;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountItemsBookmarked, value);
+    }
+    public MovieGridItem SelectedGridItem
+    {
+        get => _selectedGridItem;
+        set
+        {
+            _selectedGridItem = value;
+            SelectedItemChanged();
+        }
+    }
+
+    public string InputUrl
+    {
+        get => _inputUrl;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _inputUrl, value);
+            InputUrlChanged();
+        }
+    }
+
+    public MoviesViewModel(IDatasource datasource, IExternal<Movie> external)
+    {
+        _datasource = datasource;
+        _external = external;
+
+        GridItems = [];
+        GridItemsBookmarked = [];
+        ReloadData();
+
+        Info = [];
+
+        Events = [];
+        EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
+
+        AddItemClick = ReactiveCommand.Create(AddItemClickAction);
+        AddEventClick = ReactiveCommand.Create(AddEventClickAction);
+
+        SelectedGridItem = GridItems.LastOrDefault();
+    }
+
+    private void InputUrlChanged()
+    {
+        NewItem = _external.GetItem(InputUrl);
+        NewImage = FileRepsitory.GetImageTemp<Movie>();
+        NewEvent = new Event { Amount = NewItem.Runtime, Rating = 1 };
+
+        _inputUrl = string.Empty;
+    }
+
+    private int SetAmount(int value)
+    {
+        _addAmount = value;
+        AddAmountString = $"    Adding {_addAmount} minutes";
+        return value;
+    }
+
+    private void AddItemClickAction()
+    {
+        NewEvent.Amount = NewItem.Runtime;
+        NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
+        NewEvent.DateStart =
+            NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
+                ? NewEvent.DateEnd.Value
+                : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+        NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
+        NewEvent.Chapter = 1;
+
+        _datasource.Add(NewItem, NewEvent);
+
+        ReloadData();
+        ClearNewItemControls();
+    }
+
+    private void AddEventClickAction()
+    {
+        var lastEvent = Events.MaxBy(o => o.DateEnd);
+
+        lastEvent.ID = 0;
+
+        if (!EventViewModel.IsEditDate)
+        {
+            lastEvent.DateEnd = DateTime.Now;
+        }
+
+        lastEvent.DateStart =
+            lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
+                ? lastEvent.DateEnd.Value
+                : lastEvent.DateEnd.Value.AddMinutes(-_addAmount);
+
+        lastEvent.Platform = EventViewModel.SelectedPlatformType;
+        lastEvent.Amount = _addAmount;
+
+        // For now
+        lastEvent.Comment = null;
+
+        _datasource.Add(SelectedItem, lastEvent);
+
+        ReloadData();
+        ClearNewItemControls();
+    }
+
+    private void ReloadData()
+    {
+        GridItems.Clear();
+        GridItems.AddRange(LoadData());
+        GridCountItems = GridItems.Count;
+
+        GridItemsBookmarked.Clear();
+        GridItemsBookmarked.AddRange(LoadDataBookmarked(1));
+        GridCountItemsBookmarked = GridItemsBookmarked.Count;
+    }
+
+    private void ClearNewItemControls()
+    {
+        NewItem = default;
+        NewEvent = default;
+        NewImage = default;
+        SelectedPerson = default;
+    }
+
+    private List<InfoModel> GetSelectedItemInfo<T>()
+    {
+        var result = new List<InfoModel>();
+
+        if (SelectedItem == null)
+        {
+            return result;
+        }
+
+        var properties = typeof(T).GetProperties();
+
+        foreach (PropertyInfo property in properties)
+        {
+            var e = _eventList?.First(o => o.ItemID == SelectedItem.ID);
+            var i = _itemList.First(o => o.ID == e.ItemID);
+
+            var value = property.GetValue(i);
+            result.Add(new InfoModel(property.Name, value));
+        }
+
+        return result;
+    }
+
+    private List<MovieGridItem> LoadData()
+    {
+        _itemList = _datasource.GetList<Movie>();
+        _eventList = _datasource.GetEventList<Movie>();
+
+        return _eventList
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
             .Select(
-                o =>
-                    Convert<T1, T2>(
+                (o, i) =>
+                    Convert(
+                        i,
                         o,
-                        itemList.First(m => m.ID == o.ItemID),
-                        eventList.Where(e => e.ItemID == o.ItemID)
+                        _itemList.First(m => m.ID == o.ItemID),
+                        _eventList.Where(e => e.ItemID == o.ItemID)
                     )
             )
             .ToList();
     }
 
-    private T2 Convert<T1, T2>(Event e, T1 item, IEnumerable<Event> eventList)
-        where T1 : IItem
-        where T2 : class
+    private List<MovieGridItem> LoadDataBookmarked(int? yearsAgo = null)
     {
-        var i = item as Movie;
-        return new MovieGridItem(i.Title, i.Director, i.Year, e.DateEnd) as T2;
+        _itemList = _datasource.GetList<Movie>();
+        _eventList = _datasource.GetEventList<Movie>();
+
+        var dateFilter = yearsAgo.HasValue
+            ? DateTime.Now.AddYears(-yearsAgo.Value)
+            : DateTime.MaxValue;
+
+        return _eventList
+            .OrderByDescending(o => o.DateEnd)
+            .DistinctBy(o => o.ItemID)
+            .OrderBy(o => o.DateEnd)
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= dateFilter)
+            .Select(
+                (o, i) =>
+                    Convert(
+                        i,
+                        o,
+                        _itemList.First(m => m.ID == o.ItemID),
+                        _eventList.Where(e => e.ItemID == o.ItemID)
+                    )
+            )
+            .ToList();
+    }
+
+    private static MovieGridItem Convert(
+        int index,
+        Event e,
+        Movie i,
+        IEnumerable<Event> eventList
+    )
+    {
+        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
+        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
+
+        return new MovieGridItem(
+            i.ID,
+            index + 1,
+            i.Title,
+            i.Director,
+            i.Year,
+            e.Rating.Value
+        );
+    }
+
+    public void SelectedItemChanged()
+    {
+        Info.Clear();
+        Events.Clear();
+        Image = null;
+
+        if (SelectedGridItem == null)
+        {
+            return;
+        }
+
+        SelectedItem = _itemList.First(o => o.ID == SelectedGridItem.ID);
+        Info.AddRange(GetSelectedItemInfo<Movie>());
+        Events.AddRange(
+            _eventList
+                .Where(o => o.ItemID == SelectedItem.ID && o.DateEnd.HasValue)
+                .OrderBy(o => o.DateEnd)
+        );
+
+        var item = _itemList.First(o => o.ID == SelectedItem.ID);
+        Image = FileRepsitory.GetImage<Movie>(item.ID);
     }
 }

@@ -14,6 +14,31 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>
 
     public static string UrlIdentifier => "imdb.com";
 
+    Movie IExternal<Movie>.GetItem(string url)
+    {
+        string inputImdb = GetImdbID(url);
+
+        var imdbData = GetDataFromAPI<Movie>(inputImdb);
+
+        var runtime = GetRuntime(imdbData.Runtime);
+        int year = GetYear(imdbData.Year);
+
+        return new Movie
+        {
+            Title = imdbData.Title,
+            Runtime = runtime,
+            Year = year,
+            Imdb = imdbData.imdbID,
+            Actors = imdbData.Actors,
+            Country = imdbData.Country,
+            Director = imdbData.Director,
+            Ganre = imdbData.Genre,
+            Language = imdbData.Language,
+            Plot = imdbData.Plot,
+            Type = imdbData.Type,
+            Writer = imdbData.Writer
+        };
+    }
     public TVShow GetItem(string url)
     {
         string inputImdb = GetImdbID(url);
@@ -65,11 +90,6 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>
         }
 
         return 0;
-    }
-
-    Movie IExternal<Movie>.GetItem(string url)
-    {
-        throw new NotImplementedException();
     }
 
     public static ImdbData GetDataFromAPI<T>(string imdbID)

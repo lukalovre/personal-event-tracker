@@ -10,14 +10,12 @@ namespace AvaloniaApplication1.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel();
+    public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel(new TsvDatasource(), new MovieExternal());
     public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource(), new MusicExternal());
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource(), new BookExtetrnal());
     public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource());
-    public TVShowsViewModel TVShowsViewModel { get; } =
-        new TVShowsViewModel(new TsvDatasource(), new TVShowExternal());
-
+    public TVShowsViewModel TVShowsViewModel { get; } = new TVShowsViewModel(new TsvDatasource(), new TVShowExternal());
     public SongsViewModel SongsViewModel { get; } = new SongsViewModel(new TsvDatasource(), new MusicExternal());
 
     private readonly IDatasource _datasource;
@@ -66,11 +64,6 @@ public class MainWindowViewModel : ViewModelBase
         where T1 : IItem
         where T2 : class
     {
-        if (typeof(T1) == typeof(Movie))
-        {
-            var i = item as Movie;
-            return new MovieGridItem(i.Title, i.Director, i.Year, e.DateEnd) as T2;
-        }
 
         if (typeof(T1) == typeof(Comic))
         {

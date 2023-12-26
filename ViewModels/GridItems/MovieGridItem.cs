@@ -1,3 +1,1 @@
-using System;
-
-public record MovieGridItem(string Title, string Director, int Year, DateTime? Date);
+public record MovieGridItem(int ID, int Index, string Title, string Director, int Year, int Rating);
