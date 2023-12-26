@@ -9,9 +9,12 @@ namespace Repositories;
 
 public static class HtmlHelper
 {
-    public static string GetYear(string str)
+    public static int GetYear(string str)
     {
-        return Regex.Match(str, @"\d{4}").Value;
+        var years = Regex.Matches(str, @"\d{4}");
+        var yearList = years.Select(o => Convert.ToInt32(o.Value));
+
+        return yearList.FirstOrDefault(o => o > 1900 && o < 2999);
     }
 
     public static void OpenLink(string link)

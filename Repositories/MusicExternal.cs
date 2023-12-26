@@ -40,6 +40,11 @@ public class MusicExternal : IExternal<Music>, IExternal<Song>
             return _youtube.GetSongItem(url);
         }
 
+        if (url.Contains(Bandcamp.UrlIdentifier))
+        {
+            return _bandcamp.GetSongItem(url);
+        }
+
         return new Song();
     }
 }
