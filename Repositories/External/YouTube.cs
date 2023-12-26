@@ -8,7 +8,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class YouTube : IExternal<TVShow>
+public class YouTube : IExternal<TVShow>, IExternal<Song>
 {
     public static string UrlIdentifier => "youtube.com";
 
@@ -52,7 +52,7 @@ public class YouTube : IExternal<TVShow>
         return node.GetAttributeValue("content", string.Empty).Trim();
     }
 
-    public Song GetSongItem(string url)
+    Song IExternal<Song>.GetItem(string url)
     {
         using var client = new WebClient();
         var content = client.DownloadData(url);
@@ -144,4 +144,5 @@ public class YouTube : IExternal<TVShow>
     {
         return videoTitle.Split('-')[0].Trim();
     }
+
 }
