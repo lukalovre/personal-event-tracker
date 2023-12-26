@@ -243,21 +243,17 @@ public partial class MoviesViewModel : ViewModelBase
 
         lastEvent.ID = 0;
 
-        if (!EventViewModel.IsEditDate)
-        {
-            lastEvent.DateEnd = DateTime.Now;
-        }
+        lastEvent.DateEnd = !EventViewModel.IsEditDate
+        ? DateTime.Now
+        : EventViewModel.SelectedEvent.DateEnd;
 
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-_addAmount);
+                : lastEvent.DateEnd.Value.AddMinutes(-SelectedItem.Runtime);
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
-        lastEvent.Amount = _addAmount;
-
-        // For now
-        lastEvent.Comment = null;
+        lastEvent.Amount = SelectedItem.Runtime;
 
         _datasource.Add(SelectedItem, lastEvent);
 
