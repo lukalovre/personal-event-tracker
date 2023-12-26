@@ -7,11 +7,13 @@ public class MusicExternal : IExternal<Music>, IExternal<Song>
 {
     private readonly Bandcamp _bandcamp;
     private readonly Spotify _spotify;
+    private readonly YouTube _youtube;
 
     public MusicExternal()
     {
         _bandcamp = new Bandcamp();
         _spotify = new Spotify();
+        _youtube = new YouTube();
     }
 
     public Music GetItem(string url)
@@ -33,6 +35,11 @@ public class MusicExternal : IExternal<Music>, IExternal<Song>
 
     Song IExternal<Song>.GetItem(string url)
     {
-        throw new System.NotImplementedException();
+        if (url.Contains(YouTube.UrlIdentifier))
+        {
+            return _youtube.GetSongItem(url);
+        }
+
+        return new Song();
     }
 }

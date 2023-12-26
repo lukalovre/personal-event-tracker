@@ -172,13 +172,14 @@ public partial class SongsViewModel : ViewModelBase
     private void AddItemClickAction()
     {
         NewEvent.Amount = NewItem.Runtime;
-        NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
+        NewEvent.DateEnd = UseNewDate ? NewEvent.DateEnd : DateTime.Now;
         NewEvent.DateStart =
             NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? NewEvent.DateEnd.Value
                 : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
         NewEvent.Chapter = 1;
+        NewEvent.Completed = true;
 
         _datasource.Add(NewItem, NewEvent);
 

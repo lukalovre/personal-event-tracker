@@ -205,14 +205,9 @@ public partial class BooksViewModel : ViewModelBase
 
         lastEvent.ID = 0;
 
-        if (!EventViewModel.IsEditDate)
-        {
-            lastEvent.DateEnd = DateTime.Now;
-        }
-        else
-        {
-            lastEvent.DateEnd = EventViewModel.SelectedEvent.DateEnd;
-        }
+        lastEvent.DateEnd = !EventViewModel.IsEditDate
+        ? DateTime.Now
+        : EventViewModel.SelectedEvent.DateEnd;
 
         lastEvent.DateStart = CalculateDateStart(lastEvent, _newAmount);
         lastEvent.Platform = EventViewModel.SelectedPlatformType;

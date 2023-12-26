@@ -104,6 +104,11 @@
                                 Margin="15" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Artist" />
+                            <TextBox Text="{Binding NewItem.Artist}"
+                                HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Title" />
                             <TextBox Text="{Binding NewItem.Title}"
                                 HorizontalAlignment="Stretch" />
@@ -120,9 +125,11 @@
                         </StackPanel>
                         <Image Source="{Binding NewImage}" />
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding UseNewDate}" />
-                            <TextBox Text="{Binding NewDate, Mode=TwoWay}"
-                                IsEnabled="{Binding UseNewDate}" />
+                            <CheckBox IsChecked="{Binding UseNewDate}"/>
+                            <TextBlock Text="Date"
+                                VerticalAlignment="Center" />
+                            <TextBlock Text="    " />
+                            <TextBox Text = "{Binding NewEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
