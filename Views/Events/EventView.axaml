@@ -68,7 +68,8 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox IsChecked="{Binding IsEditDate}"/>
-                        <TextBlock Text="Date" />
+                        <TextBlock Text="Date"
+                            VerticalAlignment="Center" />
                         <TextBlock Text="    " />
                         <TextBox Text = "{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
                     </StackPanel>
