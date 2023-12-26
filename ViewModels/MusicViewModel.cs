@@ -334,8 +334,6 @@ public partial class MusicViewModel : ViewModelBase
 
     private List<MusicGridItem> LoadData()
     {
-        // _datasource.Update<Music>(null);
-
         _itemList = _datasource.GetList<Music>();
         _eventList = _datasource.GetEventList<Music>();
 

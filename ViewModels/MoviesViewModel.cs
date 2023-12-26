@@ -71,10 +71,14 @@ public partial class MoviesViewModel : ViewModelBase
         get => _selectedItem;
         set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
     }
+
+    public string SearchText { get; set; }
+
     public ObservableCollection<Event> Events { get; set; }
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
+    public ReactiveCommand<Unit, Unit> Search { get; }
 
     public Movie NewItem
     {
@@ -151,6 +155,7 @@ public partial class MoviesViewModel : ViewModelBase
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
+        Search = ReactiveCommand.Create(SearchAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
     }
@@ -162,6 +167,49 @@ public partial class MoviesViewModel : ViewModelBase
         NewEvent = new Event { Amount = NewItem.Runtime, Rating = 1 };
 
         _inputUrl = string.Empty;
+    }
+
+    private void SearchAction()
+    {
+        SearchText = SearchText.Trim();
+
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            GridItemsBookmarked.Clear();
+            GridItemsBookmarked.AddRange(LoadData());
+            return;
+        }
+
+        var searchMovie = new Movie { Director = SearchText, Title = SearchText };
+
+        GridItemsBookmarked.Clear();
+        GridItemsBookmarked.AddRange(LoadArtistData(searchMovie));
+    }
+
+    private IEnumerable<MovieGridItem> LoadArtistData(Movie searchMovie)
+    {
+        _itemList = _datasource.GetList<Movie>();
+        _eventList = _datasource.GetEventList<Movie>();
+
+        return _eventList
+            .OrderByDescending(o => o.DateEnd)
+            .DistinctBy(o => o.ItemID)
+            .OrderBy(o => o.DateEnd)
+            .Select(
+                (o, i) =>
+                    Convert(
+                        i,
+                        o,
+                        _itemList.First(m => m.ID == o.ItemID),
+                        _eventList.Where(e => e.ItemID == o.ItemID)
+                    )
+            )
+             .Where(
+                o =>
+                    o.Director.Contains(searchMovie.Director, StringComparison.InvariantCultureIgnoreCase)
+                    || o.Title.Contains(searchMovie.Title, StringComparison.InvariantCultureIgnoreCase)
+            )
+            .ToList();
     }
 
     private int SetAmount(int value)
@@ -181,6 +229,7 @@ public partial class MoviesViewModel : ViewModelBase
                 : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
         NewEvent.Chapter = 1;
+        NewEvent.Completed = true;
 
         _datasource.Add(NewItem, NewEvent);
 
