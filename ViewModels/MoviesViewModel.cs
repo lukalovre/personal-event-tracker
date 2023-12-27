@@ -60,7 +60,7 @@ public partial class MoviesViewModel : ViewModelBase
     public static ObservableCollection<PersonComboBoxItem> PeopleList =>
         new(PeopleManager.Instance.GetComboboxList());
 
-    public PersonComboBoxItem SelectedPerson { get; set; }
+    public PersonComboBoxItem? SelectedPerson { get; set; }
 
     public ObservableCollection<MovieGridItem> GridItems { get; set; }
     public ObservableCollection<MovieGridItem> GridItemsBookmarked { get; set; }
@@ -274,8 +274,8 @@ public partial class MoviesViewModel : ViewModelBase
 
     private void ClearNewItemControls()
     {
-        NewItem = default;
-        NewEvent = default;
+        NewItem = new Movie();
+        NewEvent = new Event();
         NewImage = default;
         SelectedPerson = default;
     }
