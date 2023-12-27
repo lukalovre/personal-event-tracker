@@ -14,6 +14,7 @@ public class MainWindowViewModel : ViewModelBase
     public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource(), new MusicExternal());
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource(), new BookExtetrnal());
+    public ComicsViewModel ComicsViewModel { get; } = new ComicsViewModel(new TsvDatasource(), new ComicExtetrnal());
     public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource());
     public TVShowsViewModel TVShowsViewModel { get; } = new TVShowsViewModel(new TsvDatasource(), new TVShowExternal());
     public SongsViewModel SongsViewModel { get; } = new SongsViewModel(new TsvDatasource(), new MusicExternal());
@@ -29,9 +30,6 @@ public class MainWindowViewModel : ViewModelBase
         _datasource = datasource;
 
         // _datasource.GetEventListConvert<MyWork>();
-
-        Music = GetData<Music, MusicGridItem>();
-        Comics = GetData<Comic, ComicGridItem>();
         Zoo = GetData<Zoo, ZooGridItem>();
     }
 
@@ -64,18 +62,6 @@ public class MainWindowViewModel : ViewModelBase
         where T1 : IItem
         where T2 : class
     {
-
-        if (typeof(T1) == typeof(Comic))
-        {
-            var i = item as Comic;
-            return new ComicGridItem(
-                    i.Title,
-                    i.Writer,
-                    e.Chapter,
-                    eventList.Where(o => o.Chapter == e.Chapter).Sum(o => o.Amount),
-                    e.Rating
-                ) as T2;
-        }
 
         if (typeof(T1) == typeof(Zoo))
         {

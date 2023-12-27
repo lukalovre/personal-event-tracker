@@ -1,0 +1,151 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:AvaloniaApplication1.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
+    mc:Ignorable="d"
+    x:DataType="vm:ComicsViewModel"
+    x:Class="AvaloniaApplication1.Views.ComicsView"
+    xmlns:view="using:AvaloniaApplication1.Views">
+    <DockPanel>
+        <TabControl>
+            <TabItem Header="★">
+                <DockPanel>
+                    <DataGrid Margin="1"
+                        Width="570"
+                        ItemsSource="{Binding GridItemsBookmarked}"
+                        IsReadOnly="True"
+                        GridLinesVisibility="All"
+                        BorderThickness="2"
+                        BorderBrush="Teal"
+                        SelectedItem="{Binding SelectedGridItem}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Index}"
+                                Header="{Binding GridCountItemsBookmarked}"
+                                Width="45" />
+                            <DataGridTextColumn Binding="{Binding Title}"
+                                Header="Title"
+                                Width="*" />
+                            <DataGridTextColumn Binding="{Binding Writer}"
+                                Header="Author"
+                                Width="150" />
+                            <DataGridTextColumn Binding="{Binding Chapter}"
+                                Header="Chapter"
+                                Width="70" />
+                            <DataGridTextColumn Binding="{Binding Pages}"
+                                Header="Pages"
+                                Width="70" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="All">
+                <DockPanel>
+                    <DataGrid Margin="1"
+                        Width="570"
+                        ItemsSource="{Binding GridItems}"
+                        IsReadOnly="True"
+                        GridLinesVisibility="All"
+                        BorderThickness="2"
+                        BorderBrush="Teal"
+                        SelectedItem="{Binding SelectedGridItem}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Index}"
+                                Header="{Binding GridCountItems}"
+                                Width="45" />
+                            <DataGridTextColumn Binding="{Binding Title}"
+                                Header="Title"
+                                Width="*" />
+                            <DataGridTextColumn Binding="{Binding Writer}"
+                                Header="Author"
+                                Width="150" />
+                            <DataGridTextColumn Binding="{Binding Chapter}"
+                                Header="Chapter"
+                                Width="70" />
+                            <DataGridTextColumn Binding="{Binding Pages}"
+                                Header="Pages"
+                                Width="70" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+        <TabControl Margin="5">
+            <TabItem Header="Info">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="{Binding SelectedItem.Title}"
+                            FontSize="20"
+                            FontWeight="Bold" />
+                        <Button>
+                            <Image Source="{Binding Image}"
+                                Width="430"
+                                Height="430" />
+                        </Button>
+                        <view:EventView DataContext="{Binding EventViewModel}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddEventClick}">Add pages</Button>
+                            <TextBox Text="{Binding AddAmount}"
+                                Watermark="Pages" />
+                            <TextBlock Text="{Binding AddAmountString}" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="New">
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddItemClick}"
+                                Margin="15">Add</Button>
+                            <TextBox Watermark="Paste url"
+                                Text="{Binding InputUrl}"
+                                Margin="15" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Watermark="Writer"
+                                Text="{Binding NewItem.Writer}"
+                                HorizontalAlignment="Stretch" />
+                            <TextBox Watermark="Title"
+                                Text="{Binding NewItem.Title}"
+                                HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <TextBox Watermark="Year"
+                            Text="{Binding NewItem.Year}"/>
+                        <TextBox Watermark="GoodreadsID"
+                            Text="{Binding NewItem.GoodreadsID}"/>
+                        <Image Source="{Binding NewImage}" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding UseNewDate}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Date" />
+                                <TextBlock Text="    " />
+                                <TextBox Text = "{Binding NewDateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Rating" />
+                            <NumericUpDown Value="{Binding NewEvent.Rating}"
+                                FormatString="0"
+                                Minimum="1"
+                                Maximum="5" />
+                        </StackPanel>
+                        <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
+                        <TextBox Watermark="Comment"
+                            Text="{Binding NewEvent.Comment}" />
+                        <TextBox Watermark="Pages"
+                            Text="{Binding NewEvent.Amount}" />
+                        <ComboBox ItemsSource="{Binding PeopleList}"
+                            SelectedItem="{Binding SelectedPerson}" />
+                        <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
+                            SelectedItem="{Binding NewEvent.Platform}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Edit">
+                <TextBlock Text="Event" />
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

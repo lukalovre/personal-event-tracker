@@ -10,7 +10,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Goodreads : IExternal<Book>
+public class Goodreads : IExternal<Book>, IExternal<Comic>
 {
     public static string UrlIdentifier => "goodreads.com";
 
@@ -230,6 +230,11 @@ public class Goodreads : IExternal<Book>
 
         return result;
 
+    }
+
+    Comic IExternal<Comic>.GetItem(string url)
+    {
+        throw new NotImplementedException();
     }
 
     // public static string GetTitle(string url)

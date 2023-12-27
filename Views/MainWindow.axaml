@@ -40,13 +40,7 @@
                         <v:MoviesView DataContext="{Binding MoviesViewModel}" />
                     </TabItem>
                     <TabItem Header="Comics">
-                        <DataGrid Margin="20"
-                            ItemsSource="{Binding Comics}"
-                            AutoGenerateColumns="True"
-                            IsReadOnly="True"
-                            GridLinesVisibility="All"
-                            BorderThickness="2"
-                            BorderBrush="Teal" />
+                        <v:ComicsView DataContext="{Binding ComicsViewModel}" />
                     </TabItem>
                     <TabItem Header="Zoo">
                         <DataGrid Margin="20"
@@ -68,7 +62,6 @@
                     <TabItem Header="D&amp;D" />
                 </TabControl>
             </TabItem>
-            <TabItem Header="Collection" />
             <TabItem Header="Stats" />
         </TabControl>
     </DockPanel>
