@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
@@ -24,7 +23,6 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
             try
             {
-
                 content = client.DownloadData(url);
             }
             catch { }
@@ -61,6 +59,63 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
         return result;
     }
 
+    Comic IExternal<Comic>.GetItem(string url)
+    {
+        Comic result = new();
+
+        try
+        {
+            using (var client = new WebClient())
+            {
+                var content = client.DownloadData(url);
+                using var stream = new MemoryStream(content);
+                var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+                var htmlDocument = new HtmlDocument();
+                htmlDocument.LoadHtml(text);
+
+                var title = GetTitle(htmlDocument);
+                var writer = GetWriter(htmlDocument);
+                var year = GetYear(htmlDocument);
+                var goodreadsID = GetGoogreadsID(url);
+                string illustrator = GetIllustrator(htmlDocument);
+                var imageUrl = GetImageUrl(htmlDocument);
+
+                var destinationFile = Paths.GetTempPath<Comic>();
+                HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+
+                result = new Comic
+                {
+                    Title = title,
+                    Writer = writer,
+                    Illustrator = illustrator,
+                    Year = year,
+                    GoodreadsID = goodreadsID
+                };
+            }
+        }
+        catch { }
+
+        return result;
+    }
+
+    private static string GetIllustrator(HtmlDocument htmlDocument)
+    {
+        var result = string.Empty;
+
+        try
+        {
+            result = htmlDocument.DocumentNode
+            .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
+            .LastOrDefault()
+            .InnerText.Trim()
+            .TrimEnd("(Illustrator)")
+            .Trim();
+        }
+        catch { }
+
+        return result;
+    }
+
     private string GetImageUrl(HtmlDocument htmlDocument)
     {
         var result = string.Empty;
@@ -77,44 +132,6 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
         return result;
     }
-
-    // public static Comic GetGoodreadsDataComic(string url)
-    // {
-    //     Comic result = null;
-
-    //     using (var client = new WebClient())
-    //     {
-    //         var content = client.DownloadData(url);
-    //         using (var stream = new MemoryStream(content))
-    //         {
-    //             var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-    //             var htmlDocument = new HtmlDocument();
-    //             htmlDocument.LoadHtml(text);
-
-    //             var title = GetTitle(htmlDocument);
-    //             var writer = GetWriter(htmlDocument);
-    //             var year = GetYear(htmlDocument);
-    //             var goodreadsID = GetGoogreadsID(url);
-    //             var illustrator = htmlDocument.DocumentNode
-    //                 .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
-    //                 .LastOrDefault()
-    //                 .InnerText.Trim()
-    //                 .TrimEnd("(Illustrator)")
-    //                 .Trim();
-
-    //             result = new Comic
-    //             {
-    //                 Title = title,
-    //                 Writer = writer,
-    //                 Illustrator = illustrator,
-    //                 Year = year,
-    //                 GoodreadsID = goodreadsID
-    //             };
-    //         }
-    //     }
-
-    //     return result;
-    // }
 
     private static int GetGoogreadsID(string url)
     {
@@ -188,19 +205,6 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
         return WebUtility.HtmlDecode(result);
     }
 
-    // public static Model.Collection.Comic GetGoodreadsDataComicCollection(string url)
-    // {
-    //     var comic = GetGoodreadsDataComic(url);
-
-    //     return new Model.Collection.Comic
-    //     {
-    //         Title = comic.Title,
-    //         Writer = comic.Writer,
-    //         Illustrator = comic.Illustrator,
-    //         GoodreadsID = comic.GoodreadsID
-    //     };
-    // }
-
     public static int GetPages(HtmlDocument htmlDocument)
     {
 
@@ -231,32 +235,4 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
         return result;
 
     }
-
-    Comic IExternal<Comic>.GetItem(string url)
-    {
-        throw new NotImplementedException();
-    }
-
-    // public static string GetTitle(string url)
-    // {
-    //     using (var client = new WebClient())
-    //     {
-    //         var content = client.DownloadData(url);
-    //         using (var stream = new MemoryStream(content))
-    //         {
-    //             string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-
-    //             var htmlDocument = new HtmlDocument();
-    //             htmlDocument.LoadHtml(result);
-    //             var node = htmlDocument.DocumentNode.SelectSingleNode("//head/title");
-
-    //             if (node == null || string.IsNullOrWhiteSpace(node.InnerText))
-    //             {
-    //                 return string.Empty;
-    //             }
-
-    //             return node.InnerText.Trim();
-    //         }
-    //     }
-    // }
 }
