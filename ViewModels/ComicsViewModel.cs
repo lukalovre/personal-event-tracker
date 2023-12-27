@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -17,7 +16,7 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class ComicsViewModel : ViewModelBase
 {
-    private const int AMOUNT_TO_MINUTES_MODIFIER = 2;
+    private const float AMOUNT_TO_MINUTES_MODIFIER = 0.3f;
     private readonly IDatasource _datasource;
     private readonly IExternal<Comic> _external;
     private ComicGridItem _selectedGridItem;
