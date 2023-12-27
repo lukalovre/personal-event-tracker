@@ -58,6 +58,7 @@ public partial class EventViewModel : ViewModelBase
     private PersonComboBoxItem _selectedPerson;
     private string _selectedPlatformType;
     private string _selectedPersonString;
+    private int _newEventChapter;
 
     public PersonComboBoxItem SelectedPerson
     {
@@ -80,6 +81,12 @@ public partial class EventViewModel : ViewModelBase
     {
         get => _selectedPlatformType;
         set => this.RaiseAndSetIfChanged(ref _selectedPlatformType, value);
+    }
+
+    public int NewEventChapter
+    {
+        get => _newEventChapter;
+        set => this.RaiseAndSetIfChanged(ref _newEventChapter, value);
     }
 
     public EventViewModel(
@@ -116,6 +123,7 @@ public partial class EventViewModel : ViewModelBase
         _time = SelectedEvent.DateEnd.Value.TimeOfDay;
 
         SelectedPlatformType = SelectedEvent.Platform;
+        NewEventChapter = SelectedEvent.Chapter ?? 1;
     }
 
     private void DateTimeChanged()

@@ -179,8 +179,7 @@ public partial class ComicsViewModel : ViewModelBase
         NewImage = FileRepsitory.GetImageTemp<Comic>();
         NewEvent = new Event
         {
-            Rating = 1,
-            Platform = eMusicPlatformType.Streaming.ToString()
+            Rating = 1
         };
 
         _inputUrl = string.Empty;
@@ -211,6 +210,7 @@ public partial class ComicsViewModel : ViewModelBase
         lastEvent.DateStart = CalculateDateStart(lastEvent, _newAmount);
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = _newAmount;
+        lastEvent.Chapter = EventViewModel.NewEventChapter;
 
         _datasource.Add(SelectedItem, lastEvent);
 
@@ -314,25 +314,31 @@ public partial class ComicsViewModel : ViewModelBase
             .ToList();
     }
 
-    private static int GetComicPages(IEnumerable<Event> eventList)
+    private int GetComicPages(IEnumerable<Event> eventList)
     {
         // This is for the case that the Comic is already completed by you are rereading it.
-        var lastCompletedDate =
-            eventList.Where(o => o.Completed)?.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-
+        var lastCompletedDate = eventList.Where(o => o.Completed)?.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
         var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-
         var dateFilter = lastCompletedDate;
+
+        var lastChapter = eventList.LastOrDefault()?.Chapter ?? 1;
+
+        if (EventViewModel is not null && lastChapter < EventViewModel.NewEventChapter)
+        {
+            lastChapter = EventViewModel.NewEventChapter;
+        }
+
+        var eventsByChapter = eventList.Where(o => o.Chapter == lastChapter);
 
         if (lastCompletedDate == lastDate)
         {
-            return eventList.Sum(o => o.Amount);
+            return eventsByChapter.Sum(o => o.Amount);
         }
 
-        return eventList.Where(o => o.DateEnd > dateFilter).Sum(o => o.Amount);
+        return eventsByChapter.Where(o => o.DateEnd > dateFilter).Sum(o => o.Amount);
     }
 
-    private static ComicGridItem Convert(int index, Event e, Comic i, IEnumerable<Event> eventList)
+    private ComicGridItem Convert(int index, Event e, Comic i, IEnumerable<Event> eventList)
     {
         return new ComicGridItem(
             i.ID,

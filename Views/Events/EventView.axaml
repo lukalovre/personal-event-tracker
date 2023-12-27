@@ -74,12 +74,21 @@
                         <TextBox Text = "{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Rating"
+                        <TextBlock Text="Rating "
                             VerticalAlignment="Center" />
                         <NumericUpDown Value="{Binding SelectedEvent.Rating}"
                             FormatString="0"
                             Minimum="1"
                             Maximum="5"
+                            Width="100" />
+                        <TextBlock Text="   "
+                            VerticalAlignment="Center" />
+                        <TextBlock Text="Chapter "
+                            VerticalAlignment="Center" />
+                        <NumericUpDown Value="{Binding NewEventChapter}"
+                            FormatString="0"
+                            Minimum="1"
+                            Maximum="999"
                             Width="100" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
