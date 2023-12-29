@@ -133,10 +133,14 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>
     private static string GetTitle(string videoTitle)
     {
         return videoTitle.Split('-')[1]
-            .Trim()
-            .TrimEnd("(Original Mix)")
-            .TrimEnd("(Music video)")
-            .TrimEnd("(Official Music Video)")
+            .Replace("(Original Mix)", string.Empty)
+            .Replace("(Music video)", string.Empty)
+            .Replace("(Official Music Video)", string.Empty)
+            .Replace("(Official Audio)", string.Empty)
+            .Replace("(Official Video)", string.Empty)
+            .Replace("[HD]", string.Empty)
+            .Replace("  ", " ")
+            .Replace("[Official Video]", string.Empty)
             .Trim();
     }
 
