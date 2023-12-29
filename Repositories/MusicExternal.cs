@@ -3,23 +3,15 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories;
 
-public class MusicExternal : IExternal<Music>, IExternal<Song>
+public class MusicExternal : IExternal<Music>
 {
-    private readonly IExternal<Music> _bandcampMusic;
-    private readonly IExternal<Song> _bandcampSong;
-    private readonly Spotify _spotify;
-    private readonly Soundcloud _soundcloud;
-    private readonly IExternal<Song> _youtubeSong;
+    private readonly IExternal<Music> _bandcamp;
+    private readonly IExternal<Music> _spotify;
 
     public MusicExternal()
     {
-        var bandcamp = new Bandcamp();
-        _bandcampMusic = bandcamp;
-        _bandcampSong = bandcamp;
-
-        _youtubeSong = new YouTube();
+        _bandcamp = new Bandcamp();
         _spotify = new Spotify();
-        _soundcloud = new Soundcloud();
     }
 
     public Music GetItem(string url)
@@ -28,7 +20,7 @@ public class MusicExternal : IExternal<Music>, IExternal<Song>
 
         if (url.Contains(Bandcamp.UrlIdentifier))
         {
-            return _bandcampMusic.GetItem(url);
+            return _bandcamp.GetItem(url);
         }
 
         if (url.Contains(Spotify.UrlIdentifier))
@@ -37,25 +29,5 @@ public class MusicExternal : IExternal<Music>, IExternal<Song>
         }
 
         return new Music();
-    }
-
-    Song IExternal<Song>.GetItem(string url)
-    {
-        if (url.Contains(YouTube.UrlIdentifier))
-        {
-            return _youtubeSong.GetItem(url);
-        }
-
-        if (url.Contains(Bandcamp.UrlIdentifier))
-        {
-            return _bandcampSong.GetItem(url);
-        }
-
-        if (url.Contains(Soundcloud.UrlIdentifier))
-        {
-            return _soundcloud.GetItem(url);
-        }
-
-        return new Song();
     }
 }
