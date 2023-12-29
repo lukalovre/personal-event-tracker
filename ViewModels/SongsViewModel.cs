@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -14,7 +15,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class SongsViewModel : ViewModelBase
+public partial class SongsViewModel : ViewModelBase, IItemViewModel
 {
     private readonly IDatasource _datasource;
     private readonly IExternal<Song> _external;
@@ -29,23 +30,8 @@ public partial class SongsViewModel : ViewModelBase
     private Song _selectedItem;
     private int _gridCountItems;
     private int _gridCountItemsBookmarked;
-    private int _addAmount;
-    private string _addAmountString;
     private string _inputUrl;
-
     public EventViewModel EventViewModel { get; }
-
-    public int AddAmount
-    {
-        get => _addAmount;
-        set { _addAmount = SetAmount(value); }
-    }
-
-    public string AddAmountString
-    {
-        get => _addAmountString;
-        set => this.RaiseAndSetIfChanged(ref _addAmountString, value);
-    }
 
     public bool UseNewDate
     {
@@ -73,6 +59,7 @@ public partial class SongsViewModel : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
+    public ReactiveCommand<Unit, Unit> OpenLink { get; }
 
     public Song NewItem
     {
@@ -149,8 +136,18 @@ public partial class SongsViewModel : ViewModelBase
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
+        OpenLink = ReactiveCommand.Create(OpenLinkAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
+    }
+
+    private void OpenLinkAction()
+    {
+        var openLinkParams = SelectedItem.Artist.Split(' ').ToList();
+        openLinkParams.AddRange(SelectedItem.Title.Split(' '));
+        openLinkParams.AddRange(new string[] { SelectedItem.Year.ToString() });
+
+        HtmlHelper.OpenLink(SelectedItem.Link, [.. openLinkParams]);
     }
 
     private void InputUrlChanged()
@@ -160,18 +157,12 @@ public partial class SongsViewModel : ViewModelBase
         NewEvent = new Event
         {
             Amount = NewItem.Runtime,
-            Rating = 1,
-            Bookmakred = true
+            Rating = 3,
+            Bookmakred = true,
+            DateEnd = DateTime.ParseExact("2020-01-01 00:00:00", "yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture)
         };
 
         _inputUrl = string.Empty;
-    }
-
-    private int SetAmount(int value)
-    {
-        _addAmount = value;
-        AddAmountString = $"    Adding {_addAmount} minutes";
-        return value;
     }
 
     private void AddItemClickAction()
@@ -206,13 +197,9 @@ public partial class SongsViewModel : ViewModelBase
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-_addAmount);
+                : lastEvent.DateEnd.Value.AddMinutes(-lastEvent.Amount);
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
-        lastEvent.Amount = _addAmount;
-
-        // For now
-        lastEvent.Comment = null;
 
         _datasource.Add(SelectedItem, lastEvent);
 

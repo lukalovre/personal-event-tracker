@@ -220,24 +220,11 @@ public partial class MusicViewModel : ViewModelBase
 
     private void OpenLinkAction()
     {
-        var hyperlink = SelectedMusic.SpotifyID;
+        var openLinkParams = SelectedMusic.Artist.Split(' ').ToList();
+        openLinkParams.AddRange(SelectedMusic.Title.Split(' '));
+        openLinkParams.AddRange(new string[] { SelectedMusic.Year.ToString() });
 
-        if (string.IsNullOrWhiteSpace(SelectedMusic.SpotifyID))
-        {
-            var artist = SelectedMusic.Artist.Split(' ').ToList();
-            var title = SelectedMusic.Title.Split(' ').ToList();
-            var year = SelectedMusic.Year.ToString();
-
-            var parts = new List<string>();
-
-            parts.AddRange(artist);
-            parts.AddRange(title);
-            parts.Add(year);
-
-            hyperlink = $"https://duckduckgo.com/?q={string.Join("+", parts)}";
-        }
-
-        HtmlHelper.OpenLink(hyperlink);
+        HtmlHelper.OpenLink(SelectedMusic.SpotifyID, [.. openLinkParams]);
     }
 
     private void AddClickAction()
