@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
@@ -15,7 +14,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class SongsViewModel : ViewModelBase, IItemViewModel
+public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>, IExternalItem
 {
     private readonly IDatasource _datasource;
     private readonly IExternal<Song> _external;
@@ -48,7 +47,6 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
 
     public ObservableCollection<SongGridItem> GridItems { get; set; }
     public ObservableCollection<SongGridItem> GridItemsBookmarked { get; set; }
-    public ObservableCollection<InfoModel> Info { get; set; }
 
     public Song SelectedItem
     {
@@ -129,8 +127,6 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
         GridItemsBookmarked = [];
         ReloadData();
 
-        Info = [];
-
         Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
 
@@ -141,7 +137,7 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
         SelectedGridItem = GridItems.LastOrDefault();
     }
 
-    private void OpenLinkAction()
+    public void OpenLinkAction()
     {
         var openLinkParams = SelectedItem.Artist.Split(' ').ToList();
         openLinkParams.AddRange(SelectedItem.Title.Split(' '));
@@ -150,7 +146,7 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
         HtmlHelper.OpenLink(SelectedItem.Link, [.. openLinkParams]);
     }
 
-    private void InputUrlChanged()
+    public void InputUrlChanged()
     {
         NewItem = _external.GetItem(InputUrl);
         NewImage = FileRepsitory.GetImageTemp<Song>();
@@ -226,29 +222,6 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
         SelectedPerson = default;
     }
 
-    private List<InfoModel> GetSelectedItemInfo<T>()
-    {
-        var result = new List<InfoModel>();
-
-        if (SelectedItem == null)
-        {
-            return result;
-        }
-
-        var properties = typeof(T).GetProperties();
-
-        foreach (PropertyInfo property in properties)
-        {
-            var e = _eventList?.First(o => o.ItemID == SelectedItem.ID);
-            var i = _itemList.First(o => o.ID == e.ItemID);
-
-            var value = property.GetValue(i);
-            result.Add(new InfoModel(property.Name, value));
-        }
-
-        return result;
-    }
-
     private List<SongGridItem> LoadData()
     {
         _itemList = _datasource.GetList<Song>();
@@ -319,7 +292,6 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
 
     public void SelectedItemChanged()
     {
-        Info.Clear();
         Events.Clear();
         Image = null;
 
@@ -329,7 +301,6 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
         }
 
         SelectedItem = _itemList.First(o => o.ID == SelectedGridItem.ID);
-        Info.AddRange(GetSelectedItemInfo<Song>());
         Events.AddRange(
             _eventList
                 .Where(o => o.ItemID == SelectedItem.ID && o.DateEnd.HasValue)
@@ -339,4 +310,5 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<Song>(item.ID);
     }
+
 }
