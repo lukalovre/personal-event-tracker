@@ -56,7 +56,6 @@ public partial class WorkViewModel : ViewModelBase
 
     public ObservableCollection<WorkGridItem> Work { get; set; }
     public ObservableCollection<WorkGridItem> WorkBookmarked { get; set; }
-    public ObservableCollection<InfoModel> Info { get; set; }
 
     public Work SelectedWork
     {
@@ -115,8 +114,6 @@ public partial class WorkViewModel : ViewModelBase
         Work = [];
         WorkBookmarked = [];
         ReloadData();
-
-        Info = [];
 
         Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
@@ -197,30 +194,6 @@ public partial class WorkViewModel : ViewModelBase
         NewImage = default;
         SelectedPerson = default;
     }
-
-    private List<InfoModel> GetSelectedItemInfo<T>()
-    {
-        var result = new List<InfoModel>();
-
-        if (SelectedItem == null)
-        {
-            return result;
-        }
-
-        var properties = typeof(T).GetProperties();
-
-        foreach (PropertyInfo property in properties)
-        {
-            var e = _eventList?.First(o => o.ItemID == SelectedItem.ID);
-            var i = _itemList.First(o => o.ID == e.ItemID);
-
-            var value = property.GetValue(i);
-            result.Add(new InfoModel(property.Name, value));
-        }
-
-        return result;
-    }
-
     private List<WorkGridItem> LoadData()
     {
         _itemList = _datasource.GetList<Work>();
@@ -283,7 +256,6 @@ public partial class WorkViewModel : ViewModelBase
 
     public void SelectedItemChanged()
     {
-        Info.Clear();
         Events.Clear();
         Image = null;
 
@@ -293,7 +265,6 @@ public partial class WorkViewModel : ViewModelBase
         }
 
         SelectedWork = _itemList.First(o => o.ID == SelectedItem.ID);
-        Info.AddRange(GetSelectedItemInfo<Work>());
         Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID).OrderBy(o => o.DateEnd));
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);

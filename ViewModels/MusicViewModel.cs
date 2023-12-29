@@ -63,8 +63,6 @@ public partial class MusicViewModel : ViewModelBase
     public ObservableCollection<MusicGridItem> MusicBookmarked { get; set; }
     public ObservableCollection<MusicGridItem> ArtistMusic { get; set; }
 
-    public ObservableCollection<InfoModel> Info { get; set; }
-
     public Music SelectedMusic
     {
         get => _selectedMusic;
@@ -151,7 +149,6 @@ public partial class MusicViewModel : ViewModelBase
         MusicBookmarked = [];
         ReloadData();
 
-        Info = [];
         ArtistMusic = [];
 
         Events = [];
@@ -296,29 +293,6 @@ public partial class MusicViewModel : ViewModelBase
         ArtistMusic.Clear();
     }
 
-    private List<InfoModel> GetSelectedItemInfo<T>()
-    {
-        var result = new List<InfoModel>();
-
-        if (SelectedItem == null)
-        {
-            return result;
-        }
-
-        var properties = typeof(T).GetProperties();
-
-        foreach (PropertyInfo property in properties)
-        {
-            var e = _eventList?.First(o => o.ItemID == SelectedItem.ID);
-            var i = _itemList.First(o => o.ID == e.ItemID);
-
-            var value = property.GetValue(i);
-            result.Add(new InfoModel(property.Name, value));
-        }
-
-        return result;
-    }
-
     private List<MusicGridItem> LoadData()
     {
         _itemList = _datasource.GetList<Music>();
@@ -410,7 +384,6 @@ public partial class MusicViewModel : ViewModelBase
 
     public void SelectedItemChanged()
     {
-        Info.Clear();
         Events.Clear();
         Cover = null;
 
@@ -420,7 +393,6 @@ public partial class MusicViewModel : ViewModelBase
         }
 
         SelectedMusic = _itemList.First(o => o.ID == SelectedItem.ID);
-        Info.AddRange(GetSelectedItemInfo<Music>());
         Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID).OrderBy(o => o.DateEnd));
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);

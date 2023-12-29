@@ -64,7 +64,6 @@ public partial class MoviesViewModel : ViewModelBase
 
     public ObservableCollection<MovieGridItem> GridItems { get; set; }
     public ObservableCollection<MovieGridItem> GridItemsBookmarked { get; set; }
-    public ObservableCollection<InfoModel> Info { get; set; }
 
     public Movie SelectedItem
     {
@@ -147,8 +146,6 @@ public partial class MoviesViewModel : ViewModelBase
         GridItems = [];
         GridItemsBookmarked = [];
         ReloadData();
-
-        Info = [];
 
         Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
@@ -280,29 +277,6 @@ public partial class MoviesViewModel : ViewModelBase
         SelectedPerson = default;
     }
 
-    private List<InfoModel> GetSelectedItemInfo<T>()
-    {
-        var result = new List<InfoModel>();
-
-        if (SelectedItem == null)
-        {
-            return result;
-        }
-
-        var properties = typeof(T).GetProperties();
-
-        foreach (PropertyInfo property in properties)
-        {
-            var e = _eventList?.First(o => o.ItemID == SelectedItem.ID);
-            var i = _itemList.First(o => o.ID == e.ItemID);
-
-            var value = property.GetValue(i);
-            result.Add(new InfoModel(property.Name, value));
-        }
-
-        return result;
-    }
-
     private List<MovieGridItem> LoadData()
     {
         _itemList = _datasource.GetList<Movie>();
@@ -372,7 +346,6 @@ public partial class MoviesViewModel : ViewModelBase
 
     public void SelectedItemChanged()
     {
-        Info.Clear();
         Events.Clear();
         Image = null;
 
@@ -382,7 +355,6 @@ public partial class MoviesViewModel : ViewModelBase
         }
 
         SelectedItem = _itemList.First(o => o.ID == SelectedGridItem.ID);
-        Info.AddRange(GetSelectedItemInfo<Movie>());
         Events.AddRange(
             _eventList
                 .Where(o => o.ItemID == SelectedItem.ID && o.DateEnd.HasValue)

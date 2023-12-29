@@ -67,7 +67,6 @@ public partial class ComicsViewModel : ViewModelBase
 
     public ObservableCollection<ComicGridItem> GridItems { get; set; }
     public ObservableCollection<ComicGridItem> GridItemsBookmarked { get; set; }
-    public ObservableCollection<InfoModel> Info { get; set; }
 
     public Comic SelectedItem
     {
@@ -149,8 +148,6 @@ public partial class ComicsViewModel : ViewModelBase
         GridItems = [];
         GridItemsBookmarked = [];
         ReloadData();
-
-        Info = [];
 
         Events = [];
         EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
@@ -243,29 +240,6 @@ public partial class ComicsViewModel : ViewModelBase
         SelectedPerson = default;
     }
 
-    private List<InfoModel> GetSelectedItemInfo<T>()
-    {
-        var result = new List<InfoModel>();
-
-        if (SelectedItem == null)
-        {
-            return result;
-        }
-
-        var properties = typeof(T).GetProperties();
-
-        foreach (PropertyInfo property in properties)
-        {
-            var e = _eventList?.First(o => o.ItemID == SelectedItem.ID);
-            var i = _itemList.First(o => o.ID == e.ItemID);
-
-            var value = property.GetValue(i);
-            result.Add(new InfoModel(property.Name, value));
-        }
-
-        return result;
-    }
-
     private List<ComicGridItem> LoadData()
     {
         _itemList = _datasource.GetList<Comic>();
@@ -353,7 +327,6 @@ public partial class ComicsViewModel : ViewModelBase
 
     public void SelectedItemChanged()
     {
-        Info.Clear();
         Events.Clear();
         Image = null;
 
@@ -363,7 +336,6 @@ public partial class ComicsViewModel : ViewModelBase
         }
 
         SelectedItem = _itemList.First(o => o.ID == SelectedGridItem.ID);
-        Info.AddRange(GetSelectedItemInfo<Comic>());
         Events.AddRange(
             _eventList
                 .Where(o => o.ItemID == SelectedItem.ID && o.DateEnd.HasValue)
