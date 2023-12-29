@@ -157,7 +157,12 @@ public partial class SongsViewModel : ViewModelBase
     {
         NewItem = _external.GetItem(InputUrl);
         NewImage = FileRepsitory.GetImageTemp<Song>();
-        NewEvent = new Event { Amount = NewItem.Runtime, Rating = 1 };
+        NewEvent = new Event
+        {
+            Amount = NewItem.Runtime,
+            Rating = 1,
+            Bookmakred = true
+        };
 
         _inputUrl = string.Empty;
     }

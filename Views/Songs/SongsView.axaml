@@ -104,22 +104,22 @@
                                 Margin="15" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Artist" />
+                            <TextBlock Text="Artist  " />
                             <TextBox Text="{Binding NewItem.Artist}"
                                 HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Title" />
+                            <TextBlock Text="Title  " />
                             <TextBox Text="{Binding NewItem.Title}"
                                 HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Year" />
+                            <TextBlock Text="Year  " />
                             <TextBox Text="{Binding NewItem.Year}"
                                 HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Runtime" />
+                            <TextBlock Text="Runtime  " />
                             <TextBox Text="{Binding NewItem.Runtime}"
                                 HorizontalAlignment="Stretch" />
                         </StackPanel>
