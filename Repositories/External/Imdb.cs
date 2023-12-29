@@ -39,6 +39,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>
             Writer = imdbData.Writer
         };
     }
+
     public TVShow GetItem(string url)
     {
         string inputImdb = GetImdbID(url);
