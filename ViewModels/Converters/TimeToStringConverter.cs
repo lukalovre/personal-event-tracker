@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Linq;
 using Avalonia.Data.Converters;
 using AvaloniaApplication1.ViewModels.Extensions;
 
@@ -32,7 +31,7 @@ public class TimeToStringConverter : IValueConverter
 
             if (split.Length == 1)
             {
-                return int.Parse(str.TrimEnd("m"));
+                return int.Parse(str.TrimEnd("h").TrimEnd("m"));
             }
             else
             {
