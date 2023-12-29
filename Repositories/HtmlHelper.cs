@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,17 @@ public static class HtmlHelper
     public static void OpenLink(string link)
     {
         Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
+    }
+
+    public static void OpenLink(string link, List<string> arguments)
+    {
+        if (string.IsNullOrWhiteSpace(link))
+        {
+            // Make this a search engine choice in settings
+            link = $"https://duckduckgo.com/?q={string.Join("+", arguments)}";
+        }
+
+        OpenLink(link);
     }
 
     internal static void DownloadPNG(string webFile, string destinationFile)
