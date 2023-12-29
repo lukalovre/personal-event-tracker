@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -132,21 +133,30 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>
 
     private static string GetTitle(string videoTitle)
     {
-        return videoTitle.Split('-')[1]
-            .Replace("(Original Mix)", string.Empty)
-            .Replace("(Music video)", string.Empty)
-            .Replace("(Official Music Video)", string.Empty)
-            .Replace("(Official Audio)", string.Empty)
-            .Replace("(Official Video)", string.Empty)
-            .Replace("[HD]", string.Empty)
-            .Replace("  ", " ")
-            .Replace("[Official Video]", string.Empty)
-            .Trim();
+        var toRemoveList = new List<string>{
+            "(Original Mix)",
+            "(Music video)",
+            "(Official Music Video)",
+            "(Official Audio)",
+            "(Official Video)",
+            "[HD]",
+            "[Official Video]",
+            "|HQ|",
+            "(Audio)"};
+
+        videoTitle = videoTitle.Split(" - ")[1];
+
+        foreach (var item in toRemoveList)
+        {
+            videoTitle = videoTitle.Replace(item, string.Empty);
+        }
+
+        return videoTitle.Replace("  ", " ").Trim();
     }
 
     private static string GetArtist(string videoTitle)
     {
-        return videoTitle.Split('-')[0].Trim();
+        return videoTitle.Split(" - ")[0].Trim();
     }
 
 }
