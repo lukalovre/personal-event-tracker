@@ -266,7 +266,7 @@ public partial class MoviesViewModel : ViewModelBase
         GridCountItems = GridItems.Count;
 
         GridItemsBookmarked.Clear();
-        GridItemsBookmarked.AddRange(LoadDataBookmarked(1));
+        GridItemsBookmarked.AddRange(LoadDataBookmarked(0));
         GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
@@ -312,7 +312,7 @@ public partial class MoviesViewModel : ViewModelBase
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= dateFilter)
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == dateFilter.Year)
             .Select(
                 (o, i) =>
                     Convert(
