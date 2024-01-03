@@ -119,8 +119,8 @@ public partial class EventViewModel : ViewModelBase
             return;
         }
 
-        _date = SelectedEvent.DateEnd.Value;
-        _time = SelectedEvent.DateEnd.Value.TimeOfDay;
+        _date = SelectedEvent.DateEnd ?? DateTime.MinValue;
+        _time = _date.TimeOfDay;
 
         SelectedPlatformType = SelectedEvent.Platform;
         NewEventChapter = SelectedEvent.Chapter ?? 1;

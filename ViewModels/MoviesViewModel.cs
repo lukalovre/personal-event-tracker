@@ -251,6 +251,7 @@ public partial class MoviesViewModel : ViewModelBase
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = SelectedItem.Runtime;
+        lastEvent.Completed = true;
 
         _datasource.Add(SelectedItem, lastEvent);
 
@@ -355,11 +356,15 @@ public partial class MoviesViewModel : ViewModelBase
         }
 
         SelectedItem = _itemList.First(o => o.ID == SelectedGridItem.ID);
-        Events.AddRange(
-            _eventList
+        var events = _eventList
                 .Where(o => o.ItemID == SelectedItem.ID && o.DateEnd.HasValue)
-                .OrderBy(o => o.DateEnd)
-        );
+                .OrderBy(o => o.DateEnd).ToList();
+
+        events = events.Count != 0
+        ? events
+        : _eventList.Where(o => o.ItemID == SelectedItem.ID).ToList();
+
+        Events.AddRange(events);
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<Movie>(item.ID);
