@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -148,7 +149,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>
 
         foreach (var item in toRemoveList)
         {
-            videoTitle = videoTitle.Replace(item, string.Empty);
+            videoTitle = videoTitle.Replace(item, string.Empty, ignoreCase: true, CultureInfo.InvariantCulture);
         }
 
         return videoTitle.Replace("  ", " ").Trim();
