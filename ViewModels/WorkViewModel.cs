@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.ViewModels.GridItems;
@@ -17,24 +16,22 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class WorkViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
-    private WorkGridItem _selectedItem;
+    private WorkGridItem _selectedGridItem;
     private List<Work> _itemList;
     private List<Event> _eventList;
-    private string _inputUrl;
-    private Work _newWork;
-    private Bitmap? _cover;
-    private Bitmap? _newMusicCover;
+    private Work _newItem;
+    private Bitmap? _itemImage;
+    private Bitmap? _newItemImage;
     private Event _newEvent;
-
     private bool _useNewDate;
-    private Work _selectedWork;
-    private int _gridCountMusic;
+    private Work _selectedItem;
+    private int _gridCountItems;
 
-    private int _gridCountMusicBookmarked;
+    private int _gridCountItemsBookmarked;
 
     public EventViewModel EventViewModel { get; }
 
-    public int AddMinutes { get; set; }
+    public int AddAmount { get; set; }
 
     public bool UseNewDate
     {
@@ -42,39 +39,32 @@ public partial class WorkViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
     }
 
-    public static ObservableCollection<string> MusicPlatformTypes =>
-        new(
-            Enum.GetValues(typeof(eMusicPlatformType))
-                .Cast<eMusicPlatformType>()
-                .Select(v => v.ToString())
-        );
+    public static ObservableCollection<string> PlatformTypes => null!;
 
-    public static ObservableCollection<PersonComboBoxItem> PeopleList =>
-        new(PeopleManager.Instance.GetComboboxList());
+    public static ObservableCollection<PersonComboBoxItem> PeopleList => new(PeopleManager.Instance.GetComboboxList());
 
     public PersonComboBoxItem SelectedPerson { get; set; }
 
-    public ObservableCollection<WorkGridItem> Work { get; set; }
-    public ObservableCollection<WorkGridItem> WorkBookmarked { get; set; }
+    public ObservableCollection<WorkGridItem> GridItems { get; set; }
+    public ObservableCollection<WorkGridItem> GridItemsBookmarked { get; set; }
 
-    public Work SelectedWork
+    public Work SelectedItem
     {
-        get => _selectedWork;
-        set => this.RaiseAndSetIfChanged(ref _selectedWork, value);
+        get => _selectedItem;
+        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
     }
     public ObservableCollection<Event> Events { get; set; }
 
-    public ReactiveCommand<Unit, Unit> AddClick { get; }
-    public ReactiveCommand<Unit, Unit> ListenAgain { get; }
+    public ReactiveCommand<Unit, Unit> AddNewItem { get; }
+    public ReactiveCommand<Unit, Unit> AddEvent { get; }
 
-    public Work NewWork
+    public Work NewItem
     {
-        get => _newWork;
-        set => this.RaiseAndSetIfChanged(ref _newWork, value);
+        get => _newItem;
+        set => this.RaiseAndSetIfChanged(ref _newItem, value);
     }
 
-    public DateTime NewDate { get; set; } =
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+    public DateTime NewDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
     public TimeSpan NewTime { get; set; } = new TimeSpan();
     public Event NewEvent
@@ -85,56 +75,54 @@ public partial class WorkViewModel : ViewModelBase
 
     public Bitmap? Image
     {
-        get => _cover;
-        private set => this.RaiseAndSetIfChanged(ref _cover, value);
+        get => _itemImage;
+        private set => this.RaiseAndSetIfChanged(ref _itemImage, value);
     }
 
     public Bitmap? NewImage
     {
-        get => _newMusicCover;
-        private set => this.RaiseAndSetIfChanged(ref _newMusicCover, value);
+        get => _newItemImage;
+        private set => this.RaiseAndSetIfChanged(ref _newItemImage, value);
     }
 
-    public int GridCountWork
+    public int GridCountItems
     {
-        get => _gridCountMusic;
-        private set => this.RaiseAndSetIfChanged(ref _gridCountMusic, value);
+        get => _gridCountItems;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountItems, value);
     }
 
-    public int GridCountWorkBookmarked
+    public int GridCountItemsBookmarked
     {
-        get => _gridCountMusicBookmarked;
-        private set => this.RaiseAndSetIfChanged(ref _gridCountMusicBookmarked, value);
+        get => _gridCountItemsBookmarked;
+        private set => this.RaiseAndSetIfChanged(ref _gridCountItemsBookmarked, value);
     }
 
     public WorkViewModel(IDatasource datasource)
     {
         _datasource = datasource;
 
-        Work = [];
-        WorkBookmarked = [];
+        GridItems = [];
+        GridItemsBookmarked = [];
         ReloadData();
 
         Events = [];
-        EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
+        EventViewModel = new EventViewModel(Events, PlatformTypes);
 
-        AddClick = ReactiveCommand.Create(AddClickAction);
-        ListenAgain = ReactiveCommand.Create(ListenAgainAction);
+        AddNewItem = ReactiveCommand.Create(AddClickAction);
+        AddEvent = ReactiveCommand.Create(ListenAgainAction);
 
-        SelectedItem = Work.LastOrDefault();
+        SelectedGridItem = GridItems.LastOrDefault();
     }
 
-    public WorkGridItem SelectedItem
+    public WorkGridItem SelectedGridItem
     {
-        get => _selectedItem;
+        get => _selectedGridItem;
         set
         {
-            _selectedItem = value;
+            _selectedGridItem = value;
             SelectedItemChanged();
         }
     }
-
-    private void OpenImageAction() { }
 
     private void AddClickAction()
     {
@@ -145,7 +133,7 @@ public partial class WorkViewModel : ViewModelBase
                 : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
 
-        _datasource.Add(NewWork, NewEvent);
+        _datasource.Add(NewItem, NewEvent);
 
         ReloadData();
         ClearNewItemControls();
@@ -165,12 +153,12 @@ public partial class WorkViewModel : ViewModelBase
         lastEvent.DateStart =
             lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-AddMinutes);
+                : lastEvent.DateEnd.Value.AddMinutes(-AddAmount);
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
-        lastEvent.Amount = AddMinutes;
+        lastEvent.Amount = AddAmount;
 
-        _datasource.Add(SelectedWork, lastEvent);
+        _datasource.Add(SelectedItem, lastEvent);
 
         ReloadData();
         ClearNewItemControls();
@@ -178,18 +166,18 @@ public partial class WorkViewModel : ViewModelBase
 
     private void ReloadData()
     {
-        Work.Clear();
-        Work.AddRange(LoadData());
-        GridCountWork = Work.Count;
+        GridItems.Clear();
+        GridItems.AddRange(LoadData());
+        GridCountItems = GridItems.Count;
 
-        WorkBookmarked.Clear();
-        WorkBookmarked.AddRange(LoadDataBookmarked());
-        GridCountWorkBookmarked = WorkBookmarked.Count;
+        GridItemsBookmarked.Clear();
+        GridItemsBookmarked.AddRange(LoadDataBookmarked());
+        GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
     private void ClearNewItemControls()
     {
-        NewWork = default;
+        NewItem = default;
         NewEvent = default;
         NewImage = default;
         SelectedPerson = default;
@@ -264,7 +252,7 @@ public partial class WorkViewModel : ViewModelBase
             return;
         }
 
-        SelectedWork = _itemList.First(o => o.ID == SelectedItem.ID);
+        SelectedItem = _itemList.First(o => o.ID == SelectedItem.ID);
         Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID).OrderBy(o => o.DateEnd));
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);

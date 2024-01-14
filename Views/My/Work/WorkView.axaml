@@ -1,38 +1,38 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:AvaloniaApplication1.ViewModels"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
-             mc:Ignorable="d"
-             x:DataType="vm:WorkViewModel"
-             x:Class="AvaloniaApplication1.Views.WorkView"
-             xmlns:view="using:AvaloniaApplication1.Views">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:AvaloniaApplication1.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1"
+    mc:Ignorable="d"
+    x:DataType="vm:WorkViewModel"
+    x:Class="AvaloniaApplication1.Views.WorkView"
+    xmlns:view="using:AvaloniaApplication1.Views">
     <DockPanel>
         <TabControl>
             <TabItem Header="★">
                 <DockPanel>
                     <DataGrid Margin="1"
-                              Width="570"
-                              ItemsSource="{Binding WorkBookmarked}"
-                              IsReadOnly="True"
-                              GridLinesVisibility="All"
-                              BorderThickness="2"
-                              BorderBrush="Teal"
-                              SelectedItem="{Binding SelectedItem}">
+                        Width="570"
+                        ItemsSource="{Binding GridItemsBookmarked}"
+                        IsReadOnly="True"
+                        GridLinesVisibility="All"
+                        BorderThickness="2"
+                        BorderBrush="Teal"
+                        SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountWorkBookmarked}"
-                                                Width="70" />
+                                Header="{Binding GridCountItemsBookmarked}"
+                                Width="70" />
                             <DataGridTextColumn Binding="{Binding Title}"
-                                                Header="Title"
-                                                Width="*" />
+                                Header="Title"
+                                Width="*" />
                             <DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}"
-                                                Header="Min"
-                                                Width="150" />
+                                Header="Min"
+                                Width="150" />
                             <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"
-                                                Header="Last Date"
-                                                Width="200" />
+                                Header="Last Date"
+                                Width="200" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -40,26 +40,26 @@
             <TabItem Header="All">
                 <DockPanel>
                     <DataGrid Margin="1"
-                              Width="570"
-                              ItemsSource="{Binding Work}"
-                              IsReadOnly="True"
-                              GridLinesVisibility="All"
-                              BorderThickness="2"
-                              BorderBrush="Teal"
-                              SelectedItem="{Binding SelectedItem}">
+                        Width="570"
+                        ItemsSource="{Binding GridItems}"
+                        IsReadOnly="True"
+                        GridLinesVisibility="All"
+                        BorderThickness="2"
+                        BorderBrush="Teal"
+                        SelectedItem="{Binding SelectedItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
-                                                Header="{Binding GridCountWork}"
-                                                Width="70" />
+                                Header="{Binding GridCountItems}"
+                                Width="70" />
                             <DataGridTextColumn Binding="{Binding Title}"
-                                                Header="Title"
-                                                Width="*" />
+                                Header="Title"
+                                Width="*" />
                             <DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}"
-                                                Header="Min"
-                                                Width="150" />
+                                Header="Min"
+                                Width="150" />
                             <DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm}}"
-                                                Header="Last Date"
-                                                Width="200" />
+                                Header="Last Date"
+                                Width="200" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -69,19 +69,19 @@
             <TabItem Header="Info">
                 <ScrollViewer>
                     <StackPanel>
-                        <TextBlock Text="{Binding SelectedWork.Title}"
-                                   FontSize="20"
-                                   FontWeight="Bold" />
+                        <TextBlock Text="{Binding SelectedItem.Title}"
+                            FontSize="20"
+                            FontWeight="Bold" />
                         <Button>
                             <Image Source="{Binding Image}"
-                                   Width="430"
-                                   Height="430" />
+                                Width="430"
+                                Height="430" />
                         </Button>
                         <view:EventView DataContext="{Binding EventViewModel}" />
                         <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding ListenAgain}">Add minutes</Button>
-                            <TextBox Text="{Binding AddMinutes}"
-                                     Watermark="Minutes" />
+                            <Button Command="{Binding AddEvent}">Add minutes</Button>
+                            <TextBox Text="{Binding AddAmount}"
+                                Watermark="Minutes" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
@@ -90,38 +90,38 @@
                 <ScrollViewer>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding AddClick}"
-                                    Margin="15">Add</Button>
+                            <Button Command="{Binding AddNewItem}"
+                                Margin="15">Add</Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBox Watermark="Artist"
-                                     Text="{Binding NewWork.Title}"
-                                     HorizontalAlignment="Stretch" />
+                                Text="{Binding NewItem.Title}"
+                                HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding UseNewDate}" />
                             <CalendarDatePicker SelectedDate="{Binding NewDate, Mode=TwoWay}"
-                                                IsEnabled="{Binding UseNewDate}"
-                                                SelectedDateFormat="Custom"
-                                                CustomDateFormatString="yyyy-MM-dd" />
+                                IsEnabled="{Binding UseNewDate}"
+                                SelectedDateFormat="Custom"
+                                CustomDateFormatString="yyyy-MM-dd" />
                             <TimePicker SelectedTime="{Binding NewTime, Mode=TwoWay}"
-                                        ClockIdentifier="24HourClock"
-                                        IsEnabled="{Binding UseNewDate}" />
+                                ClockIdentifier="24HourClock"
+                                IsEnabled="{Binding UseNewDate}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
                             <NumericUpDown Value="{Binding NewEvent.Rating}"
-                                           FormatString="0"
-                                           Minimum="1"
-                                           Maximum="5" />
+                                FormatString="0"
+                                Minimum="1"
+                                Maximum="5" />
                         </StackPanel>
                         <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
                         <TextBox Watermark="Comment"
-                                 Text="{Binding NewEvent.Comment}" />
+                            Text="{Binding NewEvent.Comment}" />
                         <ComboBox ItemsSource="{Binding PeopleList}"
-                                  SelectedItem="{Binding SelectedPerson}" />
-                        <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
-                                  SelectedItem="{Binding NewEvent.Platform}" />
+                            SelectedItem="{Binding SelectedPerson}" />
+                        <ComboBox ItemsSource="{Binding PlatformTypes}"
+                            SelectedItem="{Binding NewEvent.Platform}" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
