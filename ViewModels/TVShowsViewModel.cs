@@ -202,9 +202,6 @@ public partial class TVShowsViewModel : ViewModelBase
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = _addAmount;
 
-        // For now
-        lastEvent.Comment = null;
-
         _datasource.Add(SelectedItem, lastEvent);
 
         ReloadData();
