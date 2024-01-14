@@ -108,8 +108,8 @@ public partial class WorkViewModel : ViewModelBase
         Events = [];
         EventViewModel = new EventViewModel(Events, PlatformTypes);
 
-        AddNewItem = ReactiveCommand.Create(AddClickAction);
-        AddEvent = ReactiveCommand.Create(ListenAgainAction);
+        AddNewItem = ReactiveCommand.Create(AddNewItemAction);
+        AddEvent = ReactiveCommand.Create(AddEventAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
     }
@@ -124,7 +124,7 @@ public partial class WorkViewModel : ViewModelBase
         }
     }
 
-    private void AddClickAction()
+    private void AddNewItemAction()
     {
         NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
         NewEvent.DateStart =
@@ -139,7 +139,7 @@ public partial class WorkViewModel : ViewModelBase
         ClearNewItemControls();
     }
 
-    private void ListenAgainAction()
+    private void AddEventAction()
     {
         var lastEvent = Events.MaxBy(o => o.DateEnd);
 
