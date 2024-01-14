@@ -97,6 +97,15 @@ public partial class WorkViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _gridCountItemsBookmarked, value);
     }
 
+    public WorkGridItem SelectedGridItem
+    {
+        get => _selectedGridItem;
+        set
+        {
+            _selectedGridItem = value;
+            SelectedItemChanged();
+        }
+    }
     public WorkViewModel(IDatasource datasource)
     {
         _datasource = datasource;
@@ -112,16 +121,6 @@ public partial class WorkViewModel : ViewModelBase
         AddEvent = ReactiveCommand.Create(AddEventAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
-    }
-
-    public WorkGridItem SelectedGridItem
-    {
-        get => _selectedGridItem;
-        set
-        {
-            _selectedGridItem = value;
-            SelectedItemChanged();
-        }
     }
 
     private void AddNewItemAction()
@@ -247,12 +246,12 @@ public partial class WorkViewModel : ViewModelBase
         Events.Clear();
         Image = null;
 
-        if (SelectedItem == null)
+        if (SelectedGridItem == null)
         {
             return;
         }
 
-        SelectedItem = _itemList.First(o => o.ID == SelectedItem.ID);
+        SelectedItem = _itemList.First(o => o.ID == SelectedGridItem.ID);
         Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID).OrderBy(o => o.DateEnd));
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);

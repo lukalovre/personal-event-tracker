@@ -19,7 +19,7 @@
                         GridLinesVisibility="All"
                         BorderThickness="2"
                         BorderBrush="Teal"
-                        SelectedItem="{Binding SelectedItem}">
+                        SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
                                 Header="{Binding GridCountItemsBookmarked}"
@@ -46,7 +46,7 @@
                         GridLinesVisibility="All"
                         BorderThickness="2"
                         BorderBrush="Teal"
-                        SelectedItem="{Binding SelectedItem}">
+                        SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Index}"
                                 Header="{Binding GridCountItems}"
