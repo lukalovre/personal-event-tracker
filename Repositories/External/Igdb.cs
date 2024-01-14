@@ -6,7 +6,11 @@ public class Igdb : IExternal<Game>
 
     public Game GetItem(string url)
     {
-        throw new System.NotImplementedException();
+
+        return new Game
+        {
+
+        };
     }
 
     // public static async Task<Model.dbo.Game> GetDataFromAPIAsync(string igdbUrl, bool downloadPoster = true)
