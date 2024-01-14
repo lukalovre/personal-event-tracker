@@ -64,9 +64,8 @@ public partial class WorkViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _newItem, value);
     }
 
-    public DateTime NewDate { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+    public DateTime NewDate { get; set; } = DateTime.Now;
 
-    public TimeSpan NewTime { get; set; } = new TimeSpan();
     public Event NewEvent
     {
         get => _newEvent;
@@ -106,6 +105,7 @@ public partial class WorkViewModel : ViewModelBase
             SelectedItemChanged();
         }
     }
+
     public WorkViewModel(IDatasource datasource)
     {
         _datasource = datasource;
@@ -121,11 +121,14 @@ public partial class WorkViewModel : ViewModelBase
         AddEvent = ReactiveCommand.Create(AddEventAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
+
+        NewItem = new Work();
+        NewEvent = new Event();
     }
 
     private void AddNewItemAction()
     {
-        NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
+        NewEvent.DateEnd = UseNewDate ? NewDate : DateTime.Now;
         NewEvent.DateStart =
             NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? NewEvent.DateEnd.Value
@@ -176,8 +179,8 @@ public partial class WorkViewModel : ViewModelBase
 
     private void ClearNewItemControls()
     {
-        NewItem = default;
-        NewEvent = default;
+        NewItem = new Work();
+        NewEvent = new Event();
         NewImage = default;
         SelectedPerson = default;
     }
