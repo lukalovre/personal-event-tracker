@@ -208,6 +208,7 @@ public partial class BooksViewModel : ViewModelBase
         lastEvent.DateStart = CalculateDateStart(lastEvent, _newAmount);
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = _newAmount;
+        lastEvent.AmountType = eAmountType.Pages;
 
         _datasource.Add(SelectedItem, lastEvent);
 
