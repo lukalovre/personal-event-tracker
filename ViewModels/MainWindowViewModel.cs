@@ -15,7 +15,7 @@ public class MainWindowViewModel : ViewModelBase
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource(), new BookExtetrnal());
     public ComicsViewModel ComicsViewModel { get; } = new ComicsViewModel(new TsvDatasource(), new ComicExtetrnal());
-    public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource());
+    public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource(), new GameExtetrnal());
     public TVShowsViewModel TVShowsViewModel { get; } = new TVShowsViewModel(new TsvDatasource(), new TVShowExternal());
     public SongsViewModel SongsViewModel { get; } = new SongsViewModel(new TsvDatasource(), new SongExternal());
 

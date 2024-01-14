@@ -6,15 +6,17 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class GamesViewModel : ViewModelBase
+public partial class GamesViewModel : ViewModelBase, IExternalItem
 {
     private readonly IDatasource _datasource;
+    private readonly IExternal<Game> _external;
     private GameGridItem _selectedGridItem;
     private List<Game> _itemList;
     private List<Event> _eventList;
@@ -30,6 +32,7 @@ public partial class GamesViewModel : ViewModelBase
     private int _gridCountItemsBookmarked;
     private int _addAmount;
     private string _addAmountString;
+    private string _inputUrl;
 
     public EventViewModel EventViewModel { get; }
 
@@ -125,9 +128,22 @@ public partial class GamesViewModel : ViewModelBase
         }
     }
 
-    public GamesViewModel(IDatasource datasource)
+    public ReactiveCommand<Unit, Unit> OpenLink => throw new NotImplementedException();
+
+    public string InputUrl
+    {
+        get => _inputUrl;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _inputUrl, value);
+            InputUrlChanged();
+        }
+    }
+
+    public GamesViewModel(IDatasource datasource, IExternal<Game> external)
     {
         _datasource = datasource;
+        _external = external;
 
         GridItems = [];
         GridItemsBookmarked = [];
@@ -140,6 +156,13 @@ public partial class GamesViewModel : ViewModelBase
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
+    }
+
+    public void InputUrlChanged()
+    {
+        NewItem = _external.GetItem(InputUrl);
+        NewImage = FileRepsitory.GetImageTemp<Game>();
+        _inputUrl = string.Empty;
     }
 
     private int SetAmount(int value)
@@ -293,5 +316,10 @@ public partial class GamesViewModel : ViewModelBase
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<Game>(item.ID);
+    }
+
+    public void OpenLinkAction()
+    {
+        throw new NotImplementedException();
     }
 }

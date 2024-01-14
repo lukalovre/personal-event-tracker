@@ -33,7 +33,6 @@ public class Igdb : IExternal<Game>
     // 	};
     // }
 
-
     // public static async Task<string> GetUrlFromAPIAsync(int igdbID)
     // {
     //     m_api = GetApiClient();
@@ -47,13 +46,11 @@ public class Igdb : IExternal<Game>
     //     return game.Url;
     // }
 
-
     // 	public static async void OpenLink(Game1001 listItem)
     // {
     // 	var url = await GetUrlFromAPIAsync(listItem.Igdb);
     // 	Web.OpenLink(url);
     // }
-
 
     // 		private static IGDBClient GetApiClient()
     // {
