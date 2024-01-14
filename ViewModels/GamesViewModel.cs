@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using DynamicData;
@@ -183,9 +182,6 @@ public partial class GamesViewModel : ViewModelBase
 
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = _addAmount;
-
-        // For now
-        lastEvent.Comment = null;
 
         _datasource.Add(SelectedItem, lastEvent);
 

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reflection;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
