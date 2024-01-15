@@ -85,10 +85,8 @@ public partial class GamesViewModel : ViewModelBase, IExternalItem
         set => this.RaiseAndSetIfChanged(ref _newItem, value);
     }
 
-    public DateTime NewDate { get; set; } =
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+    public DateTime NewDate { get; set; } = DateTime.Now;
 
-    public TimeSpan NewTime { get; set; } = new TimeSpan();
     public Event NewEvent
     {
         get => _newEvent;
@@ -162,6 +160,8 @@ public partial class GamesViewModel : ViewModelBase, IExternalItem
     {
         NewItem = _external.GetItem(InputUrl);
         NewImage = FileRepsitory.GetImageTemp<Game>();
+        NewEvent = new Event();
+
         _inputUrl = string.Empty;
     }
 
@@ -174,12 +174,13 @@ public partial class GamesViewModel : ViewModelBase, IExternalItem
 
     private void AddItemClickAction()
     {
-        NewEvent.DateEnd = UseNewDate ? NewDate + NewTime : DateTime.Now;
+        NewEvent.DateEnd = UseNewDate ? NewDate : DateTime.Now;
         NewEvent.DateStart =
             NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
                 ? NewEvent.DateEnd.Value
                 : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
+        NewItem.Platform = NewEvent.Platform;
 
         _datasource.Add(NewItem, NewEvent);
 

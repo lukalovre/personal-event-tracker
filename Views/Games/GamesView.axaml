@@ -110,19 +110,19 @@
                                 Margin="15" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Watermark="Author"
+                            <TextBox Watermark="Title"
                                 Text="{Binding NewItem.Title}"
                                 HorizontalAlignment="Stretch" />
+                            <TextBox Watermark="Year"
+                                Text="{Binding NewItem.Year}"
+                                HorizontalAlignment="Stretch" />
                         </StackPanel>
+                        <Image Source="{Binding NewImage}" />
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding UseNewDate}" />
-                            <CalendarDatePicker SelectedDate="{Binding NewDate, Mode=TwoWay}"
-                                IsEnabled="{Binding UseNewDate}"
-                                SelectedDateFormat="Custom"
-                                CustomDateFormatString="yyyy-MM-dd" />
-                            <TimePicker SelectedTime="{Binding NewTime, Mode=TwoWay}"
-                                ClockIdentifier="24HourClock"
-                                IsEnabled="{Binding UseNewDate}" />
+                            <TextBox Watermark="Date"
+                                Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"
+                                Width="200" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
@@ -132,8 +132,11 @@
                                 Maximum="5" />
                         </StackPanel>
                         <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
+                        <CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
                         <TextBox Watermark="Comment"
                             Text="{Binding NewEvent.Comment}" />
+                        <TextBox Watermark="Minutes"
+                            Text="{Binding NewEvent.Amount}" />
                         <ComboBox ItemsSource="{Binding PeopleList}"
                             SelectedItem="{Binding SelectedPerson}" />
                         <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
