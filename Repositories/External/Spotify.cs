@@ -9,20 +9,22 @@ namespace AvaloniaApplication1.Repositories.External;
 public class Spotify : IExternal<Music>
 {
     private const string API_KEY_FILE_NAME = "spotify_key.txt";
+    private SpotifyClient _client;
+
     public static string UrlIdentifier => "spotify.com";
 
     public Music GetItem(string url)
     {
         var albumID = url.Split('/').LastOrDefault();
 
-        var spotifyClient = GetClient();
+        _client = GetClient();
 
-        if (spotifyClient == null)
+        if (_client == null)
         {
             return new Music();
         }
 
-        var album = spotifyClient.Albums.Get(albumID).Result;
+        var album = _client.Albums.Get(albumID).Result;
 
         var destinationFile = Paths.GetTempPath<Music>();
         HtmlHelper.DownloadPNG(album.Images.FirstOrDefault()?.Url, destinationFile);
@@ -41,14 +43,19 @@ public class Spotify : IExternal<Music>
         };
     }
 
-    private static SpotifyClient GetClient()
+    private SpotifyClient GetClient()
     {
+        if (_client != null)
+        {
+            return _client;
+        }
+
         var config = SpotifyClientConfig.CreateDefault();
 
         var keyFilePath = Paths.GetAPIKeyFilePath(API_KEY_FILE_NAME);
         var lines = File.ReadAllLines(keyFilePath);
 
-        if (!lines.Any())
+        if (lines.Length == 0)
         {
             // Api keys missing.
             return null;
