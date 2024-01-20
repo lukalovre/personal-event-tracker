@@ -186,7 +186,9 @@ public partial class BooksViewModel : ViewModelBase
     {
         NewEvent.DateEnd = UseNewDate ? NewDateEnd : DateTime.Now;
         NewEvent.DateStart = CalculateDateStart(NewEvent, NewEvent.Amount);
-        NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
+        NewEvent.People = SelectedPerson?.ID.ToString() ?? null!;
+        NewEvent.AmountType = eAmountType.Pages;
+        NewEvent.Platform = null!;
 
         _datasource.Add(NewItem, NewEvent);
 
