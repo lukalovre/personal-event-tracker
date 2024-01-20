@@ -81,14 +81,11 @@
             <TabItem Header="Info">
                 <ScrollViewer>
                     <StackPanel>
-                        <TextBlock Text="{Binding SelectedItem.Title}"
-                            FontSize="20"
-                            FontWeight="Bold" />
-                        <Button>
-                            <Image Source="{Binding Image}"
-                                Width="430"
-                                Height="430" />
-                        </Button>
+                        <TextBlock Text="{Binding SelectedItem.Title}" FontSize="20" FontWeight="Bold" />
+                        <TextBlock Text="{Binding SelectedItem.Year}" />
+                        <TextBlock Text="{Binding SelectedItem.Platform}" />
+                        <TextBlock Text="{Binding SelectedItem.Igdb}" />
+                        <Button><Image Source="{Binding Image}" Width="350" Height="466" /></Button>
                         <view:EventView DataContext="{Binding EventViewModel}" />
                         <StackPanel Orientation="Horizontal">
                             <Button Command="{Binding AddEventClick}">Add pages</Button>
@@ -103,21 +100,16 @@
                 <ScrollViewer>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding AddItemClick}"
-                                Margin="15">Add</Button>
-                            <TextBox Watermark="Paste url"
-                                Text="{Binding InputUrl}"
-                                Margin="15" />
+                            <Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+                            <TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Watermark="Title"
-                                Text="{Binding NewItem.Title}"
-                                HorizontalAlignment="Stretch" />
-                            <TextBox Watermark="Year"
-                                Text="{Binding NewItem.Year}"
-                                HorizontalAlignment="Stretch" />
+                        <StackPanel>
+                            <TextBox Watermark="Title"      Text="{Binding NewItem.Title}"      Width="150" />
+                            <TextBox Watermark="Year"       Text="{Binding NewItem.Year}"       Width="150" />
+                            <TextBox Watermark="Platform"   Text="{Binding NewItem.Platform}"   Width="150" />
+                            <TextBox Watermark="Igdb"       Text="{Binding NewItem.Igdb}"       Width="150" />
                         </StackPanel>
-                        <Image Source="{Binding NewImage}" />
+                        <Button><Image Source="{Binding NewImage}" /></Button>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding UseNewDate}" />
                             <TextBox Watermark="Date"

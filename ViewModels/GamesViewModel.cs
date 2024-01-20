@@ -154,6 +154,8 @@ public partial class GamesViewModel : ViewModelBase, IExternalItem
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
+        NewEvent = new Event();
+        NewItem = new Game();
     }
 
     public void InputUrlChanged()
