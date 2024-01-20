@@ -10,7 +10,6 @@ namespace AvaloniaApplication1.Repositories.External;
 
 public class Igdb : IExternal<Game>
 {
-    private IGDBClient _client;
 
     private const string API_KEY_FILE_NAME = "igdb_keys.txt";
     public static string UrlIdentifier => "igdb.com";
@@ -83,11 +82,6 @@ public class Igdb : IExternal<Game>
 
     private IGDBClient GetClient()
     {
-        if (_client != null)
-        {
-            return _client;
-        }
-
         var keyFilePath = Paths.GetAPIKeyFilePath(API_KEY_FILE_NAME);
         var lines = File.ReadAllLines(keyFilePath);
 
@@ -105,14 +99,14 @@ public class Igdb : IExternal<Game>
 
     public async Task<Game> GetDataFromAPIAsync(string igdbUrl)
     {
-        _client = GetClient();
+        var client = GetClient();
 
-        if (_client == null)
+        if (client == null)
         {
             return new Game();
         }
 
-        var games = await _client.QueryAsync<IGDB.Models.Game>(IGDBClient.Endpoints.Games,
+        var games = await client.QueryAsync<IGDB.Models.Game>(IGDBClient.Endpoints.Games,
          $"fields name, url, summary, first_release_date, id, involved_companies, cover.image_id; where url = \"{igdbUrl.Trim()}\";");
         var game = games.FirstOrDefault();
 
@@ -132,9 +126,9 @@ public class Igdb : IExternal<Game>
 
     public async Task<string> GetUrlFromAPIAsync(int igdbID)
     {
-        _client = GetClient();
+        var client = GetClient();
 
-        var games = await _client.QueryAsync<IGDB.Models.Game>(
+        var games = await client.QueryAsync<IGDB.Models.Game>(
             IGDBClient.Endpoints.Games,
             $"fields name, url, summary, first_release_date, id, involved_companies, cover.image_id; where id = {igdbID};"
         );
