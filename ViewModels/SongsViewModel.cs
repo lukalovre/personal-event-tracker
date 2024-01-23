@@ -14,7 +14,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
+public partial class SongsViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
     private readonly IExternal<Song> _external;
