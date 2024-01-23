@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Reactive;
-using System.Reactive.Linq;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
@@ -14,23 +12,43 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
+public class ItemViewModel<TItem, TGridItem> : ViewModelBase
+where TItem : IItem
+where TGridItem : IGridItem
 {
+    public virtual float AmountToMinutesModifier => 1f;
     private readonly IDatasource _datasource;
-    private readonly IExternal<Song> _external;
-    private SongGridItem _selectedGridItem;
-    private List<Song> _itemList;
+    private readonly IExternal<TItem> _external;
+    private TGridItem _selectedGridItem;
+    private List<TItem> _itemList;
     private List<Event> _eventList;
-    private Song _newItem;
+    private TItem _newItem;
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
     private Event _newEvent;
     private bool _useNewDate;
-    private Song _selectedItem;
+    private TItem _selectedItem;
     private int _gridCountItems;
     private int _gridCountItemsBookmarked;
-    private string _inputUrl;
+    private int _addAmount;
+    private string _addAmountString;
+
     public EventViewModel EventViewModel { get; }
+
+    public int AddAmount
+    {
+        get => _addAmount;
+        set { _addAmount = SetAmount(value); }
+    }
+
+    private int _newAmount;
+    private string _inputUrl;
+
+    public string AddAmountString
+    {
+        get => _addAmountString;
+        set => this.RaiseAndSetIfChanged(ref _addAmountString, value);
+    }
 
     public bool UseNewDate
     {
@@ -40,33 +58,33 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
 
     public static ObservableCollection<string> MusicPlatformTypes => [];
 
-    public static ObservableCollection<PersonComboBoxItem> PeopleList =>
-        new(PeopleManager.Instance.GetComboboxList());
+    public static ObservableCollection<PersonComboBoxItem> PeopleList => new(PeopleManager.Instance.GetComboboxList());
 
     public PersonComboBoxItem SelectedPerson { get; set; }
 
-    public ObservableCollection<SongGridItem> GridItems { get; set; }
-    public ObservableCollection<SongGridItem> GridItemsBookmarked { get; set; }
+    public ObservableCollection<TGridItem> GridItems { get; set; }
+    public ObservableCollection<TGridItem> GridItemsBookmarked { get; set; }
 
-    public Song SelectedItem
+    public TItem SelectedItem
     {
         get => _selectedItem;
         set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
     }
+
+    public DateTime NewDateEnd { get; set; }
+
     public ObservableCollection<Event> Events { get; set; }
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
-    public ReactiveCommand<Unit, Unit> OpenLink { get; }
 
-    public Song NewItem
+    public TItem NewItem
     {
         get => _newItem;
         set => this.RaiseAndSetIfChanged(ref _newItem, value);
     }
 
-    public DateTime NewDate { get; set; } =
-        new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+    public DateTime NewDate { get; set; } = DateTime.Now;
 
     public TimeSpan NewTime { get; set; } = new TimeSpan();
     public Event NewEvent
@@ -98,7 +116,7 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
         get => _gridCountItemsBookmarked;
         private set => this.RaiseAndSetIfChanged(ref _gridCountItemsBookmarked, value);
     }
-    public SongGridItem SelectedGridItem
+    public TGridItem SelectedGridItem
     {
         get => _selectedGridItem;
         set
@@ -118,7 +136,7 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
         }
     }
 
-    public SongsViewModel(IDatasource datasource, IExternal<Song> external)
+    public ItemViewModel(IDatasource datasource, IExternal<TItem> external)
     {
         _datasource = datasource;
         _external = external;
@@ -132,30 +150,29 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
-        OpenLink = ReactiveCommand.Create(OpenLinkAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
     }
 
-    public void OpenLinkAction()
+    private int SetAmount(int value)
     {
-        var openLinkParams = SelectedItem.Artist.Split(' ').ToList();
-        openLinkParams.AddRange(SelectedItem.Title.Split(' '));
-        openLinkParams.AddRange(new string[] { SelectedItem.Year.ToString() });
+        var events = _eventList.Where(o => o.ItemID == SelectedItem.ID);
+        var currentAmount = GetItemAmount(events);
+        var newAmount = value - currentAmount;
 
-        HtmlHelper.OpenLink(SelectedItem.Link, [.. openLinkParams]);
+        _newAmount = newAmount;
+        AddAmountString = $"    Adding {newAmount} pages";
+        return value;
     }
 
-    public void InputUrlChanged()
+    private void InputUrlChanged()
     {
         NewItem = _external.GetItem(InputUrl);
-        NewImage = FileRepsitory.GetImageTemp<Song>();
+
+        NewImage = FileRepsitory.GetImageTemp<TItem>();
         NewEvent = new Event
         {
-            Amount = NewItem.Runtime,
-            Rating = 3,
-            Bookmakred = true,
-            DateEnd = DateTime.ParseExact("2020-01-01 00:00:00", "yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture)
+            Rating = 1
         };
 
         _inputUrl = string.Empty;
@@ -163,15 +180,9 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
 
     private void AddItemClickAction()
     {
-        NewEvent.Amount = NewItem.Runtime;
-        NewEvent.DateEnd = UseNewDate ? NewEvent.DateEnd : DateTime.Now;
-        NewEvent.DateStart =
-            NewEvent.DateEnd.Value.TimeOfDay.Ticks == 0
-                ? NewEvent.DateEnd.Value
-                : NewEvent.DateEnd.Value.AddMinutes(-NewEvent.Amount);
+        NewEvent.DateEnd = UseNewDate ? NewDateEnd : DateTime.Now;
+        NewEvent.DateStart = CalculateDateStart(NewEvent, NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
-        NewEvent.Chapter = 1;
-        NewEvent.Completed = true;
 
         _datasource.Add(NewItem, NewEvent);
 
@@ -185,17 +196,14 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
 
         lastEvent.ID = 0;
 
-        if (!EventViewModel.IsEditDate)
-        {
-            lastEvent.DateEnd = DateTime.Now;
-        }
+        lastEvent.DateEnd = !EventViewModel.IsEditDate
+        ? DateTime.Now
+        : EventViewModel.SelectedEvent.DateEnd;
 
-        lastEvent.DateStart =
-            lastEvent.DateEnd.Value.TimeOfDay.Ticks == 0
-                ? lastEvent.DateEnd.Value
-                : lastEvent.DateEnd.Value.AddMinutes(-lastEvent.Amount);
-
+        lastEvent.DateStart = CalculateDateStart(lastEvent, _newAmount);
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
+        lastEvent.Amount = _newAmount;
+        lastEvent.Chapter = EventViewModel.NewEventChapter;
 
         _datasource.Add(SelectedItem, lastEvent);
 
@@ -214,6 +222,12 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
         GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
+    private DateTime CalculateDateStart(Event e, int amount)
+    {
+        return e.DateEnd.Value.TimeOfDay.Ticks == 0
+             ? e.DateEnd.Value
+             : e.DateEnd.Value.AddMinutes(-amount * AmountToMinutesModifier);
+    }
     private void ClearNewItemControls()
     {
         NewItem = default;
@@ -222,10 +236,10 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
         SelectedPerson = default;
     }
 
-    private List<SongGridItem> LoadData()
+    private List<TGridItem> LoadData()
     {
-        _itemList = _datasource.GetList<Song>();
-        _eventList = _datasource.GetEventList<Song>();
+        _itemList = _datasource.GetList<TItem>();
+        _eventList = _datasource.GetEventList<TItem>();
 
         return _eventList
             .OrderByDescending(o => o.DateEnd)
@@ -243,10 +257,10 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
             .ToList();
     }
 
-    private List<SongGridItem> LoadDataBookmarked(int? yearsAgo = null)
+    private List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
     {
-        _itemList = _datasource.GetList<Song>();
-        _eventList = _datasource.GetEventList<Song>();
+        _itemList = _datasource.GetList<TItem>();
+        _eventList = _datasource.GetEventList<TItem>();
 
         var dateFilter = yearsAgo.HasValue
             ? DateTime.Now.AddYears(-yearsAgo.Value)
@@ -270,24 +284,33 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
             .ToList();
     }
 
-    private static SongGridItem Convert(
-        int index,
-        Event e,
-        Song i,
-        IEnumerable<Event> eventList
-    )
+    public virtual TGridItem Convert(int index, Event e, TItem i, IEnumerable<Event> events)
     {
-        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
+        return default;
+    }
 
-        return new SongGridItem(
-            i.ID,
-            index + 1,
-            i.Artist,
-            i.Title,
-            i.Year,
-            eventList.Count(),
-            e.Bookmakred);
+    protected int GetItemAmount(IEnumerable<Event> eventList)
+    {
+        // This is for the case that the Item is already completed by you are rereading it.
+        var lastCompletedDate = eventList.Where(o => o.Completed)?.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
+        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
+        var dateFilter = lastCompletedDate;
+
+        var lastChapter = eventList.LastOrDefault()?.Chapter ?? 1;
+
+        if (EventViewModel is not null && lastChapter < EventViewModel.NewEventChapter)
+        {
+            lastChapter = EventViewModel.NewEventChapter;
+        }
+
+        var eventsByChapter = eventList.Where(o => o.Chapter == lastChapter);
+
+        if (lastCompletedDate == lastDate)
+        {
+            return eventsByChapter.Sum(o => o.Amount);
+        }
+
+        return eventsByChapter.Where(o => o.DateEnd > dateFilter).Sum(o => o.Amount);
     }
 
     public void SelectedItemChanged()
@@ -308,7 +331,6 @@ public partial class SongsViewModel : ViewModelBase, IItemViewModel<Song>
         );
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
-        Image = FileRepsitory.GetImage<Song>(item.ID);
+        Image = FileRepsitory.GetImage<TItem>(item.ID);
     }
-
 }

@@ -13,7 +13,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class GamesViewModel : ViewModelBase, IExternalItem
+public partial class GamesViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
     private readonly IExternal<Game> _external;
