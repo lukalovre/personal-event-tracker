@@ -1,4 +1,5 @@
 using System;
+using AvaloniaApplication1.Models;
 
 public record GameGridItem(
     int ID,
@@ -10,4 +11,4 @@ public record GameGridItem(
     bool Completed,
     DateTime? LastDate,
     int DaysAgo
-);
+) : IGridItem;

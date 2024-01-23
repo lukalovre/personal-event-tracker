@@ -56,7 +56,7 @@ where TGridItem : IGridItem
         set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
     }
 
-    public static ObservableCollection<string> MusicPlatformTypes => [];
+    public virtual ObservableCollection<string> PlatformTypes => [];
 
     public static ObservableCollection<PersonComboBoxItem> PeopleList => new(PeopleManager.Instance.GetComboboxList());
 
@@ -86,7 +86,6 @@ where TGridItem : IGridItem
 
     public DateTime NewDate { get; set; } = DateTime.Now;
 
-    public TimeSpan NewTime { get; set; } = new TimeSpan();
     public Event NewEvent
     {
         get => _newEvent;
@@ -146,13 +145,17 @@ where TGridItem : IGridItem
         ReloadData();
 
         Events = [];
-        EventViewModel = new EventViewModel(Events, MusicPlatformTypes);
+        EventViewModel = new EventViewModel(Events, PlatformTypes);
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
+        NewEvent = new Event();
+        NewItem = (TItem)Activator.CreateInstance(typeof(TItem));
     }
+
+    protected virtual string AmountVerb => "minutes";
 
     private int SetAmount(int value)
     {
@@ -161,7 +164,7 @@ where TGridItem : IGridItem
         var newAmount = value - currentAmount;
 
         _newAmount = newAmount;
-        AddAmountString = $"    Adding {newAmount} pages";
+        AddAmountString = $"    Adding {newAmount} {AmountVerb}";
         return value;
     }
 
@@ -204,6 +207,7 @@ where TGridItem : IGridItem
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = _newAmount;
         lastEvent.Chapter = EventViewModel.NewEventChapter;
+        lastEvent.Platform = EventViewModel.SelectedPlatformType;
 
         _datasource.Add(SelectedItem, lastEvent);
 
