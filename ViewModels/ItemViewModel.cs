@@ -16,6 +16,27 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase
 where TItem : IItem
 where TGridItem : IGridItem
 {
+    public ItemViewModel(IDatasource datasource, IExternal<TItem> external)
+    {
+        _datasource = datasource;
+        _external = external;
+
+        GridItems = [];
+        GridItemsBookmarked = [];
+        ReloadData();
+
+        Events = [];
+        EventViewModel = new EventViewModel(Events, PlatformTypes);
+
+        AddItemClick = ReactiveCommand.Create(AddItemClickAction);
+        AddEventClick = ReactiveCommand.Create(AddEventClickAction);
+        Search = ReactiveCommand.Create(SearchAction);
+
+        SelectedGridItem = GridItems.LastOrDefault();
+        NewEvent = new Event();
+        NewItem = (TItem)Activator.CreateInstance(typeof(TItem));
+    }
+
     public virtual float AmountToMinutesModifier => 1f;
     private readonly IDatasource _datasource;
     private readonly IExternal<TItem> _external;
@@ -77,6 +98,7 @@ where TGridItem : IGridItem
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
+    public ReactiveCommand<Unit, Unit> Search { get; }
 
     public TItem NewItem
     {
@@ -135,27 +157,24 @@ where TGridItem : IGridItem
         }
     }
 
-    public ItemViewModel(IDatasource datasource, IExternal<TItem> external)
-    {
-        _datasource = datasource;
-        _external = external;
-
-        GridItems = [];
-        GridItemsBookmarked = [];
-        ReloadData();
-
-        Events = [];
-        EventViewModel = new EventViewModel(Events, PlatformTypes);
-
-        AddItemClick = ReactiveCommand.Create(AddItemClickAction);
-        AddEventClick = ReactiveCommand.Create(AddEventClickAction);
-
-        SelectedGridItem = GridItems.LastOrDefault();
-        NewEvent = new Event();
-        NewItem = (TItem)Activator.CreateInstance(typeof(TItem));
-    }
-
     protected virtual string AmountVerb => "minutes";
+
+    public string SearchText { get; set; }
+
+    private void SearchAction()
+    {
+        SearchText = SearchText.Trim();
+
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            GridItems.Clear();
+            GridItems.AddRange(LoadData());
+            return;
+        }
+
+        GridItemsBookmarked.Clear();
+        GridItemsBookmarked.AddRange(LoadDataSearch(SearchText));
+    }
 
     private int SetAmount(int value)
     {
@@ -257,8 +276,17 @@ where TGridItem : IGridItem
                         _itemList.First(m => m.ID == o.ItemID),
                         _eventList.Where(e => e.ItemID == o.ItemID)
                     )
-            )
-            .ToList();
+            ).ToList();
+    }
+
+    private List<TGridItem> LoadDataSearch(string searchText)
+    {
+        var itemList = LoadData();
+
+        // search for every property join with space and search searchText by that with:
+        // Contains(searchMovie.Title, StringComparison.InvariantCultureIgnoreCase)
+
+        return itemList;
     }
 
     private List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
