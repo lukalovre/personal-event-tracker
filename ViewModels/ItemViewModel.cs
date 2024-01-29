@@ -339,9 +339,11 @@ where TGridItem : IGridItem
         var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
         var dateFilter = lastCompletedDate;
 
-        var lastChapter = eventList.LastOrDefault()?.Chapter ?? 1;
+        var lastChapter = eventList.LastOrDefault()?.Chapter;
 
-        if (EventViewModel is not null && lastChapter < EventViewModel.NewEventChapter)
+        if (EventViewModel is not null
+            && lastChapter.HasValue
+            && lastChapter < EventViewModel.NewEventChapter)
         {
             lastChapter = EventViewModel.NewEventChapter;
         }
