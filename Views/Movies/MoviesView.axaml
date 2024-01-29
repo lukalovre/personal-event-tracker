@@ -10,46 +10,7 @@
     xmlns:view="using:AvaloniaApplication1.Views">
     <DockPanel>
         <TabControl>
-            <TabItem Header="★">
-                <DockPanel>
-                    <StackPanel Orientation="Horizontal"
-                        DockPanel.Dock="Top">
-                        <TextBox Text="{Binding SearchText}"
-                            Watermark="Filter"
-                            DockPanel.Dock="Top"
-                            Width="150" />
-                        <Button Command="{Binding Search}"
-                            HotKey="Enter">Search</Button>
-                    </StackPanel>
-                    <DataGrid Margin="1"
-                        Width="570"
-                        ItemsSource="{Binding GridItemsBookmarked}"
-                        IsReadOnly="True"
-                        GridLinesVisibility="All"
-                        BorderThickness="2"
-                        BorderBrush="Teal"
-                        SelectedItem="{Binding SelectedGridItem}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Index}"
-                                Header="{Binding GridCountItemsBookmarked}"
-                                Width="45" />
-                            <DataGridTextColumn Binding="{Binding Title}"
-                                Header="Title"
-                                Width="*" />
-                            <DataGridTextColumn Binding="{Binding Director}"
-                                Header="Director"
-                                Width="70" />
-                            <DataGridTextColumn Binding="{Binding Year}"
-                                Header="Year"
-                                Width="70" />
-                            <DataGridTextColumn Binding="{Binding Rating}"
-                                Header="Rating"
-                                Width="120" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </DockPanel>
-            </TabItem>
-            <TabItem Header="All">
+            <TabItem Header="Year">
                 <DockPanel>
                     <DataGrid Margin="1"
                         Width="570"
