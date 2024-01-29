@@ -1,4 +1,5 @@
 using System;
+using AvaloniaApplication1.Models;
 
 public record BookGridItem(
     int ID,
@@ -9,4 +10,4 @@ public record BookGridItem(
     int? Rating,
     int Pages,
     DateTime? LastDate
-);
+) : IGridItem;

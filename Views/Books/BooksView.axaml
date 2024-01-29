@@ -139,7 +139,7 @@
                             Text="{Binding NewEvent.Amount}" />
                         <ComboBox ItemsSource="{Binding PeopleList}"
                             SelectedItem="{Binding SelectedPerson}" />
-                        <ComboBox ItemsSource="{Binding MusicPlatformTypes}"
+                        <ComboBox ItemsSource="{Binding PlatformTypes}"
                             SelectedItem="{Binding NewEvent.Platform}" />
                     </StackPanel>
                 </ScrollViewer>
