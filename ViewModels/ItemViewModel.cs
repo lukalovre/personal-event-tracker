@@ -35,7 +35,11 @@ where TGridItem : IGridItem
         SelectedGridItem = GridItems.LastOrDefault();
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem));
+
+        IsFullAmount = IsFullAmountDefaultValue;
     }
+
+    public virtual bool IsFullAmountDefaultValue => true;
 
     public virtual float AmountToMinutesModifier => 1f;
     private readonly IDatasource _datasource;
@@ -64,6 +68,7 @@ where TGridItem : IGridItem
 
     private int _newAmount;
     private string _inputUrl;
+    private bool _isFullAmount;
 
     public string AddAmountString
     {
@@ -75,6 +80,12 @@ where TGridItem : IGridItem
     {
         get => _useNewDate;
         set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
+    }
+
+    public bool IsFullAmount
+    {
+        get => _isFullAmount;
+        set => this.RaiseAndSetIfChanged(ref _isFullAmount, value);
     }
 
     public virtual ObservableCollection<string> PlatformTypes => [];
@@ -179,7 +190,7 @@ where TGridItem : IGridItem
     private int SetAmount(int value)
     {
         var events = _eventList.Where(o => o.ItemID == SelectedItem.ID);
-        var currentAmount = GetItemAmount(events);
+        var currentAmount = IsFullAmount ? 0 : GetItemAmount(events);
         var newAmount = value - currentAmount;
 
         _newAmount = newAmount;
