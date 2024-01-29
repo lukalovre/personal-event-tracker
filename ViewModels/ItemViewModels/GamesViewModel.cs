@@ -20,11 +20,6 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
                 .Select(v => v.ToString())
         );
 
-    private void AddItemClickAction()
-    {
-        NewItem.Platform = NewEvent.Platform;
-    }
-
     protected override GameGridItem Convert(int index, Event e, Game i, IEnumerable<Event> eventList)
     {
         var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
