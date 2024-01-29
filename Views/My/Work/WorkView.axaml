@@ -79,9 +79,10 @@
                         </Button>
                         <view:EventView DataContext="{Binding EventViewModel}" />
                         <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding AddEvent}">Add minutes</Button>
+                            <Button Command="{Binding AddEventClick}">Add minutes</Button>
                             <TextBox Text="{Binding AddAmount}"
                                 Watermark="Minutes" />
+                            <TextBlock Text="{Binding AddAmountString}" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
@@ -90,7 +91,7 @@
                 <ScrollViewer>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding AddNewItem}"
+                            <Button Command="{Binding AddItemClick}"
                                 Margin="15">Add</Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
