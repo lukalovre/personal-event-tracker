@@ -31,6 +31,8 @@ where TGridItem : IGridItem
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
         Search = ReactiveCommand.Create(SearchAction);
+        OpenLink = ReactiveCommand.Create(OpenLinkAction);
+        OpenImage = ReactiveCommand.Create(OpenImageAction);
 
         SelectedGridItem = GridItems.LastOrDefault();
         NewEvent = new Event();
@@ -39,9 +41,9 @@ where TGridItem : IGridItem
         IsFullAmount = IsFullAmountDefaultValue;
     }
 
-    public virtual bool IsFullAmountDefaultValue => true;
+    protected virtual bool IsFullAmountDefaultValue => true;
 
-    public virtual float AmountToMinutesModifier => 1f;
+    protected virtual float AmountToMinutesModifier => 1f;
     private readonly IDatasource _datasource;
     private readonly IExternal<TItem> _external;
     private TGridItem _selectedGridItem;
@@ -110,6 +112,8 @@ where TGridItem : IGridItem
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
     public ReactiveCommand<Unit, Unit> Search { get; }
+    public ReactiveCommand<Unit, Unit> OpenLink { get; }
+    public ReactiveCommand<Unit, Unit> OpenImage { get; }
 
     public TItem NewItem
     {
@@ -211,6 +215,19 @@ where TGridItem : IGridItem
         _inputUrl = string.Empty;
     }
 
+    private void OpenImageAction()
+    {
+        throw new NotImplementedException();
+    }
+
+    protected virtual string OpenLinkUrl => string.Empty;
+    protected virtual List<string> GetAlternativeOpenLinkSearchParams() => [];
+
+    private void OpenLinkAction()
+    {
+        HtmlHelper.OpenLink(OpenLinkUrl, [.. GetAlternativeOpenLinkSearchParams()]);
+    }
+
     private void AddItemClickAction()
     {
         NewEvent.DateEnd = UseNewDate ? NewDateEnd : DateTime.Now;
@@ -245,7 +262,7 @@ where TGridItem : IGridItem
         ClearNewItemControls();
     }
 
-    private void ReloadData()
+    protected virtual void ReloadData()
     {
         GridItems.Clear();
         GridItems.AddRange(LoadData());
@@ -270,15 +287,27 @@ where TGridItem : IGridItem
         SelectedPerson = default;
     }
 
+    protected virtual DateTime? DateTimeFilter => null;
+
     private List<TGridItem> LoadData()
     {
         _itemList = _datasource.GetList<TItem>();
         _eventList = _datasource.GetEventList<TItem>();
 
-        return _eventList
-            .OrderByDescending(o => o.DateEnd)
-            .DistinctBy(o => o.ItemID)
-            .OrderBy(o => o.DateEnd)
+        var result = _eventList
+                    .OrderByDescending(o => o.DateEnd)
+                    .DistinctBy(o => o.ItemID)
+                    .OrderBy(o => o.DateEnd)
+                    .ToList();
+
+        if (DateTimeFilter.HasValue)
+        {
+            result = result
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value)
+            .ToList();
+        }
+
+        return result
             .Select(
                 (o, i) =>
                     Convert(
@@ -287,7 +316,8 @@ where TGridItem : IGridItem
                         _itemList.First(m => m.ID == o.ItemID),
                         _eventList.Where(e => e.ItemID == o.ItemID)
                     )
-            ).ToList();
+            )
+            .ToList();
     }
 
     private List<TGridItem> LoadDataSearch(string searchText)
@@ -300,7 +330,7 @@ where TGridItem : IGridItem
         return itemList;
     }
 
-    private List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
+    protected List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
     {
         _itemList = _datasource.GetList<TItem>();
         _eventList = _datasource.GetEventList<TItem>();
@@ -327,7 +357,7 @@ where TGridItem : IGridItem
             .ToList();
     }
 
-    public virtual TGridItem Convert(int index, Event e, TItem i, IEnumerable<Event> events)
+    protected virtual TGridItem Convert(int index, Event e, TItem i, IEnumerable<Event> events)
     {
         return default;
     }

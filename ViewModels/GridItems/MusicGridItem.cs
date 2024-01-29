@@ -1,3 +1,5 @@
+using AvaloniaApplication1.Models;
+
 namespace AvaloniaApplication1.ViewModels.GridItems;
 
 public record MusicGridItem(
@@ -9,4 +11,4 @@ public record MusicGridItem(
     int Minutes,
     bool Bookmarked,
     int Played
-);
+) : IGridItem;

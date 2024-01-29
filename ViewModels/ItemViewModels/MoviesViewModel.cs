@@ -11,7 +11,7 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> external)
 : ItemViewModel<Movie, MovieGridItem>(datasource, external)
 {
-    public override MovieGridItem Convert(
+    protected override MovieGridItem Convert(
          int index,
          Event e,
          Movie i,

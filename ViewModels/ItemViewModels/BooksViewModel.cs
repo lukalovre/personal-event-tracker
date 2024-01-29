@@ -8,11 +8,11 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class BooksViewModel(IDatasource datasource, IExternal<Book> external)
 : ItemViewModel<Book, BookGridItem>(datasource, external)
 {
-    public override float AmountToMinutesModifier => 2f;
-    public override bool IsFullAmountDefaultValue => false;
+    protected override float AmountToMinutesModifier => 2f;
+    protected override bool IsFullAmountDefaultValue => false;
     protected override string AmountVerb => "pages";
 
-    public override BookGridItem Convert(int index, Event e, Book i, IEnumerable<Event> eventList)
+    protected override BookGridItem Convert(int index, Event e, Book i, IEnumerable<Event> eventList)
     {
         return new BookGridItem(
             i.ID,
@@ -25,5 +25,4 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
             e.DateEnd
         );
     }
-
 }

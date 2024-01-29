@@ -25,7 +25,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
         NewItem.Platform = NewEvent.Platform;
     }
 
-    public override GameGridItem Convert(int index, Event e, Game i, IEnumerable<Event> eventList)
+    protected override GameGridItem Convert(int index, Event e, Game i, IEnumerable<Event> eventList)
     {
         var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
         var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
