@@ -74,7 +74,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>
             title = artist;
 
             var channelNameNode = htmlDocument.DocumentNode.SelectSingleNode("//meta[contains(@property, 'og:video:tag')]");
-            artist = channelNameNode.GetAttributeValue("content", string.Empty).Trim();
+            artist = channelNameNode?.GetAttributeValue("content", string.Empty).Trim();
         }
 
         var link = GetUrl(url);

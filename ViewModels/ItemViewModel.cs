@@ -71,6 +71,7 @@ where TGridItem : IGridItem
     private int _newAmount;
     private string _inputUrl;
     private bool _isFullAmount;
+    private int _newItemAmount;
 
     public string AddAmountString
     {
@@ -152,6 +153,13 @@ where TGridItem : IGridItem
         get => _gridCountItemsBookmarked;
         private set => this.RaiseAndSetIfChanged(ref _gridCountItemsBookmarked, value);
     }
+
+    public int NewItemAmount
+    {
+        get => _newItemAmount;
+        private set => this.RaiseAndSetIfChanged(ref _newItemAmount, value);
+    }
+
     public TGridItem SelectedGridItem
     {
         get => _selectedGridItem;
@@ -230,6 +238,26 @@ where TGridItem : IGridItem
 
     private void AddItemClickAction()
     {
+        //     var newEvent = new Event
+        //     {
+        //         ID = 0.
+        //  ItemID = null,
+        //         ExternalID = null,
+        //         DateStart= ,
+        //         DateEnd,
+        //         Rating,
+        //         Bookmakred,
+        //         Chapter,
+        //         Amount,
+        //         AmountType,
+        //         Completed,
+        //         Comment,
+        //         People,
+        //         Platform,
+        //         LocationID
+        //     };
+
+        NewEvent.Amount = NewItemAmount;
         NewEvent.DateEnd = UseNewDate ? NewDateEnd : DateTime.Now;
         NewEvent.DateStart = CalculateDateStart(NewEvent, NewEvent.Amount);
         NewEvent.People = SelectedPerson?.ID.ToString() ?? null;

@@ -122,7 +122,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Runtime  " />
-                            <TextBox Text="{Binding NewItem.Runtime}"
+                            <TextBox Text="{Binding NewItemAmount}"
                                 HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <Image Source="{Binding NewImage}" />
@@ -131,7 +131,7 @@
                             <TextBlock Text="Date"
                                 VerticalAlignment="Center" />
                             <TextBlock Text="    " />
-                            <TextBox Text = "{Binding NewEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
+                            <TextBox Text = "{Binding NewDateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Rating" />
@@ -139,11 +139,6 @@
                                 FormatString="0"
                                 Minimum="1"
                                 Maximum="5" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Season" />
-                            <TextBox Text="{Binding NewEvent.Chapter}"
-                                HorizontalAlignment="Stretch" />
                         </StackPanel>
                         <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
                         <TextBox Watermark="Comment"
