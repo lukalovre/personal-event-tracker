@@ -1,4 +1,5 @@
 using System;
+using AvaloniaApplication1.Models;
 
 public record TVShowGridItem(
     int ID,
@@ -8,4 +9,4 @@ public record TVShowGridItem(
     int Episode,
     DateTime? LastDate,
     int DaysAgo
-);
+) : IGridItem;
