@@ -41,7 +41,7 @@
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
 						</Button>
-						<EventView DataContext="{Binding EventViewModel}" />
+						<view:EventView DataContext="{Binding EventViewModel}" />
 						<Button Command="{Binding AddEventClick}">
 							Listen again
 						</Button>
@@ -76,9 +76,7 @@
 						<Image Source="{Binding NewImage}" />
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
-							<TextBlock Text="Date" VerticalAlignment="Center" />
-							<TextBlock Text="    " />
-							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" />
+							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Rating" />

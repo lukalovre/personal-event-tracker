@@ -4,32 +4,32 @@
 		This only sets the DataContext for the previewer in an IDE,
 		to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
 		-->
-		<MainWindowViewModel />
+		<vm:MainWindowViewModel />
 	</Design.DataContext>
 	<DockPanel>
 		<TabControl Margin="5">
 			<TabItem Header="Main">
 				<TabControl TabStripPlacement="Left">
 					<TabItem Header="Music" Width="150">
-						<MusicView DataContext="{Binding MusicViewModel}" />
+						<v:MusicView DataContext="{Binding MusicViewModel}" />
 					</TabItem>
 					<TabItem Header="Songs">
-						<SongsView DataContext="{Binding SongsViewModel}" />
+						<v:SongsView DataContext="{Binding SongsViewModel}" />
 					</TabItem>
 					<TabItem Header="Games">
-						<GamesView DataContext="{Binding GamesViewModel}" />
+						<v:GamesView DataContext="{Binding GamesViewModel}" />
 					</TabItem>
 					<TabItem Header="Books">
-						<BooksView DataContext="{Binding BooksViewModel}" />
+						<v:BooksView DataContext="{Binding BooksViewModel}" />
 					</TabItem>
 					<TabItem Header="TV Shows">
-						<TVShowsView DataContext="{Binding TVShowsViewModel}" />
+						<v:TVShowsView DataContext="{Binding TVShowsViewModel}" />
 					</TabItem>
 					<TabItem Header="Movies">
-						<MoviesView DataContext="{Binding MoviesViewModel}" />
+						<v:MoviesView DataContext="{Binding MoviesViewModel}" />
 					</TabItem>
 					<TabItem Header="Comics">
-						<ComicsView DataContext="{Binding ComicsViewModel}" />
+						<v:ComicsView DataContext="{Binding ComicsViewModel}" />
 					</TabItem>
 					<TabItem Header="Zoo">
 						<DataGrid Margin="20" ItemsSource="{Binding Zoo}" AutoGenerateColumns="True" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" />
@@ -39,7 +39,7 @@
 			<TabItem Header="My">
 				<TabControl TabStripPlacement="Left">
 					<TabItem Header="Work" Width="150">
-						<WorkView DataContext="{Binding WorkViewModel}" />
+						<v:WorkView DataContext="{Binding WorkViewModel}" />
 					</TabItem>
 					<TabItem Header="D&amp;D" />
 				</TabControl>

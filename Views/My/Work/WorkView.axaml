@@ -34,7 +34,7 @@
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
 						</Button>
-						<EventView DataContext="{Binding EventViewModel}" />
+						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddEventClick}">
 								Add minutes
@@ -59,7 +59,7 @@
 						<TextBox Watermark="Type" Text="{Binding NewItem.Type}" Width="200" />
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
-							<TextBox Watermark="Date" Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
+							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Rating" />

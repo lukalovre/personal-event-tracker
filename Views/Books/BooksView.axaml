@@ -36,7 +36,7 @@
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
 						</Button>
-						<EventView DataContext="{Binding EventViewModel}" />
+						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddEventClick}">
 								Add pages
@@ -68,11 +68,7 @@
 						<Image Source="{Binding NewImage}" />
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Date" />
-								<TextBlock Text="    " />
-								<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" />
-							</StackPanel>
+							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Rating" />
