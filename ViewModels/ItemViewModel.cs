@@ -106,8 +106,6 @@ where TGridItem : IGridItem
         set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
     }
 
-    public DateTime NewDateEnd { get; set; }
-
     public ObservableCollection<Event> Events { get; set; }
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
@@ -238,31 +236,31 @@ where TGridItem : IGridItem
 
     private void AddItemClickAction()
     {
-        //     var newEvent = new Event
-        //     {
-        //         ID = 0.
-        //  ItemID = null,
-        //         ExternalID = null,
-        //         DateStart= ,
-        //         DateEnd,
-        //         Rating,
-        //         Bookmakred,
-        //         Chapter,
-        //         Amount,
-        //         AmountType,
-        //         Completed,
-        //         Comment,
-        //         People,
-        //         Platform,
-        //         LocationID
-        //     };
+        var amount = NewItemAmount;
+        var dateEnd = UseNewDate ? NewDate : DateTime.Now;
+        var dateStart = CalculateDateStart(NewEvent, amount);
+        var people = SelectedPerson?.ID.ToString() ?? string.Empty;
 
-        NewEvent.Amount = NewItemAmount;
-        NewEvent.DateEnd = UseNewDate ? NewDateEnd : DateTime.Now;
-        NewEvent.DateStart = CalculateDateStart(NewEvent, NewEvent.Amount);
-        NewEvent.People = SelectedPerson?.ID.ToString() ?? null;
+        var newEvent = new Event
+        {
+            ID = 0,
+            ItemID = 0,
+            ExternalID = string.Empty,
+            DateStart = dateStart,
+            DateEnd = dateEnd,
+            Rating = NewEvent.Rating,
+            Bookmakred = NewEvent.Bookmakred,
+            Chapter = NewEvent.Chapter,
+            Amount = amount,
+            AmountType = NewEvent.AmountType,
+            Completed = NewEvent.Completed,
+            Comment = NewEvent.Comment,
+            People = people,
+            Platform = NewEvent.Platform,
+            LocationID = NewEvent.LocationID
+        };
 
-        _datasource.Add(NewItem, NewEvent);
+        _datasource.Add(NewItem, newEvent);
 
         ReloadData();
         ClearNewItemControls();

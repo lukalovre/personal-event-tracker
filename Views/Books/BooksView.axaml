@@ -122,7 +122,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Date" />
                                 <TextBlock Text="    " />
-                                <TextBox Text = "{Binding NewDateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
+                                <TextBox Text = "{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
