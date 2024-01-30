@@ -53,7 +53,6 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     }
 
     protected override DateTime? DateTimeFilter => DateTime.Now.AddHours(-24);
-
     protected override int? NewItemAmountOverride => NewItem.Runtime;
 
     protected override int? DefaultNewItemChapter => null;

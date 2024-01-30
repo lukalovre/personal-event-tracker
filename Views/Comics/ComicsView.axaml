@@ -16,6 +16,10 @@
 			</TabItem>
 			<TabItem Header="All">
 				<DockPanel>
+					<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+						<TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" />
+						<Button Command="{Binding Search}" HotKey="Enter">Search</Button>
+					</StackPanel>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItems}" Width="45" />

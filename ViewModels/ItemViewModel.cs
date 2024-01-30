@@ -7,6 +7,7 @@ using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
 using DynamicData;
+using Newtonsoft.Json;
 using ReactiveUI;
 using Repositories;
 
@@ -186,15 +187,8 @@ where TGridItem : IGridItem
     {
         SearchText = SearchText.Trim();
 
-        if (string.IsNullOrWhiteSpace(SearchText))
-        {
-            GridItems.Clear();
-            GridItems.AddRange(LoadData());
-            return;
-        }
-
-        GridItemsBookmarked.Clear();
-        GridItemsBookmarked.AddRange(LoadDataSearch(SearchText));
+        GridItems.Clear();
+        GridItems.AddRange(LoadData());
     }
 
     private int SetAmount(int value)
@@ -353,34 +347,32 @@ where TGridItem : IGridItem
                     .OrderBy(o => o.DateEnd)
                     .ToList();
 
-        if (DateTimeFilter.HasValue)
+        if (DateTimeFilter.HasValue && string.IsNullOrWhiteSpace(SearchText))
         {
             result = result
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value)
             .ToList();
         }
 
-        return result
-            .Select(
-                (o, i) =>
-                    Convert(
-                        i,
-                        o,
-                        _itemList.First(m => m.ID == o.ItemID),
-                        _eventList.Where(e => e.ItemID == o.ItemID)
-                    )
-            )
+        var resultGrid = result.Select((o, i) =>
+                        Convert(
+                            i,
+                            o,
+                            _itemList.First(m => m.ID == o.ItemID),
+                            _eventList.Where(e => e.ItemID == o.ItemID)
+                        )
+                        ).ToList();
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            resultGrid = resultGrid
+            .Where(o =>
+                JsonConvert.SerializeObject(o)
+                .Contains(SearchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
-    }
+        }
 
-    private List<TGridItem> LoadDataSearch(string searchText)
-    {
-        var itemList = LoadData();
-
-        // search for every property join with space and search searchText by that with:
-        // Contains(searchMovie.Title, StringComparison.InvariantCultureIgnoreCase)
-
-        return itemList;
+        return resultGrid;
     }
 
     protected List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
