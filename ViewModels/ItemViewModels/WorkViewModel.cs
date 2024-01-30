@@ -1,14 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
-using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.ViewModels.GridItems;
-using DynamicData;
-using ReactiveUI;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
