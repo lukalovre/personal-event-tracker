@@ -24,9 +24,9 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
                 .Cast<eMusicPlatformType>()
                 .Select(v => v.ToString())
         );
-    public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; }
-    public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; }
-    public ObservableCollection<MusicGridItem> ArtistMusic { get; set; }
+    public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; } = [];
+    public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; } = [];
+    public ObservableCollection<MusicGridItem> ArtistMusic { get; set; } = [];
 
     protected override string OpenLinkUrl => SelectedItem.SpotifyID;
     protected override List<string> GetAlternativeOpenLinkSearchParams()
@@ -56,12 +56,10 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     {
         base.ReloadData();
 
-        MusicTodo1 ??= [];
         MusicTodo1.Clear();
         MusicTodo1.AddRange(LoadDataBookmarked(1));
         GridCountMusicTodo1 = MusicTodo1.Count;
 
-        MusicTodo2 ??= [];
         MusicTodo2.Clear();
         MusicTodo2.AddRange(LoadDataBookmarked(2));
         GridCountMusicTodo2 = MusicTodo2.Count;
