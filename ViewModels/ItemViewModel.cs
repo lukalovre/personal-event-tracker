@@ -208,6 +208,11 @@ where TGridItem : IGridItem
         return value;
     }
 
+    protected virtual int DefaultNewItemRating => 1;
+    protected virtual string DefaultNewItemPlatform => string.Empty;
+    protected virtual bool DefaultNewItemCompleted => false;
+    protected virtual bool DefaultNewItemBookmakred => false;
+
     private void InputUrlChanged()
     {
         NewItem = _external.GetItem(InputUrl);
@@ -215,7 +220,10 @@ where TGridItem : IGridItem
         NewImage = FileRepsitory.GetImageTemp<TItem>();
         NewEvent = new Event
         {
-            Rating = 1
+            Rating = DefaultNewItemRating,
+            Platform = DefaultNewItemPlatform,
+            Completed = DefaultNewItemCompleted,
+            Bookmakred = DefaultNewItemBookmakred
         };
 
         _inputUrl = string.Empty;
@@ -234,11 +242,13 @@ where TGridItem : IGridItem
         HtmlHelper.OpenLink(OpenLinkUrl, [.. GetAlternativeOpenLinkSearchParams()]);
     }
 
+    protected virtual int? NewItemAmountOverride => null;
+
     private void AddItemClickAction()
     {
-        var amount = NewItemAmount;
+        var amount = NewItemAmountOverride ?? NewItemAmount;
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
-        var dateStart = CalculateDateStart(NewEvent, amount);
+        var dateStart = CalculateDateStart(dateEnd, amount);
         var people = SelectedPerson?.ID.ToString() ?? string.Empty;
 
         var newEvent = new Event
@@ -276,7 +286,7 @@ where TGridItem : IGridItem
         ? DateTime.Now
         : EventViewModel.SelectedEvent.DateEnd;
 
-        lastEvent.DateStart = CalculateDateStart(lastEvent, _newAmount);
+        lastEvent.DateStart = CalculateDateStart(lastEvent.DateEnd.Value, _newAmount);
         lastEvent.Platform = EventViewModel.SelectedPlatformType;
         lastEvent.Amount = _newAmount;
         lastEvent.Chapter = EventViewModel.NewEventChapter;
@@ -299,11 +309,11 @@ where TGridItem : IGridItem
         GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
-    private DateTime CalculateDateStart(Event e, int amount)
+    private DateTime CalculateDateStart(DateTime dateEnd, int amount)
     {
-        return e.DateEnd.Value.TimeOfDay.Ticks == 0
-             ? e.DateEnd.Value
-             : e.DateEnd.Value.AddMinutes(-amount * AmountToMinutesModifier);
+        return dateEnd.TimeOfDay.Ticks == 0
+             ? dateEnd
+             : dateEnd.AddMinutes(-amount * AmountToMinutesModifier);
     }
     private void ClearNewItemControls()
     {

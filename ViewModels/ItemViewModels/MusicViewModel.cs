@@ -24,6 +24,8 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
                 .Cast<eMusicPlatformType>()
                 .Select(v => v.ToString())
         );
+    protected override string DefaultNewItemPlatform => eMusicPlatformType.Streaming.ToString();
+
     public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; } = [];
     public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; } = [];
     public ObservableCollection<MusicGridItem> ArtistMusic { get; set; } = [];
@@ -51,6 +53,8 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     }
 
     protected override DateTime? DateTimeFilter => DateTime.Now.AddHours(-24);
+
+    protected override int? NewItemAmountOverride => NewItem.Runtime;
 
     protected override void ReloadData()
     {

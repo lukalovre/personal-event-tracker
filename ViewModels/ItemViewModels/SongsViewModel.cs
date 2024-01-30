@@ -19,6 +19,11 @@ public partial class SongsViewModel(IDatasource datasource, IExternal<Song> exte
             .Select(v => v.ToString())
     );
 
+    protected override string DefaultNewItemPlatform => eMusicPlatformType.Streaming.ToString();
+    protected override int DefaultNewItemRating => 3;
+    protected override bool DefaultNewItemCompleted => true;
+    protected override bool DefaultNewItemBookmakred => true;
+    protected override int? NewItemAmountOverride => NewItem.Runtime;
     protected override string OpenLinkUrl => SelectedItem.Link;
     protected override List<string> GetAlternativeOpenLinkSearchParams()
     {
