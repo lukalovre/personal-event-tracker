@@ -209,6 +209,7 @@ where TGridItem : IGridItem
     }
 
     protected virtual int DefaultNewItemRating => 1;
+    protected virtual int? DefaultNewItemChapter => EventViewModel.NewEventChapter;
     protected virtual string DefaultNewItemPlatform => string.Empty;
     protected virtual bool DefaultNewItemCompleted => false;
     protected virtual bool DefaultNewItemBookmakred => false;
@@ -280,19 +281,35 @@ where TGridItem : IGridItem
     {
         var lastEvent = Events.MaxBy(o => o.DateEnd);
 
-        lastEvent.ID = 0;
+        var amount = _newAmount == 0
+        ? lastEvent.Amount
+        : _newAmount;
 
-        lastEvent.DateEnd = !EventViewModel.IsEditDate
+        var dateEnd = !EventViewModel.IsEditDate
         ? DateTime.Now
-        : EventViewModel.SelectedEvent.DateEnd;
+        : EventViewModel.SelectedEvent.DateEnd.Value;
+        var dateStart = CalculateDateStart(dateEnd, amount);
 
-        lastEvent.DateStart = CalculateDateStart(lastEvent.DateEnd.Value, _newAmount);
-        lastEvent.Platform = EventViewModel.SelectedPlatformType;
-        lastEvent.Amount = _newAmount;
-        lastEvent.Chapter = EventViewModel.NewEventChapter;
-        lastEvent.Platform = EventViewModel.SelectedPlatformType;
+        var newEvent = new Event
+        {
+            ID = 0,
+            ItemID = 0,
+            ExternalID = string.Empty,
+            DateStart = dateStart,
+            DateEnd = dateEnd,
+            Rating = lastEvent.Rating,
+            Bookmakred = lastEvent.Bookmakred,
+            Chapter = DefaultNewItemChapter,
+            Amount = amount,
+            AmountType = lastEvent.AmountType,
+            Completed = lastEvent.Completed,
+            Comment = lastEvent.Comment,
+            People = lastEvent.People,
+            Platform = EventViewModel.SelectedPlatformType,
+            LocationID = lastEvent.LocationID
+        };
 
-        _datasource.Add(SelectedItem, lastEvent);
+        _datasource.Add(SelectedItem, newEvent);
 
         ReloadData();
         ClearNewItemControls();

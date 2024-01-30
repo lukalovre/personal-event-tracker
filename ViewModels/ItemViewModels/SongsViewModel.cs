@@ -23,6 +23,7 @@ public partial class SongsViewModel(IDatasource datasource, IExternal<Song> exte
     protected override int DefaultNewItemRating => 3;
     protected override bool DefaultNewItemCompleted => true;
     protected override bool DefaultNewItemBookmakred => true;
+    protected override int? DefaultNewItemChapter => null;
     protected override int? NewItemAmountOverride => NewItem.Runtime;
     protected override string OpenLinkUrl => SelectedItem.Link;
     protected override List<string> GetAlternativeOpenLinkSearchParams()

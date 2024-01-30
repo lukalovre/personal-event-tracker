@@ -56,6 +56,8 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
 
     protected override int? NewItemAmountOverride => NewItem.Runtime;
 
+    protected override int? DefaultNewItemChapter => null;
+
     protected override void ReloadData()
     {
         base.ReloadData();

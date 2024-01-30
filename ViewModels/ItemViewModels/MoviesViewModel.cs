@@ -13,6 +13,7 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
 {
     protected override DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
 
+    protected override int? DefaultNewItemChapter => null;
     protected override MovieGridItem Convert(
          int index,
          Event e,

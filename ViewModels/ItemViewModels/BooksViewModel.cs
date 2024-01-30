@@ -11,6 +11,7 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
     protected override float AmountToMinutesModifier => 2f;
     protected override bool IsFullAmountDefaultValue => false;
     protected override string AmountVerb => "pages";
+    protected override int? DefaultNewItemChapter => null;
 
     protected override BookGridItem Convert(int index, Event e, Book i, IEnumerable<Event> eventList)
     {
