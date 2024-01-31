@@ -10,7 +10,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class YouTube : IExternal<TVShow>, IExternal<Song>
+public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
 {
     public static string UrlIdentifier => "youtube.com";
 
@@ -119,6 +119,12 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>
         var yearNode = htmlDocument.DocumentNode.SelectSingleNode(
             "//meta[contains(@itemprop, 'datePublished')]"
         );
+
+        if (yearNode == null)
+        {
+            return 0;
+        }
+
         var yearText = yearNode.GetAttributeValue("content", string.Empty).Trim();
         var year = int.Parse(yearText.Split('-').FirstOrDefault());
         return year;
@@ -145,7 +151,14 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>
             "|HQ|",
             "(Audio)"};
 
-        videoTitle = videoTitle.Split(" - ")[1];
+        var split = videoTitle.Split(" - ");
+
+        if (split.Length <= 1)
+        {
+            return videoTitle;
+        }
+
+        videoTitle = split[1];
 
         foreach (var item in toRemoveList)
         {
@@ -160,4 +173,17 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>
         return videoTitle.Split(" - ")[0].Trim();
     }
 
+    Music IExternal<Music>.GetItem(string url)
+    {
+        var song = (this as IExternal<Song>).GetItem(url);
+
+        return new Music
+        {
+            Title = song.Title,
+            Artist = song.Artist,
+            Year = song.Year,
+            Runtime = song.Runtime,
+            SpotifyID = song.Link
+        };
+    }
 }
