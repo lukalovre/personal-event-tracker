@@ -1,0 +1,144 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:AvaloniaApplication1.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1" mc:Ignorable="d" x:DataType="vm:StandupViewModel" x:Class="AvaloniaApplication1.Views.StandupView" xmlns:view="using:AvaloniaApplication1.Views">
+	<DockPanel>
+		<TabControl>
+			<TabItem Header="Year">
+				<DockPanel>
+					<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+						<TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" />
+						<Button Command="{Binding Search}" HotKey="Enter">Search</Button>
+					</StackPanel>
+					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItems}" Width="45" />
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+							<DataGridTextColumn Binding="{Binding Director}" Header="Director" Width="70" />
+							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="120" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</DockPanel>
+			</TabItem>
+		</TabControl>
+		<TabControl Margin="5">
+			<TabItem Header="Info">
+				<ScrollViewer>
+					<StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Link" />
+							<TextBox Text="{Binding SelectedItem.Link}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Performer" />
+							<TextBox Text="{Binding SelectedItem.Performer}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Title" />
+							<TextBox Text="{Binding SelectedItem.Title}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Year" />
+							<TextBox Text="{Binding SelectedItem.Year}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Runtime" />
+							<TextBox Text="{Binding SelectedItem.Runtime}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Writer" />
+							<TextBox Text="{Binding SelectedItem.Writer}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Director" />
+							<TextBox Text="{Binding SelectedItem.Director}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Country" />
+							<TextBox Text="{Binding SelectedItem.Country}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Plot" />
+							<TextBox Text="{Binding SelectedItem.Plot}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<Button>
+							<Image Source="{Binding Image}" Width="430" Height="430" />
+						</Button>
+						<view:EventView DataContext="{Binding EventViewModel}" />
+						<StackPanel Orientation="Horizontal">
+							<Button Command="{Binding AddEventClick}">
+								Add minutes
+							</Button>
+							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
+							<TextBlock Text="{Binding AddAmountString}" />
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="New">
+				<ScrollViewer>
+					<StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<Button Command="{Binding AddItemClick}" Margin="15">
+								Add
+							</Button>
+							<TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Link" />
+							<TextBox Text="{Binding NewItem.Link}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Performer" />
+							<TextBox Text="{Binding NewItem.Performer}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Title" />
+							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Year" />
+							<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Runtime" />
+							<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Writer" />
+							<TextBox Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Director" />
+							<TextBox Text="{Binding NewItem.Director}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Country" />
+							<TextBox Text="{Binding NewItem.Country}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Plot" />
+							<TextBox Text="{Binding NewItem.Plot}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<Image Source="{Binding NewImage}" />
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding UseNewDate}" />
+							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Rating" />
+							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
+						</StackPanel>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">
+							★
+						</CheckBox>
+						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
+						<ComboBox ItemsSource="{Binding PeopleList}" SelectedItem="{Binding SelectedPerson}" />
+						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
+					</StackPanel>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Edit">
+				<TextBlock Text="Event" />
+			</TabItem>
+		</TabControl>
+	</DockPanel>
+</UserControl>
