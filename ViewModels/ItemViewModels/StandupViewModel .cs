@@ -12,7 +12,7 @@ public partial class StandupViewModel(IDatasource datasource, IExternal<Standup>
 : ItemViewModel<Standup, StandupGridItem>(datasource, external)
 {
     protected override DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
-
+    protected override int? NewItemAmountOverride => NewItem.Runtime;
     protected override int? DefaultNewItemChapter => null;
     protected override StandupGridItem Convert(int index, Event e, Standup i, IEnumerable<Event> eventList)
     {
