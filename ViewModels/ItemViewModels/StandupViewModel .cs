@@ -14,6 +14,7 @@ public partial class StandupViewModel(IDatasource datasource, IExternal<Standup>
     protected override DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
     protected override int? NewItemAmountOverride => NewItem.Runtime;
     protected override int? DefaultNewItemChapter => null;
+    protected override bool DefaultNewItemCompleted => true;
     protected override StandupGridItem Convert(int index, Event e, Standup i, IEnumerable<Event> eventList)
     {
         var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
