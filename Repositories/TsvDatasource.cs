@@ -30,11 +30,11 @@ internal class TsvDatasource : IDatasource
             using var writerItem = new StreamWriter(itemFilePath, true);
             using var csvItem = new CsvWriter(writerItem, _config);
 
-            // if (item.ID == 1)
-            // {
-            //     // Start of file, write header first
-            //     csvItem.WriteHeader<T>();
-            // }
+            if (item.ID == 1)
+            {
+                // Start of file, write header first
+                csvItem.WriteHeader<T>();
+            }
 
             csvItem.NextRecord();
             csvItem.WriteRecord(item);
