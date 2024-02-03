@@ -334,7 +334,7 @@ where TGridItem : IGridItem
         SelectedPerson = default;
     }
 
-    protected virtual DateTime? DateTimeFilter => null;
+    protected virtual DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
 
     private List<TGridItem> LoadData()
     {

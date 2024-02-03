@@ -11,8 +11,6 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> external)
 : ItemViewModel<TVShow, TVShowGridItem>(datasource, external)
 {
-    protected override DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
-
     protected override TVShowGridItem Convert(
         int index,
         Event e,

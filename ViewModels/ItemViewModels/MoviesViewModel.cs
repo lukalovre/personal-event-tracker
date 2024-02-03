@@ -11,8 +11,6 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> external)
 : ItemViewModel<Movie, MovieGridItem>(datasource, external)
 {
-    protected override DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
-
     protected override int? DefaultNewItemChapter => null;
     protected override MovieGridItem Convert(
          int index,

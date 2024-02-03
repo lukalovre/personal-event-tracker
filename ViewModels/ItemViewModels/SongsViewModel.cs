@@ -35,8 +35,6 @@ public partial class SongsViewModel(IDatasource datasource, IExternal<Song> exte
         return openLinkParams;
     }
 
-    protected override DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
-
     protected override SongGridItem Convert(
         int index,
         Event e,

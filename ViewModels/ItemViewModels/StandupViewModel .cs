@@ -11,7 +11,6 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class StandupViewModel(IDatasource datasource, IExternal<Standup> external)
 : ItemViewModel<Standup, StandupGridItem>(datasource, external)
 {
-    protected override DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
     protected override int? NewItemAmountOverride => NewItem.Runtime;
     protected override int? DefaultNewItemChapter => null;
     protected override bool DefaultNewItemCompleted => true;
