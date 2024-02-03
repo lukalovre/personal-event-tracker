@@ -189,6 +189,7 @@ where TGridItem : IGridItem
 
         GridItems.Clear();
         GridItems.AddRange(LoadData());
+        SelectedGridItem = GridItems.LastOrDefault();
     }
 
     private int SetAmount(int value)
@@ -273,7 +274,7 @@ where TGridItem : IGridItem
 
     private void AddEventClickAction()
     {
-        var lastEvent = Events.MaxBy(o => o.DateEnd);
+        var lastEvent = Events.MaxBy(o => o.DateEnd) ?? Events.LastOrDefault();
 
         var amount = _newAmount == 0
         ? lastEvent.Amount
@@ -449,6 +450,11 @@ where TGridItem : IGridItem
                 .Where(o => o.ItemID == SelectedItem.ID && o.DateEnd.HasValue)
                 .OrderBy(o => o.DateEnd)
         );
+
+        if (!Events.Any())
+        {
+            Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID));
+        }
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<TItem>(item.ID);

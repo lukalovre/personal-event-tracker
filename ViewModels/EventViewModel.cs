@@ -101,6 +101,11 @@ public partial class EventViewModel : ViewModelBase
 
     private void SelectedPersonChanged()
     {
+        if (SelectedEvent == null)
+        {
+            return;
+        }
+
         SelectedEvent.People = SelectedPerson.ID.ToString();
     }
 
