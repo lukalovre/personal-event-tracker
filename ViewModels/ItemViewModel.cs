@@ -156,7 +156,7 @@ where TGridItem : IGridItem
     public int NewItemAmount
     {
         get => _newItemAmount;
-        private set => this.RaiseAndSetIfChanged(ref _newItemAmount, value);
+        set => this.RaiseAndSetIfChanged(ref _newItemAmount, value);
     }
 
     public TGridItem SelectedGridItem
@@ -246,6 +246,8 @@ where TGridItem : IGridItem
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
         var dateStart = CalculateDateStart(dateEnd, amount);
         var people = SelectedPerson?.ID.ToString() ?? string.Empty;
+
+        NewEvent ??= new Event();
 
         var newEvent = new Event
         {

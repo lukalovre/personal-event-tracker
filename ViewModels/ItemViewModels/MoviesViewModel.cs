@@ -12,6 +12,9 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
 : ItemViewModel<Movie, MovieGridItem>(datasource, external)
 {
     protected override int? DefaultNewItemChapter => null;
+
+    protected override int? NewItemAmountOverride => NewItem.Runtime;
+
     protected override MovieGridItem Convert(
          int index,
          Event e,
