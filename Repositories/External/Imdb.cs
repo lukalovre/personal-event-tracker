@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
@@ -14,7 +15,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
 
     public static string UrlIdentifier => "imdb.com";
 
-    Movie IExternal<Movie>.GetItem(string url)
+    async Task<Movie> IExternal<Movie>.GetItem(string url)
     {
         string inputImdb = GetImdbID(url);
 
@@ -40,7 +41,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         };
     }
 
-    public TVShow GetItem(string url)
+    public async Task<TVShow> GetItem(string url)
     {
         string inputImdb = GetImdbID(url);
 
@@ -125,7 +126,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         return url.Split('/').FirstOrDefault(i => i.StartsWith("tt"));
     }
 
-    Standup IExternal<Standup>.GetItem(string url)
+    async Task<Standup> IExternal<Standup>.GetItem(string url)
     {
         string inputImdb = GetImdbID(url);
 

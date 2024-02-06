@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Repositories;
 using SpotifyAPI.Web;
 
@@ -12,7 +13,7 @@ public class Spotify : IExternal<Music>
 
     public static string UrlIdentifier => "spotify.com";
 
-    public Music GetItem(string url)
+    public async Task<Music> GetItem(string url)
     {
         var albumID = url.Split('/').LastOrDefault();
 

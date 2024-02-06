@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AvaloniaApplication1.Repositories.External;
 using Repositories;
 
@@ -14,18 +15,18 @@ public class TVShowExternal : IExternal<TVShow>
         _youtube = new YouTube();
     }
 
-    public TVShow GetItem(string url)
+    public async Task<TVShow> GetItem(string url)
     {
         url = HtmlHelper.CleanUrl(url);
 
         if (url.Contains(Imdb.UrlIdentifier))
         {
-            return _imdb.GetItem(url);
+            return await _imdb.GetItem(url);
         }
 
         if (url.Contains(YouTube.UrlIdentifier))
         {
-            return _youtube.GetItem(url);
+            return await _youtube.GetItem(url);
         }
 
         return new TVShow();

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Repositories;
 
@@ -11,7 +12,7 @@ public class Soundcloud : IExternal<Song>
 {
     public static string UrlIdentifier => "soundcloud.com";
 
-    public Song GetItem(string url)
+    public async Task<Song> GetItem(string url)
     {
         using var client = new WebClient();
         var content = client.DownloadData(url);

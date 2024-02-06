@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AvaloniaApplication1.Repositories.External;
 using Repositories;
 
@@ -12,13 +13,13 @@ public class MovieExternal : IExternal<Movie>
         _imdb = new Imdb();
     }
 
-    public Movie GetItem(string url)
+    public async Task<Movie> GetItem(string url)
     {
         url = HtmlHelper.CleanUrl(url);
 
         if (url.Contains(Imdb.UrlIdentifier))
         {
-            return _imdb.GetItem(url);
+            return await _imdb.GetItem(url);
         }
 
         return new Movie();

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AvaloniaApplication1.Repositories.External;
 
 namespace AvaloniaApplication1.Repositories;
@@ -15,21 +16,21 @@ public class SongExternal : IExternal<Song>
         _soundcloud = new Soundcloud();
     }
 
-    public Song GetItem(string url)
+    public async Task<Song> GetItem(string url)
     {
         if (url.Contains(YouTube.UrlIdentifier))
         {
-            return _youtube.GetItem(url);
+            return await _youtube.GetItem(url);
         }
 
         if (url.Contains(Bandcamp.UrlIdentifier))
         {
-            return _bandcamp.GetItem(url);
+            return await _bandcamp.GetItem(url);
         }
 
         if (url.Contains(Soundcloud.UrlIdentifier))
         {
-            return _soundcloud.GetItem(url);
+            return await _soundcloud.GetItem(url);
         }
 
         return new Song();

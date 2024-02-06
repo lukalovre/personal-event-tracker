@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
 using Repositories;
@@ -14,7 +15,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
 {
     public static string UrlIdentifier => "youtube.com";
 
-    public TVShow GetItem(string url)
+    public async Task<TVShow> GetItem(string url)
     {
         using var client = new WebClient();
         var content = client.DownloadData(url);
@@ -54,7 +55,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
         return node.GetAttributeValue("content", string.Empty).Trim();
     }
 
-    Song IExternal<Song>.GetItem(string url)
+    async Task<Song> IExternal<Song>.GetItem(string url)
     {
         using var client = new WebClient();
         var content = client.DownloadData(url);
@@ -173,9 +174,9 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
         return videoTitle.Split(" - ")[0].Trim();
     }
 
-    Music IExternal<Music>.GetItem(string url)
+    async Task<Music> IExternal<Music>.GetItem(string url)
     {
-        var song = (this as IExternal<Song>).GetItem(url);
+        var song = (this as IExternal<Song>).GetItem(url).Result;
 
         return new Music
         {

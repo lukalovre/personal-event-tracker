@@ -209,9 +209,9 @@ where TGridItem : IGridItem
     protected virtual bool DefaultNewItemCompleted => false;
     protected virtual bool DefaultNewItemBookmakred => false;
 
-    private void InputUrlChanged()
+    private async void InputUrlChanged()
     {
-        NewItem = _external.GetItem(InputUrl);
+        NewItem = await _external.GetItem(InputUrl);
 
         NewImage = FileRepsitory.GetImageTemp<TItem>();
         NewEvent = new Event

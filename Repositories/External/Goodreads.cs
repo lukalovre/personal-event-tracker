@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
 using Repositories;
@@ -13,7 +14,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 {
     public static string UrlIdentifier => "goodreads.com";
 
-    public Book GetItem(string url)
+    public async Task<Book> GetItem(string url)
     {
         Book result = new();
 
@@ -59,7 +60,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
         return result;
     }
 
-    Comic IExternal<Comic>.GetItem(string url)
+    async Task<Comic> IExternal<Comic>.GetItem(string url)
     {
         Comic result = new();
 

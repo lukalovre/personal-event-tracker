@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AvaloniaApplication1.Repositories.External;
 using Repositories;
 
@@ -12,13 +13,13 @@ public class ComicExtetrnal : IExternal<Comic>
         _goodreads = new Goodreads();
     }
 
-    public Comic GetItem(string url)
+    public async Task<Comic> GetItem(string url)
     {
         url = HtmlHelper.CleanUrl(url);
 
         if (url.Contains(Goodreads.UrlIdentifier))
         {
-            return _goodreads.GetItem(url);
+            return await _goodreads.GetItem(url);
         }
 
         return new Comic();
