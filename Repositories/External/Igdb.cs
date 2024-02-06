@@ -16,11 +16,16 @@ public class Igdb : IExternal<Game>
 
     public Game GetItem(string url)
     {
+        // return GetFromHTML(url);
+        return GetDataFromAPIAsync(url).Result;
+    }
 
-        using var client = new WebClient();
+    private Game GetFromHTML(string url)
+    {
+        var client = new WebClient();
         client.Headers.Add("user-agent", "...");
         var content = client.DownloadData(url);
-        using var stream = new MemoryStream(content);
+        var stream = new MemoryStream(content);
         string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
         var htmlDocument = new HtmlDocument();
         htmlDocument.LoadHtml(result);
@@ -39,8 +44,6 @@ public class Igdb : IExternal<Game>
             Title = title,
             Year = year
         };
-
-        // return GetDataFromAPIAsync(url).Result;
     }
 
     private int GetYear(HtmlDocument htmlDocument)
