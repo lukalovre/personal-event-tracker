@@ -12,36 +12,30 @@
 					</ComboBox>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Rating" />
-						<TextBlock Text="    " />
 						<TextBlock Text="{Binding SelectedEvent.Rating}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">
 							★
 						</CheckBox>
-						<TextBlock Text="    " />
 						<CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">
 							Completed
 						</CheckBox>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Comment" />
-						<TextBlock Text="    " />
 						<TextBlock Text="{Binding SelectedEvent.Comment}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="People" />
-						<TextBlock Text="       " />
 						<TextBlock Text="{Binding SelectedPersonString}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Platform" VerticalAlignment="Center" />
-						<TextBlock Text="     " />
 						<TextBlock Text="{Binding SelectedPlatformType}" Width="100" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="ExternalID" VerticalAlignment="Center" />
-						<TextBlock Text="     " />
 						<TextBlock Text="{Binding SelectedEvent.ExternalID}" Width="100" />
 					</StackPanel>
 				</StackPanel>
@@ -51,13 +45,11 @@
 					<StackPanel Orientation="Horizontal">
 						<CheckBox IsChecked="{Binding IsEditDate}" />
 						<TextBlock Text="Date" VerticalAlignment="Center" />
-						<TextBlock Text="    " />
 						<TextBox Text="{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Rating " VerticalAlignment="Center" />
 						<NumericUpDown Value="{Binding SelectedEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" Width="100" />
-						<TextBlock Text="   " VerticalAlignment="Center" />
 						<TextBlock Text="Chapter " VerticalAlignment="Center" />
 						<NumericUpDown Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
 					</StackPanel>
@@ -65,29 +57,24 @@
 						<CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">
 							★
 						</CheckBox>
-						<TextBlock Text="    " />
 						<CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">
 							Completed
 						</CheckBox>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Comment" VerticalAlignment="Center" />
-						<TextBlock Text="    " />
 						<TextBox Text="{Binding SelectedEvent.Comment}" Width="200" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="People" VerticalAlignment="Center" />
-						<TextBlock Text="       " />
 						<ComboBox ItemsSource="{Binding PeopleList}" SelectedItem="{Binding SelectedPerson}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Platform" VerticalAlignment="Center" />
-						<TextBlock Text="     " />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}" Width="100" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="ExternalID" VerticalAlignment="Center" />
-						<TextBlock Text="     " />
 						<TextBox Text="{Binding SelectedEvent.ExternalID}" Width="100" />
 					</StackPanel>
 				</StackPanel>
