@@ -150,7 +150,8 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
             "[HD]",
             "[Official Video]",
             "|HQ|",
-            "(Audio)"};
+            "(Audio)",
+            "[FULL ALBUM]"};
 
         var split = videoTitle.Split(" - ");
 

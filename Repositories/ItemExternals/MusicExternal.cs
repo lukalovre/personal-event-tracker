@@ -19,6 +19,11 @@ public class MusicExternal : IExternal<Music>
 
     public async Task<Music> GetItem(string url)
     {
+        if (url.Contains(YouTube.UrlIdentifier))
+        {
+            return await _youtube.GetItem(url);
+        }
+
         url = HtmlHelper.CleanUrl(url);
 
         if (url.Contains(Bandcamp.UrlIdentifier))
@@ -29,11 +34,6 @@ public class MusicExternal : IExternal<Music>
         if (url.Contains(Spotify.UrlIdentifier))
         {
             return await _spotify.GetItem(url);
-        }
-
-        if (url.Contains(YouTube.UrlIdentifier))
-        {
-            return await _youtube.GetItem(url);
         }
 
         return new Music();
