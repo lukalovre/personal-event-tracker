@@ -57,6 +57,21 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
 
     async Task<Song> IExternal<Song>.GetItem(string url)
     {
+        var data = GetMusicData<Song>(url);
+
+        return new Song
+        {
+            Artist = data.Artist,
+            Title = data.Title,
+            Link = data.Link,
+            Year = data.Year,
+            Runtime = data.Runtime
+        };
+    }
+
+    public YoutubeMusicData GetMusicData<T>(string url)
+    where T : IItem
+    {
         using var client = new WebClient();
         var content = client.DownloadData(url);
         using var stream = new MemoryStream(content);
@@ -83,17 +98,13 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
         int runtime = GetRuntime(htmlDocument);
         var imageUrl = GetImageUrl(htmlDocument);
 
-        var destinationFile = Paths.GetTempPath<Song>();
+        var destinationFile = Paths.GetTempPath<T>();
         HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        return new Song
-        {
-            Artist = WebUtility.HtmlDecode(artist),
-            Title = WebUtility.HtmlDecode(title),
-            Link = link,
-            Year = year,
-            Runtime = runtime
-        };
+        artist = WebUtility.HtmlDecode(artist);
+        title = WebUtility.HtmlDecode(title);
+
+        return new YoutubeMusicData(title, artist, year, runtime, link);
     }
 
     private static int GetRuntime(HtmlDocument htmlDocument)
@@ -177,15 +188,17 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
 
     async Task<Music> IExternal<Music>.GetItem(string url)
     {
-        var song = (this as IExternal<Song>).GetItem(url).Result;
+        var data = GetMusicData<Music>(url);
 
         return new Music
         {
-            Title = song.Title,
-            Artist = song.Artist,
-            Year = song.Year,
-            Runtime = song.Runtime,
-            SpotifyID = song.Link
+            Title = data.Title,
+            Artist = data.Artist,
+            Year = data.Year,
+            Runtime = data.Runtime,
+            SpotifyID = data.Link
         };
     }
+
+    public record YoutubeMusicData(string Title, string Artist, int Year, int Runtime, string Link);
 }
