@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Repositories;
+using AvaloniaApplication1.ViewModels.Extensions;
 
 namespace AvaloniaApplication1.Repositories.External;
 
@@ -74,9 +75,11 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
             return 0;
         }
 
-        return runtimeString == @"\N" || runtimeString == @"N/A"
-            ? 0
-            : int.Parse(runtimeString.TrimEnd(" min".ToArray()));
+        var resultString = runtimeString == @"\N" || runtimeString == @"N/A"
+                    ? "0"
+                    : runtimeString.TrimEnd(" min");
+
+        return int.TryParse(resultString, out var result) ? result : 0;
     }
 
     private static int GetYear(string yearString)
