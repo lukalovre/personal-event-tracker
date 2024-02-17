@@ -42,10 +42,8 @@
 						</Button>
 						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddEventClick}">
-								Add pages
-							</Button>
-							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
+							<Button Command="{Binding AddEventClick}">Add</Button>
+							<TextBox Text="{Binding AddAmount}" />
 							<TextBlock Text="{Binding AddAmountString}" />
 						</StackPanel>
 					</StackPanel>
@@ -55,9 +53,7 @@
 				<ScrollViewer>
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddItemClick}" Margin="15">
-								Add
-							</Button>
+							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 							<TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
@@ -89,9 +85,7 @@
 							<TextBlock Text="Season" />
 							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
 						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">
-							★
-						</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
 						<ComboBox ItemsSource="{Binding PeopleList}" SelectedItem="{Binding SelectedPerson}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />

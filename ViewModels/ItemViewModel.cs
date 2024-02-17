@@ -66,7 +66,11 @@ where TGridItem : IGridItem
     public int AddAmount
     {
         get => _addAmount;
-        set { _addAmount = SetAmount(value); }
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _addAmount, value);
+            _addAmount = SetAmount(value);
+        }
     }
 
     private int _newAmount;
@@ -436,6 +440,8 @@ where TGridItem : IGridItem
         return eventsByChapter.Where(o => o.DateEnd > dateFilter).Sum(o => o.Amount);
     }
 
+    protected virtual int DefaultAddAmount => 0;
+
     public void SelectedItemChanged()
     {
         Events.Clear();
@@ -460,5 +466,7 @@ where TGridItem : IGridItem
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<TItem>(item.ID);
+
+        AddAmount = DefaultAddAmount;
     }
 }
