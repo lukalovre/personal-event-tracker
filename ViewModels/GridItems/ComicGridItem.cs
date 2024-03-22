@@ -8,4 +8,4 @@ public record ComicGridItem(
     int? Chapter,
     int Pages,
     int? Rating,
-    int DaysAgo) : IGridItem;
+    string DaysAgo) : IGridItem;

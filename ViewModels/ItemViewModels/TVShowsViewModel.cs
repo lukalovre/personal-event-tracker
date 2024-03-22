@@ -30,7 +30,7 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
             e.Chapter.Value,
             eventList.Count(o => o.Chapter == e.Chapter),
             lastDate,
-            lastDate.DaysAgo()
+            lastDate.DaysAgoString()
         );
     }
 }

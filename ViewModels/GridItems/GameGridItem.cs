@@ -10,5 +10,5 @@ public record GameGridItem(
     int Time,
     bool Completed,
     DateTime? LastDate,
-    int DaysAgo
+    string DaysAgo
 ) : IGridItem;

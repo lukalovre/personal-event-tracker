@@ -20,6 +20,6 @@ public partial class WorkViewModel(IDatasource datasource)
             i.Title,
             i.Type,
             eventList.Sum(o => o.Amount),
-            eventList.LastEventDate().DaysAgo());
+            eventList.LastEventDate().DaysAgoString());
     }
 }

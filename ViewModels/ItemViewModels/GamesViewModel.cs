@@ -35,7 +35,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
             eventList.Sum(o => o.Amount),
             e.Completed,
             lastDate,
-            lastDate.DaysAgo()
+            lastDate.DaysAgoString()
         );
     }
 }

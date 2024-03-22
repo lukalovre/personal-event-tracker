@@ -8,5 +8,5 @@ public record BookGridItem(
     int Year,
     int? Rating,
     int Pages,
-    int DaysAgo
+    string DaysAgo
 ) : IGridItem;

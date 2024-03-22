@@ -24,7 +24,7 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
             i.Year,
             e.Rating,
             GetItemAmount(eventList),
-            eventList.LastEventDate().DaysAgo()
+            eventList.LastEventDate().DaysAgoString()
         );
     }
 }
