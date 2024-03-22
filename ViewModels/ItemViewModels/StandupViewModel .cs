@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
 using Repositories;
@@ -16,9 +13,6 @@ public partial class StandupViewModel(IDatasource datasource, IExternal<Standup>
     protected override bool DefaultNewItemCompleted => true;
     protected override StandupGridItem Convert(int index, Event e, Standup i, IEnumerable<Event> eventList)
     {
-        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
-
         return new StandupGridItem(
             i.ID,
             index + 1,

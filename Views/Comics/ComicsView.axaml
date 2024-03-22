@@ -10,6 +10,7 @@
 							<DataGridTextColumn Binding="{Binding Writer}" Header="Author" Width="150" />
 							<DataGridTextColumn Binding="{Binding Chapter}" Header="Chapter" Width="70" />
 							<DataGridTextColumn Binding="{Binding Pages}" Header="Pages" Width="70" />
+							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Days ago" Width="120" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

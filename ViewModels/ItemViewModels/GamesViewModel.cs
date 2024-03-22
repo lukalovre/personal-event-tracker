@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
+using AvaloniaApplication1.ViewModels.Extensions;
 using DynamicData;
 using Repositories;
 
@@ -23,8 +24,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
     protected override int? DefaultNewItemChapter => null;
     protected override GameGridItem Convert(int index, Event e, Game i, IEnumerable<Event> eventList)
     {
-        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
+        var lastDate = eventList.LastEventDate();
 
         return new GameGridItem(
             i.ID,
@@ -35,7 +35,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
             eventList.Sum(o => o.Amount),
             e.Completed,
             lastDate,
-            daysAgo
+            lastDate.DaysAgo()
         );
     }
 }

@@ -42,9 +42,6 @@ public partial class SongsViewModel(IDatasource datasource, IExternal<Song> exte
         IEnumerable<Event> eventList
     )
     {
-        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
-
         return new SongGridItem(
             i.ID,
             index + 1,

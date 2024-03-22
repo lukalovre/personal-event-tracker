@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
+using AvaloniaApplication1.ViewModels.Extensions;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
@@ -20,8 +21,7 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
         IEnumerable<Event> eventList
     )
     {
-        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
+        var lastDate = eventList.LastEventDate();
 
         return new TVShowGridItem(
             i.ID,
@@ -30,7 +30,7 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
             e.Chapter.Value,
             eventList.Count(o => o.Chapter == e.Chapter),
             lastDate,
-            daysAgo
+            lastDate.DaysAgo()
         );
     }
 }

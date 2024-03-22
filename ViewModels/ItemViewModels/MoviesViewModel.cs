@@ -22,9 +22,6 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
          IEnumerable<Event> eventList
      )
     {
-        var lastDate = eventList.MaxBy(o => o.DateEnd)?.DateEnd ?? DateTime.MinValue;
-        var daysAgo = (int)(DateTime.Now - lastDate).TotalDays;
-
         return new MovieGridItem(
             i.ID,
             index + 1,

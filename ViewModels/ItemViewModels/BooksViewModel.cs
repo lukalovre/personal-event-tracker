@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
+using AvaloniaApplication1.ViewModels.Extensions;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
@@ -23,7 +24,7 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
             i.Year,
             e.Rating,
             GetItemAmount(eventList),
-            e.DateEnd
+            eventList.LastEventDate().DaysAgo()
         );
     }
 }
