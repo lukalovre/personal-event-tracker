@@ -9,5 +9,5 @@ public record WorkGridItem(
     string Title,
     string Type,
     int Minutes,
-    DateTime LastDate
+    int DaysAgo
 ) : IGridItem;
