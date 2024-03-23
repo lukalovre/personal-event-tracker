@@ -5,11 +5,11 @@
 				<DockPanel>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarked}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItemsBookmarked}" Width="45" />
+							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItemsBookmarked}" Width="52" />
 							<DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="200" />
-							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200" />
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
-							<DataGridTextColumn Binding="{Binding Times}" Header="Times" Width="50" />
+							<DataGridTextColumn Binding="{Binding Times}" Header="#" Width="50" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
@@ -22,11 +22,11 @@
 					</StackPanel>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItems}" Width="45" />
+							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItems}" Width="52" />
 							<DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="200" />
-							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200" />
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
-							<DataGridTextColumn Binding="{Binding Times}" Header="Times" Width="50" />
+							<DataGridTextColumn Binding="{Binding Times}" Header="#" Width="50" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
