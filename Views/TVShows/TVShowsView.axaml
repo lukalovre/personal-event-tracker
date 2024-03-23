@@ -9,7 +9,7 @@
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Season}" Header="Season" Width="70" />
 							<DataGridTextColumn Binding="{Binding Episode}" Header="Episode" Width="70" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="DaysAgo" Width="120" />
+							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

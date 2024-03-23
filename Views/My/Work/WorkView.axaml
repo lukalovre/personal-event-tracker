@@ -8,7 +8,7 @@
 							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItemsBookmarked}" Width="70" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="120" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="100" />
+							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
@@ -24,7 +24,7 @@
 							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItems}" Width="70" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="120" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="100" />
+							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
