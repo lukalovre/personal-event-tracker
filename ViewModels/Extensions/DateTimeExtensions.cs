@@ -17,7 +17,7 @@ public static class DateTimeExtensions
         int days = totalDays - years * 365;
 
         var yearString = years == 0 ? string.Empty : $"{years}y";
-        var daysString = days == 0 ? string.Empty : $"{days}";
+        var daysString = $"{days}";
 
         var list = new List<string> { yearString, daysString };
         list.RemoveAll(string.IsNullOrWhiteSpace);

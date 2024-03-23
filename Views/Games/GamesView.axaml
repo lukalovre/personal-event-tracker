@@ -10,7 +10,7 @@
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
 							<DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="70" />
 							<DataGridTextColumn Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="80" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Days ago" Width="70" />
+							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

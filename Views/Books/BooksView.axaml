@@ -9,7 +9,7 @@
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Author}" Header="Author" Width="150" />
 							<DataGridTextColumn Binding="{Binding Pages}" Header="Pages" Width="70" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Days ago" Width="120" />
+							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="120" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
@@ -26,7 +26,7 @@
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Author}" Header="Author" Width="150" />
 							<DataGridTextColumn Binding="{Binding Pages}" Header="Pages" Width="70" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Days ago" Width="120" />
+							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="120" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
