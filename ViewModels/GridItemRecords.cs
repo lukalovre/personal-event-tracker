@@ -12,4 +12,4 @@ public record SongGridItem(int ID, string Artist, string Title, int Year, int Ti
 public record StandupGridItem(int ID, string Title, string Performer, int Year, int Rating) : IGridItem;
 public record TVShowGridItem(int ID, string Title, int Season, int Episode, DateTime? LastDate) : IGridItem;
 public record WorkGridItem(int ID, string Title, string Type, int Minutes, DateTime LastDate) : IGridItem;
-public record ZooGridItem(string Name, string City, string Country, int Year);
+public record ZooGridItem(int ID, string Name, string City, string Country, int Year) : IGridItem;
