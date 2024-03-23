@@ -7,6 +7,7 @@ public partial class GamesView : UserControl
     public GamesView()
     {
         Resources.Add("TimeToStringConverter", new TimeToStringConverter());
+        Resources.Add("DaysAgoToStringConverter", new DaysAgoToStringConverter());
         Resources.Add("DateTimeToStringConverter", new DateTimeToStringConverter());
         InitializeComponent();
     }

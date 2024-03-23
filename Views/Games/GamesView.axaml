@@ -14,7 +14,7 @@
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
 							<DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="93" />
 							<DataGridTextColumn Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="90" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="70" />
+							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
