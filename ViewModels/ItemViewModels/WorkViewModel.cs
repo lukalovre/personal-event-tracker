@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reactive.Linq;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.ViewModels.Extensions;
-using AvaloniaApplication1.ViewModels.GridItems;
 using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;

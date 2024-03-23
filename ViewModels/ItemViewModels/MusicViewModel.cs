@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reactive.Linq;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
-using AvaloniaApplication1.ViewModels.GridItems;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
