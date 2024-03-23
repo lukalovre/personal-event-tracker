@@ -189,7 +189,7 @@ where TGridItem : IGridItem
 
     private void SearchAction()
     {
-        SearchText = SearchText.Trim();
+        SearchText = SearchText?.Trim() ?? string.Empty;
 
         GridItems.Clear();
         GridItems.AddRange(LoadData());

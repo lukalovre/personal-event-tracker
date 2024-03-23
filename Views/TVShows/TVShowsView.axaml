@@ -3,12 +3,16 @@
 		<TabControl>
 			<TabItem Header="★">
 				<DockPanel>
+					<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+						<TextBlock Text="{Binding GridCountItemsBookmarked}" Margin="3" VerticalAlignment="Center" />
+						<TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" Margin="1"/>
+						<Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
+					</StackPanel>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarked}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItemsBookmarked}" Width="45" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding Season}" Header="Season" Width="70" />
-							<DataGridTextColumn Binding="{Binding Episode}" Header="Episode" Width="70" />
+							<DataGridTextColumn Binding="{Binding Season}" Header="S" Width="70" />
+							<DataGridTextColumn Binding="{Binding Episode}" Header="E" Width="70" />
 							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
@@ -17,15 +21,15 @@
 			<TabItem Header="All">
 				<DockPanel>
 					<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-						<TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" />
-						<Button Command="{Binding Search}" HotKey="Enter">Search</Button>
+						<TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" />
+						<TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" Margin="1"/>
+						<Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
 					</StackPanel>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItems}" Width="45" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding Season}" Header="Season" Width="70" />
-							<DataGridTextColumn Binding="{Binding Episode}" Header="Episode" Width="70" />
+							<DataGridTextColumn Binding="{Binding Season}" Header="S" Width="70" />
+							<DataGridTextColumn Binding="{Binding Episode}" Header="E" Width="70" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd}}" Header="Last Date" Width="120" />
 						</DataGrid.Columns>
 					</DataGrid>

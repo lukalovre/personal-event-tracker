@@ -4,16 +4,16 @@
 			<TabItem Header="Year">
 				<DockPanel>
 					<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-						<TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" />
-						<Button Command="{Binding Search}" HotKey="Enter">Search</Button>
+						<TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" />
+						<TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" Margin="1"/>
+						<Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
 					</StackPanel>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Index}" Header="{Binding GridCountItems}" Width="45" />
+							<DataGridTextColumn Binding="{Binding Performer}" Header="Performer" Width="150" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding Director}" Header="Director" Width="70" />
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
-							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="120" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

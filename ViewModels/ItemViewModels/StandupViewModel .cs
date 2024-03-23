@@ -17,7 +17,7 @@ public partial class StandupViewModel(IDatasource datasource, IExternal<Standup>
             i.ID,
             index + 1,
             i.Title,
-            i.Director,
+            i.Performer,
             i.Year,
             e.Rating.Value
         );
