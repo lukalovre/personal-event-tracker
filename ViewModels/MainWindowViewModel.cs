@@ -9,38 +9,41 @@ namespace AvaloniaApplication1.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel(new TsvDatasource(), new MovieExternal());
-    public StandupViewModel StandupViewModel { get; } = new StandupViewModel(new TsvDatasource(), new StandupExternal());
-    public MusicViewModel MusicViewModel { get; } = new MusicViewModel(new TsvDatasource(), new MusicExternal());
-    public WorkViewModel WorkViewModel { get; } = new WorkViewModel(new TsvDatasource());
-    public BooksViewModel BooksViewModel { get; } = new BooksViewModel(new TsvDatasource(), new BookExtetrnal());
-    public ComicsViewModel ComicsViewModel { get; } = new ComicsViewModel(new TsvDatasource(), new ComicExtetrnal());
-    public GamesViewModel GamesViewModel { get; } = new GamesViewModel(new TsvDatasource(), new GameExtetrnal());
-    public TVShowsViewModel TVShowsViewModel { get; } = new TVShowsViewModel(new TsvDatasource(), new TVShowExternal());
-    public SongsViewModel SongsViewModel { get; } = new SongsViewModel(new TsvDatasource(), new SongExternal());
-
-    private readonly IDatasource _datasource;
-
-    public List<MusicGridItem> Music { get; set; }
-    public List<ComicGridItem> Comics { get; set; }
+    public MoviesViewModel MoviesViewModel { get; }
+    public StandupViewModel StandupViewModel { get; }
+    public MusicViewModel MusicViewModel { get; }
+    public WorkViewModel WorkViewModel { get; }
+    public BooksViewModel BooksViewModel { get; }
+    public ComicsViewModel ComicsViewModel { get; }
+    public GamesViewModel GamesViewModel { get; }
+    public TVShowsViewModel TVShowsViewModel { get; }
+    public SongsViewModel SongsViewModel { get; }
     public List<ZooGridItem> Zoo { get; set; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
-        _datasource = datasource;
+        MoviesViewModel = new MoviesViewModel(datasource, new MovieExternal());
+        StandupViewModel = new StandupViewModel(datasource, new StandupExternal());
+        MusicViewModel = new MusicViewModel(datasource, new MusicExternal());
+        WorkViewModel = new WorkViewModel(datasource);
+        BooksViewModel = new BooksViewModel(datasource, new BookExtetrnal());
+        ComicsViewModel = new ComicsViewModel(datasource, new ComicExtetrnal());
+        GamesViewModel = new GamesViewModel(datasource, new GameExtetrnal());
+        TVShowsViewModel = new TVShowsViewModel(datasource, new TVShowExternal());
+        SongsViewModel = new SongsViewModel(datasource, new SongExternal());
 
         // _datasource.GetEventListConvert<MyWork>();
-        Zoo = GetData<Zoo, ZooGridItem>();
+        Zoo = GetData<Zoo, ZooGridItem>(datasource);
     }
 
-    private List<T2> GetData<T1, T2>(bool getAllData = false)
+    private List<T2> GetData<T1, T2>(IDatasource datasource)
         where T1 : IItem
         where T2 : class
     {
-        var itemList = _datasource.GetList<T1>();
-        var eventList = _datasource.GetEventList<T1>();
+        var itemList = datasource.GetList<T1>();
+        var eventList = datasource.GetEventList<T1>();
 
-        var dateFilter = getAllData ? DateTime.MinValue : DateTime.Now.AddYears(-1);
+        var dateFilter = DateTime.MinValue;
 
         return eventList
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= dateFilter)
