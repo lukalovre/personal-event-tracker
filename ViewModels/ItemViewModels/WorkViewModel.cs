@@ -12,11 +12,10 @@ public partial class WorkViewModel(IDatasource datasource)
 : ItemViewModel<Work, WorkGridItem>(datasource, null)
 {
     protected override int? DefaultNewItemChapter => null;
-    protected override WorkGridItem Convert(int index, Event e, Work i, IEnumerable<Event> eventList)
+    protected override WorkGridItem Convert(Event e, Work i, IEnumerable<Event> eventList)
     {
         return new WorkGridItem(
             i.ID,
-            index + 1,
             i.Title,
             i.Type,
             eventList.Sum(o => o.Amount),

@@ -1,11 +1,4 @@
 using System;
 using AvaloniaApplication1.Models;
 
-public record TVShowGridItem(
-    int ID,
-    int Index,
-    string Title,
-    int Season,
-    int Episode,
-    DateTime? LastDate
-) : IGridItem;
+public record TVShowGridItem(int ID, string Title, int Season, int Episode, DateTime? LastDate) : IGridItem;

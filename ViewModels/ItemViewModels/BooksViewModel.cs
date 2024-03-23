@@ -14,11 +14,10 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
     protected override string AmountVerb => "pages";
     protected override int? DefaultNewItemChapter => null;
 
-    protected override BookGridItem Convert(int index, Event e, Book i, IEnumerable<Event> eventList)
+    protected override BookGridItem Convert(Event e, Book i, IEnumerable<Event> eventList)
     {
         return new BookGridItem(
             i.ID,
-            index + 1,
             i.Title,
             i.Author,
             i.Year,

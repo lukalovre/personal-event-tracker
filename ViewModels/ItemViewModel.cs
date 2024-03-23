@@ -362,9 +362,8 @@ where TGridItem : IGridItem
             .ToList();
         }
 
-        var resultGrid = result.Select((o, i) =>
+        var resultGrid = result.Select(o =>
                         Convert(
-                            i,
                             o,
                             _itemList.First(m => m.ID == o.ItemID),
                             _eventList.Where(e => e.ItemID == o.ItemID)
@@ -399,9 +398,8 @@ where TGridItem : IGridItem
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value <= dateFilter)
             .Where(o => o.Bookmakred)
             .Select(
-                (o, i) =>
+                o =>
                     Convert(
-                        i,
                         o,
                         _itemList.First(m => m.ID == o.ItemID),
                         _eventList.Where(e => e.ItemID == o.ItemID)
@@ -410,7 +408,7 @@ where TGridItem : IGridItem
             .ToList();
     }
 
-    protected virtual TGridItem Convert(int index, Event e, TItem i, IEnumerable<Event> events)
+    protected virtual TGridItem Convert(Event e, TItem i, IEnumerable<Event> events)
     {
         return default;
     }

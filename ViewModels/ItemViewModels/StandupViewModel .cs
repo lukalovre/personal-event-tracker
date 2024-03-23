@@ -11,11 +11,10 @@ public partial class StandupViewModel(IDatasource datasource, IExternal<Standup>
     protected override int? NewItemAmountOverride => NewItem.Runtime;
     protected override int? DefaultNewItemChapter => null;
     protected override bool DefaultNewItemCompleted => true;
-    protected override StandupGridItem Convert(int index, Event e, Standup i, IEnumerable<Event> eventList)
+    protected override StandupGridItem Convert(Event e, Standup i, IEnumerable<Event> eventList)
     {
         return new StandupGridItem(
             i.ID,
-            index + 1,
             i.Title,
             i.Performer,
             i.Year,

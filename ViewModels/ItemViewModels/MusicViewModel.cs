@@ -70,11 +70,10 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         GridCountMusicTodo2 = MusicTodo2.Count;
     }
 
-    protected override MusicGridItem Convert(int index, Event e, Music i, IEnumerable<Event> eventList)
+    protected override MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
     {
         return new MusicGridItem(
             i.ID,
-            index + 1,
             i.Artist,
             i.Title,
             i.Year,

@@ -14,17 +14,10 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
 {
     protected override int DefaultAddAmount => SelectedItem.Runtime;
 
-    protected override TVShowGridItem Convert(
-        int index,
-        Event e,
-        TVShow i,
-        IEnumerable<Event> eventList
-    )
+    protected override TVShowGridItem Convert(Event e, TVShow i, IEnumerable<Event> eventList)
     {
-
         return new TVShowGridItem(
             i.ID,
-            index + 1,
             i.Title,
             e.Chapter.Value,
             eventList.Count(o => o.Chapter == e.Chapter),

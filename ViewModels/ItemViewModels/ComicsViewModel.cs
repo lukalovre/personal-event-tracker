@@ -13,11 +13,10 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
     protected override bool IsFullAmountDefaultValue => false;
     protected override string AmountVerb => "pages";
 
-    protected override ComicGridItem Convert(int index, Event e, Comic i, IEnumerable<Event> eventList)
+    protected override ComicGridItem Convert(Event e, Comic i, IEnumerable<Event> eventList)
     {
         return new ComicGridItem(
             i.ID,
-            index + 1,
             i.Title,
             i.Writer,
             e.Chapter,

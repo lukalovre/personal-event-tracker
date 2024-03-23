@@ -35,16 +35,10 @@ public partial class SongsViewModel(IDatasource datasource, IExternal<Song> exte
         return openLinkParams;
     }
 
-    protected override SongGridItem Convert(
-        int index,
-        Event e,
-        Song i,
-        IEnumerable<Event> eventList
-    )
+    protected override SongGridItem Convert(Event e, Song i, IEnumerable<Event> eventList)
     {
         return new SongGridItem(
             i.ID,
-            index + 1,
             i.Artist,
             i.Title,
             i.Year,

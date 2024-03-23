@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.Repositories;
 using Repositories;
@@ -15,16 +12,10 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
 
     protected override int? NewItemAmountOverride => NewItem.Runtime;
 
-    protected override MovieGridItem Convert(
-         int index,
-         Event e,
-         Movie i,
-         IEnumerable<Event> eventList
-     )
+    protected override MovieGridItem Convert(Event e, Movie i, IEnumerable<Event> eventList)
     {
         return new MovieGridItem(
             i.ID,
-            index + 1,
             i.Title,
             i.Director,
             i.Year,

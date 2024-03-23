@@ -22,11 +22,10 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
         );
 
     protected override int? DefaultNewItemChapter => null;
-    protected override GameGridItem Convert(int index, Event e, Game i, IEnumerable<Event> eventList)
+    protected override GameGridItem Convert(Event e, Game i, IEnumerable<Event> eventList)
     {
         return new GameGridItem(
             i.ID,
-            index + 1,
             i.Title,
             i.Year,
             i.Platform,
