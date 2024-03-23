@@ -24,8 +24,6 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
     protected override int? DefaultNewItemChapter => null;
     protected override GameGridItem Convert(int index, Event e, Game i, IEnumerable<Event> eventList)
     {
-        var lastDate = eventList.LastEventDate();
-
         return new GameGridItem(
             i.ID,
             index + 1,
@@ -34,8 +32,6 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
             i.Platform,
             eventList.Sum(o => o.Amount),
             e.Completed,
-            lastDate,
-            lastDate.DaysAgoString()
-        );
+            eventList.LastEventDate());
     }
 }

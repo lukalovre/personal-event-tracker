@@ -21,7 +21,6 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
         IEnumerable<Event> eventList
     )
     {
-        var lastDate = eventList.LastEventDate();
 
         return new TVShowGridItem(
             i.ID,
@@ -29,8 +28,7 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
             i.Title,
             e.Chapter.Value,
             eventList.Count(o => o.Chapter == e.Chapter),
-            lastDate,
-            lastDate.DaysAgoString()
+            eventList.LastEventDate()
         );
     }
 }

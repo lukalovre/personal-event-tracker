@@ -13,7 +13,7 @@
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Season}" Header="S" Width="70" />
 							<DataGridTextColumn Binding="{Binding Episode}" Header="E" Width="70" />
-							<DataGridTextColumn Binding="{Binding DaysAgo}" Header="Ago" Width="70" />
+							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

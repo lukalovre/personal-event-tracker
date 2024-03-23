@@ -1,3 +1,4 @@
+using System;
 using AvaloniaApplication1.Models;
 
 public record ComicGridItem(
@@ -8,4 +9,5 @@ public record ComicGridItem(
     int? Chapter,
     int Pages,
     int? Rating,
-    string DaysAgo) : IGridItem;
+    DateTime LastDate
+) : IGridItem;

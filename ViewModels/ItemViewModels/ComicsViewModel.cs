@@ -23,7 +23,7 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
             e.Chapter,
             GetItemAmount(eventList),
             e.Rating,
-            eventList.LastEventDate().DaysAgoString()
+            eventList.LastEventDate()
         );
     }
 

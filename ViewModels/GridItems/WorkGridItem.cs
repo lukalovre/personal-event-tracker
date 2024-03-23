@@ -1,3 +1,4 @@
+using System;
 using AvaloniaApplication1.Models;
 
 namespace AvaloniaApplication1.ViewModels.GridItems;
@@ -8,5 +9,5 @@ public record WorkGridItem(
     string Title,
     string Type,
     int Minutes,
-    string DaysAgo
+    DateTime LastDate
 ) : IGridItem;

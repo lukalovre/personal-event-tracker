@@ -7,6 +7,5 @@ public record TVShowGridItem(
     string Title,
     int Season,
     int Episode,
-    DateTime? LastDate,
-    string DaysAgo
+    DateTime? LastDate
 ) : IGridItem;
