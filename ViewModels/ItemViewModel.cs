@@ -193,6 +193,7 @@ where TGridItem : IGridItem
 
         GridItems.Clear();
         GridItems.AddRange(LoadData());
+        GridCountItems = GridItems.Count;
         SelectedGridItem = GridItems.LastOrDefault();
     }
 
