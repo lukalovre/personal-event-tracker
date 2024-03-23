@@ -6,8 +6,7 @@ public partial class ComicsView : UserControl
 {
     public ComicsView()
     {
-        Resources.Add("TimeToStringConverter", new TimeToStringConverter());
-        Resources.Add("DateTimeToStringConverter", new DateTimeToStringConverter());
+        ViewHelper.AddConverters(Resources);
         InitializeComponent();
     }
 }

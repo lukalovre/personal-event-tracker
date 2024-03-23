@@ -6,7 +6,7 @@ public partial class EventView : UserControl
 {
     public EventView()
     {
-        Resources.Add("DateTimeToStringConverter", new DateTimeToStringConverter());
+        ViewHelper.AddConverters(Resources);
         InitializeComponent();
     }
 }

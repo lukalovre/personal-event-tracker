@@ -6,8 +6,7 @@ public partial class MoviesView : UserControl
 {
     public MoviesView()
     {
-        Resources.Add("TimeToStringConverter", new TimeToStringConverter());
-        Resources.Add("DateTimeToStringConverter", new DateTimeToStringConverter());
+        ViewHelper.AddConverters(Resources);
         InitializeComponent();
     }
 }

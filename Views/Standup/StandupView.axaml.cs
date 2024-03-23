@@ -6,8 +6,7 @@ public partial class StandupView : UserControl
 {
     public StandupView()
     {
-        Resources.Add("TimeToStringConverter", new TimeToStringConverter());
-        Resources.Add("DateTimeToStringConverter", new DateTimeToStringConverter());
+        ViewHelper.AddConverters(Resources);
         InitializeComponent();
     }
 }

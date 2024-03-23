@@ -6,9 +6,7 @@ public partial class BooksView : UserControl
 {
     public BooksView()
     {
-        Resources.Add("TimeToStringConverter", new TimeToStringConverter());
-        Resources.Add("DaysAgoToStringConverter", new DaysAgoToStringConverter());
-        Resources.Add("DateTimeToStringConverter", new DateTimeToStringConverter());
+        ViewHelper.AddConverters(Resources);
         InitializeComponent();
     }
 }
