@@ -66,7 +66,7 @@ public class MainWindowViewModel : ViewModelBase
         if (typeof(T1) == typeof(Zoo))
         {
             var i = item as Zoo;
-            return new ZooGridItem(i.Name, i.City, i.Country, e.DateEnd.Value.Year) as T2;
+            return new ZooGridItem(1, i.Name, i.City, i.Country, e.DateEnd.Value.Year) as T2;
         }
 
         return null;
