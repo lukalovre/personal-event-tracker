@@ -7,18 +7,24 @@ using System.Linq;
 using AvaloniaApplication1.Models;
 using CsvHelper;
 using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
 
 namespace Repositories;
 
 internal class TsvDatasource : IDatasource
 {
-    private readonly CsvConfiguration _config =
-        new(CultureInfo.InvariantCulture) { Delimiter = "\t" };
+    private readonly CsvConfiguration _config = new(CultureInfo.InvariantCulture)
+    {
+        Delimiter = "\t",
+        MissingFieldFound = null,
+        BadDataFound = null
+    };
 
     public void Add<T>(T item, Event e)
         where T : IItem
     {
         var items = GetList<T>();
+        var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
 
         if (!items.Any(o => o.ID == item.ID))
         {
@@ -29,6 +35,8 @@ internal class TsvDatasource : IDatasource
 
             using var writerItem = new StreamWriter(itemFilePath, true);
             using var csvItem = new CsvWriter(writerItem, _config);
+            csvItem.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
+            csvItem.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
 
             if (item.ID == 1)
             {
@@ -50,6 +58,8 @@ internal class TsvDatasource : IDatasource
 
         using var writerEvent = new StreamWriter(eventFilePath, true);
         using var csvEvent = new CsvWriter(writerEvent, _config);
+        csvEvent.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
+        csvEvent.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
 
         if (e.ID == 1)
         {
@@ -85,8 +95,7 @@ internal class TsvDatasource : IDatasource
         return tableName;
     }
 
-    public List<T> GetList<T>()
-        where T : IItem
+    public List<T> GetList<T>() where T : IItem
     {
         var itemFilePath = GetFilePath<T>();
 
@@ -96,20 +105,10 @@ internal class TsvDatasource : IDatasource
         }
 
         var text = File.ReadAllText(itemFilePath);
-
         var reader = new StringReader(text);
+        using var csv = new CsvReader(reader, _config);
 
-        // Use _config once all old tsvs are converted
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            Delimiter = "\t",
-            HasHeaderRecord = false,
-            MissingFieldFound = null,
-            BadDataFound = null
-        };
-
-        using var csv = new CsvReader(reader, config);
-        return csv.GetRecords<T>().ToList();
+        return csv.GetRecords<T>().ToList(); ;
     }
 
     public List<Event> GetEventList<T>()
@@ -125,7 +124,8 @@ internal class TsvDatasource : IDatasource
         var text = File.ReadAllText(eventFilePath);
         var reader = new StringReader(text);
         using var csv = new CsvReader(reader, _config);
-        return csv.GetRecords<Event>().ToList();
+
+        return csv.GetRecords<Event>().ToList(); ;
     }
 
     public void MakeBackup(string path)
@@ -189,6 +189,10 @@ internal class TsvDatasource : IDatasource
         using var writer = new StreamWriter(itemFilePath, false, System.Text.Encoding.UTF8);
         using var csvText = new CsvWriter(writer, _config);
         csvText.WriteRecords(events);
+        var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
+        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
+        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
+
         writer.Flush();
     }
 
@@ -309,6 +313,9 @@ internal class TsvDatasource : IDatasource
 
         var csvText = new CsvWriter(writer, configWrite);
         csvText.WriteRecords(convertedEventsList);
+        var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
+        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
+        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
         writer.Flush();
 
         text = File.ReadAllText(newPath);
