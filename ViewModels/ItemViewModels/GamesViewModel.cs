@@ -11,8 +11,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class GamesViewModel(IDatasource datasource, IExternal<Game> external)
-: ItemViewModel<Game, GameGridItem>(datasource, external)
+public partial class GamesViewModel(IDatasource datasource, IExternal<Game> external) : ItemViewModel<Game, GameGridItem>(datasource, external)
 {
     public override ObservableCollection<string> PlatformTypes =>
         new(

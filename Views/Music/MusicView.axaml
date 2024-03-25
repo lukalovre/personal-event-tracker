@@ -4,9 +4,6 @@
             <TabItem Header="Info">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                        <TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" Margin="1"/>
-                        <Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
                     </StackPanel>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
@@ -23,9 +20,6 @@
             <TabItem Header="Todo 2">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                        <TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" Margin="1"/>
-                        <Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
                     </StackPanel>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding MusicTodo2}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
@@ -41,9 +35,6 @@
             <TabItem Header="Todo 1">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                        <TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" Margin="1"/>
-                        <Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
                     </StackPanel>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding MusicTodo1}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
@@ -59,9 +50,6 @@
             <TabItem Header="★">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                        <TextBlock Text="{Binding GridCountItemsBookmarked}" Margin="3" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding SearchText}" Watermark="Filter" DockPanel.Dock="Top" Width="150" Margin="1"/>
-                        <Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
                     </StackPanel>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarked}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>

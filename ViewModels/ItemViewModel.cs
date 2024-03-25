@@ -13,7 +13,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public class ItemViewModel<TItem, TGridItem> : ViewModelBase
+public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid
 where TItem : IItem
 where TGridItem : IGridItem
 {
@@ -21,6 +21,8 @@ where TGridItem : IGridItem
     {
         _datasource = datasource;
         _external = external;
+
+        GridFilterViewModel = new GridFilterViewModel(this);
 
         GridItems = [];
         GridItemsBookmarked = [];
@@ -31,7 +33,7 @@ where TGridItem : IGridItem
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
-        Search = ReactiveCommand.Create(SearchAction);
+
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         OpenImage = ReactiveCommand.Create(OpenImageAction);
 
@@ -56,12 +58,13 @@ where TGridItem : IGridItem
     private Event _newEvent;
     private bool _useNewDate;
     private TItem _selectedItem;
-    private int _gridCountItems;
+
     private int _gridCountItemsBookmarked;
     private int _addAmount;
     private string _addAmountString;
 
     public EventViewModel EventViewModel { get; }
+    public GridFilterViewModel GridFilterViewModel { get; }
 
     public int AddAmount
     {
@@ -77,7 +80,6 @@ where TGridItem : IGridItem
     private string _inputUrl;
     private bool _isFullAmount;
     private int _newItemAmount;
-    private int _yearFilter = DateTime.Now.Year;
 
     public string AddAmountString
     {
@@ -116,7 +118,6 @@ where TGridItem : IGridItem
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
-    public ReactiveCommand<Unit, Unit> Search { get; }
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
     public ReactiveCommand<Unit, Unit> OpenImage { get; }
 
@@ -144,12 +145,6 @@ where TGridItem : IGridItem
     {
         get => _newItemImage;
         private set => this.RaiseAndSetIfChanged(ref _newItemImage, value);
-    }
-
-    public int GridCountItems
-    {
-        get => _gridCountItems;
-        private set => this.RaiseAndSetIfChanged(ref _gridCountItems, value);
     }
 
     public int GridCountItemsBookmarked
@@ -185,35 +180,6 @@ where TGridItem : IGridItem
     }
 
     protected virtual string AmountVerb => "minutes";
-
-    public string SearchText { get; set; }
-
-    public int YearFilter
-    {
-        get => _yearFilter;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _yearFilter, value);
-            YearFilterChanged();
-        }
-    }
-
-    private void YearFilterChanged()
-    {
-        GridItems.Clear();
-        GridItems.AddRange(LoadData());
-        GridCountItems = GridItems.Count;
-    }
-
-    private void SearchAction()
-    {
-        SearchText = SearchText?.Trim() ?? string.Empty;
-
-        GridItems.Clear();
-        GridItems.AddRange(LoadData());
-        GridCountItems = GridItems.Count;
-        SelectedGridItem = GridItems.LastOrDefault();
-    }
 
     private int SetAmount(int value)
     {
@@ -339,11 +305,11 @@ where TGridItem : IGridItem
     {
         GridItems.Clear();
         GridItems.AddRange(LoadData());
-        GridCountItems = GridItems.Count;
+        GridFilterViewModel.GridCountItems = GridItems.Count;
 
         GridItemsBookmarked.Clear();
         GridItemsBookmarked.AddRange(LoadDataBookmarked());
-        GridCountItemsBookmarked = GridItemsBookmarked.Count;
+        // GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
     private DateTime CalculateDateStart(DateTime dateEnd, int amount)
@@ -364,11 +330,11 @@ where TGridItem : IGridItem
     {
         get
         {
-            return new DateTime(YearFilter, 1, 1);
+            return new DateTime(GridFilterViewModel.YearFilter, 1, 1);
         }
     }
 
-    private List<TGridItem> LoadData()
+    internal List<TGridItem> LoadData()
     {
         _itemList = _datasource.GetList<TItem>();
         _eventList = _datasource.GetEventList<TItem>();
@@ -379,7 +345,7 @@ where TGridItem : IGridItem
                     .OrderBy(o => o.DateEnd)
                     .ToList();
 
-        if (DateTimeFilter.HasValue && string.IsNullOrWhiteSpace(SearchText))
+        if (DateTimeFilter.HasValue && string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
         {
             result = result
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value && o.DateEnd.Value < DateTimeFilter.Value.AddYears(1))
@@ -394,12 +360,12 @@ where TGridItem : IGridItem
                         )
                         ).ToList();
 
-        if (!string.IsNullOrWhiteSpace(SearchText))
+        if (!string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
         {
             resultGrid = resultGrid
             .Where(o =>
                 JsonConvert.SerializeObject(o)
-                .Contains(SearchText, StringComparison.InvariantCultureIgnoreCase))
+                .Contains(GridFilterViewModel.SearchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
         }
 
@@ -491,5 +457,12 @@ where TGridItem : IGridItem
         Image = FileRepsitory.GetImage<TItem>(item.ID);
 
         AddAmount = DefaultAddAmount;
+    }
+
+    int IDataGrid.ReloadData()
+    {
+        GridItems.Clear();
+        GridItems.AddRange(LoadData());
+        return GridItems.Count;
     }
 }
