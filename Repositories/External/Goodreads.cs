@@ -53,7 +53,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
                 Title = title,
                 Author = writer,
                 Year = year,
-                GoodreadsID = goodreadsID
+                ExternalID = goodreadsID
             };
         }
 

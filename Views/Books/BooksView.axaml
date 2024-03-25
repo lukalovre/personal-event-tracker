@@ -68,7 +68,7 @@
 							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<TextBox Watermark="Year" Text="{Binding NewItem.Year}" />
-						<TextBox Watermark="GoodreadsID" Text="{Binding NewItem.GoodreadsID}" />
+						<TextBox Watermark="GoodreadsID" Text="{Binding NewItem.ExternalID}" />
 						<CheckBox IsChecked="{Binding NewItem.is1001}">
 							1001
 						</CheckBox>
