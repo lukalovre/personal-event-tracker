@@ -10,5 +10,5 @@ public class Game : IItem
     public string Title { get; set; }
     public int Year { get; set; }
     public string Platform { get; set; }
-    public int Igdb { get; set; }
+    public int ExternalID { get; set; }
 }

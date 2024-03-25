@@ -41,7 +41,7 @@ public class Igdb : IExternal<Game>
 
         return new Game
         {
-            Igdb = (int)game.Id.Value,
+            ExternalID = (int)game.Id.Value,
             Title = game.Name,
             Year = game.FirstReleaseDate.Value.Year
         };

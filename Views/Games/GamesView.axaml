@@ -45,7 +45,7 @@
 						<TextBlock Text="{Binding SelectedItem.Title}" FontSize="20" FontWeight="Bold" />
 						<TextBlock Text="{Binding SelectedItem.Year}" />
 						<TextBlock Text="{Binding SelectedItem.Platform}" />
-						<TextBlock Text="{Binding SelectedItem.Igdb}" />
+						<TextBlock Text="{Binding SelectedItem.ExternalID}" />
 						<Button>
 							<Image Source="{Binding Image}" Width="350" Height="466" />
 						</Button>
@@ -76,7 +76,7 @@
 							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" Width="150" />
 							<TextBox Watermark="Year" Text="{Binding NewItem.Year}" Width="150" />
 							<TextBox Watermark="Platform" Text="{Binding NewItem.Platform}" Width="150" />
-							<TextBox Watermark="Igdb" Text="{Binding NewItem.Igdb}" Width="150" />
+							<TextBox Watermark="Igdb" Text="{Binding NewItem.ExternalID}" Width="150" />
 						</StackPanel>
 						<Button>
 							<Image Source="{Binding NewImage}" />
