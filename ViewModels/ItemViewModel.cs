@@ -77,6 +77,7 @@ where TGridItem : IGridItem
     private string _inputUrl;
     private bool _isFullAmount;
     private int _newItemAmount;
+    private int _yearFilter = DateTime.Now.Year;
 
     public string AddAmountString
     {
@@ -186,6 +187,23 @@ where TGridItem : IGridItem
     protected virtual string AmountVerb => "minutes";
 
     public string SearchText { get; set; }
+
+    public int YearFilter
+    {
+        get => _yearFilter;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _yearFilter, value);
+            YearFilterChanged();
+        }
+    }
+
+    private void YearFilterChanged()
+    {
+        GridItems.Clear();
+        GridItems.AddRange(LoadData());
+        GridCountItems = GridItems.Count;
+    }
 
     private void SearchAction()
     {
@@ -342,7 +360,13 @@ where TGridItem : IGridItem
         SelectedPerson = default;
     }
 
-    protected virtual DateTime? DateTimeFilter => new DateTime(DateTime.Now.Year, 1, 1);
+    protected virtual DateTime? DateTimeFilter
+    {
+        get
+        {
+            return new DateTime(YearFilter, 1, 1);
+        }
+    }
 
     private List<TGridItem> LoadData()
     {
@@ -358,7 +382,7 @@ where TGridItem : IGridItem
         if (DateTimeFilter.HasValue && string.IsNullOrWhiteSpace(SearchText))
         {
             result = result
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value)
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value && o.DateEnd.Value < DateTimeFilter.Value.AddYears(1))
             .ToList();
         }
 
