@@ -12,5 +12,5 @@ public class Music : IItem
     public int Year { get; set; }
     public int Runtime { get; set; }
     public bool _1001 { get; set; }
-    public string SpotifyID { get; set; }
+    public string ExternalID { get; set; }
 }

@@ -196,7 +196,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
             Artist = data.Artist,
             Year = data.Year,
             Runtime = data.Runtime,
-            SpotifyID = data.Link
+            ExternalID = data.Link
         };
     }
 

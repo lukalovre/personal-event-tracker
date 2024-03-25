@@ -29,7 +29,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; } = [];
     public ObservableCollection<MusicGridItem> ArtistMusic { get; set; } = [];
 
-    protected override string OpenLinkUrl => SelectedItem.SpotifyID;
+    protected override string OpenLinkUrl => SelectedItem.ExternalID;
     protected override List<string> GetAlternativeOpenLinkSearchParams()
     {
         var openLinkParams = SelectedItem.Artist.Split(' ').ToList();

@@ -110,7 +110,7 @@
                         <TextBox Watermark="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
                         <TextBox Watermark="Year" Text="{Binding NewItem.Year}" />
                         <TextBox Watermark="Runtime" Text="{Binding NewItem.Runtime}" />
-                        <TextBox Watermark="Link" Text="{Binding NewItem.SpotifyID}" />
+                        <TextBox Watermark="Link" Text="{Binding NewItem.ExternalID}" />
                         <Image Source="{Binding NewImage}" />
                         <StackPanel Orientation="Horizontal">
                             <CheckBox IsChecked="{Binding UseNewDate}" />

@@ -38,7 +38,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
             Year = year,
             _1001 = false,
             Runtime = runtime,
-            SpotifyID = bandcampLink
+            ExternalID = bandcampLink
         };
     }
 
