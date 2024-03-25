@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:AvaloniaApplication1.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1" mc:Ignorable="d" x:DataType="vm:GridFilterViewModel" x:Class="AvaloniaApplication1.Views.GridFilterView" xmlns:view="using:AvaloniaApplication1.Views" x:CompileBindings="True">
 	<Border Background="Teal" BorderBrush="Black" BorderThickness="1" CornerRadius="3" Padding="2" Margin="2">
 		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" Width="30"/>
+			<TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" Width="35"/>
 			<TextBox Text="{Binding SearchText}" Watermark="Filter" Width="150" Margin="1"/>
 			<Button Command="{Binding Search}" HotKey="Enter" Margin="1">Search</Button>
 			<NumericUpDown Value="{Binding YearFilter}" Increment="1" Margin="1"/>
