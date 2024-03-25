@@ -459,10 +459,16 @@ where TGridItem : IGridItem
         AddAmount = DefaultAddAmount;
     }
 
+    private ObservableCollection<TGridItem> GetSelectedGrid()
+    {
+        return GridItems;
+    }
+
     int IDataGrid.ReloadData()
     {
-        GridItems.Clear();
-        GridItems.AddRange(LoadData());
-        return GridItems.Count;
+        var selectedGrid = GetSelectedGrid();
+        selectedGrid.Clear();
+        selectedGrid.AddRange(LoadData());
+        return selectedGrid.Count;
     }
 }
