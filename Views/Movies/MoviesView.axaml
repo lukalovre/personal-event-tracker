@@ -3,8 +3,7 @@
 		<TabControl>
 			<TabItem Header="Year">
 				<DockPanel>
-					<StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-					</StackPanel>
+					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />

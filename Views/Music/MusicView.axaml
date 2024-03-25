@@ -3,8 +3,7 @@
         <TabControl>
             <TabItem Header="Info">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                    </StackPanel>
+                    <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="150" />
@@ -19,8 +18,7 @@
             </TabItem>
             <TabItem Header="Todo 2">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                    </StackPanel>
+                    <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding MusicTodo2}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="150" />
@@ -34,8 +32,7 @@
             </TabItem>
             <TabItem Header="Todo 1">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                    </StackPanel>
+                    <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding MusicTodo1}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="150" />
@@ -49,8 +46,7 @@
             </TabItem>
             <TabItem Header="★">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                    </StackPanel>
+                    <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarked}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="150" />
