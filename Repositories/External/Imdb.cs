@@ -30,7 +30,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
             Title = imdbData.Title,
             Runtime = runtime,
             Year = year,
-            Imdb = imdbData.imdbID,
+            ExternalID = imdbData.imdbID,
             Actors = imdbData.Actors,
             Country = imdbData.Country,
             Director = imdbData.Director,

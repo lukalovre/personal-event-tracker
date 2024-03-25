@@ -12,7 +12,7 @@ public class Movie : IItem
     public int Year { get; set; }
     public string Director { get; set; }
     public string Writer { get; set; }
-    public string Imdb { get; set; }
+    public string ExternalID { get; set; }
     public string Actors { get; set; }
     public string Country { get; set; }
     public string Ganre { get; set; }
