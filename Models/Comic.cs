@@ -6,7 +6,7 @@ public class Comic : IItem
 {
     [Key]
     public int ID { get; set; }
-    public int GoodreadsID { get; set; }
+    public int ExternalID { get; set; }
     public string Title { get; set; }
     public string Writer { get; set; }
     public string Illustrator { get; set; }

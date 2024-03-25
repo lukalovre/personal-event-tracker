@@ -73,7 +73,7 @@
 							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<TextBox Watermark="Year" Text="{Binding NewItem.Year}" />
-						<TextBox Watermark="GoodreadsID" Text="{Binding NewItem.GoodreadsID}" />
+						<TextBox Watermark="GoodreadsID" Text="{Binding NewItem.ExternalID}" />
 						<Image Source="{Binding NewImage}" />
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
