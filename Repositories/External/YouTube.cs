@@ -40,7 +40,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
         return new TVShow
         {
             Title = title,
-            Imdb = handle,
+            ExternalID = handle,
             Year = DateTime.Now.Year,
             Runtime = 10
         };

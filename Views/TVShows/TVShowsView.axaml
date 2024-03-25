@@ -62,7 +62,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Imdb" />
-							<TextBox Text="{Binding NewItem.Imdb}" HorizontalAlignment="Stretch" />
+							<TextBox Text="{Binding NewItem.ExternalID}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Title" />

@@ -6,7 +6,7 @@ public class TVShow : IItem
 {
     [Key]
     public int ID { get; set; }
-    public string Imdb { get; set; }
+    public string ExternalID { get; set; }
     public string Title { get; set; }
     public string OriginalTitle { get; set; }
     public int Year { get; set; }
