@@ -3,35 +3,18 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
 {
-    public MoviesViewModel MoviesViewModel { get; }
-    public StandupViewModel StandupViewModel { get; }
-    public MusicViewModel MusicViewModel { get; }
-    public WorkViewModel WorkViewModel { get; }
-    public BooksViewModel BooksViewModel { get; }
-    public ComicsViewModel ComicsViewModel { get; }
-    public GamesViewModel GamesViewModel { get; }
-    public TVShowsViewModel TVShowsViewModel { get; }
-    public ClipsViewModel ClipsViewModel { get; }
-    public SongsViewModel SongsViewModel { get; }
-    public ZooViewModel ZooViewModel { get; }
-    public LocationsViewModel LocationsViewModel { get; }
-
-    public MainWindowViewModel(IDatasource datasource)
-    {
-        MoviesViewModel = new MoviesViewModel(datasource, new MovieExternal());
-        StandupViewModel = new StandupViewModel(datasource, new StandupExternal());
-        MusicViewModel = new MusicViewModel(datasource, new MusicExternal());
-        WorkViewModel = new WorkViewModel(datasource);
-        BooksViewModel = new BooksViewModel(datasource, new BookExtetrnal());
-        ComicsViewModel = new ComicsViewModel(datasource, new ComicExtetrnal());
-        GamesViewModel = new GamesViewModel(datasource, new GameExtetrnal());
-        TVShowsViewModel = new TVShowsViewModel(datasource, new TVShowExternal());
-        ClipsViewModel = new ClipsViewModel(datasource, new ClipsExternal());
-        SongsViewModel = new SongsViewModel(datasource, new SongExternal());
-        ZooViewModel = new ZooViewModel(datasource);
-        LocationsViewModel = new LocationsViewModel(datasource);
-    }
-
+    public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel(datasource, new MovieExternal());
+    public StandupViewModel StandupViewModel { get; } = new StandupViewModel(datasource, new StandupExternal());
+    public MusicViewModel MusicViewModel { get; } = new MusicViewModel(datasource, new MusicExternal());
+    public WorkViewModel WorkViewModel { get; } = new WorkViewModel(datasource);
+    public BooksViewModel BooksViewModel { get; } = new BooksViewModel(datasource, new BookExtetrnal());
+    public ComicsViewModel ComicsViewModel { get; } = new ComicsViewModel(datasource, new ComicExtetrnal());
+    public GamesViewModel GamesViewModel { get; } = new GamesViewModel(datasource, new GameExtetrnal());
+    public TVShowsViewModel TVShowsViewModel { get; } = new TVShowsViewModel(datasource, new TVShowExternal());
+    public ClipsViewModel ClipsViewModel { get; } = new ClipsViewModel(datasource, new ClipsExternal());
+    public SongsViewModel SongsViewModel { get; } = new SongsViewModel(datasource, new SongExternal());
+    public ZooViewModel ZooViewModel { get; } = new ZooViewModel(datasource);
+    public LocationsViewModel LocationsViewModel { get; } = new LocationsViewModel(datasource);
 }
