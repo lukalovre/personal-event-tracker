@@ -9,9 +9,9 @@ public record Comic : IItem
     [Key]
     public int ID { get; set; }
     public int ExternalID { get; set; }
-    public string Title { get; set; }
-    public string Writer { get; set; }
-    public string Illustrator { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Writer { get; set; } = string.Empty;
+    public string Illustrator { get; set; } = string.Empty;
     public int Year { get; set; }
     public bool _1001 { get; set; }
 }

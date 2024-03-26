@@ -8,13 +8,13 @@ public record Standup : IItem
 {
     [Key]
     public int ID { get; set; }
-    public string Performer { get; set; }
-    public string Title { get; set; }
+    public string Performer { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
     public int Year { get; set; }
     public int Runtime { get; set; }
-    public string Link { get; set; }
-    public string Writer { get; set; }
-    public string Director { get; set; }
-    public string Country { get; set; }
-    public string Plot { get; set; }
+    public string Link { get; set; } = string.Empty;
+    public string Writer { get; set; } = string.Empty;
+    public string Director { get; set; } = string.Empty;
+    public string Country { get; set; } = string.Empty;
+    public string Plot { get; set; } = string.Empty;
 }

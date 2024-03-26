@@ -11,7 +11,7 @@ public record Work : IItem
 
     public int ItemID { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-    public string Type { get; set; }
+    public string Type { get; set; } = string.Empty;
 }
