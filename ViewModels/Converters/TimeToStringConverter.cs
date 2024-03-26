@@ -31,7 +31,12 @@ public class TimeToStringConverter : IValueConverter
 
             if (split.Length == 1)
             {
-                return int.Parse(str.TrimEnd("h").TrimEnd("m"));
+                if (str.Contains('h'))
+                {
+                    return int.Parse(str.TrimEnd("h")) * 60;
+                }
+
+                return int.Parse(str.TrimEnd("m"));
             }
             else
             {
