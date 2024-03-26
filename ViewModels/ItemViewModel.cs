@@ -13,9 +13,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid
-where TItem : IItem
-where TGridItem : IGridItem
+public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TItem : IItem where TGridItem : IGridItem
 {
     public ItemViewModel(IDatasource datasource, IExternal<TItem> external)
     {

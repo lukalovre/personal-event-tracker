@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
 using CsvHelper;
 using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
@@ -84,8 +85,7 @@ internal class TsvDatasource : IDatasource
 
     private static string GetEventFilePath<T>()
     {
-        var name = typeof(T).Name;
-        return Path.Combine(Paths.Data, $"{name}Events.tsv");
+        return Path.Combine(Paths.Data, $"{Helpers.GetClassName<T>()}Events.tsv");
     }
 
     private static string? GetDataName<T>()
