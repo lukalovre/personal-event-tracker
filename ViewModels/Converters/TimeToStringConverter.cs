@@ -5,7 +5,7 @@ using AvaloniaApplication1.ViewModels.Extensions;
 
 public class TimeToStringConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is int minutes)
         {
@@ -20,10 +20,10 @@ public class TimeToStringConverter : IValueConverter
             return hText + space + mText;
         }
 
-        return null;
+        return string.Empty;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is string str)
         {
@@ -42,6 +42,6 @@ public class TimeToStringConverter : IValueConverter
             }
         }
 
-        return null;
+        return 0;
     }
 }

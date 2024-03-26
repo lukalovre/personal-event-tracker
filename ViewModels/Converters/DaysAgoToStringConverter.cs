@@ -5,17 +5,17 @@ using AvaloniaApplication1.ViewModels.Extensions;
 
 public class DaysAgoToStringConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is DateTime date)
         {
             return date.DaysAgoString();
         }
 
-        return null;
+        return string.Empty;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is string str)
         {
@@ -38,6 +38,6 @@ public class DaysAgoToStringConverter : IValueConverter
             return DateTime.Now.AddDays(-daysAgo);
         }
 
-        return null;
+        return DateTime.MinValue;
     }
 }

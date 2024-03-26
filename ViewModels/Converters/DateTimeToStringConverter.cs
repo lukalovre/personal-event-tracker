@@ -4,23 +4,23 @@ using Avalonia.Data.Converters;
 
 public class DateTimeToStringConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is DateTime date)
         {
-            return date.ToString((string)parameter);
+            return date.ToString(parameter?.ToString() ?? string.Empty);
         }
 
-        return null;
+        return string.Empty;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is string str)
         {
-            return DateTime.ParseExact(str, (string)parameter, CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(str, parameter?.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
         }
 
-        return null;
+        return DateTime.MinValue;
     }
 }
