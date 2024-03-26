@@ -4,11 +4,13 @@ using AvaloniaApplication1.Models;
 using AvaloniaApplication1.ViewModels.Extensions;
 using Repositories;
 
+namespace AvaloniaApplication1.ViewModels;
+
 public class PeopleManager
 {
-    private static PeopleManager _instance;
-    private readonly IDatasource _datasource;
-    private readonly List<Person> _peopleList;
+    private static PeopleManager _instance = null!;
+    private readonly IDatasource _datasource = null!;
+    private readonly List<Person> _peopleList = [];
 
     private PeopleManager() { }
 
@@ -18,18 +20,7 @@ public class PeopleManager
         _peopleList = _datasource.GetList<Person>();
     }
 
-    public static PeopleManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new PeopleManager(new TsvDatasource());
-            }
-
-            return _instance;
-        }
-    }
+    public static PeopleManager Instance => _instance ??= new PeopleManager(new TsvDatasource());
 
     public List<PersonComboBoxItem> GetComboboxList()
     {
