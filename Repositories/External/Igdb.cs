@@ -32,7 +32,7 @@ public class Igdb : IExternal<Game>
             IGDBClient.Endpoints.Games,
              $"fields name, url, summary, first_release_date, id, involved_companies, cover.image_id; where url = \"{igdbUrl.Trim()}\";");
 
-        var game = games.SingleOrDefault();
+        var game = games.SingleOrDefault() ?? new IGDB.Models.Game();
 
         var imageId = game.Cover.Value.ImageId;
         var coverUrl = $"https://images.igdb.com/igdb/image/upload/t_cover_big/{imageId}.jpg";
@@ -42,9 +42,9 @@ public class Igdb : IExternal<Game>
 
         return new Game
         {
-            ExternalID = (int)game.Id.Value,
-            Title = game.Name,
-            Year = game.FirstReleaseDate.Value.Year
+            ExternalID = (int)(game?.Id ?? 0),
+            Title = game?.Name ?? string.Empty,
+            Year = game?.FirstReleaseDate?.Year ?? 0
         };
     }
 
