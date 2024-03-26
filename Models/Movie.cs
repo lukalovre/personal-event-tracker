@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AvaloniaApplication1.Models;
 
 [Table("Movies")]
-public class Movie : IItem
+public record Movie : IItem
 {
     [Key]
     public int ID { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AvaloniaApplication1.Models;
 
-public class Event
+public record Event
 {
     [Key]
     public int ID { get; set; }
