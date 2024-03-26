@@ -9,7 +9,7 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class EventViewModel : ViewModelBase
 {
-    private Event _selectedEvent = null!;
+    private Event _selectedEvent;
     private bool _isEditDate;
     private TimeSpan _time;
     private DateTime _date;
@@ -107,13 +107,13 @@ public partial class EventViewModel : ViewModelBase
 
     private void SelectedEventChanged()
     {
-        SelectedPersonString = PeopleManager.Instance.GetDisplayNames(SelectedEvent.People);
+        SelectedPersonString = PeopleManager.Instance.GetDisplayNames(SelectedEvent?.People!);
     }
 
     private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         var events = sender as ObservableCollection<Event>;
-        SelectedEvent = events?.MaxBy(o => o.DateEnd) ?? new Event();
+        SelectedEvent = events?.MaxBy(o => o.DateEnd)!;
 
         if (SelectedEvent == null)
         {

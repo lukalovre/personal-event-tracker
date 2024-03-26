@@ -17,7 +17,7 @@ public class DaysAgoToStringConverter : IValueConverter
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is string str)
+        if (value is string str && !string.IsNullOrWhiteSpace(str))
         {
             var split = str.Split(" ");
 

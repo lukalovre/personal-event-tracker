@@ -16,7 +16,7 @@ public class DateTimeToStringConverter : IValueConverter
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is string str)
+        if (value is string str && !string.IsNullOrWhiteSpace(str))
         {
             return DateTime.ParseExact(str, parameter?.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
         }
