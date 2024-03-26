@@ -84,13 +84,13 @@ internal class TsvDatasource : IDatasource
 
     private static string GetEventFilePath<T>()
     {
-        return Path.Combine(Paths.Data, $"{typeof(T)}Events.tsv");
+        var name = typeof(T).Name;
+        return Path.Combine(Paths.Data, $"{name}Events.tsv");
     }
 
     private static string? GetDataName<T>()
     {
-        var tAttribute = (TableAttribute)
-            typeof(T)?.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
+        var tAttribute = (TableAttribute)typeof(T)?.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
         var tableName = tAttribute?.Name;
         return tableName;
     }
@@ -111,8 +111,7 @@ internal class TsvDatasource : IDatasource
         return csv.GetRecords<T>().ToList(); ;
     }
 
-    public List<Event> GetEventList<T>()
-        where T : IItem
+    public List<Event> GetEventList<T>() where T : IItem
     {
         var eventFilePath = GetEventFilePath<T>();
 

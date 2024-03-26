@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+namespace AvaloniaApplication1.Models;
+
 [Table("Books")]
 public class Book : IItem
 {

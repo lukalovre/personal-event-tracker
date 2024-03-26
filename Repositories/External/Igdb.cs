@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AvaloniaApplication1.Models;
 using IGDB;
 using Repositories;
 

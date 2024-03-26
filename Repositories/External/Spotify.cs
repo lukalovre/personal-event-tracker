@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AvaloniaApplication1.Models;
 using Repositories;
 using SpotifyAPI.Web;
 
