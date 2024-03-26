@@ -23,7 +23,7 @@ public class GridFilterViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _gridCountItems, value);
     }
 
-    public string SearchText { get; set; }
+    public string SearchText { get; set; } = string.Empty;
 
     private int _yearFilter = DateTime.Now.Year;
 

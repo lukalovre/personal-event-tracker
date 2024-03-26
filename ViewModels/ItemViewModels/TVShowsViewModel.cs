@@ -9,8 +9,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> external)
-: ItemViewModel<TVShow, TVShowGridItem>(datasource, external)
+public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> external) : ItemViewModel<TVShow, TVShowGridItem>(datasource, external)
 {
     protected override int DefaultAddAmount => SelectedItem.Runtime;
 
@@ -19,7 +18,7 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
         return new TVShowGridItem(
             i.ID,
             i.Title,
-            e.Chapter.Value,
+            e?.Chapter ?? 0,
             eventList.Count(o => o.Chapter == e.Chapter),
             eventList.LastEventDate()
         );

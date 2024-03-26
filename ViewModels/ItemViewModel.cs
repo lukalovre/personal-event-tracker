@@ -398,7 +398,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     protected virtual TGridItem Convert(Event e, TItem i, IEnumerable<Event> events)
     {
-        return default;
+        return default!;
     }
 
     protected int GetItemAmount(IEnumerable<Event> eventList)

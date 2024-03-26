@@ -90,7 +90,7 @@ internal class TsvDatasource : IDatasource
 
     private static string? GetDataName<T>()
     {
-        var tAttribute = (TableAttribute)typeof(T)?.GetCustomAttributes(typeof(TableAttribute), true).FirstOrDefault();
+        var tAttribute = (TableAttribute?)typeof(T)?.GetCustomAttributes(typeof(TableAttribute), true)?.FirstOrDefault();
         var tableName = tAttribute?.Name;
         return tableName;
     }
