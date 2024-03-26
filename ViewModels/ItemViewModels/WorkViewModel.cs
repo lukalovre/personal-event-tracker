@@ -7,8 +7,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class WorkViewModel(IDatasource datasource)
-: ItemViewModel<Work, WorkGridItem>(datasource, null)
+public partial class WorkViewModel(IDatasource datasource) : ItemViewModel<Work, WorkGridItem>(datasource, null!)
 {
     protected override int? DefaultNewItemChapter => null;
     protected override WorkGridItem Convert(Event e, Work i, IEnumerable<Event> eventList)

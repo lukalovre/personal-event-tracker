@@ -5,8 +5,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> external)
-: ItemViewModel<Movie, MovieGridItem>(datasource, external)
+public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> external) : ItemViewModel<Movie, MovieGridItem>(datasource, external)
 {
     protected override int? DefaultNewItemChapter => null;
 
@@ -19,7 +18,7 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
             i.Title,
             i.Director,
             i.Year,
-            e.Rating.Value
+            e?.Rating ?? 0
         );
     }
 

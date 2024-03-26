@@ -52,8 +52,7 @@ public partial class EventViewModel : ViewModelBase
         }
     }
 
-    public ObservableCollection<PersonComboBoxItem> PeopleList =>
-        new(PeopleManager.Instance.GetComboboxList());
+    public ObservableCollection<PersonComboBoxItem> PeopleList => new(PeopleManager.Instance.GetComboboxList());
 
     private PersonComboBoxItem _selectedPerson;
     private string _selectedPlatformType;
@@ -89,10 +88,7 @@ public partial class EventViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _newEventChapter, value);
     }
 
-    public EventViewModel(
-        ObservableCollection<Event> events,
-        ObservableCollection<string> platformTypes
-    )
+    public EventViewModel(ObservableCollection<Event> events, ObservableCollection<string> platformTypes)
     {
         Events = events;
         Events.CollectionChanged += CollectionChanged;
