@@ -38,7 +38,7 @@
 						<v:ComicsView DataContext="{Binding ComicsViewModel}" />
 					</TabItem>
 					<TabItem Header="Zoo">
-						<DataGrid Margin="20" ItemsSource="{Binding Zoo}" AutoGenerateColumns="True" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" />
+						<v:ZooView DataContext="{Binding ZooViewModel}" />
 					</TabItem>
 				</TabControl>
 			</TabItem>
