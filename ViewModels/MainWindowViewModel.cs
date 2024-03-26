@@ -16,6 +16,7 @@ public class MainWindowViewModel : ViewModelBase
     public ClipsViewModel ClipsViewModel { get; }
     public SongsViewModel SongsViewModel { get; }
     public ZooViewModel ZooViewModel { get; }
+    public LocationsViewModel LocationsViewModel { get; }
 
     public MainWindowViewModel(IDatasource datasource)
     {
@@ -30,6 +31,7 @@ public class MainWindowViewModel : ViewModelBase
         ClipsViewModel = new ClipsViewModel(datasource, new ClipsExternal());
         SongsViewModel = new SongsViewModel(datasource, new SongExternal());
         ZooViewModel = new ZooViewModel(datasource);
+        LocationsViewModel = new LocationsViewModel(datasource);
     }
 
 }

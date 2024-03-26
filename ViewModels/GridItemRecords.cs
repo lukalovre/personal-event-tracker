@@ -14,3 +14,4 @@ public record TVShowGridItem(int ID, string Title, int Season, int Episode, Date
 public record ClipGridItem(int ID, string Author, string Title) : IGridItem;
 public record WorkGridItem(int ID, string Title, string Type, int Minutes, DateTime LastDate) : IGridItem;
 public record ZooGridItem(int ID, string Name, string City, string Country, int Year) : IGridItem;
+public record LocationGridItem(int ID, string Name, string City, string Country, int Year) : IGridItem;

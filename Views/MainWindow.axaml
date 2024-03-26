@@ -40,6 +40,9 @@
 					<TabItem Header="Zoo">
 						<v:ZooView DataContext="{Binding ZooViewModel}" />
 					</TabItem>
+					<TabItem Header="Locations">
+						<v:LocationsView DataContext="{Binding LocationsViewModel}" />
+					</TabItem>
 				</TabControl>
 			</TabItem>
 			<TabItem Header="My">
