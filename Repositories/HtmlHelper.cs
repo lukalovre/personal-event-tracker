@@ -62,10 +62,8 @@ public static class HtmlHelper
             return;
         }
 
-        using (WebClient client = new WebClient())
-        {
-            client.DownloadFile(new Uri(webFile), destinationFile);
-        }
+        using WebClient client = new WebClient();
+        client.DownloadFile(new Uri(webFile), destinationFile);
     }
 
     public static string CleanUrl(string url)
