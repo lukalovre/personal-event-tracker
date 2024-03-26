@@ -24,7 +24,8 @@
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
 							<DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="70" />
 							<DataGridTextColumn Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="80" />
-							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd}}" Header="Last Date" Width="120" />
+							<DataGridCheckBoxColumn Binding="{Binding Completed}" Header="Completed" Width="55" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

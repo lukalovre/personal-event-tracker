@@ -30,6 +30,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
             i.Platform,
             eventList.Sum(o => o.Amount),
             e.Completed,
+            e?.Rating ?? 0,
             eventList.LastEventDate());
     }
 }
