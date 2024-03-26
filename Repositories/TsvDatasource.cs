@@ -196,146 +196,151 @@ internal class TsvDatasource : IDatasource
         writer.Flush();
     }
 
+    public List<Event> GetEventListConvert<T>() where T : IItem
+    {
+        throw new NotImplementedException();
+    }
+
     #region Remove after converted all data
-    private Event Convert(MyWorkEvent e, List<Work> itemList)
-    {
-        var item = itemList.First(o => o.ItemID == e.ItemID);
+    // private Event Convert(MyWorkEvent e, List<Work> itemList)
+    // {
+    //     var item = itemList.First(o => o.ItemID == e.ItemID);
 
-        var amount = e.Time;
-        DateTime? dateEnd = null;
+    //     var amount = e.Time;
+    //     DateTime? dateEnd = null;
 
-        if (
-            DateTime.TryParse(
-                e.Date,
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out var fromDtEnd
-            )
-        )
-        {
-            dateEnd = fromDtEnd;
-        }
+    //     if (
+    //         DateTime.TryParse(
+    //             e.Date,
+    //             CultureInfo.InvariantCulture,
+    //             DateTimeStyles.None,
+    //             out var fromDtEnd
+    //         )
+    //     )
+    //     {
+    //         dateEnd = fromDtEnd;
+    //     }
 
-        DateTime? dateStart = null;
+    //     DateTime? dateStart = null;
 
-        if (dateEnd.HasValue)
-        {
-            if (e.Date.Contains("00:00:00"))
-            {
-                dateStart = dateEnd;
-            }
-            else
-            {
-                dateStart = dateEnd.Value.AddMinutes(-amount);
-            }
-        }
+    //     if (dateEnd.HasValue)
+    //     {
+    //         if (e.Date.Contains("00:00:00"))
+    //         {
+    //             dateStart = dateEnd;
+    //         }
+    //         else
+    //         {
+    //             dateStart = dateEnd.Value.AddMinutes(-amount);
+    //         }
+    //     }
 
-        int? rating = null;
+    //     int? rating = null;
 
-        if (int.TryParse(e.Rating, out var retInt))
-        {
-            rating = retInt;
-        }
+    //     if (int.TryParse(e.Rating, out var retInt))
+    //     {
+    //         rating = retInt;
+    //     }
 
-        var peopleSplit = e.People.Split(',');
+    //     var peopleSplit = e.People.Split(',');
 
-        var pepleList = new List<int>();
+    //     var pepleList = new List<int>();
 
-        if (peopleSplit.Any())
-        {
-            foreach (var splitItem in peopleSplit)
-            {
-                if (int.TryParse(splitItem, out var resInt))
-                {
-                    pepleList.Add(resInt);
-                }
-            }
-        }
+    //     if (peopleSplit.Any())
+    //     {
+    //         foreach (var splitItem in peopleSplit)
+    //         {
+    //             if (int.TryParse(splitItem, out var resInt))
+    //             {
+    //                 pepleList.Add(resInt);
+    //             }
+    //         }
+    //     }
 
-        string ShemaZenNull(string s)
-        {
-            if (s == "--SchemaZenNull--" || string.IsNullOrWhiteSpace(s))
-            {
-                return null;
-            }
-            return s;
-        }
+    //     string ShemaZenNull(string s)
+    //     {
+    //         if (s == "--SchemaZenNull--" || string.IsNullOrWhiteSpace(s))
+    //         {
+    //             return null;
+    //         }
+    //         return s;
+    //     }
 
-        return new Event
-        {
-            ID = e.ID,
-            Amount = amount,
-            AmountType = eAmountType.Minutes,
-            Comment = ShemaZenNull(e.Comment),
-            Completed = false,
-            DateEnd = dateEnd,
-            DateStart = dateStart,
-            Rating = rating,
-            Platform = null,
-            ExternalID = null,
-            ItemID = item.ID,
-            People = ShemaZenNull(string.Join(",", pepleList)),
-            Bookmakred = false,
-            Chapter = null,
-            LocationID = null
-        };
-    }
+    //     return new Event
+    //     {
+    //         ID = e.ID,
+    //         Amount = amount,
+    //         AmountType = eAmountType.Minutes,
+    //         Comment = ShemaZenNull(e.Comment),
+    //         Completed = false,
+    //         DateEnd = dateEnd,
+    //         DateStart = dateStart,
+    //         Rating = rating,
+    //         Platform = null,
+    //         ExternalID = null,
+    //         ItemID = item.ID,
+    //         People = ShemaZenNull(string.Join(",", pepleList)),
+    //         Bookmakred = false,
+    //         Chapter = null,
+    //         LocationID = null
+    //     };
+    // }
 
-    public List<Event> GetEventListConvert<T>()
-        where T : IItem
-    {
-        var listPath = Path.Combine($"../../Data/TODO/{typeof(T)}Events.tsv");
-        var text = File.ReadAllText(listPath);
+    // public List<Event> GetEventListConvert<T>()
+    //     where T : IItem
+    // {
+    //     var listPath = Path.Combine($"../../Data/TODO/{typeof(T)}Events.tsv");
+    //     var text = File.ReadAllText(listPath);
 
-        var reader = new StringReader(text);
+    //     var reader = new StringReader(text);
 
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = false,
-            Delimiter = "\t"
-        };
+    //     var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+    //     {
+    //         HasHeaderRecord = false,
+    //         Delimiter = "\t"
+    //     };
 
-        using var csv = new CsvReader(reader, config);
+    //     using var csv = new CsvReader(reader, config);
 
-        var oldEventList = csv.GetRecords<MyWorkEvent>().ToList();
-        var item = GetList<Work>();
+    //     var oldEventList = csv.GetRecords<MyWorkEvent>().ToList();
+    //     var item = GetList<Work>();
 
-        var convertedEventsList = oldEventList.Select(o => Convert(o, item)).ToList();
+    //     var convertedEventsList = oldEventList.Select(o => Convert(o, item)).ToList();
 
-        var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
-        using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
+    //     var newPath = $"../../Data/{typeof(T)}Events_converted.tsv";
+    //     using var writer = new StreamWriter(newPath, false, System.Text.Encoding.UTF8);
 
-        var configWrite = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = true,
-            Delimiter = "\t"
-        };
+    //     var configWrite = new CsvConfiguration(CultureInfo.InvariantCulture)
+    //     {
+    //         HasHeaderRecord = true,
+    //         Delimiter = "\t"
+    //     };
 
-        var csvText = new CsvWriter(writer, configWrite);
-        csvText.WriteRecords(convertedEventsList);
-        var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
-        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
-        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
-        writer.Flush();
+    //     var csvText = new CsvWriter(writer, configWrite);
+    //     csvText.WriteRecords(convertedEventsList);
+    //     var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
+    //     csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
+    //     csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
+    //     writer.Flush();
 
-        text = File.ReadAllText(newPath);
-        reader = new StringReader(text);
-        using var csv2 = new CsvReader(reader, configWrite);
+    //     text = File.ReadAllText(newPath);
+    //     reader = new StringReader(text);
+    //     using var csv2 = new CsvReader(reader, configWrite);
 
-        var newList = csv2.GetRecords<Event>().ToList();
+    //     var newList = csv2.GetRecords<Event>().ToList();
 
-        var newListIds = newList.Select(o => o.ID);
-        var missingItems = oldEventList
-            .Select(o => o.ID)
-            .Where(o => !newListIds.Contains(o))
-            .ToList();
+    //     var newListIds = newList.Select(o => o.ID);
+    //     var missingItems = oldEventList
+    //         .Select(o => o.ID)
+    //         .Where(o => !newListIds.Contains(o))
+    //         .ToList();
 
-        if (missingItems.Any())
-        {
-            throw new Exception("Yo!");
-        }
+    //     if (missingItems.Any())
+    //     {
+    //         throw new Exception("Yo!");
+    //     }
 
-        return newList;
-    }
+    //     return newList;
+    // }
     #endregion
 }
