@@ -28,6 +28,9 @@
 					<TabItem Header="Movies">
 						<v:MoviesView DataContext="{Binding MoviesViewModel}" />
 					</TabItem>
+					<TabItem Header="Clips">
+						<v:ClipsView DataContext="{Binding ClipsViewModel}" />
+					</TabItem>
 					<TabItem Header="Standup">
 						<v:StandupView DataContext="{Binding StandupViewModel}" />
 					</TabItem>

@@ -11,7 +11,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
+public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IExternal<Clip>
 {
     public static string UrlIdentifier => "youtube.com";
 
@@ -197,6 +197,35 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>
             Year = data.Year,
             Runtime = data.Runtime,
             ExternalID = data.Link
+        };
+    }
+
+    async Task<Clip> IExternal<Clip>.GetItem(string url)
+    {
+        using var client = new WebClient();
+        var content = client.DownloadData(url);
+        using var stream = new MemoryStream(content);
+        string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+
+        var htmlDocument = new HtmlDocument();
+        htmlDocument.LoadHtml(result);
+
+        var title = GetTitle(htmlDocument);
+
+        var handle = url.TrimStart("https://www.youtube.com/");
+
+        var posterNode = htmlDocument.DocumentNode.SelectSingleNode("//meta[contains(@property, 'og:image')]");
+        var imageLink = posterNode.GetAttributeValue("content", string.Empty).Trim();
+
+        // var destinationFile = Path.Combine(Paths.Posters, $"{handle}");
+        // Web.DownloadPNG(imageLink, destinationFile);
+
+        return new Clip
+        {
+            Title = title,
+            ExternalID = handle,
+            Year = DateTime.Now.Year,
+            Runtime = 10
         };
     }
 

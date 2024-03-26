@@ -17,6 +17,7 @@ public class MainWindowViewModel : ViewModelBase
     public ComicsViewModel ComicsViewModel { get; }
     public GamesViewModel GamesViewModel { get; }
     public TVShowsViewModel TVShowsViewModel { get; }
+    public ClipsViewModel ClipsViewModel { get; }
     public SongsViewModel SongsViewModel { get; }
     public List<ZooGridItem> Zoo { get; set; }
 
@@ -30,6 +31,7 @@ public class MainWindowViewModel : ViewModelBase
         ComicsViewModel = new ComicsViewModel(datasource, new ComicExtetrnal());
         GamesViewModel = new GamesViewModel(datasource, new GameExtetrnal());
         TVShowsViewModel = new TVShowsViewModel(datasource, new TVShowExternal());
+        ClipsViewModel = new ClipsViewModel(datasource, new ClipsExternal());
         SongsViewModel = new SongsViewModel(datasource, new SongExternal());
 
         // _datasource.GetEventListConvert<MyWork>();
