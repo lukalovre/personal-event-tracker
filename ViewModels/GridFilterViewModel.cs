@@ -10,11 +10,13 @@ public class GridFilterViewModel : ViewModelBase
     {
         _dataGrid = dataGrid;
         Search = ReactiveCommand.Create(SearchAction);
+        Reload = ReactiveCommand.Create(ReloadAction);
     }
 
     private IDataGrid _dataGrid;
 
     public ReactiveCommand<Unit, Unit> Search { get; }
+    public ReactiveCommand<Unit, Unit> Reload { get; }
     private int _gridCountItems;
 
     public int GridCountItems
@@ -23,9 +25,14 @@ public class GridFilterViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _gridCountItems, value);
     }
 
-    public string SearchText { get; set; } = string.Empty;
+    public string SearchText
+    {
+        get => _searchText;
+        set => this.RaiseAndSetIfChanged(ref _searchText, value);
+    }
 
     private int _yearFilter = DateTime.Now.Year;
+    private string _searchText = string.Empty;
 
     public int YearFilter
     {
@@ -45,6 +52,12 @@ public class GridFilterViewModel : ViewModelBase
     private void SearchAction()
     {
         SearchText = SearchText?.Trim() ?? string.Empty;
+        GridCountItems = _dataGrid.ReloadData();
+    }
+
+    private void ReloadAction()
+    {
+        SearchText = string.Empty;
         GridCountItems = _dataGrid.ReloadData();
     }
 }
