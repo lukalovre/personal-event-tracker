@@ -36,9 +36,9 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         OpenImage = ReactiveCommand.Create(OpenImageAction);
 
-        SelectedGridItem = GridItems.LastOrDefault();
+        SelectedGridItem = GridItems.LastOrDefault()!;
         NewEvent = new Event();
-        NewItem = (TItem)Activator.CreateInstance(typeof(TItem));
+        NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
 
         IsFullAmount = IsFullAmountDefaultValue;
     }
