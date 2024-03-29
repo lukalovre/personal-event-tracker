@@ -64,7 +64,7 @@ public partial class EventViewModel : ViewModelBase
 
     public ObservableCollection<string> PlatformTypes { get; set; }
 
-    public MultiSelectDropdownViewModel People { get; }
+    public PeopleSelectionViewModel People { get; }
 
     public string SelectedPlatformType
     {
@@ -83,7 +83,7 @@ public partial class EventViewModel : ViewModelBase
         Events = events;
         Events.CollectionChanged += CollectionChanged;
         PlatformTypes = platformTypes;
-        People = new MultiSelectDropdownViewModel();
+        People = new PeopleSelectionViewModel();
     }
 
     private void SelectedEventChanged()

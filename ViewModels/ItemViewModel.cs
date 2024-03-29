@@ -21,7 +21,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         _external = external;
 
         GridFilterViewModel = new GridFilterViewModel(this);
-        People = new MultiSelectDropdownViewModel();
+        People = new PeopleSelectionViewModel();
 
         GridItems = [];
         GridItemsBookmarked = [];
@@ -100,7 +100,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     public virtual ObservableCollection<string> PlatformTypes => [];
 
-    public MultiSelectDropdownViewModel People { get; set; }
+    public PeopleSelectionViewModel People { get; set; }
 
     public ObservableCollection<TGridItem> GridItems { get; set; }
     public ObservableCollection<TGridItem> GridItemsBookmarked { get; set; }

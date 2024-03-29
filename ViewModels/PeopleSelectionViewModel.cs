@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public class MultiSelectDropdownViewModel : INotifyPropertyChanged
+public class PeopleSelectionViewModel : INotifyPropertyChanged
 {
     public class PersonCheckbox
     {
@@ -20,7 +20,7 @@ public class MultiSelectDropdownViewModel : INotifyPropertyChanged
     private ObservableCollection<PersonCheckbox> _items = [];
     private ObservableCollection<PersonCheckbox> _filteredItems = [];
 
-    public MultiSelectDropdownViewModel()
+    public PeopleSelectionViewModel()
     {
         Items = new ObservableCollection<PersonCheckbox>(PeopleManager.Instance.GetComboboxList()
         .Select(o => new PersonCheckbox
