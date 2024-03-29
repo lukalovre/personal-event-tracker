@@ -93,11 +93,6 @@ public partial class EventViewModel : ViewModelBase
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(SelectedEvent.People))
-        {
-            return;
-        }
-
         SelectedPersonString = PeopleManager.Instance.GetDisplayNames(SelectedEvent.People);
         People.SetPeople(SelectedEvent.People);
     }

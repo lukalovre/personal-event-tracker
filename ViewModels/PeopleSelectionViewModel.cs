@@ -22,6 +22,11 @@ public class PeopleSelectionViewModel : INotifyPropertyChanged
 
     public PeopleSelectionViewModel()
     {
+        LoadData();
+    }
+
+    private void LoadData()
+    {
         Items = new ObservableCollection<PersonCheckbox>(PeopleManager.Instance.GetComboboxList()
         .Select(o => new PersonCheckbox
         {
@@ -95,6 +100,11 @@ public class PeopleSelectionViewModel : INotifyPropertyChanged
     internal void SetPeople(string peopleString)
     {
         var selectedIDs = peopleString.Split(',').ToList();
+
+        foreach (var item in Items)
+        {
+            item.IsSelected = false;
+        }
 
         foreach (var person in Items)
         {
