@@ -232,7 +232,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var amount = NewItemAmountOverride ?? NewItemAmount;
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
         var dateStart = CalculateDateStart(dateEnd, amount);
-        var people = EventViewModel.GetPeople();
+        var people = EventViewModel.People.GetPeople();
 
         NewEvent ??= new Event();
 
@@ -274,7 +274,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         : EventViewModel.SelectedEvent.DateEnd.Value;
         var dateStart = CalculateDateStart(dateEnd, amount);
 
-        var people = EventViewModel.GetPeople();
+        var people = EventViewModel.People.GetPeople();
 
         var newEvent = new Event
         {

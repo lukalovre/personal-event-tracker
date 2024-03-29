@@ -90,7 +90,18 @@ public partial class EventViewModel : ViewModelBase
 
     private void SelectedEventChanged()
     {
-        SelectedPersonString = PeopleManager.Instance.GetDisplayNames(SelectedEvent?.People!);
+        if (SelectedEvent == null)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(SelectedEvent.People))
+        {
+            return;
+        }
+
+        SelectedPersonString = PeopleManager.Instance.GetDisplayNames(SelectedEvent.People);
+        People.SetPeople(SelectedEvent.People);
     }
 
     private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -113,11 +124,5 @@ public partial class EventViewModel : ViewModelBase
     private void DateTimeChanged()
     {
         SelectedEvent.DateEnd = Date + Time;
-    }
-
-    internal string GetPeople()
-    {
-        var peopleIDs = People.Items.Where(o => o.IsSelected).Select(o => o.ID);
-        return string.Join(',', peopleIDs);
     }
 }

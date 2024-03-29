@@ -85,4 +85,25 @@ public class MultiSelectDropdownViewModel : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+    internal string GetPeople()
+    {
+        var peopleIDs = Items.Where(o => o.IsSelected).Select(o => o.ID);
+        return string.Join(',', peopleIDs);
+    }
+
+    internal void SetPeople(string peopleString)
+    {
+        var selectedIDs = peopleString.Split(',').ToList();
+
+        foreach (var person in Items)
+        {
+            if (selectedIDs.Contains(person.ID.ToString()))
+            {
+                person.IsSelected = true;
+            }
+        }
+
+        FilteredItems = new ObservableCollection<PersonCheckbox>(FilteredItems.OrderByDescending(o => o.IsSelected));
+    }
 }
