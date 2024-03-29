@@ -44,129 +44,90 @@ public class Soundcloud : IExternal<Song>
 
     private static string GetImageUrl(HtmlDocument htmlDocument)
     {
-        try
-        {
-            return htmlDocument.DocumentNode
-                .SelectSingleNode("//span[@class='sc-artwork sc-artwork-40x sc-artwork-placeholder-9  image__full g-opacity-transition']")
-                .Attributes["href"].Value.Trim();
-        }
-        catch
-        {
-            return null;
-        }
+        return htmlDocument
+                ?.DocumentNode
+                ?.SelectSingleNode("//img")
+                ?.Attributes["src"]
+                ?.Value
+                ?.Trim()
+                ?? string.Empty;
     }
 
     private static int GetRuntimeSong(HtmlDocument htmlDocument)
     {
-        var result = 0;
+        // Timecode in format PT00H04M00S
+        var timeCode = htmlDocument
+                        ?.DocumentNode
+                        ?.SelectSingleNode("//meta[contains(@itemprop, 'duration')]")
+                        ?.GetAttributeValue("content", string.Empty);
 
-        try
-        {
-            var totalHours = 0;
-            var totalMinutes = 0;
-            var totalSeconds = 0;
+        timeCode = timeCode?.Split("PT").LastOrDefault();
 
-            var timeNodes = htmlDocument.DocumentNode.SelectNodes("//span[contains(@class, 'time_total')]");
+        var hourString = timeCode?.Split('H').FirstOrDefault();
+        timeCode = timeCode?.Split('H').LastOrDefault();
 
-            foreach (var item in timeNodes)
-            {
-                var timeString = item.InnerText.Trim();
-                var split = timeString.Split(':');
+        var minuteString = timeCode?.Split('M').FirstOrDefault();
+        timeCode = timeCode?.Split('M').LastOrDefault();
 
-                var hours = 0;
-                var minutes = 0;
-                var seconds = 0;
+        var secondString = timeCode?.Split('S').FirstOrDefault();
 
-                if (split.Length == 2)
-                {
-                    minutes = Convert.ToInt32(split[0]);
-                    seconds = Convert.ToInt32(split[1]);
-                }
+        var hours = Convert.ToInt32(hourString);
+        var minutes = Convert.ToInt32(minuteString);
+        var seconds = Convert.ToInt32(secondString);
 
-                if (split.Length == 3)
-                {
-                    hours = Convert.ToInt32(split[0]);
-                    minutes = Convert.ToInt32(split[1]);
-                    seconds = Convert.ToInt32(split[2]);
-                }
-
-                totalHours += hours;
-                totalMinutes += minutes;
-                totalSeconds += seconds;
-            }
-
-            result = totalMinutes
-            + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero)
-            + totalHours * 60;
-        }
-        catch { }
+        var result = minutes
+        + (int)Math.Round(seconds / 60f, MidpointRounding.AwayFromZero)
+        + hours * 60;
 
         return result;
     }
 
     private static string GetLink(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-                .SelectSingleNode("//meta[@property='og:url']")
-                .Attributes["content"].Value.Trim();
-        }
-        catch { }
-
-        return result;
+        return htmlDocument
+                ?.DocumentNode
+                ?.SelectSingleNode("//meta[@property='og:url']")
+                ?.Attributes["content"]
+                ?.Value
+                ?.Trim()
+                ?? string.Empty;
     }
 
     private static int GetYear(HtmlDocument htmlDocument)
     {
-        var result = 0;
+        var result = htmlDocument
+                    ?.DocumentNode
+                    ?.SelectSingleNode("//time")
+                    ?.InnerText
+                    ?? string.Empty;
 
-        try
-        {
-            result = HtmlHelper.GetYear(
-                    htmlDocument.DocumentNode
-                        .SelectSingleNode("//time[@class='relativeTime']")
-                        .Attributes["title"].Value.Trim());
-        }
-        catch { }
-
-        return result;
+        return HtmlHelper.GetYear(result);
     }
 
     private static string GetArtist(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-                .SelectSingleNode("//title")
-                .InnerText
-                .Split(new string[] { " by " }, StringSplitOptions.RemoveEmptyEntries)
-                .LastOrDefault()
-                .Split("|")
-                .FirstOrDefault();
-        }
-        catch { }
+        var result = htmlDocument
+                    ?.DocumentNode
+                    ?.SelectSingleNode("//title")
+                    ?.InnerText
+                    ?.Split(new string[] { " by " }, StringSplitOptions.RemoveEmptyEntries)
+                    ?.LastOrDefault()
+                    ?.Split("|")
+                    ?.FirstOrDefault()
+                    ?? string.Empty;
 
         return WebUtility.HtmlDecode(result.Trim());
     }
 
     private static string GetTitle(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-                .SelectSingleNode("//meta[@property='og:title']")
-                .Attributes["content"].Value
-                .Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
-                .FirstOrDefault();
-        }
-        catch { }
+        var result = htmlDocument
+                    ?.DocumentNode
+                    ?.SelectSingleNode("//meta[@property='og:title']")
+                    ?.Attributes["content"].Value
+                    ?.Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
+                    ?.FirstOrDefault()
+                    ?? string.Empty;
 
         return WebUtility.HtmlDecode(result.Trim());
     }
