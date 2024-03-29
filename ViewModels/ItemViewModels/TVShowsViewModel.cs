@@ -19,7 +19,7 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
             i.ID,
             i.Title,
             e?.Chapter ?? 0,
-            eventList.Count(o => o.Chapter == e.Chapter),
+            eventList.Count(o => o.Chapter == e?.Chapter),
             eventList.LastEventDate()
         );
     }

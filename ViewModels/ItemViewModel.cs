@@ -48,10 +48,10 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     protected virtual float AmountToMinutesModifier => 1f;
     private readonly IDatasource _datasource;
     private readonly IExternal<TItem> _external;
-    private TGridItem _selectedGridItem;
-    private List<TItem> _itemList;
-    private List<Event> _eventList;
-    private TItem _newItem;
+    private TGridItem _selectedGridItem = default!;
+    private List<TItem> _itemList = [];
+    private List<Event> _eventList = [];
+    private TItem _newItem = default!;
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
     private Event _newEvent;
@@ -282,16 +282,16 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             ExternalID = string.Empty,
             DateStart = dateStart,
             DateEnd = dateEnd,
-            Rating = lastEvent.Rating,
-            Bookmakred = lastEvent.Bookmakred,
+            Rating = lastEvent?.Rating ?? 0,
+            Bookmakred = lastEvent?.Bookmakred ?? false,
             Chapter = DefaultNewItemChapter,
             Amount = amount,
-            AmountType = lastEvent.AmountType,
-            Completed = lastEvent.Completed,
-            Comment = lastEvent.Comment,
+            AmountType = lastEvent?.AmountType ?? 0,
+            Completed = lastEvent?.Completed ?? false,
+            Comment = lastEvent?.Comment ?? string.Empty,
             People = people,
             Platform = EventViewModel.SelectedPlatformType,
-            LocationID = lastEvent.LocationID
+            LocationID = lastEvent?.LocationID ?? 0
         };
 
         _datasource.Add(SelectedItem, newEvent);
