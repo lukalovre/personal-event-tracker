@@ -54,20 +54,9 @@ public partial class EventViewModel : ViewModelBase
 
     public ObservableCollection<PersonComboBoxItem> PeopleList => new(PeopleManager.Instance.GetComboboxList());
 
-    private PersonComboBoxItem _selectedPerson = null!;
     private string _selectedPlatformType = string.Empty;
     private string _selectedPersonString = string.Empty;
     private int _newEventChapter = 1;
-
-    public PersonComboBoxItem SelectedPerson
-    {
-        get => _selectedPerson;
-        set
-        {
-            _selectedPerson = value;
-            SelectedPersonChanged();
-        }
-    }
 
     public string SelectedPersonString
     {
@@ -97,16 +86,6 @@ public partial class EventViewModel : ViewModelBase
         Events.CollectionChanged += CollectionChanged;
         PlatformTypes = platformTypes;
         People = new MultiSelectDropdownViewModel();
-    }
-
-    private void SelectedPersonChanged()
-    {
-        if (SelectedEvent == null)
-        {
-            return;
-        }
-
-        SelectedEvent.People = SelectedPerson.ID.ToString();
     }
 
     private void SelectedEventChanged()
