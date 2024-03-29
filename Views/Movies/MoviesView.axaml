@@ -76,7 +76,16 @@
 							★
 						</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<ComboBox ItemsSource="{Binding PeopleList}" SelectedItem="{Binding SelectedPerson}" />
+						<StackPanel>
+							<TextBox Watermark = "People" Width="150" Text="{Binding People.SearchText}"/>
+							<ListBox Width="145" Height="60" ItemsSource="{Binding People.FilteredItems}" SelectionMode="Multiple">
+								<ListBox.ItemTemplate>
+									<DataTemplate>
+										<CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
+							</ListBox>
+						</StackPanel>
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 					</StackPanel>
 				</ScrollViewer>

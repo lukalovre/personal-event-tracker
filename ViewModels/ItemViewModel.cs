@@ -21,6 +21,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         _external = external;
 
         GridFilterViewModel = new GridFilterViewModel(this);
+        People = new MultiSelectDropdownViewModel();
 
         GridItems = [];
         GridItemsBookmarked = [];
@@ -99,9 +100,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     public virtual ObservableCollection<string> PlatformTypes => [];
 
-    public static ObservableCollection<PersonComboBoxItem> PeopleList => new(PeopleManager.Instance.GetComboboxList());
-
-    public PersonComboBoxItem SelectedPerson { get; set; }
+    public MultiSelectDropdownViewModel People { get; set; }
 
     public ObservableCollection<TGridItem> GridItems { get; set; }
     public ObservableCollection<TGridItem> GridItemsBookmarked { get; set; }
@@ -232,7 +231,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var amount = NewItemAmountOverride ?? NewItemAmount;
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
         var dateStart = CalculateDateStart(dateEnd, amount);
-        var people = EventViewModel.People.GetPeople();
+        var people = People.GetPeople();
 
         NewEvent ??= new Event();
 
@@ -323,7 +322,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         NewItem = default;
         NewEvent = default;
         NewImage = default;
-        SelectedPerson = default;
     }
 
     protected virtual DateTime? DateTimeFilter
