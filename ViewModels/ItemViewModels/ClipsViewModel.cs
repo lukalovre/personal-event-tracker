@@ -9,6 +9,6 @@ public partial class ClipsViewModel(IDatasource datasource, IExternal<Clip> exte
 {
     protected override ClipGridItem Convert(Event e, Clip i, IEnumerable<Event> eventList)
     {
-        return new ClipGridItem(i.ID, i.Author, i.Title);
+        return new ClipGridItem(i.ID, i.Author, i.Title, e?.Rating ?? 1);
     }
 }

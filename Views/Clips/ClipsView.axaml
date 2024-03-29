@@ -19,6 +19,7 @@
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Author}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="S" Width="70" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

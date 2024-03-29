@@ -24,6 +24,7 @@
 							<DataGridTextColumn Binding="{Binding Writer}" Header="Author" Width="150" />
 							<DataGridTextColumn Binding="{Binding Chapter}" Header="Chapter" Width="90" />
 							<DataGridTextColumn Binding="{Binding Pages}" Header="Pages" Width="80" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
@@ -39,12 +40,8 @@
 						</Button>
 						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddEventClick}">
-								Add pages
-							</Button>
-							<CheckBox IsChecked="{Binding IsFullAmount}">
-								Full
-							</CheckBox>
+							<Button Command="{Binding AddEventClick}">Add pages</Button>
+							<CheckBox IsChecked="{Binding IsFullAmount}">Full</CheckBox>
 							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
 							<TextBlock Text="{Binding AddAmountString}" />
 						</StackPanel>
@@ -55,9 +52,7 @@
 				<ScrollViewer>
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddItemClick}" Margin="15">
-								Add
-							</Button>
+							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 							<TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
@@ -75,9 +70,7 @@
 							<TextBlock Text="Rating" />
 							<NumericUpDown Value="{Binding NewEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" />
 						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">
-							★
-						</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
 						<TextBox Watermark="Pages" Text="{Binding NewEvent.Amount}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />

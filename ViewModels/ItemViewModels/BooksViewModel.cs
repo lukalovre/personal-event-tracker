@@ -22,6 +22,7 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
             i.Author,
             i.Year,
             e.Rating,
+            e.Completed,
             GetItemAmount(eventList),
             eventList.LastEventDate()
         );

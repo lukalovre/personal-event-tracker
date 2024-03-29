@@ -22,6 +22,7 @@
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding Season}" Header="S" Width="70" />
 							<DataGridTextColumn Binding="{Binding Episode}" Header="E" Width="70" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd}}" Header="Last Date" Width="120" />
 						</DataGrid.Columns>
 					</DataGrid>
