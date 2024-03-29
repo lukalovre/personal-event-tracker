@@ -345,9 +345,8 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         if (DateTimeFilter.HasValue && string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
         {
-            var yearSpan = DateTime.Now.Year - DateTimeFilter.Value.Year;
             result = result
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + yearSpan + 1, 1, 1))
+            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
             .ToList();
         }
 
