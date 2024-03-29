@@ -291,7 +291,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             Comment = lastEvent?.Comment ?? string.Empty,
             People = people,
             Platform = EventViewModel.SelectedPlatformType,
-            LocationID = lastEvent?.LocationID ?? 0
+            LocationID = lastEvent?.LocationID
         };
 
         _datasource.Add(SelectedItem, newEvent);
