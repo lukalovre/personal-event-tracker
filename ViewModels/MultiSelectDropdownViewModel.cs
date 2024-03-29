@@ -3,7 +3,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using AvaloniaApplication1.ViewModels;
+
+namespace AvaloniaApplication1.ViewModels;
 
 public class MultiSelectDropdownViewModel : INotifyPropertyChanged
 {
@@ -15,9 +16,9 @@ public class MultiSelectDropdownViewModel : INotifyPropertyChanged
         public string FullName { get; set; } = string.Empty;
     }
 
-    private string _searchText;
-    private ObservableCollection<PersonCheckbox> _items;
-    private ObservableCollection<PersonCheckbox> _filteredItems;
+    private string _searchText = string.Empty;
+    private ObservableCollection<PersonCheckbox> _items = [];
+    private ObservableCollection<PersonCheckbox> _filteredItems = [];
 
     public MultiSelectDropdownViewModel()
     {
@@ -29,7 +30,7 @@ public class MultiSelectDropdownViewModel : INotifyPropertyChanged
             FullName = $"{o.FirstName} {o.LastName} {o.Nickname}"
         }));
 
-        FilteredItems = new ObservableCollection<PersonCheckbox>(Items);
+        FilteredItems = new ObservableCollection<PersonCheckbox>(Items.OrderBy(o => o.IsSelected));
     }
 
     public string SearchText
@@ -76,9 +77,9 @@ public class MultiSelectDropdownViewModel : INotifyPropertyChanged
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

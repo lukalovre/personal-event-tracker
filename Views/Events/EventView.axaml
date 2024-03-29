@@ -59,10 +59,6 @@
 						<TextBox Text="{Binding SelectedEvent.Comment}" Width="200" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="People" VerticalAlignment="Center" />
-						<ComboBox ItemsSource="{Binding PeopleList}" SelectedItem="{Binding SelectedPerson}" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Platform" VerticalAlignment="Center" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}" Width="100" />
 					</StackPanel>
@@ -70,7 +66,6 @@
 						<TextBlock Text="ExternalID" VerticalAlignment="Center" />
 						<TextBox Text="{Binding SelectedEvent.ExternalID}" Width="100" />
 					</StackPanel>
-
 					<StackPanel>
 						<TextBox Width="150" Text="{Binding People.SearchText}"/>
 						<ListBox Width="145" Height="150" ItemsSource="{Binding People.FilteredItems}" SelectionMode="Multiple">
@@ -81,7 +76,6 @@
 							</ListBox.ItemTemplate>
 						</ListBox>
 					</StackPanel>
-
 				</StackPanel>
 			</TabItem>
 		</TabControl>
