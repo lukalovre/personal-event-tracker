@@ -70,6 +70,18 @@
 						<TextBlock Text="ExternalID" VerticalAlignment="Center" />
 						<TextBox Text="{Binding SelectedEvent.ExternalID}" Width="100" />
 					</StackPanel>
+
+					<StackPanel>
+						<TextBox Width="150" Text="{Binding People.SearchText}"/>
+						<ListBox Width="145" Height="150" ItemsSource="{Binding People.FilteredItems}" SelectionMode="Multiple">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</StackPanel>
+
 				</StackPanel>
 			</TabItem>
 		</TabControl>
