@@ -14,7 +14,6 @@ public static class HtmlHelper
     {
         var years = Regex.Matches(str, @"\d{4}");
         var yearList = years.Select(o => Convert.ToInt32(o.Value));
-
         return yearList.FirstOrDefault(o => o > 1900 && o < 2999);
     }
 
