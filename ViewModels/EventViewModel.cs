@@ -9,7 +9,7 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class EventViewModel : ViewModelBase
 {
-    private Event _selectedEvent;
+    private Event _selectedEvent = null!;
     private bool _isEditDate;
     private TimeSpan _time;
     private DateTime _date;
