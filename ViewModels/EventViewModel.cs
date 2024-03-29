@@ -114,4 +114,10 @@ public partial class EventViewModel : ViewModelBase
     {
         SelectedEvent.DateEnd = Date + Time;
     }
+
+    internal string GetPeople()
+    {
+        var peopleIDs = People.Items.Where(o => o.IsSelected).Select(o => o.ID);
+        return string.Join(',', peopleIDs);
+    }
 }
