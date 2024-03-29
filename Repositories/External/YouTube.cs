@@ -70,8 +70,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         };
     }
 
-    public YoutubeMusicData GetMusicData<T>(string url)
-    where T : IItem
+    public YoutubeMusicData GetMusicData<T>(string url) where T : IItem
     {
         using var client = new WebClient();
         var content = client.DownloadData(url);
