@@ -52,8 +52,6 @@ public partial class EventViewModel : ViewModelBase
         }
     }
 
-    public ObservableCollection<PersonComboBoxItem> PeopleList => new(PeopleManager.Instance.GetComboboxList());
-
     private string _selectedPlatformType = string.Empty;
     private string _selectedPersonString = string.Empty;
     private int _newEventChapter = 1;
