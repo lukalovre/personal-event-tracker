@@ -30,7 +30,7 @@ public class MultiSelectDropdownViewModel : INotifyPropertyChanged
             FullName = $"{o.FirstName} {o.LastName} {o.Nickname}"
         }));
 
-        FilteredItems = new ObservableCollection<PersonCheckbox>(Items.OrderBy(o => o.IsSelected));
+        FilteredItems = new ObservableCollection<PersonCheckbox>(Items.OrderByDescending(o => o.IsSelected));
     }
 
     public string SearchText
@@ -70,11 +70,13 @@ public class MultiSelectDropdownViewModel : INotifyPropertyChanged
 
         foreach (var item in Items)
         {
-            if (string.IsNullOrWhiteSpace(SearchText) || item.FullName.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrWhiteSpace(SearchText) || item.FullName.Contains(SearchText, StringComparison.OrdinalIgnoreCase) || item.IsSelected)
             {
                 FilteredItems.Add(item);
             }
         }
+
+        FilteredItems = new ObservableCollection<PersonCheckbox>(FilteredItems.OrderByDescending(o => o.IsSelected));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
