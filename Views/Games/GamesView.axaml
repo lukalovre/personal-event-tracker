@@ -82,12 +82,8 @@
 							<TextBlock Text="Rating" />
 							<NumericUpDown Value="{Binding NewEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" />
 						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">
-							★
-						</CheckBox>
-						<CheckBox IsChecked="{Binding NewEvent.Completed}">
-							Completed
-						</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
 						<TextBox Watermark="Minutes" Text="{Binding NewItemAmount}" />
 						<StackPanel>
