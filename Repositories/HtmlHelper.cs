@@ -49,7 +49,7 @@ public static class HtmlHelper
             return;
         }
 
-        var directory = Path.GetDirectoryName(destinationFile);
+        var directory = Path.GetDirectoryName(destinationFile) ?? string.Empty;
 
         if (!Directory.Exists(directory))
         {
@@ -61,8 +61,13 @@ public static class HtmlHelper
             return;
         }
 
+        DownloadFile(webFile, destinationFile);
+    }
+
+    private static void DownloadFile(string webSource, string destinationFile)
+    {
         using WebClient client = new WebClient();
-        client.DownloadFile(new Uri(webFile), destinationFile);
+        client.DownloadFile(new Uri(webSource), destinationFile);
     }
 
     public static string CleanUrl(string url)
