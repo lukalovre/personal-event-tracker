@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,12 +14,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     public async Task<Music> GetItem(string url)
     {
-        using var client = new WebClient();
-        var content = client.DownloadData(url);
-        using var stream = new MemoryStream(content);
-        var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-        var htmlDocument = new HtmlDocument();
-        htmlDocument.LoadHtml(text);
+        var htmlDocument = HtmlHelper.DownloadWebpage(url);
 
         var title = GetTitle(htmlDocument);
         var artist = GetArtist(htmlDocument);
@@ -45,12 +39,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     async Task<Song> IExternal<Song>.GetItem(string url)
     {
-        using var client = new WebClient();
-        var content = client.DownloadData(url);
-        using var stream = new MemoryStream(content);
-        var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-        var htmlDocument = new HtmlDocument();
-        htmlDocument.LoadHtml(text);
+        var htmlDocument = HtmlHelper.DownloadWebpage(url);
 
         var title = GetTitle(htmlDocument);
         var artist = GetArtist(htmlDocument);

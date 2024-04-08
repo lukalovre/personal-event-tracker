@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -18,14 +17,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     public async Task<TVShow> GetItem(string url)
     {
-        using var client = new WebClient();
-        var content = client.DownloadData(url);
-        using var stream = new MemoryStream(content);
-        string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-
-        var htmlDocument = new HtmlDocument();
-        htmlDocument.LoadHtml(result);
-
+        var htmlDocument = HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
 
         var handle = url.TrimStart("https://www.youtube.com/");
@@ -72,13 +64,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     public YoutubeMusicData GetMusicData<T>(string url) where T : IItem
     {
-        using var client = new WebClient();
-        var content = client.DownloadData(url);
-        using var stream = new MemoryStream(content);
-        string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-
-        var htmlDocument = new HtmlDocument();
-        htmlDocument.LoadHtml(result);
+        var htmlDocument = HtmlHelper.DownloadWebpage(url);
         var node = htmlDocument.DocumentNode.SelectSingleNode("//title");
         var videoTitle = node.InnerHtml.Trim();
 
@@ -202,14 +188,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     async Task<Clip> IExternal<Clip>.GetItem(string url)
     {
-        using var client = new WebClient();
-        var content = client.DownloadData(url);
-        using var stream = new MemoryStream(content);
-        string result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-
-        var htmlDocument = new HtmlDocument();
-        htmlDocument.LoadHtml(result);
-
+        var htmlDocument = HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
 
         var handle = url.TrimStart("https://www.youtube.com/");

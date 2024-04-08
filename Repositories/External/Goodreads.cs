@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -17,48 +16,26 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
     public async Task<Book> GetItem(string url)
     {
-        Book result = new();
 
-        using (var client = new WebClient())
+        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+
+        var title = GetTitle(htmlDocument);
+        var writer = GetWriter(htmlDocument);
+        var year = GetYear(htmlDocument);
+        var goodreadsID = GetGoogreadsID(url);
+        var pages = GetPages(htmlDocument);
+        var imageUrl = GetImageUrl(htmlDocument);
+
+        var destinationFile = Paths.GetTempPath<Book>();
+        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+
+        return new Book
         {
-            byte[]? content = null;
-
-            try
-            {
-                content = client.DownloadData(url);
-            }
-            catch { }
-
-            if (content is null)
-            {
-                return new Book();
-            }
-
-            using var stream = new MemoryStream(content);
-            var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-            var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(text);
-
-            var title = GetTitle(htmlDocument);
-            var writer = GetWriter(htmlDocument);
-            var year = GetYear(htmlDocument);
-            var goodreadsID = GetGoogreadsID(url);
-            var pages = GetPages(htmlDocument);
-            var imageUrl = GetImageUrl(htmlDocument);
-
-            var destinationFile = Paths.GetTempPath<Book>();
-            HtmlHelper.DownloadPNG(imageUrl, destinationFile);
-
-            result = new Book
-            {
-                Title = title,
-                Author = writer,
-                Year = year,
-                ExternalID = goodreadsID
-            };
-        }
-
-        return result;
+            Title = title,
+            Author = writer,
+            Year = year,
+            ExternalID = goodreadsID
+        };
     }
 
     async Task<Comic> IExternal<Comic>.GetItem(string url)
@@ -67,33 +44,25 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
         try
         {
-            using (var client = new WebClient())
+            var htmlDocument = HtmlHelper.DownloadWebpage(url);
+            var title = GetTitle(htmlDocument);
+            var writer = GetWriter(htmlDocument);
+            var year = GetYear(htmlDocument);
+            var goodreadsID = GetGoogreadsID(url);
+            string illustrator = GetIllustrator(htmlDocument);
+            var imageUrl = GetImageUrl(htmlDocument);
+
+            var destinationFile = Paths.GetTempPath<Comic>();
+            HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+
+            result = new Comic
             {
-                var content = client.DownloadData(url);
-                using var stream = new MemoryStream(content);
-                var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
-                var htmlDocument = new HtmlDocument();
-                htmlDocument.LoadHtml(text);
-
-                var title = GetTitle(htmlDocument);
-                var writer = GetWriter(htmlDocument);
-                var year = GetYear(htmlDocument);
-                var goodreadsID = GetGoogreadsID(url);
-                string illustrator = GetIllustrator(htmlDocument);
-                var imageUrl = GetImageUrl(htmlDocument);
-
-                var destinationFile = Paths.GetTempPath<Comic>();
-                HtmlHelper.DownloadPNG(imageUrl, destinationFile);
-
-                result = new Comic
-                {
-                    Title = title,
-                    Writer = writer,
-                    Illustrator = illustrator,
-                    Year = year,
-                    ExternalID = goodreadsID
-                };
-            }
+                Title = title,
+                Writer = writer,
+                Illustrator = illustrator,
+                Year = year,
+                ExternalID = goodreadsID
+            };
         }
         catch { }
 

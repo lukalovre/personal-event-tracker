@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 
 namespace Repositories;
 
@@ -73,5 +74,17 @@ public static class HtmlHelper
     public static string CleanUrl(string url)
     {
         return url?.Split('?')?.FirstOrDefault()?.Trim() ?? string.Empty;
+    }
+
+    internal static HtmlDocument DownloadWebpage(string url)
+    {
+        using var client = new WebClient();
+        var content = client.DownloadData(url);
+        using var stream = new MemoryStream(content);
+        var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+        var htmlDocument = new HtmlDocument();
+        htmlDocument.LoadHtml(text);
+
+        return htmlDocument;
     }
 }
