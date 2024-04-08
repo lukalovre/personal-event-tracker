@@ -230,7 +230,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     {
         var amount = NewItemAmountOverride ?? NewItemAmount;
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
-        var dateStart = CalculateDateStart(dateEnd, amount);
         var people = People.GetPeople();
 
         NewEvent ??= new Event();
@@ -240,7 +239,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             ID = 0,
             ItemID = 0,
             ExternalID = string.Empty,
-            DateStart = dateStart,
             DateEnd = dateEnd,
             Rating = NewEvent.Rating,
             Bookmakred = NewEvent.Bookmakred,
@@ -271,7 +269,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var dateEnd = !EventViewModel.IsEditDate
         ? DateTime.Now
         : EventViewModel.SelectedEvent.DateEnd.Value;
-        var dateStart = CalculateDateStart(dateEnd, amount);
 
         var people = EventViewModel.People.GetPeople();
 
@@ -280,7 +277,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             ID = 0,
             ItemID = 0,
             ExternalID = string.Empty,
-            DateStart = dateStart,
             DateEnd = dateEnd,
             Rating = lastEvent?.Rating ?? 0,
             Bookmakred = lastEvent?.Bookmakred ?? false,
@@ -311,12 +307,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         // GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
-    private DateTime CalculateDateStart(DateTime dateEnd, int amount)
-    {
-        return dateEnd.TimeOfDay.Ticks == 0
-             ? dateEnd
-             : dateEnd.AddMinutes(-amount * AmountToMinutesModifier);
-    }
     private void ClearNewItemControls()
     {
         NewItem = default;

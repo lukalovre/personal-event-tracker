@@ -9,7 +9,6 @@ public record Event
     public int ID { get; set; }
     public int ItemID { get; set; }
     public string ExternalID { get; set; } = string.Empty;
-    public DateTime? DateStart { get; set; }
     public DateTime? DateEnd { get; set; }
     public int? Rating { get; set; }
     public bool Bookmakred { get; set; }
