@@ -63,112 +63,108 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     private static string GetImageUrl(HtmlDocument htmlDocument)
     {
-        try
-        {
-            return htmlDocument.DocumentNode
-                .SelectSingleNode("//a[@class='popupImage']")
-                .Attributes["href"].Value.Trim();
-        }
-        catch
-        {
-            return null;
-        }
+        return htmlDocument
+            ?.DocumentNode
+            ?.SelectSingleNode("//a[@class='popupImage']")
+            ?.Attributes["href"]
+            ?.Value
+            ?.Trim()
+            ?? string.Empty;
     }
 
     private static int GetRuntime(HtmlDocument htmlDocument)
     {
-        var result = 0;
+        var totalHours = 0;
+        var totalMinutes = 0;
+        var totalSeconds = 0;
 
-        try
+        var timeNodes = htmlDocument
+            ?.DocumentNode
+            ?.SelectNodes("//span[contains(@class, 'time secondaryText')]");
+
+        if (timeNodes == null)
         {
-            var totalHours = 0;
-            var totalMinutes = 0;
-            var totalSeconds = 0;
+            return 0;
+        }
 
-            var timeNodes = htmlDocument.DocumentNode.SelectNodes("//span[contains(@class, 'time secondaryText')]");
+        foreach (var item in timeNodes)
+        {
+            var timeString = item.InnerText.Trim();
+            var split = timeString.Split(':');
 
-            foreach (var item in timeNodes)
+            var hours = 0;
+            var minutes = 0;
+            var seconds = 0;
+
+            if (split.Length == 2)
             {
-                var timeString = item.InnerText.Trim();
-                var split = timeString.Split(':');
-
-                var hours = 0;
-                var minutes = 0;
-                var seconds = 0;
-
-                if (split.Length == 2)
-                {
-                    minutes = Convert.ToInt32(split[0]);
-                    seconds = Convert.ToInt32(split[1]);
-                }
-
-                if (split.Length == 3)
-                {
-                    hours = Convert.ToInt32(split[0]);
-                    minutes = Convert.ToInt32(split[1]);
-                    seconds = Convert.ToInt32(split[2]);
-                }
-
-                totalHours += hours;
-                totalMinutes += minutes;
-                totalSeconds += seconds;
+                minutes = Convert.ToInt32(split[0]);
+                seconds = Convert.ToInt32(split[1]);
             }
 
-            result = totalMinutes
-            + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero)
-            + totalHours * 60;
-        }
-        catch { }
+            if (split.Length == 3)
+            {
+                hours = Convert.ToInt32(split[0]);
+                minutes = Convert.ToInt32(split[1]);
+                seconds = Convert.ToInt32(split[2]);
+            }
 
-        return result;
+            totalHours += hours;
+            totalMinutes += minutes;
+            totalSeconds += seconds;
+        }
+
+        return totalMinutes
+        + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero)
+        + totalHours * 60;
     }
 
     private static int GetRuntimeSong(HtmlDocument htmlDocument)
     {
-        var result = 0;
 
-        try
+        var totalHours = 0;
+        var totalMinutes = 0;
+        var totalSeconds = 0;
+
+        var timeNodes = htmlDocument
+            ?.DocumentNode
+            ?.SelectNodes("//span[contains(@class, 'time_total')]");
+
+        if (timeNodes == null)
         {
-            var totalHours = 0;
-            var totalMinutes = 0;
-            var totalSeconds = 0;
+            return 0;
+        }
 
-            var timeNodes = htmlDocument.DocumentNode.SelectNodes("//span[contains(@class, 'time_total')]");
+        foreach (var item in timeNodes)
+        {
+            var timeString = item.InnerText.Trim();
+            var split = timeString.Split(':');
 
-            foreach (var item in timeNodes)
+            var hours = 0;
+            var minutes = 0;
+            var seconds = 0;
+
+            if (split.Length == 2)
             {
-                var timeString = item.InnerText.Trim();
-                var split = timeString.Split(':');
-
-                var hours = 0;
-                var minutes = 0;
-                var seconds = 0;
-
-                if (split.Length == 2)
-                {
-                    minutes = Convert.ToInt32(split[0]);
-                    seconds = Convert.ToInt32(split[1]);
-                }
-
-                if (split.Length == 3)
-                {
-                    hours = Convert.ToInt32(split[0]);
-                    minutes = Convert.ToInt32(split[1]);
-                    seconds = Convert.ToInt32(split[2]);
-                }
-
-                totalHours += hours;
-                totalMinutes += minutes;
-                totalSeconds += seconds;
+                minutes = Convert.ToInt32(split[0]);
+                seconds = Convert.ToInt32(split[1]);
             }
 
-            result = totalMinutes
-            + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero)
-            + totalHours * 60;
-        }
-        catch { }
+            if (split.Length == 3)
+            {
+                hours = Convert.ToInt32(split[0]);
+                minutes = Convert.ToInt32(split[1]);
+                seconds = Convert.ToInt32(split[2]);
+            }
 
-        return result;
+            totalHours += hours;
+            totalMinutes += minutes;
+            totalSeconds += seconds;
+        }
+
+        return totalMinutes
+        + (int)Math.Round(totalSeconds / 60f, MidpointRounding.AwayFromZero)
+        + totalHours * 60;
     }
 
     private static string GetLink(HtmlDocument htmlDocument)
