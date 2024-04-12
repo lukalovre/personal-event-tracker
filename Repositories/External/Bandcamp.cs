@@ -14,7 +14,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     public async Task<Music> GetItem(string url)
     {
-        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
 
         var title = GetTitle(htmlDocument);
         var artist = GetArtist(htmlDocument);
@@ -23,7 +23,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
         var runtime = GetRuntime(htmlDocument);
         var imageUrl = GetImageUrl(htmlDocument);
 
-        string destinationFile = Paths.GetTempPath<Music>();
+        var destinationFile = Paths.GetTempPath<Music>();
         HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         return new Music
@@ -39,7 +39,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     async Task<Song> IExternal<Song>.GetItem(string url)
     {
-        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
 
         var title = GetTitle(htmlDocument);
         var artist = GetArtist(htmlDocument);

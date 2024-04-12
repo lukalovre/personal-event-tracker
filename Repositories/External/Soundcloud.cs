@@ -14,7 +14,7 @@ public class Soundcloud : IExternal<Song>
 
     public async Task<Song> GetItem(string url)
     {
-        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
         var artist = GetArtist(htmlDocument);
         var year = GetYear(htmlDocument);

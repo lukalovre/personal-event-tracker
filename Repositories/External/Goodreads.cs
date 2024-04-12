@@ -17,7 +17,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
     public async Task<Book> GetItem(string url)
     {
 
-        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
 
         var title = GetTitle(htmlDocument);
         var writer = GetWriter(htmlDocument);
@@ -44,7 +44,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
         try
         {
-            var htmlDocument = HtmlHelper.DownloadWebpage(url);
+            var htmlDocument = await HtmlHelper.DownloadWebpage(url);
             var title = GetTitle(htmlDocument);
             var writer = GetWriter(htmlDocument);
             var year = GetYear(htmlDocument);

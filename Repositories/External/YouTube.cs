@@ -17,7 +17,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     public async Task<TVShow> GetItem(string url)
     {
-        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
 
         var handle = url.TrimStart("https://www.youtube.com/");
@@ -50,7 +50,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     async Task<Song> IExternal<Song>.GetItem(string url)
     {
-        var data = GetMusicData<Song>(url);
+        var data = await GetMusicData<Song>(url);
 
         return new Song
         {
@@ -62,9 +62,9 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         };
     }
 
-    public YoutubeMusicData GetMusicData<T>(string url) where T : IItem
+    public async Task<YoutubeMusicData> GetMusicData<T>(string url) where T : IItem
     {
-        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
         var node = htmlDocument.DocumentNode.SelectSingleNode("//title");
         var videoTitle = node.InnerHtml.Trim();
 
@@ -174,7 +174,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     async Task<Music> IExternal<Music>.GetItem(string url)
     {
-        var data = GetMusicData<Music>(url);
+        var data = await GetMusicData<Music>(url);
 
         return new Music
         {
@@ -188,7 +188,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     async Task<Clip> IExternal<Clip>.GetItem(string url)
     {
-        var htmlDocument = HtmlHelper.DownloadWebpage(url);
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
 
         var handle = url.TrimStart("https://www.youtube.com/");

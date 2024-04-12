@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace Repositories;
@@ -76,7 +77,7 @@ public static class HtmlHelper
         return url?.Split('?')?.FirstOrDefault()?.Trim() ?? string.Empty;
     }
 
-    internal static HtmlDocument DownloadWebpage(string url)
+    internal async static Task<HtmlDocument> DownloadWebpage(string url)
     {
         using var client = new WebClient();
         var content = client.DownloadData(url);
