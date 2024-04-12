@@ -8,7 +8,6 @@ public record Music : IItem
 {
     [Key]
     public int ID { get; set; }
-    public int ItemID { get; set; }
     public string Artist { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public int Year { get; set; }
