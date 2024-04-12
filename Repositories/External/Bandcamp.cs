@@ -121,7 +121,6 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     private static int GetRuntimeSong(HtmlDocument htmlDocument)
     {
-
         var totalHours = 0;
         var totalMinutes = 0;
         var totalSeconds = 0;
@@ -169,67 +168,52 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     private static string GetLink(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-                .SelectSingleNode("//meta[@property='og:url']")
-                .Attributes["content"].Value.Trim();
-        }
-        catch { }
-
-        return result;
+        return htmlDocument
+            ?.DocumentNode
+            ?.SelectSingleNode("//meta[@property='og:url']")
+            ?.Attributes["content"]
+            ?.Value
+            ?.Trim()
+            ?? string.Empty;
     }
 
     private static int GetYear(HtmlDocument htmlDocument)
     {
-        var result = 0;
+        var result = htmlDocument
+                    ?.DocumentNode
+                    ?.SelectSingleNode("//div[@class='tralbumData tralbum-credits']")
+                    ?.InnerText
+                    ?.Trim()
+                    ?? string.Empty;
 
-        try
-        {
-            result = HtmlHelper.GetYear(
-                    htmlDocument.DocumentNode
-                        .SelectSingleNode("//div[@class='tralbumData tralbum-credits']")
-                        .InnerText.Trim());
-        }
-        catch { }
+        return HtmlHelper.GetYear(result);
 
-        return result;
     }
 
     private static string GetArtist(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-                .SelectSingleNode("//meta[@property='og:title']")
-                .Attributes["content"].Value
-                .Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
-                .LastOrDefault()
-                .Trim();
-        }
-        catch { }
+        var result = htmlDocument
+        ?.DocumentNode
+        ?.SelectSingleNode("//meta[@property='og:title']")
+        ?.Attributes["content"].Value
+        ?.Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
+        ?.LastOrDefault()
+        ?.Trim()
+        ?? string.Empty;
 
         return WebUtility.HtmlDecode(result);
     }
 
     private static string GetTitle(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-                .SelectSingleNode("//meta[@property='og:title']")
-                .Attributes["content"].Value
-                .Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
-                .FirstOrDefault()
-                .Trim();
-        }
-        catch { }
+        var result = htmlDocument
+            ?.DocumentNode
+            ?.SelectSingleNode("//meta[@property='og:title']")
+            ?.Attributes["content"].Value
+            ?.Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
+            ?.FirstOrDefault()
+            ?.Trim()
+            ?? string.Empty;
 
         return WebUtility.HtmlDecode(result);
     }

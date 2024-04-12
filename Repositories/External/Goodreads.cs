@@ -71,37 +71,26 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
     private static string GetIllustrator(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-            .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
-            .LastOrDefault()
-            .InnerText.Trim()
-            .TrimEnd("(Illustrator)")
-            .Trim();
-        }
-        catch { }
-
-        return result;
+        return htmlDocument
+                    ?.DocumentNode
+                    ?.SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
+                    ?.LastOrDefault()
+                    ?.InnerText.Trim()
+                    ?.TrimEnd("(Illustrator)")
+                    ?.Trim()
+                    ?? string.Empty;
     }
 
     private string GetImageUrl(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
+        return htmlDocument
+                        ?.DocumentNode
+                        ?.SelectNodes("//img[contains(@class, 'ResponsiveImage')]")
+                        ?.FirstOrDefault()
+                        ?.Attributes["src"]
+                        ?.Value
+                        ?? string.Empty;
 
-        try
-        {
-            result = htmlDocument.DocumentNode
-               .SelectNodes("//img[contains(@class, 'ResponsiveImage')]")
-               .FirstOrDefault()
-               .Attributes["src"]
-               .Value;
-        }
-        catch { }
-
-        return result;
     }
 
     private static int GetGoogreadsID(string url)
@@ -119,91 +108,68 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
     private static int GetYear(HtmlDocument htmlDocument)
     {
+        var result = htmlDocument
+                        ?.DocumentNode
+                        ?.SelectNodes("//p[contains(@data-testid, 'publicationInfo')]")
+                        ?.FirstOrDefault()
+                        ?.InnerText
+                        ?.Trim()
+                        ?? string.Empty;
 
-        var result = 0;
-
-        try
-        {
-
-            result = Convert.ToInt32(
-                HtmlHelper.GetYear(
-                    htmlDocument.DocumentNode
-                        .SelectNodes("//p[contains(@data-testid, 'publicationInfo')]")
-                        .FirstOrDefault()
-                        .InnerText.Trim()
-                )
-            );
-        }
-        catch { }
-
-        return result;
+        return Convert.ToInt32(HtmlHelper.GetYear(result));
     }
 
     private static string GetWriter(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
+        var result = htmlDocument.DocumentNode
+               ?.SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
+               ?.FirstOrDefault()
+               ?.InnerText
+               ?.Replace("(Goodreads Author)", "")
+               ?.Trim()
+               ?.TrimEnd(',')
+               ?? string.Empty;
 
-        try
-        {
-            result = htmlDocument.DocumentNode
-               .SelectNodes("//span[contains(@class, 'ContributorLink__name')]")
-               .FirstOrDefault()
-               .InnerText.Replace("(Goodreads Author)", "")
-               .Trim()
-               .TrimEnd(',');
-        }
-        catch { }
-
-        return WebUtility.HtmlDecode(result); ;
+        return WebUtility.HtmlDecode(result);
     }
 
     private static string GetTitle(HtmlDocument htmlDocument)
     {
-        var result = string.Empty;
-
-        try
-        {
-            result = htmlDocument.DocumentNode
-               .SelectNodes("//h1[contains(@class, 'Text Text__title1')]")
-               .FirstOrDefault()
-               .InnerText.Trim()
-               .TrimEnd(", Volume 1")
-               .TrimEnd(", Vol. 1")
-               .Trim();
-        }
-        catch { }
+        var result = htmlDocument
+               ?.DocumentNode
+               ?.SelectNodes("//h1[contains(@class, 'Text Text__title1')]")
+               ?.FirstOrDefault()
+               ?.InnerText.Trim()
+               ?.TrimEnd(", Volume 1")
+               ?.TrimEnd(", Vol. 1")
+               ?.Trim()
+               ?? string.Empty;
 
         return WebUtility.HtmlDecode(result);
     }
 
     public static int GetPages(HtmlDocument htmlDocument)
     {
+        var str = htmlDocument
+        ?.DocumentNode
+        ?.SelectNodes("//p[contains(@data-testid, 'pagesFormat')]")
+        ?.FirstOrDefault()
+        ?.InnerText
+        ?.Trim()
+        ?? string.Empty;
 
-        var result = 0;
+        var rows = str.Split('\n');
+        var pagesRow = rows.FirstOrDefault(o => o.Contains("pages"));
 
-        try
+        if (pagesRow == null)
         {
-
-            var str = htmlDocument.DocumentNode
-                                               .SelectNodes("//p[contains(@data-testid, 'pagesFormat')]")
-                                               .FirstOrDefault()
-                                               .InnerText.Trim();
-
-            var rows = str.Split('\n');
-            var pagesRow = rows.FirstOrDefault(o => o.Contains("pages"));
-
-            if (pagesRow == null)
-            {
-                return 0;
-            }
-
-            var pageString = Regex.Match(pagesRow, @"\d+").Value;
-
-            result = int.Parse(pageString);
+            return 0;
         }
-        catch { }
+
+        var pageString = Regex.Match(pagesRow, @"\d+").Value;
+
+        var result = int.Parse(pageString);
 
         return result;
-
     }
 }
