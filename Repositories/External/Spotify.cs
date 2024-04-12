@@ -25,7 +25,7 @@ public class Spotify : IExternal<Music>
             return new Music();
         }
 
-        var album = client.Albums.Get(albumID).Result;
+        var album = await client.Albums.Get(albumID);
 
         var destinationFile = Paths.GetTempPath<Music>();
         HtmlHelper.DownloadPNG(album.Images.FirstOrDefault()?.Url, destinationFile);

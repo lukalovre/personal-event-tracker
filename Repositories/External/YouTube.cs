@@ -108,24 +108,31 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     private static string GetUrl(string url)
     {
-        url = url.Split(new string[] { "&list=" }, StringSplitOptions.None).FirstOrDefault();
-        return url;
+        return url
+        ?.Split(new string[] { "&list=" }, StringSplitOptions.None)
+        ?.FirstOrDefault()
+        ?? string.Empty;
     }
 
     private static int GetYear(HtmlDocument htmlDocument)
     {
-        var yearNode = htmlDocument.DocumentNode.SelectSingleNode(
-            "//meta[contains(@itemprop, 'datePublished')]"
-        );
+        var yearNode = htmlDocument
+        ?.DocumentNode
+        ?.SelectSingleNode("//meta[contains(@itemprop, 'datePublished')]");
 
         if (yearNode == null)
         {
             return 0;
         }
 
-        var yearText = yearNode.GetAttributeValue("content", string.Empty).Trim();
-        var year = int.Parse(yearText.Split('-').FirstOrDefault());
-        return year;
+        var yearText = yearNode
+        ?.GetAttributeValue("content", string.Empty)
+        ?.Trim()
+        ?.Split('-')
+        ?.FirstOrDefault()
+        ?? string.Empty;
+
+        return Convert.ToInt32(yearText);
     }
 
     private static string GetImageUrl(HtmlDocument htmlDocument)

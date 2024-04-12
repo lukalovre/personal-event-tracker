@@ -21,7 +21,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
     {
         string inputImdb = GetImdbID(url);
 
-        var imdbData = GetDataFromAPI<Movie>(inputImdb);
+        var imdbData = await GetDataFromAPI<Movie>(inputImdb);
 
         var runtime = GetRuntime(imdbData.Runtime);
         int year = GetYear(imdbData.Year);
@@ -47,7 +47,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
     {
         string inputImdb = GetImdbID(url);
 
-        var imdbData = GetDataFromAPI<TVShow>(inputImdb);
+        var imdbData = await GetDataFromAPI<TVShow>(inputImdb);
 
         var runtime = GetRuntime(imdbData.Runtime);
         int year = GetYear(imdbData.Year);
@@ -98,8 +98,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         return 0;
     }
 
-    public static ImdbData GetDataFromAPI<T>(string imdbID)
-        where T : IItem
+    public static async Task<ImdbData> GetDataFromAPI<T>(string imdbID) where T : IItem
     {
         using var client = new HttpClient { BaseAddress = new Uri("http://www.omdbapi.com/") };
 
@@ -110,8 +109,13 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         var keyFilePath = Paths.GetAPIKeyFilePath(API_KEY_FILE_NAME);
         var apiKey = File.ReadAllText(keyFilePath);
 
-        var response = client.GetAsync($"?i={imdbID}&apikey={apiKey}").Result;
-        var imdbData = response.Content.ReadFromJsonAsync<ImdbData>().Result;
+        var response = await client.GetAsync($"?i={imdbID}&apikey={apiKey}");
+        var imdbData = await response.Content.ReadFromJsonAsync<ImdbData>();
+
+        if (imdbData is null)
+        {
+            return new ImdbData();
+        }
 
         var destinationFile = Paths.GetTempPath<T>();
         HtmlHelper.DownloadPNG(imdbData.Poster, destinationFile);
@@ -127,14 +131,17 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
 
     private static string GetImdbID(string url)
     {
-        return url.Split('/').FirstOrDefault(i => i.StartsWith("tt"));
+        return url
+        ?.Split('/')
+        ?.FirstOrDefault(i => i.StartsWith("tt"))
+        ?? string.Empty;
     }
 
     async Task<Standup> IExternal<Standup>.GetItem(string url)
     {
         string inputImdb = GetImdbID(url);
 
-        var imdbData = GetDataFromAPI<Standup>(inputImdb);
+        var imdbData = await GetDataFromAPI<Standup>(inputImdb);
 
         var runtime = GetRuntime(imdbData.Runtime);
         int year = GetYear(imdbData.Year);
