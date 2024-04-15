@@ -16,7 +16,20 @@ public class Spotify : IExternal<Music>
 
     public async Task<Music> GetItem(string url)
     {
-        var albumID = url.Split('/').LastOrDefault();
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return new Music();
+        }
+
+        var albumID = url
+        ?.Split('/')
+        ?.LastOrDefault()
+        ?? null;
+
+        if (string.IsNullOrWhiteSpace(albumID))
+        {
+            return new Music();
+        }
 
         var client = GetClient();
 
@@ -27,20 +40,58 @@ public class Spotify : IExternal<Music>
 
         var album = await client.Albums.Get(albumID);
 
+        if (album is null)
+        {
+            return new Music();
+        }
+
+        var imageUrl = album
+            ?.Images
+            ?.FirstOrDefault()
+            ?.Url
+            ?? string.Empty;
         var destinationFile = Paths.GetTempPath<Music>();
-        HtmlHelper.DownloadPNG(album.Images.FirstOrDefault()?.Url, destinationFile);
+        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+
+        var artistArray = album
+        ?.Artists
+        ?.Select(x => x.Name)
+        ?.ToArray()
+        ?? [];
+        var artist = string.Join(" and ", artistArray);
+
+        var title = album?.Name ?? string.Empty;
+
+        var releaseDate = album?.ReleaseDate ?? DateTime.Now.Year.ToString();
+
+        int year = 0;
+
+        if (releaseDate?.Length == "1996"?.Length)
+        {
+            year = Convert.ToInt32(releaseDate);
+        }
+        else
+        {
+            if (DateTime.TryParse(releaseDate, out var parsedDate))
+            {
+                year = parsedDate.Year;
+            }
+        }
+
+        var runtime = album
+        ?.Tracks
+        ?.Items
+        ?.Sum(o => o.DurationMs) / 1000 / 60
+        ?? 0;
 
         return new Music
         {
-            Artist = string.Join(" and ", album.Artists.Select(x => x.Name).ToArray()),
-            Title = album.Name,
-            Year =
-                album.ReleaseDate.Length == "1996".Length
-                    ? int.Parse(album.ReleaseDate)
-                    : DateTime.Parse(album.ReleaseDate).Year,
+            Artist = artist,
+            Title = title,
+            Year = year,
             _1001 = false,
-            Runtime = album.Tracks.Items.Sum(o => o.DurationMs) / 1000 / 60,
-            ExternalID = url
+            Runtime = runtime,
+            ExternalID = url ?? string.Empty
         };
     }
 
@@ -54,7 +105,7 @@ public class Spotify : IExternal<Music>
         if (lines.Length == 0)
         {
             // Api keys missing.
-            return null;
+            return null!;
         }
 
         var clientId = lines[0];

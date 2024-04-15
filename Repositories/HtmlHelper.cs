@@ -37,7 +37,7 @@ public static class HtmlHelper
 
     internal static void DownloadPNG(string webFile, string destinationFile)
     {
-        if (string.IsNullOrEmpty(webFile))
+        if (string.IsNullOrWhiteSpace(webFile))
         {
             return;
         }

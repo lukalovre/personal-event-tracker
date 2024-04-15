@@ -87,7 +87,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         var destinationFile = Paths.GetTempPath<T>();
         HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        artist = WebUtility.HtmlDecode(artist);
+        artist = WebUtility.HtmlDecode(artist) ?? string.Empty;
         title = WebUtility.HtmlDecode(title);
 
         return new YoutubeMusicData(title, artist, year, runtime, link);
@@ -100,8 +100,8 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         );
         var runtimeText = runtimeNode.GetAttributeValue("content", string.Empty).Trim();
         var runtimeSplit = runtimeText.TrimStart("PT").TrimEnd("S").Split('M');
-        var runtimeMinutes = int.Parse(runtimeSplit.FirstOrDefault());
-        var runtimeSeconds = int.Parse(runtimeSplit.LastOrDefault());
+        var runtimeMinutes = Convert.ToInt32(runtimeSplit?.FirstOrDefault() ?? "0");
+        var runtimeSeconds = Convert.ToInt32(runtimeSplit?.LastOrDefault() ?? "0");
         var runtime = runtimeMinutes + (runtimeSeconds > 30 ? 1 : 0);
         return runtime;
     }
@@ -176,7 +176,11 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     private static string GetArtist(string videoTitle)
     {
-        return videoTitle.Split(" - ")[0].Trim();
+        return videoTitle
+        ?.Split(" - ")
+        .FirstOrDefault()
+        ?.Trim()
+        ?? string.Empty;
     }
 
     async Task<Music> IExternal<Music>.GetItem(string url)
