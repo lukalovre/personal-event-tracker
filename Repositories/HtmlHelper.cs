@@ -74,7 +74,11 @@ public static class HtmlHelper
 
     public static string CleanUrl(string url)
     {
-        return url?.Split('?')?.FirstOrDefault()?.Trim() ?? string.Empty;
+        return url
+        ?.Split('?')
+        ?.FirstOrDefault()
+        ?.Trim()
+        ?? string.Empty;
     }
 
     internal async static Task<HtmlDocument> DownloadWebpage(string url)

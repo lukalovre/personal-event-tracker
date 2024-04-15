@@ -54,13 +54,13 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     private TItem _newItem = default!;
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
-    private Event _newEvent;
+    private Event _newEvent = new();
     private bool _useNewDate;
-    private TItem _selectedItem;
+    private TItem _selectedItem = default!;
 
     private int _gridCountItemsBookmarked;
     private int _addAmount;
-    private string _addAmountString;
+    private string _addAmountString = string.Empty;
 
     public EventViewModel EventViewModel { get; }
     public GridFilterViewModel GridFilterViewModel { get; }
@@ -76,7 +76,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     }
 
     private int _newAmount;
-    private string _inputUrl;
+    private string _inputUrl = string.Empty;
     private bool _isFullAmount;
     private int _newItemAmount;
 
@@ -180,6 +180,11 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     private int SetAmount(int value)
     {
+        if (SelectedItem is null)
+        {
+            return 0;
+        }
+
         var events = _eventList.Where(o => o.ItemID == SelectedItem.ID);
         var currentAmount = IsFullAmount ? 0 : GetItemAmount(events);
         var newAmount = value - currentAmount;
@@ -263,14 +268,14 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var lastEvent = Events.MaxBy(o => o.DateEnd) ?? Events.LastOrDefault();
 
         var amount = _newAmount == 0
-        ? lastEvent.Amount
+        ? lastEvent?.Amount ?? 0
         : _newAmount;
 
         var dateEnd = !EventViewModel.IsEditDate
         ? DateTime.Now
-        : EventViewModel.SelectedEvent.DateEnd.Value;
+        : EventViewModel?.SelectedEvent?.DateEnd ?? DateTime.Now;
 
-        var people = EventViewModel.People.GetPeople();
+        var people = EventViewModel?.People.GetPeople() ?? string.Empty;
 
         var newEvent = new Event
         {
@@ -286,7 +291,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             Completed = lastEvent?.Completed ?? false,
             Comment = lastEvent?.Comment ?? string.Empty,
             People = people,
-            Platform = EventViewModel.SelectedPlatformType,
+            Platform = EventViewModel?.SelectedPlatformType ?? string.Empty,
             LocationID = lastEvent?.LocationID
         };
 
@@ -309,8 +314,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     private void ClearNewItemControls()
     {
-        NewItem = default;
-        NewEvent = default;
         NewImage = default;
     }
 
