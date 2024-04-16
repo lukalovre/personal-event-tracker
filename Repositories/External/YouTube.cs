@@ -41,11 +41,12 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     private static string GetTitle(HtmlDocument htmlDocument)
     {
-        var node = htmlDocument.DocumentNode.SelectSingleNode(
-            "//meta[contains(@property, 'og:title')]"
-        );
-
-        return node.GetAttributeValue("content", string.Empty).Trim();
+        return htmlDocument
+        ?.DocumentNode
+        ?.SelectSingleNode("//meta[contains(@property, 'og:title')]")
+        ?.GetAttributeValue("content", string.Empty)
+        .Trim()
+        ?? string.Empty;
     }
 
     async Task<Song> IExternal<Song>.GetItem(string url)
@@ -65,6 +66,12 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
     public async Task<YoutubeMusicData> GetMusicData<T>(string url) where T : IItem
     {
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
+
+        if (htmlDocument is null)
+        {
+            return default!;
+        }
+
         var node = htmlDocument.DocumentNode.SelectSingleNode("//title");
         var videoTitle = node.InnerHtml.Trim();
 
@@ -74,9 +81,12 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         if (title == "YouTube")
         {
             title = artist;
-
-            var channelNameNode = htmlDocument.DocumentNode.SelectSingleNode("//meta[contains(@property, 'og:video:tag')]");
-            artist = channelNameNode?.GetAttributeValue("content", string.Empty).Trim();
+            artist = htmlDocument
+            ?.DocumentNode
+            ?.SelectSingleNode("//meta[contains(@property, 'og:video:tag')]")
+            ?.GetAttributeValue("content", string.Empty)
+            ?.Trim()
+            ?? string.Empty;
         }
 
         var link = GetUrl(url);
