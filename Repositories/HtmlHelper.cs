@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -35,7 +35,7 @@ public static class HtmlHelper
         OpenLink(link);
     }
 
-    internal static void DownloadPNG(string webFile, string destinationFile)
+    internal async static Task DownloadPNG(string webFile, string destinationFile)
     {
         if (string.IsNullOrWhiteSpace(webFile))
         {
@@ -63,13 +63,18 @@ public static class HtmlHelper
             return;
         }
 
-        DownloadFile(webFile, destinationFile);
+        await DownloadFile(webFile, destinationFile);
     }
 
-    private static void DownloadFile(string webSource, string destinationFile)
+    private async static Task DownloadFile(string imageUrl, string imagePath)
     {
-        using WebClient client = new WebClient();
-        client.DownloadFile(new Uri(webSource), destinationFile);
+        using var httpClient = new HttpClient();
+        using var response = await httpClient.GetAsync(imageUrl, HttpCompletionOption.ResponseHeadersRead);
+        response.EnsureSuccessStatusCode();
+        using var ms = await response.Content.ReadAsStreamAsync();
+        using var fs = File.Create(imagePath);
+        await ms.CopyToAsync(fs);
+        fs.Flush();
     }
 
     public static string CleanUrl(string url)
@@ -83,10 +88,8 @@ public static class HtmlHelper
 
     internal async static Task<HtmlDocument> DownloadWebpage(string url)
     {
-        using var client = new WebClient();
-        var content = client.DownloadData(url);
-        using var stream = new MemoryStream(content);
-        var text = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+        using var client = new HttpClient();
+        var text = await client.GetStringAsync(url);
         var htmlDocument = new HtmlDocument();
         htmlDocument.LoadHtml(text);
 

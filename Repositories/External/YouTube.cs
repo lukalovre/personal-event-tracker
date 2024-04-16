@@ -85,7 +85,7 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         var imageUrl = GetImageUrl(htmlDocument);
 
         var destinationFile = Paths.GetTempPath<T>();
-        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         artist = WebUtility.HtmlDecode(artist) ?? string.Empty;
         title = WebUtility.HtmlDecode(title);

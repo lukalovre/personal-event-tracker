@@ -51,7 +51,7 @@ public class Spotify : IExternal<Music>
             ?.Url
             ?? string.Empty;
         var destinationFile = Paths.GetTempPath<Music>();
-        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         var artistArray = album
         ?.Artists

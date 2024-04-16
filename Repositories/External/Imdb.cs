@@ -118,7 +118,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         }
 
         var destinationFile = Paths.GetTempPath<T>();
-        HtmlHelper.DownloadPNG(imdbData.Poster, destinationFile);
+        await HtmlHelper.DownloadPNG(imdbData.Poster, destinationFile);
 
         return imdbData;
     }

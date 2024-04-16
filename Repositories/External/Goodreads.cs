@@ -27,7 +27,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
         var imageUrl = GetImageUrl(htmlDocument);
 
         var destinationFile = Paths.GetTempPath<Book>();
-        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         return new Book
         {
@@ -53,7 +53,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
             var imageUrl = GetImageUrl(htmlDocument);
 
             var destinationFile = Paths.GetTempPath<Comic>();
-            HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+            await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
             result = new Comic
             {

@@ -38,7 +38,7 @@ public class Igdb : IExternal<Game>
         var coverUrl = $"https://images.igdb.com/igdb/image/upload/t_cover_big/{imageId}.jpg";
 
         var destinationFile = Paths.GetTempPath<Game>();
-        HtmlHelper.DownloadPNG(coverUrl, destinationFile);
+        await HtmlHelper.DownloadPNG(coverUrl, destinationFile);
 
         return new Game
         {

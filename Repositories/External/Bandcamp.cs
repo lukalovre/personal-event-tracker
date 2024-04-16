@@ -24,7 +24,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
         var imageUrl = GetImageUrl(htmlDocument);
 
         var destinationFile = Paths.GetTempPath<Music>();
-        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         return new Music
         {
@@ -49,7 +49,7 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
         var imageUrl = GetImageUrl(htmlDocument);
 
         string destinationFile = Paths.GetTempPath<Song>();
-        HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         return new Song
         {
