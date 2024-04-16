@@ -61,7 +61,7 @@
 						<TextBox Watermark = "ExternalID" Text="{Binding SelectedEvent.ExternalID}" Width="185" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="80" />
+						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="80" TextWrapping="Wrap"/>
 						<TextBlock Text="		 " />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>
