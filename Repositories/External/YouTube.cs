@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.ViewModels.Extensions;
@@ -243,6 +244,17 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     private string GetChannelName(HtmlDocument htmlDocument)
     {
+        var text = htmlDocument.ParsedText;
+        var match = Regex.Match(text, "\"author\":\"(.*?)\"");
+
+        if (match.Success)
+        {
+            return match
+            ?.Groups[1]
+            ?.Value
+            ?? string.Empty;
+        }
+
         return string.Empty;
     }
 
