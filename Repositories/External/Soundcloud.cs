@@ -8,7 +8,7 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Soundcloud : IExternal<Song>
+public class Soundcloud : IExternal<Song>, IExternal<Music>
 {
     public static string UrlIdentifier => "soundcloud.com";
 
@@ -125,4 +125,27 @@ public class Soundcloud : IExternal<Song>
         return WebUtility.HtmlDecode(result.Trim());
     }
 
+    async Task<Music> IExternal<Music>.GetItem(string url)
+    {
+        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
+        var title = GetTitle(htmlDocument);
+        var artist = GetArtist(htmlDocument);
+        var year = GetYear(htmlDocument);
+        var link = GetLink(htmlDocument);
+        var runtime = GetRuntimeSong(htmlDocument);
+        var imageUrl = GetImageUrl(htmlDocument);
+
+        string destinationFile = Paths.GetTempPath<Music>();
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+
+        return new Music
+        {
+            Title = title,
+            Artist = artist,
+            Year = year,
+            Runtime = runtime,
+            _1001 = false,
+            ExternalID = link
+        };
+    }
 }
