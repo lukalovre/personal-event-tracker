@@ -98,7 +98,7 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         return 0;
     }
 
-    public static async Task<ImdbData> GetDataFromAPI<T>(string imdbID) where T : IItem
+    public static async Task<ImdbItem> GetDataFromAPI<T>(string imdbID) where T : IItem
     {
         using var client = new HttpClient { BaseAddress = new Uri("http://www.omdbapi.com/") };
 
@@ -110,11 +110,11 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         var apiKey = File.ReadAllText(keyFilePath);
 
         var response = await client.GetAsync($"?i={imdbID}&apikey={apiKey}");
-        var imdbData = await response.Content.ReadFromJsonAsync<ImdbData>();
+        var imdbData = await response.Content.ReadFromJsonAsync<ImdbItem>();
 
         if (imdbData is null)
         {
-            return new ImdbData();
+            return default!;
         }
 
         var destinationFile = Paths.GetTempPath<T>();
@@ -181,32 +181,4 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
     // 	var hyperlink = $"https://www.imdb.com/title/{movie.Imdb}";
     // 	Web.OpenLink(hyperlink);
     // }
-
-    public class ImdbData
-    {
-        public string Actors { get; set; } = string.Empty;
-        public string Awards { get; set; } = string.Empty;
-        public string BoxOffice { get; set; } = string.Empty;
-        public string Country { get; set; } = string.Empty;
-        public string Director { get; set; } = string.Empty;
-        public string DVD { get; set; } = string.Empty;
-        public string Genre { get; set; } = string.Empty;
-        public string imdbID { get; set; } = string.Empty;
-        public string imdbRating { get; set; } = string.Empty;
-        public string imdbVotes { get; set; } = string.Empty;
-        public string Language { get; set; } = string.Empty;
-        public string Metascore { get; set; } = string.Empty;
-        public string Plot { get; set; } = string.Empty;
-        public string Poster { get; set; } = string.Empty;
-        public string Production { get; set; } = string.Empty;
-        public string Rated { get; set; } = string.Empty;
-        public string Released { get; set; } = string.Empty;
-        public string Response { get; set; } = string.Empty;
-        public string Runtime { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
-        public string Type { get; set; } = string.Empty;
-        public string Website { get; set; } = string.Empty;
-        public string Writer { get; set; } = string.Empty;
-        public string Year { get; set; } = string.Empty;
-    }
 }
