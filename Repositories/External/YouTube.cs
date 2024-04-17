@@ -217,20 +217,24 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
 
-        var handle = url.TrimStart("https://www.youtube.com/");
+        var link = GetUrl(url);
+        var year = GetYear(htmlDocument);
+        int runtime = GetRuntime(htmlDocument);
+        var imageUrl = GetImageUrl(htmlDocument);
 
-        var posterNode = htmlDocument.DocumentNode.SelectSingleNode("//meta[contains(@property, 'og:image')]");
-        var imageLink = posterNode.GetAttributeValue("content", string.Empty).Trim();
+        var destinationFile = Paths.GetTempPath<Clip>();
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        // var destinationFile = Path.Combine(Paths.Posters, $"{handle}");
-        // Web.DownloadPNG(imageLink, destinationFile);
+        title = WebUtility.HtmlDecode(title) ?? string.Empty;
+        title = WebUtility.HtmlDecode(title);
 
         return new Clip
         {
-            Title = title,
-            ExternalID = handle,
-            Year = DateTime.Now.Year,
-            Runtime = 10
+            Title = WebUtility.HtmlDecode(title),
+            ExternalID = link,
+            Year = year,
+            Runtime = runtime,
+            Author = "asd"
         };
     }
 
