@@ -89,6 +89,11 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
             ?? string.Empty;
         }
 
+        if (htmlDocument is null)
+        {
+            return default!;
+        }
+
         var link = GetUrl(url);
         var year = GetYear(htmlDocument);
         int runtime = GetRuntime(htmlDocument);
