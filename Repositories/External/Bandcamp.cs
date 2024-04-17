@@ -14,6 +14,34 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
 
     public async Task<Music> GetItem(string url)
     {
+        var item = await GetBandcampItem<Music>(url);
+
+        return new Music
+        {
+            Artist = item.Artist,
+            Title = item.Title,
+            Year = item.Year,
+            _1001 = false,
+            Runtime = item.Runtime,
+            ExternalID = item.Link
+        };
+    }
+    async Task<Song> IExternal<Song>.GetItem(string url)
+    {
+        var item = await GetBandcampItem<Song>(url);
+
+        return new Song
+        {
+            Title = item.Title,
+            Artist = item.Artist,
+            Year = item.Year,
+            Runtime = item.Runtime,
+            Link = item.Link
+        };
+    }
+
+    private static async Task<BandcampItem> GetBandcampItem<T>(string url)
+    {
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
 
         var title = GetTitle(htmlDocument);
@@ -23,42 +51,11 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
         var runtime = GetRuntime(htmlDocument);
         var imageUrl = GetImageUrl(htmlDocument);
 
-        var destinationFile = Paths.GetTempPath<Music>();
+        var destinationFile = Paths.GetTempPath<T>();
         await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        return new Music
-        {
-            Artist = artist,
-            Title = title,
-            Year = year,
-            _1001 = false,
-            Runtime = runtime,
-            ExternalID = bandcampLink
-        };
-    }
-
-    async Task<Song> IExternal<Song>.GetItem(string url)
-    {
-        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
-
-        var title = GetTitle(htmlDocument);
-        var artist = GetArtist(htmlDocument);
-        var year = GetYear(htmlDocument);
-        var bandcampLink = GetLink(htmlDocument);
-        var runtime = GetRuntimeSong(htmlDocument);
-        var imageUrl = GetImageUrl(htmlDocument);
-
-        string destinationFile = Paths.GetTempPath<Song>();
-        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
-
-        return new Song
-        {
-            Title = title,
-            Artist = artist,
-            Year = year,
-            Runtime = runtime,
-            Link = url
-        };
+        var b = new BandcampItem(title, artist, year, runtime, imageUrl, bandcampLink);
+        return b;
     }
 
     private static string GetImageUrl(HtmlDocument htmlDocument)
