@@ -152,10 +152,12 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
 
     private static string GetImageUrl(HtmlDocument htmlDocument)
     {
-        var posterNode = htmlDocument.DocumentNode.SelectSingleNode(
-            "//meta[contains(@property, 'og:image')]"
-        );
-        return posterNode.GetAttributeValue("content", string.Empty).Trim();
+        return htmlDocument
+        ?.DocumentNode
+        ?.SelectSingleNode("//meta[contains(@property, 'og:image')]")
+        ?.GetAttributeValue("content", string.Empty)
+        ?.Trim()
+        ?? string.Empty;
     }
 
     private static string GetTitle(string videoTitle)
@@ -221,12 +223,13 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         var year = GetYear(htmlDocument);
         int runtime = GetRuntime(htmlDocument);
         var imageUrl = GetImageUrl(htmlDocument);
+        var author = GetChannelName(htmlDocument);
 
         var destinationFile = Paths.GetTempPath<Clip>();
         await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
         title = WebUtility.HtmlDecode(title) ?? string.Empty;
-        title = WebUtility.HtmlDecode(title);
+        author = WebUtility.HtmlDecode(author);
 
         return new Clip
         {
@@ -234,8 +237,13 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
             ExternalID = link,
             Year = year,
             Runtime = runtime,
-            Author = "asd"
+            Author = author
         };
+    }
+
+    private string GetChannelName(HtmlDocument htmlDocument)
+    {
+        return string.Empty;
     }
 
     public record YoutubeMusicData(string Title, string Artist, int Year, int Runtime, string Link);
