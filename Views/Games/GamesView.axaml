@@ -68,7 +68,7 @@
 						<StackPanel>
 							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" Width="150" />
 							<TextBox Watermark="Year" Text="{Binding NewItem.Year}" Width="150" />
-							<TextBox Watermark="Platform" Text="{Binding NewItem.Platform}" Width="150" />
+							<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewItem.Platform}" />
 							<TextBox Watermark="Igdb" Text="{Binding NewItem.ExternalID}" Width="150" />
 						</StackPanel>
 						<Button>
@@ -86,6 +86,7 @@
 						<CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
 						<TextBox Watermark="Minutes" Text="{Binding NewItemAmount}" />
+						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>
 				</ScrollViewer>
