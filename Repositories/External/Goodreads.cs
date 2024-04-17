@@ -16,7 +16,35 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
 
     public async Task<Book> GetItem(string url)
     {
+        var item = await GetGoodredsItem<Book>(url);
 
+        return new Book
+        {
+            Title = item.Title,
+            Author = item.Writer,
+            Year = item.Year,
+            ExternalID = item.GoodreadsID,
+            is1001 = false
+        };
+    }
+
+    async Task<Comic> IExternal<Comic>.GetItem(string url)
+    {
+        var item = await GetGoodredsItem<Book>(url);
+
+        return new Comic
+        {
+            Title = item.Title,
+            Writer = item.Writer,
+            Illustrator = item.Illustrator,
+            Year = item.Year,
+            ExternalID = item.GoodreadsID,
+            _1001 = false
+        };
+    }
+
+    private async Task<GoodreadsItem> GetGoodredsItem<T>(string url)
+    {
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
 
         var title = GetTitle(htmlDocument);
@@ -25,48 +53,12 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
         var goodreadsID = GetGoogreadsID(url);
         var pages = GetPages(htmlDocument);
         var imageUrl = GetImageUrl(htmlDocument);
+        string illustrator = GetIllustrator(htmlDocument);
 
-        var destinationFile = Paths.GetTempPath<Book>();
+        var destinationFile = Paths.GetTempPath<T>();
         await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        return new Book
-        {
-            Title = title,
-            Author = writer,
-            Year = year,
-            ExternalID = goodreadsID
-        };
-    }
-
-    async Task<Comic> IExternal<Comic>.GetItem(string url)
-    {
-        Comic result = new();
-
-        try
-        {
-            var htmlDocument = await HtmlHelper.DownloadWebpage(url);
-            var title = GetTitle(htmlDocument);
-            var writer = GetWriter(htmlDocument);
-            var year = GetYear(htmlDocument);
-            var goodreadsID = GetGoogreadsID(url);
-            string illustrator = GetIllustrator(htmlDocument);
-            var imageUrl = GetImageUrl(htmlDocument);
-
-            var destinationFile = Paths.GetTempPath<Comic>();
-            await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
-
-            result = new Comic
-            {
-                Title = title,
-                Writer = writer,
-                Illustrator = illustrator,
-                Year = year,
-                ExternalID = goodreadsID
-            };
-        }
-        catch { }
-
-        return result;
+        return new GoodreadsItem(title, writer, illustrator, year, goodreadsID, pages, imageUrl);
     }
 
     private static string GetIllustrator(HtmlDocument htmlDocument)
