@@ -29,4 +29,6 @@ public record ImdbItem(
     string Language,
     string Plot,
     string Type,
-    string Writer);
+    string Writer,
+    string StandupPerformer,
+    string StandupTitle);

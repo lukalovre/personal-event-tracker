@@ -61,44 +61,41 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
 
     async Task<Standup> IExternal<Standup>.GetItem(string url)
     {
-        var imdbData = await GetDataFromAPI<Standup>(url);
-
-        var runtime = GetRuntime(imdbData.Runtime);
-        int year = GetYear(imdbData.Year);
-
-        var split = imdbData.Title.Split(':');
-
-        string performer;
-        string title;
-
-        if (split.Count() > 1)
-        {
-            performer = split[0].Trim();
-            title = split[1].Trim();
-        }
-        else
-        {
-            performer = imdbData.Writer;
-            title = imdbData.Title;
-        }
+        var item = await GetImdbItem<TVShow>(url);
 
         return new Standup
         {
-            Performer = performer,
-            Title = title,
-            Link = url,
-            Country = imdbData.Country,
-            Director = imdbData.Director,
-            Writer = imdbData.Writer,
-            Plot = imdbData.Plot,
-            Runtime = runtime,
-            Year = year
+            Performer = item.StandupPerformer,
+            Title = item.StandupTitle,
+            Link = item.ExternalID,
+            Country = item.Country,
+            Director = item.Director,
+            Writer = item.Writer,
+            Plot = item.Plot,
+            Runtime = item.Runtime,
+            Year = item.Year
         };
     }
 
     private static async Task<ImdbItem> GetImdbItem<T>(string url) where T : IItem
     {
         var imdbData = await GetDataFromAPI<T>(url);
+
+        var split = imdbData.Title.Split(':');
+
+        string standupPerformer;
+        string standupTitle;
+
+        if (split.Length > 1)
+        {
+            standupPerformer = split[0].Trim();
+            standupTitle = split[1].Trim();
+        }
+        else
+        {
+            standupPerformer = imdbData.Writer;
+            standupTitle = imdbData.Title;
+        }
 
         var imdbItem = new ImdbItem(
         imdbData.Title,
@@ -112,7 +109,9 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
         imdbData.Language,
         imdbData.Plot,
         imdbData.Type,
-        imdbData.Writer);
+        imdbData.Writer,
+        standupPerformer,
+        standupTitle);
         return imdbItem;
     }
 
