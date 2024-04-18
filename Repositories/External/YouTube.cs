@@ -129,13 +129,13 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
         musicTitle = WebUtility.HtmlDecode(musicTitle);
 
         return new YoutubeItem(
-            musicTitle,
-            artist,
+            musicTitle.Trim(),
+            artist.Trim(),
             year,
             runtime,
-            link,
-            title,
-            author);
+            link.Trim(),
+            title.Trim(),
+            author.Trim());
     }
 
     private static int GetRuntime(HtmlDocument htmlDocument)
@@ -203,7 +203,8 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
             "|HQ|",
             "(Audio)",
             "[FULL ALBUM]",
-            "HIGH QUALITY"};
+            "HIGH QUALITY",
+            "[Official Music Video]"};
 
         var split = videoTitle.Split(" - ");
 

@@ -97,22 +97,21 @@ public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
             standupTitle = imdbData.Title;
         }
 
-        var imdbItem = new ImdbItem(
-        imdbData.Title,
-        GetRuntime(imdbData.Runtime),
-        GetYear(imdbData.Year),
-        imdbData.imdbID,
-        imdbData.Actors,
-        imdbData.Country,
-        imdbData.Director,
-        imdbData.Genre,
-        imdbData.Language,
-        imdbData.Plot,
-        imdbData.Type,
-        imdbData.Writer,
-        standupPerformer,
-        standupTitle);
-        return imdbItem;
+        return new ImdbItem(
+         imdbData.Title.Trim(),
+         GetRuntime(imdbData.Runtime),
+         GetYear(imdbData.Year),
+         imdbData.imdbID.Trim(),
+         imdbData.Actors.Trim(),
+         imdbData.Country.Trim(),
+         imdbData.Director.Trim(),
+         imdbData.Genre.Trim(),
+         imdbData.Language.Trim(),
+         imdbData.Plot.Trim(),
+         imdbData.Type.Trim(),
+         imdbData.Writer.Trim(),
+         standupPerformer.Trim(),
+         standupTitle.Trim());
     }
 
     private static int GetRuntime(string runtimeString)

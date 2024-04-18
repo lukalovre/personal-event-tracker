@@ -86,12 +86,12 @@ public class Spotify : IExternal<Music>
 
         return new Music
         {
-            Artist = artist,
-            Title = title,
+            Artist = artist.Trim(),
+            Title = title.Trim(),
             Year = year,
             _1001 = false,
             Runtime = runtime,
-            ExternalID = url ?? string.Empty
+            ExternalID = url?.Trim() ?? string.Empty
         };
     }
 

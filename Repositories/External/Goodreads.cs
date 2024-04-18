@@ -58,7 +58,14 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
         var destinationFile = Paths.GetTempPath<T>();
         await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        return new GoodreadsItem(title, writer, illustrator, year, goodreadsID, pages, imageUrl);
+        return new GoodreadsItem(
+            title.Trim(),
+            writer.Trim(),
+            illustrator.Trim(),
+            year,
+            goodreadsID,
+            pages,
+            imageUrl.Trim());
     }
 
     private static string GetIllustrator(HtmlDocument htmlDocument)

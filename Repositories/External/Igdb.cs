@@ -40,11 +40,15 @@ public class Igdb : IExternal<Game>
         var destinationFile = Paths.GetTempPath<Game>();
         await HtmlHelper.DownloadPNG(coverUrl, destinationFile);
 
+        var externalID = (int)(game?.Id ?? 0);
+        var title = game?.Name ?? string.Empty;
+        var year = game?.FirstReleaseDate?.Year ?? 0;
+
         return new Game
         {
-            ExternalID = (int)(game?.Id ?? 0),
-            Title = game?.Name ?? string.Empty,
-            Year = game?.FirstReleaseDate?.Year ?? 0
+            ExternalID = externalID,
+            Title = title.Trim(),
+            Year = year
         };
     }
 

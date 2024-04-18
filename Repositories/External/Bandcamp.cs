@@ -54,7 +54,13 @@ public class Bandcamp : IExternal<Music>, IExternal<Song>
         var destinationFile = Paths.GetTempPath<T>();
         await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        return new BandcampItem(title, artist, year, runtime, imageUrl, bandcampLink);
+        return new BandcampItem(
+            title.Trim(),
+            artist.Trim(),
+            year,
+            runtime,
+            imageUrl.Trim(),
+            bandcampLink.Trim());
     }
 
     private static string GetImageUrl(HtmlDocument htmlDocument)

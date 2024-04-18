@@ -54,13 +54,12 @@ public class Soundcloud : IExternal<Song>, IExternal<Music>
         string destinationFile = Paths.GetTempPath<T>();
         await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        var item = new SoundcloudItem(
-            title,
-            artist,
+        return new SoundcloudItem(
+            title.Trim(),
+            artist.Trim(),
             year,
             runtime,
-            link);
-        return item;
+            link.Trim());
     }
 
     private static string GetImageUrl(HtmlDocument htmlDocument)
