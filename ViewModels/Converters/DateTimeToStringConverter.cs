@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
+using AvaloniaApplication1.ViewModels.Extensions;
 
 public class DateTimeToStringConverter : IValueConverter
 {
@@ -18,6 +19,16 @@ public class DateTimeToStringConverter : IValueConverter
     {
         if (value is string str && !string.IsNullOrWhiteSpace(str))
         {
+
+            if (str.EndsWith("UTC"))
+            {
+                str = str.TrimEnd("UTC").Trim();
+
+                DateTime convertedDate = DateTime.SpecifyKind(DateTime.Parse(str), DateTimeKind.Utc);
+                var kind = convertedDate.Kind;
+                return convertedDate.ToLocalTime();
+            }
+
             return DateTime.ParseExact(str, parameter?.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
         }
 
