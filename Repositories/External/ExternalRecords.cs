@@ -39,3 +39,12 @@ public record SoundcloudItem(
     int Year,
     int Runtime,
     string ExternalID);
+
+public record YoutubeItem(
+    string MusicTitle,
+    string Artist,
+    int Year,
+    int Runtime,
+    string Link,
+    string Title,
+    string Author);
