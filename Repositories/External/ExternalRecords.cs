@@ -32,3 +32,10 @@ public record ImdbItem(
     string Writer,
     string StandupPerformer,
     string StandupTitle);
+
+public record SoundcloudItem(
+    string Title,
+    string Artist,
+    int Year,
+    int Runtime,
+    string ExternalID);

@@ -14,6 +14,35 @@ public class Soundcloud : IExternal<Song>, IExternal<Music>
 
     public async Task<Song> GetItem(string url)
     {
+        var item = await GetSoundcloudItem<Song>(url);
+
+        return new Song
+        {
+            Title = item.Title,
+            Artist = item.Artist,
+            Year = item.Year,
+            Runtime = item.Runtime,
+            Link = item.ExternalID
+        };
+    }
+
+    async Task<Music> IExternal<Music>.GetItem(string url)
+    {
+        var item = await GetSoundcloudItem<Music>(url);
+
+        return new Music
+        {
+            Title = item.Title,
+            Artist = item.Artist,
+            Year = item.Year,
+            Runtime = item.Runtime,
+            _1001 = false,
+            ExternalID = item.ExternalID
+        };
+    }
+
+    private static async Task<SoundcloudItem> GetSoundcloudItem<T>(string url)
+    {
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
         var artist = GetArtist(htmlDocument);
@@ -22,17 +51,16 @@ public class Soundcloud : IExternal<Song>, IExternal<Music>
         var runtime = GetRuntimeSong(htmlDocument);
         var imageUrl = GetImageUrl(htmlDocument);
 
-        string destinationFile = Paths.GetTempPath<Song>();
+        string destinationFile = Paths.GetTempPath<T>();
         await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
 
-        return new Song
-        {
-            Title = title,
-            Artist = artist,
-            Year = year,
-            Runtime = runtime,
-            Link = link
-        };
+        var item = new SoundcloudItem(
+            title,
+            artist,
+            year,
+            runtime,
+            link);
+        return item;
     }
 
     private static string GetImageUrl(HtmlDocument htmlDocument)
@@ -123,29 +151,5 @@ public class Soundcloud : IExternal<Song>, IExternal<Music>
                     ?? string.Empty;
 
         return WebUtility.HtmlDecode(result.Trim());
-    }
-
-    async Task<Music> IExternal<Music>.GetItem(string url)
-    {
-        var htmlDocument = await HtmlHelper.DownloadWebpage(url);
-        var title = GetTitle(htmlDocument);
-        var artist = GetArtist(htmlDocument);
-        var year = GetYear(htmlDocument);
-        var link = GetLink(htmlDocument);
-        var runtime = GetRuntimeSong(htmlDocument);
-        var imageUrl = GetImageUrl(htmlDocument);
-
-        string destinationFile = Paths.GetTempPath<Music>();
-        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
-
-        return new Music
-        {
-            Title = title,
-            Artist = artist,
-            Year = year,
-            Runtime = runtime,
-            _1001 = false,
-            ExternalID = link
-        };
     }
 }
