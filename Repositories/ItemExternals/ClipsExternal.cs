@@ -6,18 +6,20 @@ namespace AvaloniaApplication1.Repositories;
 
 public class ClipsExternal : IExternal<Clip>
 {
-    private readonly IExternal<Clip> _youtube;
-
-    public ClipsExternal()
-    {
-        _youtube = new YouTube();
-    }
-
     public async Task<Clip> GetItem(string url)
     {
         if (url.Contains(YouTube.UrlIdentifier))
         {
-            return await _youtube.GetItem(url);
+            var item = await YouTube.GetYoutubeItem<Clip>(url);
+
+            return new Clip
+            {
+                Title = item.Title,
+                ExternalID = item.Link,
+                Year = item.Year,
+                Runtime = item.Runtime,
+                Author = item.Author
+            };
         }
 
         return new Clip();

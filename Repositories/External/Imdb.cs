@@ -11,73 +11,13 @@ using AvaloniaApplication1.Models;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Imdb : IExternal<Movie>, IExternal<TVShow>, IExternal<Standup>
+public class Imdb
 {
     private const string API_KEY_FILE_NAME = "omdbapi_key.txt";
 
     public static string UrlIdentifier => "imdb.com";
 
-    async Task<Movie> IExternal<Movie>.GetItem(string url)
-    {
-        var item = await GetImdbItem<Movie>(url);
-
-        return new Movie
-        {
-            Title = item.Title,
-            Runtime = item.Runtime,
-            Year = item.Year,
-            ExternalID = item.ExternalID,
-            Actors = item.Actors,
-            Country = item.Country,
-            Director = item.Director,
-            Ganre = item.Genre,
-            Language = item.Language,
-            Plot = item.Plot,
-            Type = item.Type,
-            Writer = item.Writer
-        };
-    }
-
-    public async Task<TVShow> GetItem(string url)
-    {
-        var item = await GetImdbItem<TVShow>(url);
-
-        return new TVShow
-        {
-            Title = item.Title,
-            Runtime = item.Runtime,
-            Year = item.Runtime,
-            ExternalID = item.ExternalID,
-            Actors = item.Actors,
-            Country = item.Country,
-            Director = item.Director,
-            Genre = item.Genre,
-            Language = item.Language,
-            Plot = item.Plot,
-            Type = item.Type,
-            Writer = item.Writer
-        };
-    }
-
-    async Task<Standup> IExternal<Standup>.GetItem(string url)
-    {
-        var item = await GetImdbItem<TVShow>(url);
-
-        return new Standup
-        {
-            Performer = item.StandupPerformer,
-            Title = item.StandupTitle,
-            Link = item.ExternalID,
-            Country = item.Country,
-            Director = item.Director,
-            Writer = item.Writer,
-            Plot = item.Plot,
-            Runtime = item.Runtime,
-            Year = item.Year
-        };
-    }
-
-    private static async Task<ImdbItem> GetImdbItem<T>(string url) where T : IItem
+    internal static async Task<ImdbItem> GetImdbItem<T>(string url) where T : IItem
     {
         var imdbData = await GetDataFromAPI<T>(url);
 

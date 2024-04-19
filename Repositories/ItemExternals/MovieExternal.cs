@@ -7,12 +7,6 @@ namespace AvaloniaApplication1.Repositories;
 
 public class MovieExternal : IExternal<Movie>
 {
-    private readonly IExternal<Movie> _imdb;
-
-    public MovieExternal()
-    {
-        _imdb = new Imdb();
-    }
 
     public async Task<Movie> GetItem(string url)
     {
@@ -20,7 +14,23 @@ public class MovieExternal : IExternal<Movie>
 
         if (url.Contains(Imdb.UrlIdentifier))
         {
-            return await _imdb.GetItem(url);
+            var item = await Imdb.GetImdbItem<Movie>(url);
+
+            return new Movie
+            {
+                Title = item.Title,
+                Runtime = item.Runtime,
+                Year = item.Year,
+                ExternalID = item.ExternalID,
+                Actors = item.Actors,
+                Country = item.Country,
+                Director = item.Director,
+                Ganre = item.Genre,
+                Language = item.Language,
+                Plot = item.Plot,
+                Type = item.Type,
+                Writer = item.Writer
+            };
         }
 
         return new Movie();

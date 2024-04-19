@@ -7,20 +7,23 @@ namespace AvaloniaApplication1.Repositories;
 
 public class ComicExtetrnal : IExternal<Comic>
 {
-    private readonly IExternal<Comic> _goodreads;
-
-    public ComicExtetrnal()
-    {
-        _goodreads = new Goodreads();
-    }
-
     public async Task<Comic> GetItem(string url)
     {
         url = HtmlHelper.CleanUrl(url);
 
         if (url.Contains(Goodreads.UrlIdentifier))
         {
-            return await _goodreads.GetItem(url);
+            var item = await Goodreads.GetGoodredsItem<Comic>(url);
+
+            return new Comic
+            {
+                Title = item.Title,
+                Writer = item.Writer,
+                Illustrator = item.Illustrator,
+                Year = item.Year,
+                ExternalID = item.GoodreadsID,
+                _1001 = false
+            };
         }
 
         return new Comic();

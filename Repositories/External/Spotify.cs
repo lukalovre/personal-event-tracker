@@ -8,13 +8,13 @@ using SpotifyAPI.Web;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Spotify : IExternal<Music>
+public class Spotify
 {
     private const string API_KEY_FILE_NAME = "spotify_key.txt";
 
     public static string UrlIdentifier => "spotify.com";
 
-    public async Task<Music> GetItem(string url)
+    public static async Task<Music> GetItem(string url)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
@@ -95,7 +95,7 @@ public class Spotify : IExternal<Music>
         };
     }
 
-    private SpotifyClient GetClient()
+    private static SpotifyClient GetClient()
     {
         var config = SpotifyClientConfig.CreateDefault();
 

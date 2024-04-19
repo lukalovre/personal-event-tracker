@@ -2,45 +2,16 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models;
 using HtmlAgilityPack;
 using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Bandcamp : IExternal<Music>, IExternal<Song>
+public class Bandcamp
 {
     public static string UrlIdentifier => "bandcamp.com";
 
-    public async Task<Music> GetItem(string url)
-    {
-        var item = await GetBandcampItem<Music>(url);
-
-        return new Music
-        {
-            Artist = item.Artist,
-            Title = item.Title,
-            Year = item.Year,
-            _1001 = false,
-            Runtime = item.Runtime,
-            ExternalID = item.Link
-        };
-    }
-    async Task<Song> IExternal<Song>.GetItem(string url)
-    {
-        var item = await GetBandcampItem<Song>(url);
-
-        return new Song
-        {
-            Title = item.Title,
-            Artist = item.Artist,
-            Year = item.Year,
-            Runtime = item.Runtime,
-            Link = item.Link
-        };
-    }
-
-    private static async Task<BandcampItem> GetBandcampItem<T>(string url)
+    internal static async Task<BandcampItem> GetBandcampItem<T>(string url)
     {
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
 

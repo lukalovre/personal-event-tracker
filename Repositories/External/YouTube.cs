@@ -12,76 +12,9 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IExternal<Clip>
+public class YouTube
 {
     public static string UrlIdentifier => "youtube.com";
-
-    public async Task<TVShow> GetItem(string url)
-    {
-        var item = await GetYoutubeItem<TVShow>(url);
-
-        return new TVShow
-        {
-            Title = item.Title,
-            ExternalID = item.Link,
-            Year = item.Year,
-            Runtime = item.Runtime
-        };
-    }
-
-    async Task<Clip> IExternal<Clip>.GetItem(string url)
-    {
-        var item = await GetYoutubeItem<Clip>(url);
-
-        return new Clip
-        {
-            Title = item.Title,
-            ExternalID = item.Link,
-            Year = item.Year,
-            Runtime = item.Runtime,
-            Author = item.Author
-        };
-    }
-
-    async Task<Song> IExternal<Song>.GetItem(string url)
-    {
-        var item = await GetYoutubeItem<Song>(url);
-
-        return new Song
-        {
-            Artist = item.Artist,
-            Title = item.MusicTitle,
-            Link = item.Link,
-            Year = item.Year,
-            Runtime = item.Runtime
-        };
-    }
-
-    async Task<Music> IExternal<Music>.GetItem(string url)
-    {
-        var item = await GetYoutubeItem<Music>(url);
-
-        return new Music
-        {
-            Title = item.MusicTitle,
-            Artist = item.Artist,
-            Year = item.Year,
-            Runtime = item.Runtime,
-            ExternalID = item.Link
-        };
-    }
-
-    private static string GetTitle(HtmlDocument htmlDocument)
-    {
-        var title = htmlDocument
-        ?.DocumentNode
-        ?.SelectSingleNode("//meta[contains(@property, 'og:title')]")
-        ?.GetAttributeValue("content", string.Empty)
-        .Trim()
-        ?? string.Empty;
-
-        return WebUtility.HtmlDecode(title) ?? string.Empty;
-    }
 
     public static async Task<YoutubeItem> GetYoutubeItem<T>(string url) where T : IItem
     {
@@ -136,6 +69,18 @@ public class YouTube : IExternal<TVShow>, IExternal<Song>, IExternal<Music>, IEx
             link.Trim(),
             title.Trim(),
             author.Trim());
+    }
+
+    private static string GetTitle(HtmlDocument htmlDocument)
+    {
+        var title = htmlDocument
+        ?.DocumentNode
+        ?.SelectSingleNode("//meta[contains(@property, 'og:title')]")
+        ?.GetAttributeValue("content", string.Empty)
+        .Trim()
+        ?? string.Empty;
+
+        return WebUtility.HtmlDecode(title) ?? string.Empty;
     }
 
     private static int GetRuntime(HtmlDocument htmlDocument)

@@ -6,32 +6,48 @@ namespace AvaloniaApplication1.Repositories;
 
 public class SongExternal : IExternal<Song>
 {
-    private readonly IExternal<Song> _bandcamp;
-    private readonly IExternal<Song> _soundcloud;
-    private readonly IExternal<Song> _youtube;
-
-    public SongExternal()
-    {
-        _bandcamp = new Bandcamp();
-        _youtube = new YouTube();
-        _soundcloud = new Soundcloud();
-    }
-
     public async Task<Song> GetItem(string url)
     {
         if (url.Contains(YouTube.UrlIdentifier))
         {
-            return await _youtube.GetItem(url);
+            var item = await YouTube.GetYoutubeItem<Song>(url);
+
+            return new Song
+            {
+                Artist = item.Artist,
+                Title = item.MusicTitle,
+                Link = item.Link,
+                Year = item.Year,
+                Runtime = item.Runtime
+            };
         }
 
         if (url.Contains(Bandcamp.UrlIdentifier))
         {
-            return await _bandcamp.GetItem(url);
+            var item = await Bandcamp.GetBandcampItem<Song>(url);
+
+            return new Song
+            {
+                Title = item.Title,
+                Artist = item.Artist,
+                Year = item.Year,
+                Runtime = item.Runtime,
+                Link = item.Link
+            };
         }
 
         if (url.Contains(Soundcloud.UrlIdentifier))
         {
-            return await _soundcloud.GetItem(url);
+            var item = await Soundcloud.GetSoundcloudItem<Song>(url);
+
+            return new Song
+            {
+                Title = item.Title,
+                Artist = item.Artist,
+                Year = item.Year,
+                Runtime = item.Runtime,
+                Link = item.ExternalID
+            };
         }
 
         return new Song();

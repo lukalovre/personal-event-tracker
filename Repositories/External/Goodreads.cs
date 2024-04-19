@@ -3,47 +3,17 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
 using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Goodreads : IExternal<Book>, IExternal<Comic>
+public class Goodreads
 {
     public static string UrlIdentifier => "goodreads.com";
 
-    public async Task<Book> GetItem(string url)
-    {
-        var item = await GetGoodredsItem<Book>(url);
-
-        return new Book
-        {
-            Title = item.Title,
-            Author = item.Writer,
-            Year = item.Year,
-            ExternalID = item.GoodreadsID,
-            is1001 = false
-        };
-    }
-
-    async Task<Comic> IExternal<Comic>.GetItem(string url)
-    {
-        var item = await GetGoodredsItem<Book>(url);
-
-        return new Comic
-        {
-            Title = item.Title,
-            Writer = item.Writer,
-            Illustrator = item.Illustrator,
-            Year = item.Year,
-            ExternalID = item.GoodreadsID,
-            _1001 = false
-        };
-    }
-
-    private async Task<GoodreadsItem> GetGoodredsItem<T>(string url)
+    internal static async Task<GoodreadsItem> GetGoodredsItem<T>(string url)
     {
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
 
@@ -80,7 +50,7 @@ public class Goodreads : IExternal<Book>, IExternal<Comic>
                     ?? string.Empty;
     }
 
-    private string GetImageUrl(HtmlDocument htmlDocument)
+    private static string GetImageUrl(HtmlDocument htmlDocument)
     {
         return htmlDocument
                         ?.DocumentNode

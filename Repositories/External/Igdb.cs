@@ -7,12 +7,12 @@ using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Igdb : IExternal<Game>
+public class Igdb
 {
     private const string API_KEY_FILE_NAME = "igdb_keys.txt";
     public static string UrlIdentifier => "igdb.com";
 
-    public async Task<Game> GetItem(string igdbUrl)
+    public static async Task<Game> GetItem(string igdbUrl)
     {
         var keyFilePath = Paths.GetAPIKeyFilePath(API_KEY_FILE_NAME);
         var lines = File.ReadAllLines(keyFilePath);

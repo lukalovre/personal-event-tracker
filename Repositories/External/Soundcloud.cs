@@ -2,46 +2,16 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models;
 using HtmlAgilityPack;
 using Repositories;
 
 namespace AvaloniaApplication1.Repositories.External;
 
-public class Soundcloud : IExternal<Song>, IExternal<Music>
+public class Soundcloud
 {
     public static string UrlIdentifier => "soundcloud.com";
 
-    public async Task<Song> GetItem(string url)
-    {
-        var item = await GetSoundcloudItem<Song>(url);
-
-        return new Song
-        {
-            Title = item.Title,
-            Artist = item.Artist,
-            Year = item.Year,
-            Runtime = item.Runtime,
-            Link = item.ExternalID
-        };
-    }
-
-    async Task<Music> IExternal<Music>.GetItem(string url)
-    {
-        var item = await GetSoundcloudItem<Music>(url);
-
-        return new Music
-        {
-            Title = item.Title,
-            Artist = item.Artist,
-            Year = item.Year,
-            Runtime = item.Runtime,
-            _1001 = false,
-            ExternalID = item.ExternalID
-        };
-    }
-
-    private static async Task<SoundcloudItem> GetSoundcloudItem<T>(string url)
+    internal static async Task<SoundcloudItem> GetSoundcloudItem<T>(string url)
     {
         var htmlDocument = await HtmlHelper.DownloadWebpage(url);
         var title = GetTitle(htmlDocument);
