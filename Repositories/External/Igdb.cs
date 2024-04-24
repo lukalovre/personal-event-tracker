@@ -20,7 +20,7 @@ public class Igdb
         if (lines.Length == 0)
         {
             // Api keys missing.
-            // return;
+            return null!;
         }
 
         var clientId = lines[0];
