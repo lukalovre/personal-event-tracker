@@ -13,7 +13,14 @@ public class GameExtetrnal : IExternal<Game>
 
         if (url.Contains(Igdb.UrlIdentifier))
         {
-            return await Igdb.GetItem(url);
+            var item = await Igdb.GetItem(url);
+
+            return new Game
+            {
+                ExternalID = item.ExternalID,
+                Title = item.Title,
+                Year = item.Year
+            };
         }
 
         return new Game();

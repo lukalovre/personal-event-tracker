@@ -12,7 +12,7 @@ public class Igdb
     private const string API_KEY_FILE_NAME = "igdb_keys.txt";
     public static string UrlIdentifier => "igdb.com";
 
-    public static async Task<Game> GetItem(string igdbUrl)
+    public static async Task<IgdbItem> GetItem(string igdbUrl)
     {
         var keyFilePath = Paths.GetAPIKeyFilePath(API_KEY_FILE_NAME);
         var lines = File.ReadAllLines(keyFilePath);
@@ -44,12 +44,12 @@ public class Igdb
         var title = game?.Name ?? string.Empty;
         var year = game?.FirstReleaseDate?.Year ?? 0;
 
-        return new Game
-        {
-            ExternalID = externalID,
-            Title = title.Trim(),
-            Year = year
-        };
+        return new IgdbItem
+        (
+             externalID,
+             title.Trim(),
+             year
+        );
     }
 
     // public async Task<string> GetUrlFromAPIAsync(int igdbID)

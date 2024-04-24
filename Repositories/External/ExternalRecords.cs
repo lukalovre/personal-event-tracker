@@ -48,3 +48,8 @@ public record YoutubeItem(
     string Link,
     string Title,
     string Author);
+
+public record IgdbItem(
+    int ExternalID,
+    string Title,
+    int Year);
