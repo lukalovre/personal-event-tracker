@@ -309,7 +309,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         GridItemsBookmarked.Clear();
         GridItemsBookmarked.AddRange(LoadDataBookmarked());
-        // GridCountItemsBookmarked = GridItemsBookmarked.Count;
     }
 
     private void ClearNewItemControls()
