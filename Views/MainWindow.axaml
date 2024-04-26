@@ -43,6 +43,9 @@
 					<TabItem Header="Locations">
 						<v:LocationsView DataContext="{Binding LocationsViewModel}" />
 					</TabItem>
+					<TabItem Header="Theatre">
+						<v:TheatreView DataContext="{Binding TheatreViewModel}" />
+					</TabItem>
 				</TabControl>
 			</TabItem>
 			<TabItem Header="My">

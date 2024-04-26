@@ -7,6 +7,7 @@ public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
 {
     public MoviesViewModel MoviesViewModel { get; } = new MoviesViewModel(datasource, new MovieExternal());
     public StandupViewModel StandupViewModel { get; } = new StandupViewModel(datasource, new StandupExternal());
+    public TheatreViewModel TheatreViewModel { get; } = new TheatreViewModel(datasource);
     public MusicViewModel MusicViewModel { get; } = new MusicViewModel(datasource, new MusicExternal());
     public WorkViewModel WorkViewModel { get; } = new WorkViewModel(datasource);
     public BooksViewModel BooksViewModel { get; } = new BooksViewModel(datasource, new BookExtetrnal());

@@ -1,0 +1,99 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:AvaloniaApplication1.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1" mc:Ignorable="d" x:DataType="vm:TheatreViewModel" x:Class="AvaloniaApplication1.Views.TheatreView" xmlns:view="using:AvaloniaApplication1.Views">
+	<DockPanel>
+		<TabControl>
+			<TabItem Header="All">
+				<DockPanel>
+					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
+					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+							<DataGridTextColumn Binding="{Binding Writer}" Header="Writer" Width="150" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
+							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</DockPanel>
+			</TabItem>
+		</TabControl>
+		<TabControl Margin="5">
+			<TabItem Header="Info">
+				<ScrollViewer>
+					<StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Title" />
+							<TextBox Text="{Binding SelectedItem.Title}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Runtime" />
+							<TextBox Text="{Binding SelectedItem.Runtime}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Writer" />
+							<TextBox Text="{Binding SelectedItem.Writer}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Director" />
+							<TextBox Text="{Binding SelectedItem.Director}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<Button>
+							<Image Source="{Binding Image}" Width="430" Height="430" />
+						</Button>
+						<view:EventView DataContext="{Binding EventViewModel}" />
+						<StackPanel Orientation="Horizontal">
+							<Button Command="{Binding AddEventClick}">
+								Add minutes
+							</Button>
+							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
+							<TextBlock Text="{Binding AddAmountString}" />
+						</StackPanel>
+					</StackPanel>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="New">
+				<ScrollViewer>
+					<StackPanel>
+						<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Title" />
+							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Writer" />
+							<TextBox Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Director" />
+							<TextBox Text="{Binding NewItem.Director}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Runtime" />
+							<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Location" />
+							<TextBox Text="{Binding NewItem.Location}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="City" />
+							<TextBox Text="{Binding NewItem.City}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding UseNewDate}" />
+							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Rating" />
+							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
+						</StackPanel>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
+						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
+						<view:PeopleSelectionView DataContext="{Binding People}" />
+					</StackPanel>
+				</ScrollViewer>
+			</TabItem>
+			<TabItem Header="Edit">
+				<TextBlock Text="Event" />
+			</TabItem>
+		</TabControl>
+	</DockPanel>
+</UserControl>
