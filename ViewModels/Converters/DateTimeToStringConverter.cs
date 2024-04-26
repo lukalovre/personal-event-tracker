@@ -29,7 +29,15 @@ public class DateTimeToStringConverter : IValueConverter
                 return convertedDate.ToLocalTime();
             }
 
-            return DateTime.ParseExact(str, parameter?.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
+            if (DateTime.TryParseExact(
+                str,
+                parameter?.ToString() ?? string.Empty,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var result))
+            {
+                return result;
+            }
         }
 
         return DateTime.MinValue;
