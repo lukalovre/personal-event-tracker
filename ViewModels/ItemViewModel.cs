@@ -314,6 +314,8 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     private void ClearNewItemControls()
     {
         NewImage = default;
+        NewEvent = default!;
+        NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
     }
 
     protected virtual DateTime? DateTimeFilter
@@ -335,7 +337,9 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
                     .OrderBy(o => o.DateEnd)
                     .ToList();
 
-        if (DateTimeFilter.HasValue && string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
+        if (DateTimeFilter.HasValue
+            && DateTimeFilter != DateTime.MinValue
+            && string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
         {
             result = result
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
