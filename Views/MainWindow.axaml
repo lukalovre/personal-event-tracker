@@ -10,7 +10,7 @@
 		<TabControl Margin="5">
 			<TabItem Header="Main">
 				<TabControl TabStripPlacement="Left">
-					<TabItem Header="Music" Width="150">
+					<TabItem Header="Music">
 						<v:MusicView DataContext="{Binding MusicViewModel}" />
 					</TabItem>
 					<TabItem Header="Songs">
@@ -46,6 +46,11 @@
 					<TabItem Header="Theatre">
 						<v:TheatreView DataContext="{Binding TheatreViewModel}" />
 					</TabItem>
+					<TabItem Header="Paintings"/>
+					<TabItem Header="Magazines"/>
+					<TabItem Header="Boardgames"/>
+					<TabItem Header="Pinball" />
+					<TabItem Header="Classical" />
 				</TabControl>
 			</TabItem>
 			<TabItem Header="My">
@@ -54,6 +59,8 @@
 						<v:WorkView DataContext="{Binding WorkViewModel}" />
 					</TabItem>
 					<TabItem Header="D&amp;D" />
+					<TabItem Header="People" />
+					<TabItem Header="Locations" />
 				</TabControl>
 			</TabItem>
 			<TabItem Header="Stats" />
