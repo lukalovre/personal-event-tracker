@@ -44,7 +44,14 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
 
         IsFullAmount = _settings.IsFullAmountDefaultValue;
-        _settings.DateTimeFilter ??= new DateTime(GridFilterViewModel.YearFilter, 1, 1);
+    }
+
+    protected DateTime? DateTimeFilter
+    {
+        get
+        {
+            return _settings.DateTimeFilter ?? new DateTime(GridFilterViewModel.YearFilter, 1, 1);
+        }
     }
 
     public ObservableCollection<string> PlatformTypes => _settings.PlatformTypes;
@@ -326,15 +333,15 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
                     .OrderBy(o => o.DateEnd)
                     .ToList();
 
-        if (_settings.DateTimeFilter.HasValue
-            && _settings.DateTimeFilter != DateTime.MinValue
+        if (DateTimeFilter.HasValue
+            && DateTimeFilter != DateTime.MinValue
             && string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
         {
             result = result
             .Where(o =>
             o.DateEnd.HasValue
-            && o.DateEnd.Value >= _settings.DateTimeFilter.Value
-            && o.DateEnd.Value < new DateTime(_settings.DateTimeFilter.Value.Year + 1, 1, 1))
+            && o.DateEnd.Value >= DateTimeFilter.Value
+            && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
             .ToList();
         }
 
