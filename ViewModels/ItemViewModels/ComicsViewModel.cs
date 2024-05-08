@@ -6,13 +6,8 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> external)
-: ItemViewModel<Comic, ComicGridItem>(datasource, external)
+public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> external) : ItemViewModel<Comic, ComicGridItem>(datasource, external)
 {
-    protected override float AmountToMinutesModifier => 0.3f;
-    protected override bool IsFullAmountDefaultValue => false;
-    protected override string AmountVerb => "pages";
-
     protected override ComicGridItem Convert(Event e, Comic i, IEnumerable<Event> eventList)
     {
         return new ComicGridItem(

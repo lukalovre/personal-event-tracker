@@ -1,6 +1,6 @@
 using System.IO;
 using Avalonia.Media.Imaging;
-using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
 using AvaloniaApplication1.Repositories;
 
 namespace Repositories;

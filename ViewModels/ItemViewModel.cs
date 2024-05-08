@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
 using AvaloniaApplication1.Repositories;
 using DynamicData;
 using Newtonsoft.Json;
@@ -17,6 +18,8 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 {
     public ItemViewModel(IDatasource datasource, IExternal<TItem> external)
     {
+        _settings = Settings.Instance.GetItemSettigns<TItem>();
+
         _datasource = datasource;
         _external = external;
 
@@ -28,7 +31,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         ReloadData();
 
         Events = [];
-        EventViewModel = new EventViewModel(Events, PlatformTypes);
+        EventViewModel = new EventViewModel(Events, _settings.PlatformTypes);
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
@@ -40,12 +43,12 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
 
-        IsFullAmount = IsFullAmountDefaultValue;
+        IsFullAmount = _settings.IsFullAmountDefaultValue;
+        _settings.DateTimeFilter ??= new DateTime(GridFilterViewModel.YearFilter, 1, 1);
     }
 
-    protected virtual bool IsFullAmountDefaultValue => true;
-
-    protected virtual float AmountToMinutesModifier => 1f;
+    public ObservableCollection<string> PlatformTypes => _settings.PlatformTypes;
+    private readonly ItemSettings _settings = new();
     private readonly IDatasource _datasource;
     private readonly IExternal<TItem> _external;
     private TGridItem _selectedGridItem = default!;
@@ -97,8 +100,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         get => _isFullAmount;
         set => this.RaiseAndSetIfChanged(ref _isFullAmount, value);
     }
-
-    public virtual ObservableCollection<string> PlatformTypes => [];
 
     public PeopleSelectionViewModel People { get; set; }
 
@@ -176,8 +177,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         }
     }
 
-    protected virtual string AmountVerb => "minutes";
-
     private int SetAmount(int value)
     {
         if (SelectedItem is null)
@@ -190,15 +189,9 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var newAmount = value - currentAmount;
 
         _newAmount = newAmount;
-        AddAmountString = $"    Adding {newAmount} {AmountVerb}";
+        AddAmountString = $"    Adding {newAmount} {_settings.AmountVerb}";
         return value;
     }
-
-    protected virtual int DefaultNewItemRating => 1;
-    protected virtual int? DefaultNewItemChapter => EventViewModel.NewEventChapter;
-    protected virtual string DefaultNewItemPlatform => string.Empty;
-    protected virtual bool DefaultNewItemCompleted => false;
-    protected virtual bool DefaultNewItemBookmakred => false;
 
     private async void InputUrlChanged()
     {
@@ -207,10 +200,10 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         NewImage = FileRepsitory.GetImageTemp<TItem>();
         NewEvent = new Event
         {
-            Rating = DefaultNewItemRating,
-            Platform = DefaultNewItemPlatform,
-            Completed = DefaultNewItemCompleted,
-            Bookmakred = DefaultNewItemBookmakred
+            Rating = _settings.DefaultNewItemRating,
+            Platform = _settings.DefaultNewItemPlatform,
+            Completed = _settings.DefaultNewItemCompleted,
+            Bookmakred = _settings.DefaultNewItemBookmakred
         };
 
         _inputUrl = string.Empty;
@@ -221,19 +214,23 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         throw new NotImplementedException();
     }
 
-    protected virtual string OpenLinkUrl => string.Empty;
     protected virtual List<string> GetAlternativeOpenLinkSearchParams() => [];
 
     private void OpenLinkAction()
     {
-        HtmlHelper.OpenLink(OpenLinkUrl, [.. GetAlternativeOpenLinkSearchParams()]);
-    }
+        var link = string.Empty;
 
-    protected virtual int? NewItemAmountOverride => null;
+        if (_settings.OpenItemLinkUrl)
+        {
+            link = (SelectedItem as IExternal)?.ExternalID ?? string.Empty;
+        }
+
+        HtmlHelper.OpenLink(link, [.. GetAlternativeOpenLinkSearchParams()]);
+    }
 
     private void AddItemClickAction()
     {
-        var amount = NewItemAmountOverride ?? NewItemAmount;
+        var amount = _settings.NewItemAmountOverride ?? NewItemAmount;
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
         var people = People.GetPeople();
 
@@ -285,7 +282,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             DateEnd = dateEnd,
             Rating = lastEvent?.Rating ?? 0,
             Bookmakred = lastEvent?.Bookmakred ?? false,
-            Chapter = DefaultNewItemChapter,
+            Chapter = _settings.DefaultNewItemChapter,
             Amount = amount,
             AmountType = lastEvent?.AmountType ?? 0,
             Completed = lastEvent?.Completed ?? false,
@@ -318,14 +315,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
     }
 
-    protected virtual DateTime? DateTimeFilter
-    {
-        get
-        {
-            return new DateTime(GridFilterViewModel.YearFilter, 1, 1);
-        }
-    }
-
     internal List<TGridItem> LoadData()
     {
         _itemList = _datasource.GetList<TItem>();
@@ -337,12 +326,15 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
                     .OrderBy(o => o.DateEnd)
                     .ToList();
 
-        if (DateTimeFilter.HasValue
-            && DateTimeFilter != DateTime.MinValue
+        if (_settings.DateTimeFilter.HasValue
+            && _settings.DateTimeFilter != DateTime.MinValue
             && string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
         {
             result = result
-            .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= DateTimeFilter.Value && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
+            .Where(o =>
+            o.DateEnd.HasValue
+            && o.DateEnd.Value >= _settings.DateTimeFilter.Value
+            && o.DateEnd.Value < new DateTime(_settings.DateTimeFilter.Value.Year + 1, 1, 1))
             .ToList();
         }
 
@@ -423,8 +415,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         return eventsByChapter.Where(o => o.DateEnd > dateFilter).Sum(o => o.Amount);
     }
 
-    protected virtual int DefaultAddAmount => 0;
-
     public void SelectedItemChanged()
     {
         Events.Clear();
@@ -450,7 +440,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<TItem>(item.ID);
 
-        AddAmount = DefaultAddAmount;
+        AddAmount = _settings.DefaultAddAmount;
     }
 
     private ObservableCollection<TGridItem> GetSelectedGrid()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
 
 namespace Repositories;
 

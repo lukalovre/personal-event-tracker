@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AvaloniaApplication1.Models.Interfaces;
 
 namespace AvaloniaApplication1.Models;
 

@@ -11,8 +11,6 @@ namespace AvaloniaApplication1.ViewModels;
 
 public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> external) : ItemViewModel<TVShow, TVShowGridItem>(datasource, external)
 {
-    protected override int DefaultAddAmount => SelectedItem.Runtime;
-
     protected override TVShowGridItem Convert(Event e, TVShow i, IEnumerable<Event> eventList)
     {
         return new TVShowGridItem(

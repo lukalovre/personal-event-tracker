@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
 
 namespace AvaloniaApplication1.Repositories;
 

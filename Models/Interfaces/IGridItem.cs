@@ -1,4 +1,4 @@
-namespace AvaloniaApplication1.Models;
+namespace AvaloniaApplication1.Models.Interfaces;
 
 public interface IGridItem
 {

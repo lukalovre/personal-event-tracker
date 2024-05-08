@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AvaloniaApplication1.Models.Interfaces;
 
 namespace AvaloniaApplication1.Models;
 
 [Table("Music")]
-public record Music : IItem
+public record Music : IItem, IExternal
 {
     [Key]
     public int ID { get; set; }

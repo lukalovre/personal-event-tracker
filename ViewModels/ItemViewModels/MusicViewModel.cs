@@ -11,25 +11,15 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class MusicViewModel(IDatasource datasource, IExternal<Music> external)
-: ItemViewModel<Music, MusicGridItem>(datasource, external)
+public partial class MusicViewModel(IDatasource datasource, IExternal<Music> external) : ItemViewModel<Music, MusicGridItem>(datasource, external)
 {
     private int _gridCountMusicTodo1;
     private int _gridCountMusicTodo2;
-
-    public override ObservableCollection<string> PlatformTypes =>
-        new(
-            Enum.GetValues(typeof(eMusicPlatformType))
-                .Cast<eMusicPlatformType>()
-                .Select(v => v.ToString())
-        );
-    protected override string DefaultNewItemPlatform => eMusicPlatformType.Streaming.ToString();
 
     public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; } = [];
     public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; } = [];
     public ObservableCollection<MusicGridItem> ArtistMusic { get; set; } = [];
 
-    protected override string OpenLinkUrl => SelectedItem.ExternalID;
     protected override List<string> GetAlternativeOpenLinkSearchParams()
     {
         var openLinkParams = SelectedItem.Artist.Split(' ').ToList();
@@ -50,11 +40,6 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         get => _gridCountMusicTodo2;
         private set => this.RaiseAndSetIfChanged(ref _gridCountMusicTodo2, value);
     }
-
-    protected override DateTime? DateTimeFilter => DateTime.Now.AddHours(-24);
-    protected override int? NewItemAmountOverride => NewItem.Runtime;
-
-    protected override int? DefaultNewItemChapter => null;
 
     protected override void ReloadData()
     {

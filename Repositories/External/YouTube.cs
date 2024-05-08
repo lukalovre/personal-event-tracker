@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
 using AvaloniaApplication1.ViewModels.Extensions;
 using HtmlAgilityPack;
 using Repositories;

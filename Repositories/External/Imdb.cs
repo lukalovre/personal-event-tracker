@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Repositories;
 using AvaloniaApplication1.ViewModels.Extensions;
-using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
 
 namespace AvaloniaApplication1.Repositories.External;
 

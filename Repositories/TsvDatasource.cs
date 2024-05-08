@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
 using AvaloniaApplication1.Repositories;
 using CsvHelper;
 using CsvHelper.Configuration;
