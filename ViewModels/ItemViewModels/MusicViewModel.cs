@@ -52,6 +52,9 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         MusicTodo2.Clear();
         MusicTodo2.AddRange(LoadDataBookmarked(2));
         GridCountMusicTodo2 = MusicTodo2.Count;
+
+        ArtistMusic.Clear();
+        ArtistMusic.AddRange(LoadData(NewItem?.Artist!));
     }
 
     protected override MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)

@@ -322,10 +322,11 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
     }
 
-    internal List<TGridItem> LoadData()
+    internal List<TGridItem> LoadData(string searchText = null!)
     {
         _itemList = _datasource.GetList<TItem>();
         _eventList = _datasource.GetEventList<TItem>();
+        searchText ??= GridFilterViewModel.SearchText;
 
         var result = _eventList
                     .OrderByDescending(o => o.DateEnd)
@@ -335,7 +336,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         if (DateTimeFilter.HasValue
             && DateTimeFilter != DateTime.MinValue
-            && string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
+            && string.IsNullOrWhiteSpace(searchText))
         {
             result = result
             .Where(o =>
@@ -353,12 +354,12 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
                         )
                         ).ToList();
 
-        if (!string.IsNullOrWhiteSpace(GridFilterViewModel.SearchText))
+        if (!string.IsNullOrWhiteSpace(searchText))
         {
             resultGrid = resultGrid
             .Where(o =>
                 JsonConvert.SerializeObject(o)
-                .Contains(GridFilterViewModel.SearchText, StringComparison.InvariantCultureIgnoreCase))
+                .Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
         }
 
