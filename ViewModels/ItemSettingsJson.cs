@@ -6,7 +6,7 @@ public record ItemSettingsJson
     public int? DefaultNewItemChapter { get; set; } = 1;
     public bool DefaultNewItemCompleted { get; set; }
     public string DateTimeFilter { get; set; } = string.Empty;
-    public int DefaultNewItemRating { get; set; }
+    public int DefaultNewItemRating { get; set; } = 1;
     public int DefaultAddAmount { get; set; }
     public string DefaultNewItemPlatform { get; set; } = string.Empty;
     public bool OpenItemLinkUrl { get; set; }
