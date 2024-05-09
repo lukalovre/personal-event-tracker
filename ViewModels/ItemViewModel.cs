@@ -237,7 +237,15 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     private void AddItemClickAction()
     {
-        var amount = _settings.NewItemAmountOverride ?? NewItemAmount;
+
+        var overrideAmount = _settings.NewItemAmountOverride;
+
+        if (overrideAmount == -1)
+        {
+            overrideAmount = (NewItem as IRuntime)?.Runtime ?? 0;
+        }
+
+        var amount = overrideAmount ?? NewItemAmount;
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
         var people = People.GetPeople();
 

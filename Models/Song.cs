@@ -5,7 +5,7 @@ using AvaloniaApplication1.Models.Interfaces;
 namespace AvaloniaApplication1.Models;
 
 [Table("Songs")]
-public record Song : IItem, IExternal
+public record Song : IItem, IExternal, IRuntime
 {
     [Key]
     public int ID { get; set; }

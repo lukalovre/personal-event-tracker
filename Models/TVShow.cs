@@ -5,7 +5,7 @@ using AvaloniaApplication1.Models.Interfaces;
 namespace AvaloniaApplication1.Models;
 
 [Table("TVShows")]
-public record TVShow : IItem
+public record TVShow : IItem, IRuntime
 {
     [Key]
     public int ID { get; set; }
