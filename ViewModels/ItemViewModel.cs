@@ -237,7 +237,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     private void AddItemClickAction()
     {
-
         var overrideAmount = _settings.NewItemAmountOverride;
 
         if (overrideAmount == -1)
@@ -248,6 +247,8 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var amount = overrideAmount ?? NewItemAmount;
         var dateEnd = UseNewDate ? NewDate : DateTime.Now;
         var people = People.GetPeople();
+
+        var amountType = _settings.AmountType ?? NewEvent.AmountType;
 
         NewEvent ??= new Event();
 
@@ -261,7 +262,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             Bookmakred = NewEvent.Bookmakred,
             Chapter = NewEvent.Chapter,
             Amount = amount,
-            AmountType = NewEvent.AmountType,
+            AmountType = amountType,
             Completed = NewEvent.Completed,
             Comment = NewEvent.Comment,
             People = people,

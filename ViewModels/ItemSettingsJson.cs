@@ -14,4 +14,5 @@ public record ItemSettingsJson
     public bool DefaultNewItemBookmakred { get; set; }
     public float AmountToMinutesModifier { get; set; } = 1f;
     public bool IsFullAmountDefaultValue { get; set; } = true;
+    public eAmountType? AmountType { get; set; } = eAmountType.Minutes;
 }
