@@ -250,6 +250,8 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         var amountType = _settings.AmountType ?? NewEvent.AmountType;
 
+        var chapter = NewEvent.Chapter ?? _settings.DefaultNewItemChapter;
+
         NewEvent ??= new Event();
 
         var newEvent = new Event
@@ -260,7 +262,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             DateEnd = dateEnd,
             Rating = NewEvent.Rating,
             Bookmakred = NewEvent.Bookmakred,
-            Chapter = NewEvent.Chapter,
+            Chapter = chapter,
             Amount = amount,
             AmountType = amountType,
             Completed = NewEvent.Completed,
@@ -326,6 +328,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     private void ClearNewItemControls()
     {
+        InputUrl = string.Empty;
         NewImage = default;
         NewEvent = default!;
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
