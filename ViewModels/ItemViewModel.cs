@@ -328,7 +328,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     private void ClearNewItemControls()
     {
-        InputUrl = string.Empty;
+        this.RaiseAndSetIfChanged(ref _inputUrl, string.Empty);
         NewImage = default;
         NewEvent = default!;
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
