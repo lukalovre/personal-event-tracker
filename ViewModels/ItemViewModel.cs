@@ -292,6 +292,8 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         var people = EventViewModel?.People.GetPeople() ?? string.Empty;
 
+        var chapter = EventViewModel?.NewEventChapter ?? _settings.DefaultNewItemChapter;
+
         var newEvent = new Event
         {
             ID = 0,
@@ -300,7 +302,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             DateEnd = dateEnd,
             Rating = lastEvent?.Rating ?? 0,
             Bookmakred = lastEvent?.Bookmakred ?? false,
-            Chapter = _settings.DefaultNewItemChapter,
+            Chapter = chapter,
             Amount = amount,
             AmountType = lastEvent?.AmountType ?? 0,
             Completed = lastEvent?.Completed ?? false,
