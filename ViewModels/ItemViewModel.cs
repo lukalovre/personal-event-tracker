@@ -462,7 +462,14 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepsitory.GetImage<TItem>(item.ID);
 
-        AddAmount = _settings.DefaultAddAmount;
+        if (_settings.DefaultAddAmount == -1)
+        {
+            AddAmount = Events.LastOrDefault()?.Amount ?? 0;
+        }
+        else
+        {
+            AddAmount = _settings.DefaultAddAmount;
+        }
     }
 
     private ObservableCollection<TGridItem> GetSelectedGrid()
