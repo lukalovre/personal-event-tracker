@@ -50,7 +50,9 @@
 					<TabItem Header="Magazines">
 						<v:MagazinesView DataContext="{Binding MagazinesViewModel}" />
 					</TabItem>
-					<TabItem Header="Boardgames"/>
+					<TabItem Header="Boardgames">
+						<v:BoardgamesView DataContext="{Binding BoardgamesViewModel}" />
+					</TabItem>
 					<TabItem Header="Pinball" />
 					<TabItem Header="Classical" />
 				</TabControl>
