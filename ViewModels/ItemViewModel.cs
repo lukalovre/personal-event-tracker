@@ -292,7 +292,12 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         var people = EventViewModel?.People.GetPeople() ?? string.Empty;
 
-        var chapter = EventViewModel?.NewEventChapter ?? _settings.DefaultNewItemChapter;
+        int? chapter = null;
+
+        if (_settings.DefaultNewItemChapter is not null)
+        {
+            chapter = EventViewModel?.NewEventChapter ?? _settings.DefaultNewItemChapter;
+        }
 
         var newEvent = new Event
         {
