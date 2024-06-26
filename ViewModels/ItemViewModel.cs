@@ -250,9 +250,8 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         var amountType = _settings.AmountType ?? NewEvent.AmountType;
 
-        var chapter = NewEvent.Chapter ?? _settings.DefaultNewItemChapter;
-
         NewEvent ??= new Event();
+        var chapter = NewEvent.Chapter ?? _settings.DefaultNewItemChapter;
 
         var newEvent = new Event
         {

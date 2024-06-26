@@ -47,7 +47,9 @@
 						<v:TheatreView DataContext="{Binding TheatreViewModel}" />
 					</TabItem>
 					<TabItem Header="Paintings"/>
-					<TabItem Header="Magazines"/>
+					<TabItem Header="Magazines">
+						<v:MagazinesView DataContext="{Binding MagazinesViewModel}" />
+					</TabItem>
 					<TabItem Header="Boardgames"/>
 					<TabItem Header="Pinball" />
 					<TabItem Header="Classical" />
