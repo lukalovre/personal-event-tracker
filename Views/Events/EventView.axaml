@@ -2,7 +2,7 @@
 	<Border Background="Teal" BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
 		<TabControl>
 			<TabItem Header="Event">
-				<StackPanel>
+				<StackPanel Height="240">
 					<ComboBox ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}" Margin="0,0,0,10">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
@@ -38,7 +38,7 @@
 				</StackPanel>
 			</TabItem>
 			<TabItem Header="New">
-				<StackPanel>
+				<StackPanel Height="240">
 					<StackPanel Orientation="Horizontal" Margin="1">
 						<TextBlock Text="Rating" VerticalAlignment="Center" Width="75"/>
 						<NumericUpDown Value="{Binding SelectedEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" Width="100" />
@@ -61,7 +61,7 @@
 						<TextBox Watermark = "ExternalID" Text="{Binding SelectedEvent.ExternalID}" Width="185" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="80" TextWrapping="Wrap"/>
+						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="100" TextWrapping="Wrap"/>
 						<TextBlock Text="		 " />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>

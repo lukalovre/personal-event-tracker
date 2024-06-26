@@ -61,8 +61,8 @@
         </TabControl>
         <TabControl Margin="5">
             <TabItem Header="Info">
-                <ScrollViewer>
-                    <StackPanel>
+                <StackPanel>
+                    <StackPanel Height="490">
                         <TextBlock Text="{Binding SelectedItem.Artist}" FontSize="20" FontWeight="Bold" />
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding SelectedItem.Title}" FontSize="20" />
@@ -76,12 +76,14 @@
                             <Button Command="{Binding OpenLink}">Open Link</Button>
                         </StackPanel>
                         <Button Command="{Binding OpenImage}">
-                            <Image Source="{Binding Image}" Width="430" Height="430" />
+                            <Image Source="{Binding Image}" Width="430" Height="400" />
                         </Button>
+                    </StackPanel>
+                    <StackPanel>
                         <view:EventView DataContext="{Binding EventViewModel}" />
                         <Button Command="{Binding AddEventClick}">Listen again</Button>
                     </StackPanel>
-                </ScrollViewer>
+                </StackPanel>
             </TabItem>
             <TabItem Header="New">
                 <ScrollViewer>
