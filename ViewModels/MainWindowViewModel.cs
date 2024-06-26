@@ -19,5 +19,6 @@ public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
     public ZooViewModel ZooViewModel { get; } = new ZooViewModel(datasource);
     public MagazinesViewModel MagazinesViewModel { get; } = new MagazinesViewModel(datasource);
     public BoardgamesViewModel BoardgamesViewModel { get; } = new BoardgamesViewModel(datasource);
+    public PaintingsViewModel PaintingsViewModel { get; } = new PaintingsViewModel(datasource);
     public LocationsViewModel LocationsViewModel { get; } = new LocationsViewModel(datasource);
 }
