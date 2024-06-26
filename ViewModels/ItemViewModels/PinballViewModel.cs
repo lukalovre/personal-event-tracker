@@ -5,14 +5,13 @@ using Repositories;
 
 namespace AvaloniaApplication1.ViewModels;
 
-public partial class PaintingsViewModel(IDatasource datasource) : ItemViewModel<Painting, PaintingsGridItem>(datasource, null!)
+public partial class PinballViewModel(IDatasource datasource) : ItemViewModel<Pinball, PinballGridItem>(datasource, null!)
 {
-    protected override PaintingsGridItem Convert(Event e, Painting i, IEnumerable<Event> eventList)
+    protected override PinballGridItem Convert(Event e, Pinball i, IEnumerable<Event> eventList)
     {
-        return new PaintingsGridItem(
+        return new PinballGridItem(
             i.ID,
             i.Title,
-            i.Author,
             i.Year,
             eventList.LastEventDate());
     }
