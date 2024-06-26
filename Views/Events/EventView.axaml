@@ -61,6 +61,36 @@
 						<TextBox Watermark = "ExternalID" Text="{Binding SelectedEvent.ExternalID}" Width="185" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Margin="1">
+						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap"/>
+						<TextBlock Text="		 " />
+						<view:PeopleSelectionView DataContext="{Binding People}" />
+					</StackPanel>
+				</StackPanel>
+			</TabItem>
+			<TabItem Header="Stats">
+				<StackPanel Height="240">
+					<StackPanel Orientation="Horizontal" Margin="1">
+						<TextBlock Text="Rating" VerticalAlignment="Center" Width="75"/>
+						<NumericUpDown Value="{Binding SelectedEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" Width="100" />
+						<TextBlock Text="		 " />
+						<CheckBox IsChecked="{Binding IsEditDate}" />
+						<TextBox Text="{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Margin="1">
+						<TextBlock Text="Chapter" VerticalAlignment="Center" Width="75" />
+						<NumericUpDown Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
+						<TextBlock Text="		 " />
+						<CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">★</CheckBox>
+						<TextBlock Text="		 " />
+						<CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Margin="1">
+						<TextBlock Text="Platform" VerticalAlignment="Center" Width="75"/>
+						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}" Width="100" />
+						<TextBlock Text="		 " />
+						<TextBox Watermark = "ExternalID" Text="{Binding SelectedEvent.ExternalID}" Width="185" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Margin="1">
 						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="100" TextWrapping="Wrap"/>
 						<TextBlock Text="		 " />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
