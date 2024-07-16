@@ -149,7 +149,8 @@ public class YouTube
             "(Audio)",
             "[FULL ALBUM]",
             "HIGH QUALITY",
-            "[Official Music Video]"};
+            "[Official Music Video]",
+            "(Official Lyric Video)"};
 
         var split = videoTitle.Split(" - ");
 

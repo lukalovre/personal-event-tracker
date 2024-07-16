@@ -8,10 +8,6 @@
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="*" />
 							<DataGridTextColumn Binding="{Binding Festival}" Header="Festival" Width="*" />
-							<DataGridTextColumn Binding="{Binding Venue}" Header="Venue" Width="*" />
-							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="*" />
-							<DataGridTextColumn Binding="{Binding Country}" Header="Country" Width="*" />
-							<DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
@@ -24,10 +20,6 @@
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="*" />
 							<DataGridTextColumn Binding="{Binding Festival}" Header="Festival" Width="*" />
-							<DataGridTextColumn Binding="{Binding Venue}" Header="Venue" Width="*" />
-							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="*" />
-							<DataGridTextColumn Binding="{Binding Country}" Header="Country" Width="*" />
-							<DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
@@ -96,15 +88,11 @@
 							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Season" />
-							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Amount" />
-							<TextBox Text="{Binding NewEvent.Amount}" HorizontalAlignment="Stretch" />
+							<TextBox Text="{Binding NewItemAmount}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
-						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
+						<TextBox Watermark = "Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap"/>
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 					</StackPanel>
