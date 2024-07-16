@@ -19,4 +19,5 @@ public record MagazinesGridItem(int ID, string Title, int Issue, DateTime? LastD
 public record BoardgamesGridItem(int ID, string Title, int Issue, DateTime? LastDate) : IGridItem;
 public record PaintingsGridItem(int ID, string Title, string Author, int Year, DateTime? LastDate) : IGridItem;
 public record PinballGridItem(int ID, string Title, int Year, DateTime? LastDate) : IGridItem;
+public record ConcertsGridItem(int ID, string Title, int Year, DateTime? LastDate) : IGridItem;
 public record LocationGridItem(int ID, string Name, string City, string Country, int Year) : IGridItem;

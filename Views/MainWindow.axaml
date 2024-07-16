@@ -37,6 +37,9 @@
 					<TabItem Header="Comics">
 						<v:ComicsView DataContext="{Binding ComicsViewModel}" />
 					</TabItem>
+					<TabItem Header="Concerts">
+						<v:ConcertsView DataContext="{Binding ConcertsViewModel}" />
+					</TabItem>
 					<TabItem Header="Zoo">
 						<v:ZooView DataContext="{Binding ZooViewModel}" />
 					</TabItem>
