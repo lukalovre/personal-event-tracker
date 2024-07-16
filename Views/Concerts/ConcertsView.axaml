@@ -6,8 +6,12 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarked}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+							<DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="*" />
+							<DataGridTextColumn Binding="{Binding Festival}" Header="Festival" Width="*" />
+							<DataGridTextColumn Binding="{Binding Venue}" Header="Venue" Width="*" />
+							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="*" />
+							<DataGridTextColumn Binding="{Binding Country}" Header="Country" Width="*" />
+							<DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
@@ -18,8 +22,12 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+							<DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="*" />
+							<DataGridTextColumn Binding="{Binding Festival}" Header="Festival" Width="*" />
+							<DataGridTextColumn Binding="{Binding Venue}" Header="Venue" Width="*" />
+							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="*" />
+							<DataGridTextColumn Binding="{Binding Country}" Header="Country" Width="*" />
+							<DataGridTextColumn Binding="{Binding Price}" Header="Price" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
@@ -30,8 +38,12 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
-						<TextBlock Text="{Binding SelectedItem.Title}" />
-						<TextBlock Text="{Binding SelectedItem.Year}" />
+						<TextBlock Text="{Binding SelectedItem.Artist}" />
+						<TextBlock Text="{Binding SelectedItem.Festival}" />
+						<TextBlock Text="{Binding SelectedItem.Venue}" />
+						<TextBlock Text="{Binding SelectedItem.City}" />
+						<TextBlock Text="{Binding SelectedItem.Country}" />
+						<TextBlock Text="{Binding SelectedItem.Price}" />
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
 						</Button>
@@ -51,12 +63,28 @@
 							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Title" />
-							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+							<TextBlock Text="Artist" />
+							<TextBox Text="{Binding NewItem.Artist}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Year" />
-							<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
+							<TextBlock Text="Festival" />
+							<TextBox Text="{Binding NewItem.Festival}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Venue" />
+							<TextBox Text="{Binding NewItem.Venue}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="City" />
+							<TextBox Text="{Binding NewItem.City}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Country" />
+							<TextBox Text="{Binding NewItem.Country}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Price" />
+							<TextBox Text="{Binding NewItem.Price}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<Image Source="{Binding NewImage}" />
 						<StackPanel Orientation="Horizontal">
@@ -70,6 +98,10 @@
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Season" />
 							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Amount" />
+							<TextBox Text="{Binding NewEvent.Amount}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />

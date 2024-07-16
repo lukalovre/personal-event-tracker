@@ -11,8 +11,13 @@ public partial class ConcertsViewModel(IDatasource datasource) : ItemViewModel<C
     {
         return new ConcertsGridItem(
             i.ID,
-            i.Title,
-            i.Year,
+            i.Artist,
+            i.Festival,
+            i.Venue,
+            i.City,
+            i.Country,
+            i.Price,
+            eventList.LastEventDate().Year,
             eventList.LastEventDate());
     }
 }
