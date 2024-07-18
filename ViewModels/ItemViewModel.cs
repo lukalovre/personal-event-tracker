@@ -336,7 +336,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     {
         this.RaiseAndSetIfChanged(ref _inputUrl, string.Empty);
         NewImage = default;
-        NewEvent = default!;
+        NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
     }
 
