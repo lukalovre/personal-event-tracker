@@ -70,7 +70,9 @@
 						<v:WorkView DataContext="{Binding WorkViewModel}" />
 					</TabItem>
 					<TabItem Header="D&amp;D" />
-					<TabItem Header="People" />
+					<TabItem Header="People">
+						<v:PeopleView DataContext="{Binding PeopleViewModel}" />
+					</TabItem>
 					<TabItem Header="Locations" />
 				</TabControl>
 			</TabItem>

@@ -21,6 +21,7 @@ public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
     public BoardgamesViewModel BoardgamesViewModel { get; } = new BoardgamesViewModel(datasource);
     public PaintingsViewModel PaintingsViewModel { get; } = new PaintingsViewModel(datasource);
     public PinballViewModel PinballViewModel { get; } = new PinballViewModel(datasource);
+    public PeopleViewModel PeopleViewModel { get; } = new PeopleViewModel(datasource);
     public ConcertsViewModel ConcertsViewModel { get; } = new ConcertsViewModel(datasource);
     public LocationsViewModel LocationsViewModel { get; } = new LocationsViewModel(datasource);
 }
