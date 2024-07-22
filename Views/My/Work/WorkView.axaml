@@ -70,7 +70,7 @@
 							★
 						</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<TextBox Watermark="Minutes" Text="{Binding NewEvent.Amount}" />
+						<TextBox Watermark="Minutes" Text="{Binding NewItemAmount}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>
 				</ScrollViewer>
