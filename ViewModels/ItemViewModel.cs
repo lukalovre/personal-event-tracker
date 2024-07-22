@@ -23,7 +23,10 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         _datasource = datasource;
         _external = external;
 
-        GridFilterViewModel = new GridFilterViewModel(this);
+        GridFilterViewModel = new GridFilterViewModel(this)
+        {
+            ShowYearFilter = _settings.ShowYearFilter
+        };
         People = new PeopleSelectionViewModel();
 
         GridItems = [];
@@ -60,7 +63,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     private readonly IExternal<TItem> _external;
     private TGridItem _selectedGridItem = default!;
     private List<TItem> _itemList = [];
-    private List<Event> _eventList = [];
+    protected List<Event> _eventList = [];
     private TItem _newItem = default!;
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;

@@ -15,4 +15,5 @@ public record ItemSettingsJson
     public float AmountToMinutesModifier { get; set; } = 1f;
     public bool IsFullAmountDefaultValue { get; set; } = true;
     public eAmountType? AmountType { get; set; } = eAmountType.Minutes;
+    public bool ShowYearFilter { get; set; } = true;
 }

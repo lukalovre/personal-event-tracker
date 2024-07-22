@@ -19,6 +19,8 @@ public class GridFilterViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> Reload { get; }
     private int _gridCountItems;
 
+    public bool ShowYearFilter { get; set; } = true;
+
     public int GridCountItems
     {
         get => _gridCountItems;

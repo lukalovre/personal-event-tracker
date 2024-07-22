@@ -4,7 +4,7 @@
 			<TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" Width="35"/>
 			<TextBox Text="{Binding SearchText}" Watermark="Filter" Width="150" Margin="1"/>
 			<Button Command="{Binding Search}" HotKey="Enter" Margin="1">🔍</Button>
-			<NumericUpDown Value="{Binding YearFilter}" Increment="1" Margin="1"/>
+			<NumericUpDown Value="{Binding YearFilter}" Increment="1" Margin="1" IsVisible="{Binding ShowYearFilter}" />
 			<Button Command="{Binding Reload}" HotKey="Enter" Margin="1">↺</Button>
 		</StackPanel>
 	</Border>
