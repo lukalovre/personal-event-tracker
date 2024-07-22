@@ -11,13 +11,23 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
 {
 
     public ObservableCollection<PersonGridItem> Movies { get; set; } = [];
+    public ObservableCollection<PersonGridItem> PeopleGrid { get; set; } = [];
 
     protected override void ReloadData()
     {
         base.ReloadData();
 
+        PeopleGrid.Clear();
+        PeopleGrid.AddRange(LoadPeople());
+
         Movies.Clear();
         Movies.AddRange(LoadMovies());
+    }
+
+    private List<PersonGridItem> LoadPeople()
+    {
+        var itemList = datasource.GetList<Person>();
+        return itemList.Select(o => Convert(null!, o, null!)).ToList();
     }
 
     private List<PersonGridItem> LoadMovies()
