@@ -40,6 +40,6 @@ public class DateTimeToStringConverter : IValueConverter
             }
         }
 
-        return DateTime.MinValue;
+        return null!;
     }
 }
