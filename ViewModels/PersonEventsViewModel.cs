@@ -80,10 +80,10 @@ public partial class PersonEventsViewModel : ViewModelBase
 
     public PersonEventsViewModel(ObservableCollection<Event> events, ObservableCollection<string> platformTypes)
     {
-        Events = events;
-        Events.CollectionChanged += CollectionChanged;
-        PlatformTypes = platformTypes;
-        People = new PeopleSelectionViewModel();
+        // Events = events;
+        // Events.CollectionChanged += CollectionChanged;
+        // PlatformTypes = platformTypes;
+        // People = new PeopleSelectionViewModel();
     }
 
     private void SelectedEventChanged()

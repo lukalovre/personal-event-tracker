@@ -10,6 +10,7 @@ namespace AvaloniaApplication1.ViewModels;
 public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Person, PersonGridItem>(datasource, null!)
 {
 
+    public PersonEventsViewModel PersonEventsViewModel { get; } = new PersonEventsViewModel(null, null);
     public ObservableCollection<PersonGridItem> Movies { get; set; } = [];
     public ObservableCollection<PersonGridItem> PeopleGrid { get; set; } = [];
 

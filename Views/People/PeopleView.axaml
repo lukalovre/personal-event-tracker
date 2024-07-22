@@ -69,7 +69,7 @@
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
-						<view:EventView DataContext="{Binding EventViewModel}" />
+						<view:PersonEventsView DataContext="{Binding PersonEventsViewModel}" />
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
