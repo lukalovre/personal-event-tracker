@@ -77,21 +77,57 @@
 				<ScrollViewer>
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+							<Button>
+								<Image Source="{Binding NewImage}" Width="200" Height="200" />
+							</Button>
+							<StackPanel>
+								<TextBlock Text="   "/>
+							</StackPanel>
+							<StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.FirstName}" Width="150"/>
+									<TextBlock Text=" FirstName" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.LastName}" Width="150"/>
+									<TextBlock Text=" LastName" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Nickname}" Width="150"/>
+									<TextBlock Text=" Nickname" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Phone}" Width="150"/>
+									<TextBlock Text=" Phone" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Email}" Width="150"/>
+									<TextBlock Text=" Email" VerticalAlignment="Center"/>
+								</StackPanel>
+							</StackPanel>
+							<StackPanel>
+								<TextBlock Text="      "/>
+							</StackPanel>
+							<StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Address}" Width="150"/>
+									<TextBlock Text=" Address" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.City}" Width="150"/>
+									<TextBlock Text=" City" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Postcode}" Width="150"/>
+									<TextBlock Text=" Postcode" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Country}" Width="150"/>
+									<TextBlock Text=" Country" VerticalAlignment="Center"/>
+								</StackPanel>
+							</StackPanel>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="FirstName" />
-							<TextBox Text="{Binding NewItem.FirstName}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="LastName" />
-							<TextBox Text="{Binding NewItem.LastName}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Nickname" />
-							<TextBox Text="{Binding NewItem.Nickname}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<Image Source="{Binding NewImage}" />
+						<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
