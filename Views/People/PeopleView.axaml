@@ -6,9 +6,9 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="300" ItemsSource="{Binding Movies}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding FirstName}" Header="Title" />
-							<DataGridTextColumn Binding="{Binding LastName}" Header="Title" />
-							<DataGridTextColumn Binding="{Binding Nickname}" Header="Title" />
+							<DataGridTextColumn Binding="{Binding FirstName}" Header="First name" />
+							<DataGridTextColumn Binding="{Binding LastName}" Header="Last name" />
+							<DataGridTextColumn Binding="{Binding Nickname}" Header="Nickname" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
@@ -18,18 +18,58 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
-						<TextBlock Text="{Binding SelectedItem.FirstName}" />
-						<TextBlock Text="{Binding SelectedItem.LastName}" />
-						<TextBlock Text="{Binding SelectedItem.Nickname}" />
-						<Button>
-							<Image Source="{Binding Image}" Width="430" Height="430" />
-						</Button>
-						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddEventClick}">Add</Button>
-							<TextBox Text="{Binding AddAmount}" />
-							<TextBlock Text="{Binding AddAmountString}" />
+							<Button>
+								<Image Source="{Binding Image}" Width="200" Height="200" />
+							</Button>
+							<StackPanel>
+								<TextBlock Text="   "/>
+							</StackPanel>
+							<StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.FirstName}" Width="150"/>
+									<TextBlock Text=" FirstName" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.LastName}" Width="150"/>
+									<TextBlock Text=" LastName" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Nickname}" Width="150"/>
+									<TextBlock Text=" Nickname" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Phone}" Width="150"/>
+									<TextBlock Text=" Phone" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Email}" Width="150"/>
+									<TextBlock Text=" Email" VerticalAlignment="Center"/>
+								</StackPanel>
+							</StackPanel>
+							<StackPanel>
+								<TextBlock Text="      "/>
+							</StackPanel>
+							<StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Address}" Width="150"/>
+									<TextBlock Text=" Address" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.City}" Width="150"/>
+									<TextBlock Text=" City" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Postcode}" Width="150"/>
+									<TextBlock Text=" Postcode" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Country}" Width="150"/>
+									<TextBlock Text=" Country" VerticalAlignment="Center"/>
+								</StackPanel>
+							</StackPanel>
 						</StackPanel>
+						<view:EventView DataContext="{Binding EventViewModel}" />
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
@@ -52,22 +92,6 @@
 							<TextBox Text="{Binding NewItem.Nickname}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<Image Source="{Binding NewImage}" />
-						<StackPanel Orientation="Horizontal">
-							<CheckBox IsChecked="{Binding UseNewDate}" />
-							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Rating" />
-							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Season" />
-							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
-						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<view:PeopleSelectionView DataContext="{Binding People}" />
-						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>

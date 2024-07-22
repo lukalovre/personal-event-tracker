@@ -14,7 +14,11 @@ public record Person : IItem
     public string LastName { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
+    public string Country { get; set; } = string.Empty;
     public string Postcode { get; set; } = string.Empty;
     public string Birthday { get; set; } = string.Empty;
     public string Nickname { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public int? LocationID { get; set; }
 }
