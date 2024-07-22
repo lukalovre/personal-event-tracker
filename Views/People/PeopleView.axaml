@@ -4,11 +4,11 @@
 			<TabItem Header="All">
 				<DockPanel>
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
-					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+					<DataGrid Margin="1" Width="300" ItemsSource="{Binding Movies}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding FirstName}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding LastName}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding Nickname}" Header="Title" Width="*" />
+							<DataGridTextColumn Binding="{Binding FirstName}" Header="Title" />
+							<DataGridTextColumn Binding="{Binding LastName}" Header="Title" />
+							<DataGridTextColumn Binding="{Binding Nickname}" Header="Title" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
