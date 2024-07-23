@@ -22,10 +22,10 @@ internal class TsvDatasource : IDatasource
         BadDataFound = null
     };
 
-    public void Add<T>(T item, Event e)
-        where T : IItem
+    public void Add<T>(T item, Event e) where T : IItem
     {
-        var items = GetList<T>();
+        var type = Helpers.GetClassName<T>();
+        var items = GetList<T>(type);
         var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
 
         if (!items.Any(o => o.ID == item.ID))
@@ -86,7 +86,12 @@ internal class TsvDatasource : IDatasource
 
     private static string GetEventFilePath<T>()
     {
-        return Path.Combine(Paths.Data, $"{Helpers.GetClassName<T>()}Events.tsv");
+        return GetEventFilePath(Helpers.GetClassName<T>());
+    }
+
+    private static string GetEventFilePath(string type)
+    {
+        return Path.Combine(Paths.Data, $"{type}Events.tsv");
     }
 
     private static string? GetDataName<T>()
@@ -96,7 +101,7 @@ internal class TsvDatasource : IDatasource
         return tableName;
     }
 
-    public List<T> GetList<T>() where T : IItem
+    public List<T> GetList<T>(string type) where T : IItem
     {
         var itemFilePath = GetFilePath<T>();
 
@@ -108,8 +113,7 @@ internal class TsvDatasource : IDatasource
         var text = File.ReadAllText(itemFilePath);
         var reader = new StringReader(text);
         using var csv = new CsvReader(reader, _config);
-
-        return csv.GetRecords<T>().ToList(); ;
+        return csv.GetRecords<T>().ToList();
     }
 
     public List<Event> GetEventList<T>() where T : IItem
@@ -125,7 +129,23 @@ internal class TsvDatasource : IDatasource
         var reader = new StringReader(text);
         using var csv = new CsvReader(reader, _config);
 
-        return csv.GetRecords<Event>().ToList(); ;
+        return csv.GetRecords<Event>().ToList();
+    }
+
+    public List<Event> GetEventList(string type)
+    {
+        var eventFilePath = GetEventFilePath(type);
+
+        if (!File.Exists(eventFilePath))
+        {
+            return [];
+        }
+
+        var text = File.ReadAllText(eventFilePath);
+        var reader = new StringReader(text);
+        using var csv = new CsvReader(reader, _config);
+
+        return csv.GetRecords<Event>().ToList();
     }
 
     public void MakeBackup(string path)

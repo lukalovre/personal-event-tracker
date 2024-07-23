@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Repositories;
 using DynamicData;
 using Repositories;
 
@@ -24,7 +25,7 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
 
     private List<PersonGridItem> LoadPeople()
     {
-        var itemList = datasource.GetList<Person>();
+        var itemList = datasource.GetList<Person>(Helpers.GetClassName<Person>());
         return itemList.Select(o => Convert(null!, o, null!)).ToList();
     }
 

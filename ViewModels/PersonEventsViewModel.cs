@@ -63,8 +63,24 @@ public partial class PersonEventsViewModel : ViewModelBase
     private List<PersonEventGridItem> LoadEvents(int id)
     {
         var peopleEventGridList = new List<PersonEventGridItem>();
-        peopleEventGridList.AddRange(GetEvents<Movie>(id));
+        peopleEventGridList.AddRange(GetEvents<Boardgame>(id));
+        peopleEventGridList.AddRange(GetEvents<Book>(id));
+        peopleEventGridList.AddRange(GetEvents<Clip>(id));
+        peopleEventGridList.AddRange(GetEvents<Comic>(id));
         peopleEventGridList.AddRange(GetEvents<Concert>(id));
+        peopleEventGridList.AddRange(GetEvents<Game>(id));
+        peopleEventGridList.AddRange(GetEvents<Location>(id));
+        peopleEventGridList.AddRange(GetEvents<Magazine>(id));
+        peopleEventGridList.AddRange(GetEvents<Movie>(id));
+        peopleEventGridList.AddRange(GetEvents<Music>(id));
+        peopleEventGridList.AddRange(GetEvents<Painting>(id));
+        peopleEventGridList.AddRange(GetEvents<Pinball>(id));
+        peopleEventGridList.AddRange(GetEvents<Song>(id));
+        peopleEventGridList.AddRange(GetEvents<Standup>(id));
+        peopleEventGridList.AddRange(GetEvents<Theatre>(id));
+        peopleEventGridList.AddRange(GetEvents<TVShow>(id));
+        peopleEventGridList.AddRange(GetEvents<Work>(id));
+        peopleEventGridList.AddRange(GetEvents<Zoo>(id));
 
         return peopleEventGridList.OrderByDescending(o => o.Date).ToList();
     }
@@ -73,8 +89,10 @@ public partial class PersonEventsViewModel : ViewModelBase
     {
         var peopleEventGridList = new List<PersonEventGridItem>();
 
-        var eventList = _datasource.GetEventList<T>();
-        var itemList = _datasource.GetList<T>();
+        var type = Helpers.GetClassName<T>();
+
+        var eventList = _datasource.GetEventList(type);
+        var itemList = _datasource.GetList<T>(type);
 
         foreach (var e in eventList)
         {
@@ -93,7 +111,7 @@ public partial class PersonEventsViewModel : ViewModelBase
                     continue;
                 }
 
-                var gridItem = new PersonEventGridItem(item.ID, Helpers.GetClassName<T>(), item.Title, e.DateEnd);
+                var gridItem = new PersonEventGridItem(item.ID, type, item.Title, e.DateEnd);
                 peopleEventGridList.Add(gridItem);
             }
         }

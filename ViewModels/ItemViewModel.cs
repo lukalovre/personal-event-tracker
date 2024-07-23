@@ -345,8 +345,10 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     internal List<TGridItem> LoadData(string searchText = null!)
     {
-        _itemList = _datasource.GetList<TItem>();
-        _eventList = _datasource.GetEventList<TItem>();
+        var type = Helpers.GetClassName<TItem>();
+
+        _itemList = _datasource.GetList<TItem>(type);
+        _eventList = _datasource.GetEventList(type);
         searchText ??= GridFilterViewModel.SearchText;
 
         var result = _eventList
@@ -389,8 +391,9 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
     protected List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
     {
-        _itemList = _datasource.GetList<TItem>();
-        _eventList = _datasource.GetEventList<TItem>();
+        var type = Helpers.GetClassName<TItem>();
+        _itemList = _datasource.GetList<TItem>(type);
+        _eventList = _datasource.GetEventList(type);
 
         var dateFilter = yearsAgo.HasValue
             ? DateTime.Now.AddYears(-yearsAgo.Value)
