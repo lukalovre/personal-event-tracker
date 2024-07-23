@@ -7,7 +7,7 @@ namespace AvaloniaApplication1.Models;
 public record Location : IItem
 {
     public int ID { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
 }

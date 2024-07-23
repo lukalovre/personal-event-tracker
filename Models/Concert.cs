@@ -13,4 +13,5 @@ public record Concert : IItem
     public string City { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
     public int Price { get; set; }
+    public string Title { get; set; } = string.Empty;
 }
