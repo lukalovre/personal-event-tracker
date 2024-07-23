@@ -3,7 +3,7 @@
 		<TabControl>
 			<TabItem Header="Event">
 				<StackPanel Height="545" Orientation="Horizontal">
-					<DataGrid Margin="1" Width="300" Height="500" ItemsSource="{Binding Events}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+					<DataGrid Margin="1" Width="400" Height="550" ItemsSource="{Binding Events}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="70" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*"/>
@@ -12,7 +12,7 @@
 					</DataGrid>
 					<TextBlock Text="   "/>
 					<Button>
-						<Image Source="{Binding Image}" Width="400" Height="400" />
+						<Image Source="{Binding Image}" Width="300" Height="300" />
 					</Button>
 				</StackPanel>
 			</TabItem>

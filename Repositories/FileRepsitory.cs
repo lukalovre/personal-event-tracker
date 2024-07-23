@@ -13,10 +13,14 @@ public class FileRepsitory
         return File.Exists(filePath);
     }
 
-    public static Bitmap? GetImage<T>(int itemID)
-        where T : IItem
+    public static Bitmap? GetImage<T>(int itemID) where T : IItem
     {
-        var filePath = Path.Combine(Paths.Images, Helpers.GetClassName<T>(), $"{itemID}.png");
+        return GetImage(Helpers.GetClassName<T>(), itemID);
+    }
+
+    public static Bitmap? GetImage(string type, int itemID)
+    {
+        var filePath = Path.Combine(Paths.Images, type, $"{itemID}.png");
 
         if (!File.Exists(filePath))
         {

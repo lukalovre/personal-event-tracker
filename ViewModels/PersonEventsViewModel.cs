@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
+using AvaloniaApplication1.Models.Interfaces;
+using AvaloniaApplication1.Repositories;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
@@ -41,6 +43,11 @@ public partial class PersonEventsViewModel : ViewModelBase
         }
     }
 
+    private object getclass()
+    {
+        return typeof(Movie);
+    }
+
     private void SelectedItemChanged()
     {
         Image = null;
@@ -50,16 +57,24 @@ public partial class PersonEventsViewModel : ViewModelBase
             return;
         }
 
-        Image = FileRepsitory.GetImage<Movie>(SelectedGridItem.ID);
+        Image = FileRepsitory.GetImage(SelectedGridItem.Type, SelectedGridItem.ID);
     }
 
     private List<PersonEventGridItem> LoadEvents(int id)
     {
-        var peopleEventList = new List<Event>();
+        var peopleEventGridList = new List<PersonEventGridItem>();
+        peopleEventGridList.AddRange(GetEvents<Movie>(id));
+        peopleEventGridList.AddRange(GetEvents<Concert>(id));
+
+        return peopleEventGridList.OrderByDescending(o => o.Date).ToList();
+    }
+
+    private List<PersonEventGridItem> GetEvents<T>(int id) where T : IItem
+    {
         var peopleEventGridList = new List<PersonEventGridItem>();
 
-        var eventList = _datasource.GetEventList<Movie>();
-        var itemList = _datasource.GetList<Movie>();
+        var eventList = _datasource.GetEventList<T>();
+        var itemList = _datasource.GetList<T>();
 
         foreach (var e in eventList)
         {
@@ -78,12 +93,12 @@ public partial class PersonEventsViewModel : ViewModelBase
                     continue;
                 }
 
-                var gridItem = new PersonEventGridItem(item.ID, nameof(Movie), item.Title, e.DateEnd);
+                var gridItem = new PersonEventGridItem(item.ID, Helpers.GetClassName<T>(), item.Title, e.DateEnd);
                 peopleEventGridList.Add(gridItem);
             }
         }
 
-        return peopleEventGridList.OrderByDescending(o => o.Date).ToList();
+        return peopleEventGridList;
     }
 
     internal void LoadData(int id)
