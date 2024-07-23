@@ -14,7 +14,7 @@ public record TheatreGridItem(int ID, string Title, string Writer, string Direct
 public record TVShowGridItem(int ID, string Title, int Season, int Episode, int Rating, DateTime? LastDate) : IGridItem;
 public record ClipGridItem(int ID, string Author, string Title, int Rating) : IGridItem;
 public record WorkGridItem(int ID, string Title, string Type, int Minutes, DateTime LastDate) : IGridItem;
-public record ZooGridItem(int ID, string Name, string City, string Country, int Year) : IGridItem;
+public record ZooGridItem(int ID, string Title, string City, string Country, int Year) : IGridItem;
 public record MagazinesGridItem(int ID, string Title, int Issue, DateTime? LastDate) : IGridItem;
 public record BoardgamesGridItem(int ID, string Title, int Issue, DateTime? LastDate) : IGridItem;
 public record PaintingsGridItem(int ID, string Title, string Author, int Year, DateTime? LastDate) : IGridItem;
@@ -22,4 +22,4 @@ public record PinballGridItem(int ID, string Title, int Year, DateTime? LastDate
 public record PersonGridItem(int ID, string FirstName, string LastName, string Nickname) : IGridItem;
 public record PersonEventGridItem(int ID, string Type, string Title, DateTime? Date) : IGridItem;
 public record ConcertsGridItem(int ID, string Artist, string Festival, string Venue, string City, string Country, int Price, int Year, DateTime? LastDate) : IGridItem;
-public record LocationGridItem(int ID, string Name, string City, string Country, int Year) : IGridItem;
+public record LocationGridItem(int ID, string Title, string City, string Country, int Year) : IGridItem;

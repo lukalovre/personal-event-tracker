@@ -11,7 +11,7 @@ public partial class ZooViewModel(IDatasource datasource) : ItemViewModel<Zoo, Z
     {
         return new ZooGridItem(
             i.ID,
-            i.Name,
+            i.Title,
             i.City,
             i.Country,
             eventList.LastEventDate().Date.Year);

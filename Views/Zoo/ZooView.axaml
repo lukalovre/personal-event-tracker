@@ -6,7 +6,7 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*" />
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="70" />
 							<DataGridTextColumn Binding="{Binding Country}" Header="Country" Width="70" />
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
@@ -19,7 +19,7 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
-						<TextBlock Text="{Binding SelectedItem.Name}" />
+						<TextBlock Text="{Binding SelectedItem.Title}" />
 						<TextBlock Text="{Binding SelectedItem.City}" />
 						<TextBlock Text="{Binding SelectedItem.Country}" />
 						<Button>
@@ -42,8 +42,8 @@
 							<TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Name" />
-							<TextBox Text="{Binding NewItem.Name}" HorizontalAlignment="Stretch" />
+							<TextBlock Text="Title" />
+							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Country" />

@@ -11,7 +11,7 @@ public partial class LocationsViewModel(IDatasource datasource) : ItemViewModel<
     {
         return new LocationGridItem(
             i.ID,
-            i.Name,
+            i.Title,
             i.City,
             i.Country,
             eventList.LastEventDate().Date.Year);
