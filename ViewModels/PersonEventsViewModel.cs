@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
+using Avalonia.Media.Imaging;
 using AvaloniaApplication1.Models;
 using DynamicData;
 using ReactiveUI;
@@ -14,22 +13,15 @@ public partial class PersonEventsViewModel : ViewModelBase
 {
 
     private Event _selectedEvent = null!;
-    private PersonGridItem _selectedGridItem;
+    private PersonEventGridItem _selectedGridItem;
+    private Bitmap? _itemImage;
 
     public ObservableCollection<PersonEventGridItem> Events { get; set; } = [];
 
-    public Event SelectedEvent
+    public Bitmap? Image
     {
-        get => _selectedEvent;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _selectedEvent, value);
-            SelectedEventChanged();
-        }
-    }
-
-    private void SelectedEventChanged()
-    {
+        get => _itemImage;
+        private set => this.RaiseAndSetIfChanged(ref _itemImage, value);
     }
 
     private readonly IDatasource _datasource;
@@ -39,7 +31,7 @@ public partial class PersonEventsViewModel : ViewModelBase
         _datasource = datasource;
     }
 
-    public PersonGridItem SelectedGridItem
+    public PersonEventGridItem SelectedGridItem
     {
         get => _selectedGridItem;
         set
@@ -51,17 +43,14 @@ public partial class PersonEventsViewModel : ViewModelBase
 
     private void SelectedItemChanged()
     {
-    }
+        Image = null;
 
-    private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        var events = sender as ObservableCollection<Event>;
-        SelectedEvent = events?.MaxBy(o => o.DateEnd)!;
-
-        if (SelectedEvent == null)
+        if (SelectedGridItem == null)
         {
             return;
         }
+
+        Image = FileRepsitory.GetImage<Movie>(SelectedGridItem.ID);
     }
 
     private List<PersonEventGridItem> LoadEvents(int id)
@@ -70,6 +59,7 @@ public partial class PersonEventsViewModel : ViewModelBase
         var peopleEventGridList = new List<PersonEventGridItem>();
 
         var eventList = _datasource.GetEventList<Movie>();
+        var itemList = _datasource.GetList<Movie>();
 
         foreach (var e in eventList)
         {
@@ -78,6 +68,7 @@ public partial class PersonEventsViewModel : ViewModelBase
                 continue;
             }
 
+            var item = itemList.First(o => o.ID == e.ItemID);
             var peopleIDList = e.People.Split(',').Select(o => int.Parse(o));
 
             foreach (var perosnID in peopleIDList)
@@ -87,7 +78,8 @@ public partial class PersonEventsViewModel : ViewModelBase
                     continue;
                 }
 
-                peopleEventGridList.Add(new PersonEventGridItem(perosnID, e.ExternalID, "Movie", e.DateEnd));
+                var gridItem = new PersonEventGridItem(item.ID, nameof(Movie), item.Title, e.DateEnd);
+                peopleEventGridList.Add(gridItem);
             }
         }
 

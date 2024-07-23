@@ -44,6 +44,7 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
         {
             _selectedPersonGridItem = value;
             SelectedPersonChanged();
+            SelectedGridItem = value;
         }
     }
 

@@ -2,19 +2,22 @@
 	<Border BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
 		<TabControl>
 			<TabItem Header="Event">
-				<StackPanel Height="545">
+				<StackPanel Height="545" Orientation="Horizontal">
 					<DataGrid Margin="1" Width="300" Height="500" ItemsSource="{Binding Events}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="100" />
-							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="100"/>
-							<DataGridTextColumn Binding="{Binding Date, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
+							<DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="70" />
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*"/>
+							<DataGridTextColumn Binding="{Binding Date, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="100" />
 						</DataGrid.Columns>
 					</DataGrid>
+					<TextBlock Text="   "/>
+					<Button>
+						<Image Source="{Binding Image}" Width="400" Height="400" />
+					</Button>
 				</StackPanel>
 			</TabItem>
 			<TabItem Header="Stats">
 				<StackPanel Height="545">
-
 				</StackPanel>
 			</TabItem>
 		</TabControl>
