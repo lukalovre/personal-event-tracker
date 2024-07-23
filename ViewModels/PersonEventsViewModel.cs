@@ -17,6 +17,7 @@ public partial class PersonEventsViewModel : ViewModelBase
     private Event _selectedEvent = null!;
     private PersonEventGridItem _selectedGridItem;
     private Bitmap? _itemImage;
+    private string _comment;
 
     public ObservableCollection<PersonEventGridItem> Events { get; set; } = [];
 
@@ -24,6 +25,12 @@ public partial class PersonEventsViewModel : ViewModelBase
     {
         get => _itemImage;
         private set => this.RaiseAndSetIfChanged(ref _itemImage, value);
+    }
+
+    public string Comment
+    {
+        get => _comment;
+        private set => this.RaiseAndSetIfChanged(ref _comment, value);
     }
 
     private readonly IDatasource _datasource;
@@ -51,6 +58,7 @@ public partial class PersonEventsViewModel : ViewModelBase
     private void SelectedItemChanged()
     {
         Image = null;
+        Comment = string.Empty;
 
         if (SelectedGridItem == null)
         {
@@ -58,6 +66,8 @@ public partial class PersonEventsViewModel : ViewModelBase
         }
 
         Image = FileRepsitory.GetImage(SelectedGridItem.Type, SelectedGridItem.ID);
+        Comment = SelectedGridItem.Comment;
+
     }
 
     private List<PersonEventGridItem> LoadEvents(int id)
@@ -111,7 +121,7 @@ public partial class PersonEventsViewModel : ViewModelBase
                     continue;
                 }
 
-                var gridItem = new PersonEventGridItem(item.ID, type, item.Title, e.DateEnd);
+                var gridItem = new PersonEventGridItem(item.ID, type, item.Title, e.DateEnd, e.Comment);
                 peopleEventGridList.Add(gridItem);
             }
         }
