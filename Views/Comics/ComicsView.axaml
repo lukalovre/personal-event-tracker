@@ -72,7 +72,7 @@
 						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<TextBox Watermark="Pages" Text="{Binding NewEvent.Amount}" />
+						<TextBox Watermark="Pages" Text="{Binding NewItemAmount}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 					</StackPanel>
