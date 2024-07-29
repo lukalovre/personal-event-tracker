@@ -17,6 +17,7 @@ public record WorkGridItem(int ID, string Title, string Type, int Minutes, DateT
 public record ZooGridItem(int ID, string Title, string City, string Country, int Year) : IGridItem;
 public record MagazinesGridItem(int ID, string Title, int Issue, DateTime? LastDate) : IGridItem;
 public record BoardgamesGridItem(int ID, string Title, int Issue, DateTime? LastDate) : IGridItem;
+public record DnDGridItem(int ID, string Title, DateTime? LastDate) : IGridItem;
 public record PaintingsGridItem(int ID, string Title, string Author, int Year, DateTime? LastDate) : IGridItem;
 public record PinballGridItem(int ID, string Title, int Year, DateTime? LastDate) : IGridItem;
 public record PersonGridItem(int ID, string FirstName, string LastName, string Nickname) : IGridItem;

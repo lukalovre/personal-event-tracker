@@ -69,7 +69,9 @@
 					<TabItem Header="Work" Width="150">
 						<v:WorkView DataContext="{Binding WorkViewModel}" />
 					</TabItem>
-					<TabItem Header="D&amp;D" />
+					<TabItem Header="D&amp;D">
+						<v:DnDView DataContext="{Binding DnDViewModel}" />
+					</TabItem>
 					<TabItem Header="People">
 						<v:PeopleView DataContext="{Binding PeopleViewModel}" />
 					</TabItem>
