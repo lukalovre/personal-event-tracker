@@ -61,7 +61,9 @@
 					<TabItem Header="Pinball">
 						<v:PinballView DataContext="{Binding PinballViewModel}" />
 					</TabItem>
-					<TabItem Header="Classical" />
+					<TabItem Header="Classical">
+						<v:ClassicalView DataContext="{Binding ClassicalViewModel}" />
+					</TabItem>
 				</TabControl>
 			</TabItem>
 			<TabItem Header="My">
