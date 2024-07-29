@@ -12,7 +12,7 @@ public partial class PinballViewModel(IDatasource datasource) : ItemViewModel<Pi
         return new PinballGridItem(
             i.ID,
             i.Title,
-            i.Year,
+            i.Year ?? 0,
             eventList.LastEventDate());
     }
 }
