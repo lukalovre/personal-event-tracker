@@ -78,6 +78,7 @@ public partial class PersonEventsViewModel : ViewModelBase
         peopleEventGridList.AddRange(GetEvents<Clip>(id));
         peopleEventGridList.AddRange(GetEvents<Comic>(id));
         peopleEventGridList.AddRange(GetEvents<Concert>(id));
+        peopleEventGridList.AddRange(GetEvents<DnD>(id));
         peopleEventGridList.AddRange(GetEvents<Game>(id));
         peopleEventGridList.AddRange(GetEvents<Location>(id));
         peopleEventGridList.AddRange(GetEvents<Magazine>(id));
