@@ -16,7 +16,7 @@ public partial class ConcertsViewModel(IDatasource datasource) : ItemViewModel<C
             i.Venue,
             i.City,
             i.Country,
-            i.Price,
+            i.Price ?? 0,
             eventList.LastEventDate().Year,
             eventList.LastEventDate());
     }
