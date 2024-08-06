@@ -21,7 +21,17 @@ public class Imdb
     {
         var imdbData = await GetDataFromAPI<T>(url);
 
-        var split = imdbData.Title.Split(':');
+        if (imdbData is null)
+        {
+            return default!;
+        }
+
+        if (imdbData.Title is null)
+        {
+            return default!;
+        }
+
+        var split = imdbData.Title?.Split(':') ?? [];
 
         string standupPerformer;
         string standupTitle;

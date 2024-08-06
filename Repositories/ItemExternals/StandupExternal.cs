@@ -15,6 +15,11 @@ public class StandupExternal : IExternal<Standup>
         {
             var item = await Imdb.GetImdbItem<Standup>(url);
 
+            if (item is null)
+            {
+                return new Standup();
+            }
+
             return new Standup
             {
                 Performer = item.StandupPerformer,
