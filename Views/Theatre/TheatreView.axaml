@@ -19,24 +19,9 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Title" />
-							<TextBox Text="{Binding SelectedItem.Title}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Runtime" />
-							<TextBox Text="{Binding SelectedItem.Runtime}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Writer" />
-							<TextBox Text="{Binding SelectedItem.Writer}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Director" />
-							<TextBox Text="{Binding SelectedItem.Director}" HorizontalAlignment="Stretch" />
-						</StackPanel>
+						<TextBox Text="{Binding SelectedItem.Title}" HorizontalAlignment="Stretch" />
 						<Button>
-							<Image Source="{Binding Image}" Width="430" Height="430" />
+							<Image Source="{Binding Image}" Width="400" Height="400" />
 						</Button>
 						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">

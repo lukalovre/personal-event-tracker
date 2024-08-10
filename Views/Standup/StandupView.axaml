@@ -19,44 +19,8 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Link" />
-							<TextBox Text="{Binding SelectedItem.Link}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Performer" />
-							<TextBox Text="{Binding SelectedItem.Performer}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Title" />
-							<TextBox Text="{Binding SelectedItem.Title}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Year" />
-							<TextBox Text="{Binding SelectedItem.Year}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Runtime" />
-							<TextBox Text="{Binding SelectedItem.Runtime}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Writer" />
-							<TextBox Text="{Binding SelectedItem.Writer}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Director" />
-							<TextBox Text="{Binding SelectedItem.Director}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Country" />
-							<TextBox Text="{Binding SelectedItem.Country}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Plot" />
-							<TextBox Text="{Binding SelectedItem.Plot}" HorizontalAlignment="Stretch" />
-						</StackPanel>
 						<Button>
-							<Image Source="{Binding Image}" Width="430" Height="430" />
+							<Image Source="{Binding Image}" Width="315" Height="419" />
 						</Button>
 						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">

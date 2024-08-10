@@ -23,7 +23,7 @@
 						<TextBlock Text="{Binding SelectedItem.City}" />
 						<TextBlock Text="{Binding SelectedItem.Country}" />
 						<Button>
-							<Image Source="{Binding Image}" Width="430" Height="430" />
+							<Image Source="{Binding Image}" Width="400" Height="400" />
 						</Button>
 						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">

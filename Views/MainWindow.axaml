@@ -77,7 +77,6 @@
 					<TabItem Header="People">
 						<v:PeopleView DataContext="{Binding PeopleViewModel}" />
 					</TabItem>
-					<TabItem Header="Locations" />
 				</TabControl>
 			</TabItem>
 			<TabItem Header="Stats" />

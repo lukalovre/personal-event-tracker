@@ -36,20 +36,20 @@
 				<ScrollViewer>
 					<StackPanel>
 						<TextBlock Text="{Binding SelectedItem.Title}" FontSize="20" FontWeight="Bold" />
-						<TextBlock Text="{Binding SelectedItem.Year}" />
-						<TextBlock Text="{Binding SelectedItem.Platform}" />
-						<TextBlock Text="{Binding SelectedItem.ExternalID}" />
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding SelectedItem.Year}" FontSize="15" />
+							<TextBlock Text="			" FontSize="15" />
+							<TextBlock Text="{Binding SelectedItem.Platform}" FontSize="15"/>
+						</StackPanel>
 						<Button>
-							<Image Source="{Binding Image}" Width="350" Height="466" />
+							<Image Source="{Binding Image}" Width="315" Height="419" />
 						</Button>
 						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddEventClick}">
 								Add minutes
 							</Button>
-							<CheckBox IsChecked="{Binding IsFullAmount}">
-								Full
-							</CheckBox>
+							<CheckBox IsChecked="{Binding IsFullAmount}">Full</CheckBox>
 							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
 							<TextBlock Text="{Binding AddAmountString}" />
 						</StackPanel>
