@@ -17,6 +17,14 @@ public partial class StatsViewModel : ViewModelBase
     private readonly IDatasource _datasource;
     private readonly List<int> _yearLabels;
     private Dictionary<int, int> _all = [];
+    private List<Info> _allInfo = [];
+
+    public class Info
+    {
+        public string Category { get; set; } = null!;
+        public int Year { get; set; }
+        public int Amount { get; set; }
+    }
 
     public List<Axis> BooksXAxes { get; set; } = [];
     public List<Axis> GamesXAxes { get; set; } = [];
@@ -52,6 +60,13 @@ public partial class StatsViewModel : ViewModelBase
 
     public List<Axis> AllXAxes { get; set; } = [];
     public List<ISeries> All { get; } = [];
+
+    public List<ISeries> YearPie { get; } = [];
+    public List<ISeries> YearPie_1 { get; } = [];
+    public List<ISeries> YearPie_2 { get; } = [];
+    public List<ISeries> YearPie_3 { get; } = [];
+    public List<ISeries> YearPie_4 { get; } = [];
+    public List<ISeries> YearPie_5 { get; } = [];
 
     public StatsViewModel(IDatasource datasource)
     {
@@ -103,8 +118,54 @@ public partial class StatsViewModel : ViewModelBase
             new ColumnSeries<int>
             {
                 Values = _all.Select(o => o.Value),
-                // Stroke = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B))
+            });
+
+        AddPie(YearPie, DateTime.Now.Year);
+        AddPie(YearPie_1, DateTime.Now.Year - 1);
+        AddPie(YearPie_2, DateTime.Now.Year - 2);
+        AddPie(YearPie_3, DateTime.Now.Year - 3);
+        AddPie(YearPie_4, DateTime.Now.Year - 4);
+        AddPie(YearPie_5, DateTime.Now.Year - 5);
+
+    }
+
+    private void AddPie(List<ISeries> series, int year)
+    {
+        AddPieSeries<Book>(series, year);
+        AddPieSeries<Game>(series, year);
+        // AddPieSeries<Music>(series, year);
+        // AddPieSeries<Song>(series, year);
+        AddPieSeries<TVShow>(series, year);
+        AddPieSeries<Movie>(series, year);
+        AddPieSeries<Comic>(series, year);
+        AddPieSeries<Standup>(series, year);
+        AddPieSeries<Magazine>(series, year);
+        AddPieSeries<Work>(series, year);
+        AddPieSeries<Clip>(series, year);
+        AddPieSeries<Concert>(series, year);
+        AddPieSeries<Theatre>(series, year);
+        AddPieSeries<Boardgame>(series, year);
+        AddPieSeries<DnD>(series, year);
+    }
+
+    private void AddPieSeries<T>(List<ISeries> series, int year)
+    {
+        var category = Helpers.GetClassName<T>();
+        var color = ChartColors.GetColor(category);
+        var value = _allInfo.Where(o => o.Category == category && o.Year == year).Sum(o => o.Amount);
+
+        if (value == 0)
+        {
+            return;
+        }
+
+        series.Add(
+            new PieSeries<int>
+            {
+                Values = [value],
+                Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
+                Name = category
             });
     }
 
@@ -157,6 +218,14 @@ public partial class StatsViewModel : ViewModelBase
 
             result.Add(totalAmountInt);
             _all[year] += totalAmountInt;
+            _allInfo.Add(
+                new Info
+                {
+                    Category = Helpers.GetClassName<T>(),
+                    Year = year,
+                    Amount = totalAmountInt
+                }
+            );
         }
 
         return result;

@@ -29,6 +29,12 @@
             <StackPanel Orientation="Horizontal">
                 <lvc:CartesianChart Series="{Binding All}" XAxes="{Binding AllXAxes}" Width="425" Height="350"/>
             </StackPanel>
+            <lvc:PieChart Series="{Binding YearPie}" Width="425" Height="350"/>
+            <lvc:PieChart Series="{Binding YearPie_1}" Width="425" Height="350"/>
+            <lvc:PieChart Series="{Binding YearPie_2}" Width="425" Height="350"/>
+            <lvc:PieChart Series="{Binding YearPie_3}" Width="425" Height="350"/>
+            <lvc:PieChart Series="{Binding YearPie_4}" Width="425" Height="350"/>
+            <lvc:PieChart Series="{Binding YearPie_5}" Width="425" Height="350"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
