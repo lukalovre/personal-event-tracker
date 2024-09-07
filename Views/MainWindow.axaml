@@ -79,7 +79,9 @@
 					</TabItem>
 				</TabControl>
 			</TabItem>
-			<TabItem Header="Stats" />
+			<TabItem Header="Stats">
+				<v:StatsView DataContext="{Binding StatsViewModel}" />
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>

@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:AvaloniaApplication1.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1" xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia" mc:Ignorable="d" x:DataType="vm:StatsViewModel" x:Class="AvaloniaApplication1.Views.StatsView" xmlns:view="using:AvaloniaApplication1.Views">
+    <ScrollViewer>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <lvc:CartesianChart Series="{Binding Books}" XAxes="{Binding BooksXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Games}" XAxes="{Binding GamesXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Music}" XAxes="{Binding MusicXAxes}" Width="425" Height="350"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <lvc:CartesianChart Series="{Binding Songs}" XAxes="{Binding SongsXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding TVShows}" XAxes="{Binding TVShowsXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Movies}" XAxes="{Binding MoviesXAxes}" Width="425" Height="350"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <lvc:CartesianChart Series="{Binding Comics}" XAxes="{Binding ComicsXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Standup}" XAxes="{Binding StandupXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Magazine}" XAxes="{Binding MagazineXAxes}" Width="425" Height="350"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <lvc:CartesianChart Series="{Binding Works}" XAxes="{Binding WorksXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding All}" XAxes="{Binding AllXAxes}" Width="425" Height="350"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

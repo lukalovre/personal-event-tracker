@@ -26,4 +26,6 @@ public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
     public PeopleViewModel PeopleViewModel { get; } = new PeopleViewModel(datasource);
     public ConcertsViewModel ConcertsViewModel { get; } = new ConcertsViewModel(datasource);
     public LocationsViewModel LocationsViewModel { get; } = new LocationsViewModel(datasource);
+    public StatsViewModel StatsViewModel { get; } = new StatsViewModel(new TsvDatasource());
+
 }
