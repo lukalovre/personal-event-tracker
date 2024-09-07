@@ -7,7 +7,6 @@ using AvaloniaApplication1.Repositories;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using Metsys.Bson;
 using Repositories;
 using SkiaSharp;
 
@@ -29,6 +28,11 @@ public partial class StatsViewModel : ViewModelBase
     public List<Axis> StandupXAxes { get; set; } = [];
     public List<Axis> MagazineXAxes { get; set; } = [];
     public List<Axis> WorksXAxes { get; set; } = [];
+    public List<Axis> ClipsXAxes { get; set; } = [];
+    public List<Axis> ConcertsXAxes { get; set; } = [];
+    public List<Axis> TheatreXAxes { get; set; } = [];
+    public List<Axis> BoardgamesXAxes { get; set; } = [];
+    public List<Axis> DnDXAxes { get; set; } = [];
 
     public List<ISeries> Books { get; set; } = [];
     public List<ISeries> Games { get; } = [];
@@ -40,6 +44,11 @@ public partial class StatsViewModel : ViewModelBase
     public List<ISeries> Standup { get; } = [];
     public List<ISeries> Magazine { get; } = [];
     public List<ISeries> Works { get; } = [];
+    public List<ISeries> Clips { get; } = [];
+    public List<ISeries> Concerts { get; } = [];
+    public List<ISeries> Theatre { get; } = [];
+    public List<ISeries> Boardgames { get; } = [];
+    public List<ISeries> DnD { get; } = [];
 
     public List<Axis> AllXAxes { get; set; } = [];
     public List<ISeries> All { get; } = [];
@@ -70,6 +79,12 @@ public partial class StatsViewModel : ViewModelBase
         FillData<Magazine>(Magazine, MagazineXAxes);
 
         FillData<Work>(Works, WorksXAxes);
+        FillData<Clip>(Clips, ClipsXAxes);
+        FillData<Concert>(Concerts, ConcertsXAxes);
+
+        FillData<Theatre>(Theatre, TheatreXAxes);
+        FillData<Boardgame>(Boardgames, BoardgamesXAxes);
+        FillData<DnD>(DnD, DnDXAxes);
 
         var color = ChartColors.GetColor("All");
 
@@ -130,12 +145,18 @@ public partial class StatsViewModel : ViewModelBase
         {
             var year = i;
 
+            var amountModifier = 1f;
+
             var totalAmount = events.
                 Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == year)
-                .Sum(o => o.Amount);
+                .Sum(o => o.Amount)
+                * amountModifier
+                / 60f;
 
-            result.Add(totalAmount);
-            _all[year] += totalAmount;
+            var totalAmountInt = (int)totalAmount;
+
+            result.Add(totalAmountInt);
+            _all[year] += totalAmountInt;
         }
 
         return result;

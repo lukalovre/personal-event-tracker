@@ -18,6 +18,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <lvc:CartesianChart Series="{Binding Works}" XAxes="{Binding WorksXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Clips}" XAxes="{Binding ClipsXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Concerts}" XAxes="{Binding ConcertsXAxes}" Width="425" Height="350"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <lvc:CartesianChart Series="{Binding Theatre}" XAxes="{Binding TheatreXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding Boardgames}" XAxes="{Binding BoardgamesXAxes}" Width="425" Height="350"/>
+                <lvc:CartesianChart Series="{Binding DnD}" XAxes="{Binding DnDXAxes}" Width="425" Height="350"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <lvc:CartesianChart Series="{Binding All}" XAxes="{Binding AllXAxes}" Width="425" Height="350"/>
             </StackPanel>
         </StackPanel>
