@@ -35,6 +35,10 @@
 						<TextBlock Text="ExternalID	" VerticalAlignment="Center" />
 						<TextBlock Text="{Binding SelectedEvent.ExternalID}" Width="100" />
 					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Amount	" VerticalAlignment="Center" />
+						<TextBlock Text="{Binding SelectedEvent.Amount}" Width="100" />
+					</StackPanel>
 				</StackPanel>
 			</TabItem>
 			<TabItem Header="New">
