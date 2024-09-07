@@ -139,13 +139,13 @@ public partial class StatsViewModel : ViewModelBase
         var startYear = 2010;
         var endYear = DateTime.Now.Year;
 
+        var amountModifier = Settings.Instance.GetItemSettigns<T>().AmountToMinutesModifier;
+
         var result = new List<int>();
 
         for (int i = startYear; i <= endYear; i++)
         {
             var year = i;
-
-            var amountModifier = 1f;
 
             var totalAmount = events.
                 Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == year)
