@@ -65,4 +65,9 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
             eventList.Count()
         );
     }
+
+    protected override string GetFilterByOnNewItem()
+    {
+        return NewItem.Artist;
+    }
 }

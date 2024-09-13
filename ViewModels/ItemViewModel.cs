@@ -217,6 +217,26 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         };
 
         _inputUrl = string.Empty;
+
+        FilterByNewItem();
+    }
+
+    private void FilterByNewItem()
+    {
+        var filterByOnNewItem = GetFilterByOnNewItem();
+
+        if (string.IsNullOrWhiteSpace(filterByOnNewItem))
+        {
+            return;
+        }
+
+        GridFilterViewModel.SearchText = filterByOnNewItem;
+        ReloadData();
+    }
+
+    protected virtual string GetFilterByOnNewItem()
+    {
+        return string.Empty;
     }
 
     private void OpenImageAction()
