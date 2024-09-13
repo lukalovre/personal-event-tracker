@@ -16,7 +16,6 @@ public class ChartColors
 			{ "Song", Color.Purple },
 			{ "Game", Color.LimeGreen },
 			{ "Music", Color.HotPink },
-			{ "My work progress", Color.DarkKhaki },
 			{ "Work", Color.DarkKhaki },
 			{ "Year progress", Color.DimGray },
 			{ "All", Color.YellowGreen}
