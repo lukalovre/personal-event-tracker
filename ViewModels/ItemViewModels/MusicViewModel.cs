@@ -18,7 +18,6 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
 
     public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; } = [];
     public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; } = [];
-    public ObservableCollection<MusicGridItem> ArtistMusic { get; set; } = [];
 
     protected override List<string> GetAlternativeOpenLinkSearchParams()
     {
@@ -52,9 +51,6 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         MusicTodo2.Clear();
         MusicTodo2.AddRange(LoadDataBookmarked(2));
         GridCountMusicTodo2 = MusicTodo2.Count;
-
-        ArtistMusic.Clear();
-        ArtistMusic.AddRange(LoadData(NewItem?.Artist!));
     }
 
     protected override MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)
