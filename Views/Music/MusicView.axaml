@@ -89,27 +89,47 @@
                 <ScrollViewer>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+                            <Button Command="{Binding AddItemClick}" Margin="10">Add</Button>
                             <TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
                         </StackPanel>
-                        <TextBox Watermark="Artist" Text="{Binding NewItem.Artist}" HorizontalAlignment="Stretch" />
-                        <TextBox Watermark="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-                        <TextBox Watermark="Year" Text="{Binding NewItem.Year}" />
-                        <TextBox Watermark="Runtime" Text="{Binding NewItem.Runtime}" />
-                        <TextBox Watermark="Link" Text="{Binding NewItem.ExternalID}" />
-                        <Image Source="{Binding NewImage}" />
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Artist  " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding NewItem.Artist}" HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Title  " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Year  " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
+                            <TextBlock Text="   " VerticalAlignment="Center"/>
+                            <TextBlock Text="Runtime  " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
+                            <TextBlock Text="   " VerticalAlignment="Center"/>
+                            <TextBlock Text="ExternalID  " VerticalAlignment="Center"/>
+                            <TextBox Text="{Binding NewItem.ExternalID}" HorizontalAlignment="Stretch" />
+                        </StackPanel>
+                        <Button Command="{Binding OpenImage}" Margin="5">
+                            <Image Source="{Binding NewImage}" Width="430" Height="400" />
+                        </Button>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
+                            <TextBlock Text="   " VerticalAlignment="Center"/>
+                            <TextBlock Text="Rating " VerticalAlignment="Center"/>
+                            <NumericUpDown Value="{Binding NewEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" Width="250" Height="125" TextWrapping="Wrap"/>
+                            <TextBlock Text="   " VerticalAlignment="Center"/>
+                            <view:PeopleSelectionView DataContext="{Binding People}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
+                            <TextBlock Text="   " VerticalAlignment="Center"/>
                             <CheckBox IsChecked="{Binding UseNewDate}" />
                             <TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Rating" />
-                            <NumericUpDown Value="{Binding NewEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" />
-                        </StackPanel>
-                        <CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
-                        <TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-                        <view:PeopleSelectionView DataContext="{Binding People}" />
-                        <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
                         <DataGrid Margin="5" ItemsSource="{Binding ArtistMusic}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedItem}" Height="500" CanUserResizeColumns="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="150" />
