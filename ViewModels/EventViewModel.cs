@@ -1,9 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using AvaloniaApplication1.Models;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 using ReactiveUI;
+using SkiaSharp;
 
 namespace AvaloniaApplication1.ViewModels;
 
@@ -78,12 +83,67 @@ public partial class EventViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _newEventChapter, value);
     }
 
+    public List<Axis> StatsXAxes { get; set; } = [];
+    public List<ISeries> Stats { get; } = [];
+
     public EventViewModel(ObservableCollection<Event> events, ObservableCollection<string> platformTypes)
     {
         Events = events;
         Events.CollectionChanged += CollectionChanged;
         PlatformTypes = platformTypes;
         People = new PeopleSelectionViewModel();
+    }
+
+    internal void FillStats(ObservableCollection<Event> events)
+    {
+        var dateEvents = events.Where(o => o.DateEnd.HasValue).ToList();
+
+        if (dateEvents is null || dateEvents.Count == 0)
+        {
+            return;
+        }
+
+        var minYear = dateEvents.Min(o => o.DateEnd.Value.Year);
+        var maxYear = dateEvents.Max(o => o.DateEnd.Value.Year);
+
+        var yearLabels = new List<int>();
+
+        for (int i = minYear; i <= maxYear; i++)
+        {
+            yearLabels.Add(i);
+        }
+
+        var values = new List<int>();
+
+        foreach (var year in yearLabels)
+        {
+            var amount = dateEvents.Where(o => o.DateEnd.Value.Year == year).Sum(o => o.Amount);
+            values.Add(amount);
+        }
+
+        var color = ChartColors.GetColor("All");
+
+        StatsXAxes.Clear();
+        Stats.Clear();
+
+        StatsXAxes.Add(
+            new Axis
+            {
+                Labels = yearLabels.Select(o => o.ToString()).ToList(),
+                LabelsRotation = 0,
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                SeparatorsAtCenter = false,
+                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+                TicksAtCenter = true
+            });
+
+        Stats.Add(
+            new ColumnSeries<int>
+            {
+                Values = values,
+                // Stroke = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
+                Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B))
+            });
     }
 
     private void SelectedEventChanged()

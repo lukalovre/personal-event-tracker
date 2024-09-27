@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:AvaloniaApplication1.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1" mc:Ignorable="d" x:DataType="vm:EventViewModel" x:Class="AvaloniaApplication1.Views.EventView" xmlns:view="using:AvaloniaApplication1.Views" x:CompileBindings="True">
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:AvaloniaApplication1.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:AvaloniaApplication1.Views;assembly=AvaloniaApplication1" xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia" mc:Ignorable="d" x:DataType="vm:EventViewModel" x:Class="AvaloniaApplication1.Views.EventView" xmlns:view="using:AvaloniaApplication1.Views" x:CompileBindings="True">
 	<Border Background="Teal" BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
 		<TabControl>
 			<TabItem Header="Event">
@@ -73,32 +73,7 @@
 			</TabItem>
 			<TabItem Header="Stats">
 				<StackPanel Height="240">
-					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBlock Text="Rating" VerticalAlignment="Center" Width="75"/>
-						<NumericUpDown Value="{Binding SelectedEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" Width="100" />
-						<TextBlock Text="		 " />
-						<CheckBox IsChecked="{Binding IsEditDate}" />
-						<TextBox Text="{Binding SelectedEvent.DateEnd, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBlock Text="Chapter" VerticalAlignment="Center" Width="75" />
-						<NumericUpDown Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
-						<TextBlock Text="		 " />
-						<CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">★</CheckBox>
-						<TextBlock Text="		 " />
-						<CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBlock Text="Platform" VerticalAlignment="Center" Width="75"/>
-						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}" Width="100" />
-						<TextBlock Text="		 " />
-						<TextBox Watermark = "ExternalID" Text="{Binding SelectedEvent.ExternalID}" Width="185" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="100" TextWrapping="Wrap"/>
-						<TextBlock Text="		 " />
-						<view:PeopleSelectionView DataContext="{Binding People}" />
-					</StackPanel>
+					<lvc:CartesianChart Series="{Binding Stats}" XAxes="{Binding StatsXAxes}" Width="425" Height="250"/>
 				</StackPanel>
 			</TabItem>
 		</TabControl>
