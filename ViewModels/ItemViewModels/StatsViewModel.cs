@@ -81,7 +81,7 @@ public partial class StatsViewModel : ViewModelBase
             _all.Add(item, 0);
         }
 
-        FillData<Book>(Books, BooksXAxes);
+        FillData<Book>(Books, BooksXAxes, pureAmount: true);
         FillData<Game>(Games, GamesXAxes);
         FillData<Music>(Music, MusicXAxes);
 
@@ -169,7 +169,7 @@ public partial class StatsViewModel : ViewModelBase
             });
     }
 
-    private void FillData<T>(List<ISeries> series, List<Axis> xAxes) where T : IItem
+    private void FillData<T>(List<ISeries> series, List<Axis> xAxes, bool pureAmount = false) where T : IItem
     {
         var color = ChartColors.GetColor(Helpers.GetClassName<T>());
 
@@ -187,13 +187,13 @@ public partial class StatsViewModel : ViewModelBase
         series.Add(
             new ColumnSeries<int>
             {
-                Values = GetInfo<T>(),
+                Values = GetInfo<T>(pureAmount),
                 // Stroke = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B))
             });
     }
 
-    private List<int> GetInfo<T>() where T : IItem
+    private List<int> GetInfo<T>(bool pureAmount = false) where T : IItem
     {
         var events = _datasource.GetEventList(Helpers.GetClassName<T>());
 
@@ -210,11 +210,13 @@ public partial class StatsViewModel : ViewModelBase
 
             var totalAmount = events.
                 Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == year)
-                .Sum(o => o.Amount)
-                * amountModifier
-                / 60f;
+                .Sum(o => o.Amount);
 
-            var totalAmountInt = (int)totalAmount;
+            var modifiedTotalAmount = pureAmount
+            ? totalAmount
+            : totalAmount * amountModifier / 60f;
+
+            var totalAmountInt = (int)modifiedTotalAmount;
 
             result.Add(totalAmountInt);
             _all[year] += totalAmountInt;
