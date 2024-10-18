@@ -421,7 +421,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         return _eventList
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
-            .OrderByDescending(o => o.DateEnd)
+            .OrderBy(o => o.DateEnd)
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value <= dateFilter)
             .Where(o => o.Bookmakred)
             .Select(
