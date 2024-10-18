@@ -42,7 +42,6 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         OpenImage = ReactiveCommand.Create(OpenImageAction);
 
-        SelectedGridItem = GridItems.LastOrDefault()!;
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
 
@@ -374,7 +373,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var result = _eventList
                     .OrderByDescending(o => o.DateEnd)
                     .DistinctBy(o => o.ItemID)
-                    .OrderBy(o => o.DateEnd)
+                    .OrderByDescending(o => o.DateEnd)
                     .ToList();
 
         if (DateTimeFilter.HasValue
@@ -422,7 +421,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         return _eventList
             .OrderByDescending(o => o.DateEnd)
             .DistinctBy(o => o.ItemID)
-            .OrderBy(o => o.DateEnd)
+            .OrderByDescending(o => o.DateEnd)
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value <= dateFilter)
             .Where(o => o.Bookmakred)
             .Select(
