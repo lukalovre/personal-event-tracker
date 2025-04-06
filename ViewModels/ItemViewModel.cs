@@ -500,7 +500,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
             AddAmount = _settings.DefaultAddAmount;
         }
 
-        EventViewModel.FillStats(Events);
+        EventViewModel.FillStats<TItem>(Events);
     }
 
     private ObservableCollection<TGridItem> GetSelectedGrid()

@@ -94,8 +94,9 @@ public partial class EventViewModel : ViewModelBase
         People = new PeopleSelectionViewModel();
     }
 
-    internal void FillStats(ObservableCollection<Event> events)
+    internal void FillStats<TItem>(ObservableCollection<Event> events)
     {
+        var amountModifier = Settings.Instance.GetItemSettigns<TItem>().AmountToMinutesModifier;
         var dateEvents = events.Where(o => o.DateEnd.HasValue).ToList();
 
         if (dateEvents is null || dateEvents.Count == 0)
@@ -117,8 +118,12 @@ public partial class EventViewModel : ViewModelBase
 
         foreach (var year in yearLabels)
         {
-            var amount = dateEvents.Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == year).Sum(o => o.Amount);
-            values.Add(amount);
+            var totalAmount = dateEvents
+                        .Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == year)
+                        .Sum(o => o.Amount);
+
+            var amountModified = totalAmount * amountModifier / 60f;
+            values.Add((int)amountModified);
         }
 
         var color = ChartColors.GetColor("All");
