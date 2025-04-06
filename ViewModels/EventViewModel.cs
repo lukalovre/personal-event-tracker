@@ -103,8 +103,8 @@ public partial class EventViewModel : ViewModelBase
             return;
         }
 
-        var minYear = dateEvents.Min(o => o.DateEnd.Value.Year);
-        var maxYear = dateEvents.Max(o => o.DateEnd.Value.Year);
+        var minYear = dateEvents.Min(o => o.DateEnd.HasValue ? o.DateEnd.Value.Year : 0);
+        var maxYear = dateEvents.Max(o => o.DateEnd.HasValue ? o.DateEnd.Value.Year : 0);
 
         var yearLabels = new List<int>();
 
@@ -117,7 +117,7 @@ public partial class EventViewModel : ViewModelBase
 
         foreach (var year in yearLabels)
         {
-            var amount = dateEvents.Where(o => o.DateEnd.Value.Year == year).Sum(o => o.Amount);
+            var amount = dateEvents.Where(o => o.DateEnd.HasValue && o.DateEnd.Value.Year == year).Sum(o => o.Amount);
             values.Add(amount);
         }
 
