@@ -25,4 +25,4 @@ public record PersonGridItem(int ID, string FirstName, string LastName, string N
 public record PersonEventGridItem(int ID, string Type, string Title, DateTime? Date, string Comment) : IGridItem;
 public record ConcertsGridItem(int ID, string Artist, string Festival, string Venue, string City, string Country, int Price, int Year, DateTime? LastDate) : IGridItem;
 public record LocationGridItem(int ID, string Title, string City, string Country, int Year) : IGridItem;
-public record AdventureGridItem(int ID, string Title, string City, int Year) : IGridItem;
+public record AdventureGridItem(int ID, string Title, string City, int Times, int Year) : IGridItem;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AvaloniaApplication1.Models;
 using AvaloniaApplication1.ViewModels.Extensions;
 using Repositories;
@@ -13,6 +14,7 @@ public partial class AdventuresViewModel(IDatasource datasource) : ItemViewModel
             i.ID,
             i.Title,
             i.City,
+            eventList.Count(),
             eventList.LastEventDate().Date.Year);
     }
 }

@@ -7,7 +7,8 @@
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
-							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="70" />
+							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="150" />
+							<DataGridTextColumn Binding="{Binding Times}" Header="Times" Width="70" />
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
