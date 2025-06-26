@@ -15,6 +15,7 @@ public partial class AdventuresViewModel(IDatasource datasource) : ItemViewModel
             i.Title,
             i.City,
             eventList.Count(),
-            eventList.LastEventDate().Date.Year);
+            eventList.LastEventDate().Date.Year,
+            eventList.LastEventDate());
     }
 }
