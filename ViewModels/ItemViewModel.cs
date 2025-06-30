@@ -40,6 +40,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
 
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
+        Search = ReactiveCommand.Create(SearchAction);
         OpenImage = ReactiveCommand.Create(OpenImageAction);
 
         NewEvent = new Event();
@@ -126,6 +127,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
+    public ReactiveCommand<Unit, Unit> Search { get; }
     public ReactiveCommand<Unit, Unit> OpenImage { get; }
 
     public TItem NewItem
@@ -255,6 +257,11 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         }
 
         HtmlHelper.OpenLink(link, [.. GetAlternativeOpenLinkSearchParams()]);
+    }
+
+    private void SearchAction()
+    {
+        HtmlHelper.OpenLink(string.Empty, [.. GetAlternativeOpenLinkSearchParams()]);
     }
 
     private void AddItemClickAction()

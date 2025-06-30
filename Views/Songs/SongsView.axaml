@@ -35,7 +35,10 @@
 						<TextBlock Text="{Binding SelectedItem.Title}" FontSize="20" />
 						<TextBlock Text="{Binding SelectedItem.Artist}" FontSize="20" FontWeight="Bold" />
 						<TextBlock Text="{Binding SelectedItem.Year}" FontSize="15" />
-						<Button Command="{Binding OpenLink}">Open Link</Button>
+						<StackPanel Orientation="Horizontal">
+							<Button Command="{Binding OpenLink}" Margin="15">Open Link</Button>
+							<Button Command="{Binding Search}">Search</Button>
+						</StackPanel>
 						<Button>
 							<Image Source="{Binding Image}" Width="370" Height="370" />
 						</Button>
