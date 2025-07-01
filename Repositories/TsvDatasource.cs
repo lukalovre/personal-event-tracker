@@ -150,69 +150,23 @@ internal class TsvDatasource : IDatasource
 
     public void MakeBackup(string path)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
-    public void Update<T>(T item)
-        where T : IItem
+    public void Update<T>(T item) where T : IItem
     {
-        var events = GetEventList<T>();
+        var events = GetList<T>(nameof(T));
 
-        // var items = GetList<Game>();
+        var updateItem = events.First(o => o.ID == item.ID);
+        events[events.IndexOf(updateItem)] = item;
 
-        // foreach (var i in items)
-        // {
-        //     var oldPath = Path.Combine(Paths.Images, typeof(Game).ToString(), $"{i.Igdb}.png");
-        //     ;
-        //     var newPath = Path.Combine(Paths.Images, "Game_fixed", $"{i.ID}.png");
-        //     ;
-
-        //     if (!File.Exists(oldPath))
-        //     {
-        //         continue;
-        //     }
-
-        //     File.Move(oldPath, newPath);
-        // }
-
-        // var bookmarkedItemIDs = new List<int> { 8064, 11221, 16368, 16413, 17480, 17485, 17486 };
-
-        // foreach (var e in events)
-        // {
-        //     if (bookmarkedItemIDs.Contains(e.ItemID))
-        //     {
-        //         e.Bookmakred = true;
-        //     }
-        //     else
-        //     {
-        //         e.Bookmakred = false;
-        //     }
-        // }
-
-        // foreach (var i in GetList<Work>())
-        // {
-        //     var lastEvent = events.Where(o => o.ItemID == i.ID).MaxBy(o => o.DateEnd.Value);
-
-        //     if (!bookmarkedItemIDs.Contains(i.ID))
-        //     {
-        //         lastEvent.Bookmakred = false;
-        //     }
-        // }
-
-        // var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        // {
-        //     HasHeaderRecord = false,
-        //     Delimiter = "\t"
-        // };
-
-        var itemFilePath = GetEventFilePath<T>();
+        var itemFilePath = GetFilePath<T>();
         using var writer = new StreamWriter(itemFilePath, false, System.Text.Encoding.UTF8);
         using var csvText = new CsvWriter(writer, _config);
-        csvText.WriteRecords(events);
         var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
         csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
         csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
-
+        csvText.WriteRecords(events);
         writer.Flush();
     }
 

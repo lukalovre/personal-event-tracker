@@ -36,8 +36,10 @@
 						<TextBlock Text="{Binding SelectedItem.Artist}" FontSize="20" FontWeight="Bold" />
 						<TextBlock Text="{Binding SelectedItem.Year}" FontSize="15" />
 						<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding OpenLink}" Margin="15">Open Link</Button>
-							<Button Command="{Binding Search}">Search</Button>
+							<Button Command="{Binding OpenLink}" Margin="5">Open Link</Button>
+							<Button Command="{Binding Search}" Margin="5">Search</Button>
+							<TextBox Text="{Binding SelectedItem.ExternalID}" Width="200"/>
+							<Button Command="{Binding UpdateItemClick}" Margin="5">Update</Button>
 						</StackPanel>
 						<Button>
 							<Image Source="{Binding Image}" Width="370" Height="370" />

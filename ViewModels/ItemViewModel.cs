@@ -38,6 +38,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
+        UpdateItemClick = ReactiveCommand.Create(UpdateItemClickAction);
 
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         Search = ReactiveCommand.Create(SearchAction);
@@ -125,6 +126,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
     public ObservableCollection<Event> Events { get; set; }
 
     public ReactiveCommand<Unit, Unit> AddItemClick { get; }
+    public ReactiveCommand<Unit, Unit> UpdateItemClick { get; }
     public ReactiveCommand<Unit, Unit> AddEventClick { get; }
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
     public ReactiveCommand<Unit, Unit> Search { get; }
@@ -302,6 +304,18 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
 
         _datasource.Add(NewItem, newEvent);
 
+        ReloadData();
+        ClearNewItemControls();
+    }
+
+    private void UpdateItemClickAction()
+    {
+        if (SelectedItem is null)
+        {
+            return;
+        }
+
+        _datasource.Update(SelectedItem);
         ReloadData();
         ClearNewItemControls();
     }
