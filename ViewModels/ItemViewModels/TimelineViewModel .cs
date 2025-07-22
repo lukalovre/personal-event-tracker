@@ -89,6 +89,7 @@ public partial class TimelineViewModel : ViewModelBase
         peopleEventGridList.AddRange(GetEvents<TVShow>());
         peopleEventGridList.AddRange(GetEvents<Work>());
         peopleEventGridList.AddRange(GetEvents<Zoo>());
+        peopleEventGridList.AddRange(GetEvents<Adventure>());
 
         return peopleEventGridList.OrderByDescending(o => o.Date).ToList();
     }

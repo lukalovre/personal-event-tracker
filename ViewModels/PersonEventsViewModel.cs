@@ -92,6 +92,7 @@ public partial class PersonEventsViewModel : ViewModelBase
         peopleEventGridList.AddRange(GetEvents<TVShow>(id));
         peopleEventGridList.AddRange(GetEvents<Work>(id));
         peopleEventGridList.AddRange(GetEvents<Zoo>(id));
+        peopleEventGridList.AddRange(GetEvents<Adventure>(id));
 
         return peopleEventGridList.OrderByDescending(o => o.Date).ToList();
     }
