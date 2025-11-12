@@ -74,6 +74,9 @@
                             <TextBlock Text="{Binding SelectedItem.Runtime, Converter={StaticResource TimeToStringConverter}}" Width="65" FontSize="15" VerticalAlignment="Center" />
                             <TextBlock Text="  " />
                             <Button Command="{Binding OpenLink}">Open Link</Button>
+                            <Button Command="{Binding Search}" Margin="5">Search</Button>
+                            <TextBox Text="{Binding SelectedItem.ExternalID}" Width="100"/>
+                            <Button Command="{Binding UpdateItemClick}" Margin="5">Update</Button>
                         </StackPanel>
                         <Button Command="{Binding OpenImage}">
                             <Image Source="{Binding Image}" Width="430" Height="400" />
