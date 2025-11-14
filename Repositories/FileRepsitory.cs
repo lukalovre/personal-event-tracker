@@ -1,7 +1,7 @@
 using System.IO;
 using Avalonia.Media.Imaging;
-using AvaloniaApplication1.Models.Interfaces;
-using AvaloniaApplication1.Repositories;
+using EventTracker.Models.Interfaces;
+using EventTracker.Repositories;
 
 namespace Repositories;
 

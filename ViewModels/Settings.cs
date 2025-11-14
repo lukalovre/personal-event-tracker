@@ -6,7 +6,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public class Settings
 {

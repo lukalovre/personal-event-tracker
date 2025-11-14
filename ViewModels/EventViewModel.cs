@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using AvaloniaApplication1.Models;
+using EventTracker.Models;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using ReactiveUI;
 using SkiaSharp;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public partial class EventViewModel : ViewModelBase
 {

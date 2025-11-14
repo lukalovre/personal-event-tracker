@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/AvaloniaApplication1.csproj",
+                "${workspaceFolder}/EventTracker.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/AvaloniaApplication1.csproj",
+                "${workspaceFolder}/EventTracker.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/AvaloniaApplication1.csproj"
+                "${workspaceFolder}/EventTracker.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

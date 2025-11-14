@@ -1,4 +1,4 @@
-namespace AvaloniaApplication1.Repositories.External;
+namespace EventTracker.Repositories.External;
 
 public record ImdbData(
     string Actors,

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Repositories;
-using AvaloniaApplication1.ViewModels.Extensions;
+using EventTracker.Models;
+using EventTracker.Repositories;
+using EventTracker.ViewModels.Extensions;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public class PeopleManager
 {

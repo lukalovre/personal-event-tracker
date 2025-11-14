@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AvaloniaApplication1.Models;
+namespace EventTracker.Models;
 
 public record Event
 {

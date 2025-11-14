@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using AvaloniaApplication1.ViewModels;
-using AvaloniaApplication1.Views;
+using EventTracker.ViewModels;
+using EventTracker.Views;
 using Repositories;
 
-namespace AvaloniaApplication1;
+namespace EventTracker;
 
 public partial class App : Application
 {

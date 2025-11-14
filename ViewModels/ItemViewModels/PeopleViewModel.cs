@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Repositories;
+using EventTracker.Models;
+using EventTracker.Repositories;
 using DynamicData;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Person, PersonGridItem>(datasource, null!)
 {

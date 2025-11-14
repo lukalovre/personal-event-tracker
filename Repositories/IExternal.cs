@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models.Interfaces;
+using EventTracker.Models.Interfaces;
 
-namespace AvaloniaApplication1.Repositories;
+namespace EventTracker.Repositories;
 
 public interface IExternal<T>
     where T : IItem

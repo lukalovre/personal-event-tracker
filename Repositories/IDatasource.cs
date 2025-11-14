@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Models.Interfaces;
+using EventTracker.Models;
+using EventTracker.Models.Interfaces;
 
 namespace Repositories;
 

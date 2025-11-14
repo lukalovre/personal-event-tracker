@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Repositories.External;
+using EventTracker.Models;
+using EventTracker.Repositories.External;
 using Repositories;
 
-namespace AvaloniaApplication1.Repositories;
+namespace EventTracker.Repositories;
 
 public class MusicExternal : IExternal<Music>
 {

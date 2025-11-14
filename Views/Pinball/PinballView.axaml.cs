@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace AvaloniaApplication1.Views;
+namespace EventTracker.Views;
 
 public partial class PinballView : UserControl
 {

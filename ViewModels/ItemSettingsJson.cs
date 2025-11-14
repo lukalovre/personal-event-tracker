@@ -1,4 +1,4 @@
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public record ItemSettingsJson
 {

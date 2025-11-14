@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaApplication1", "AvaloniaApplication1.csproj", "{48B808E3-486B-465C-9F17-0199148AE753}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventTracker", "EventTracker.csproj", "{48B808E3-486B-465C-9F17-0199148AE753}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

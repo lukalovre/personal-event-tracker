@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Repositories;
+using EventTracker.Models;
+using EventTracker.Repositories;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> external) : ItemViewModel<Movie, MovieGridItem>(datasource, external)
 {

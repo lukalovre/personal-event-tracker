@@ -2,7 +2,7 @@ using System;
 using System.Reactive;
 using ReactiveUI;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public class GridFilterViewModel : ViewModelBase
 {

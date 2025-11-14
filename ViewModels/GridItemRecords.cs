@@ -1,7 +1,7 @@
 using System;
-using AvaloniaApplication1.Models.Interfaces;
+using EventTracker.Models.Interfaces;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public record BookGridItem(int ID, string Title, string Author, int Year, int? Rating, bool Completed, int Pages, DateTime LastDate) : IGridItem;
 public record ComicGridItem(int ID, string Title, string Writer, int? Chapter, int Pages, int? Rating, DateTime LastDate) : IGridItem;

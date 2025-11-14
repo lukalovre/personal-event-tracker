@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Models.Interfaces;
-using AvaloniaApplication1.Repositories;
+using EventTracker.Models;
+using EventTracker.Models.Interfaces;
+using EventTracker.Repositories;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Repositories;
 using SkiaSharp;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public partial class StatsViewModel : ViewModelBase
 {

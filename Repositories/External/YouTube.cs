@@ -5,12 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models.Interfaces;
-using AvaloniaApplication1.ViewModels.Extensions;
+using EventTracker.Models.Interfaces;
+using EventTracker.ViewModels.Extensions;
 using HtmlAgilityPack;
 using Repositories;
 
-namespace AvaloniaApplication1.Repositories.External;
+namespace EventTracker.Repositories.External;
 
 public class YouTube
 {

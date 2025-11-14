@@ -1,4 +1,4 @@
-namespace AvaloniaApplication1.Models.Interfaces;
+namespace EventTracker.Models.Interfaces;
 
 public interface IRuntime
 {

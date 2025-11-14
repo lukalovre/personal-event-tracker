@@ -1,7 +1,7 @@
-﻿using AvaloniaApplication1.Repositories;
+﻿using EventTracker.Repositories;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
 {

@@ -6,10 +6,10 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Repositories;
-using AvaloniaApplication1.ViewModels.Extensions;
-using AvaloniaApplication1.Models.Interfaces;
+using EventTracker.ViewModels.Extensions;
+using EventTracker.Models.Interfaces;
 
-namespace AvaloniaApplication1.Repositories.External;
+namespace EventTracker.Repositories.External;
 
 public class Imdb
 {

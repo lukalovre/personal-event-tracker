@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Media.Imaging;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Models.Interfaces;
-using AvaloniaApplication1.Repositories;
+using EventTracker.Models;
+using EventTracker.Models.Interfaces;
+using EventTracker.Repositories;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public partial class TimelineViewModel : ViewModelBase
 {

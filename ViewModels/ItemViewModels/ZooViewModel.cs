@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.ViewModels.Extensions;
+using EventTracker.Models;
+using EventTracker.ViewModels.Extensions;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public partial class ZooViewModel(IDatasource datasource) : ItemViewModel<Zoo, ZooGridItem>(datasource, null!)
 {

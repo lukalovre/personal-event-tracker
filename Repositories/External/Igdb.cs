@@ -1,11 +1,11 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AvaloniaApplication1.Models;
+using EventTracker.Models;
 using IGDB;
 using Repositories;
 
-namespace AvaloniaApplication1.Repositories.External;
+namespace EventTracker.Repositories.External;
 
 public class Igdb
 {

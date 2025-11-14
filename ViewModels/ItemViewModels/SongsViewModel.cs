@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using AvaloniaApplication1.Models;
-using AvaloniaApplication1.Repositories;
+using EventTracker.Models;
+using EventTracker.Repositories;
 using Repositories;
 
-namespace AvaloniaApplication1.ViewModels;
+namespace EventTracker.ViewModels;
 
 public partial class SongsViewModel(IDatasource datasource, IExternal<Song> external) : ItemViewModel<Song, SongGridItem>(datasource, external)
 {

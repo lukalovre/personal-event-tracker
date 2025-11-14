@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using AvaloniaApplication1.Models.Interfaces;
+using EventTracker.Models.Interfaces;
 
-namespace AvaloniaApplication1.Models;
+namespace EventTracker.Models;
 
 [Table("Comics")]
 public record Comic : IItem
