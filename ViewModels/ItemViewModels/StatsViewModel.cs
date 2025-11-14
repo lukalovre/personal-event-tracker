@@ -81,7 +81,7 @@ public partial class StatsViewModel : ViewModelBase
             _all.Add(item, 0);
         }
 
-        FillData<Book>(Books, BooksXAxes, pureAmount: true);
+        FillData<Book>(Books, BooksXAxes);
         FillData<Game>(Games, GamesXAxes);
         FillData<Music>(Music, MusicXAxes);
 
