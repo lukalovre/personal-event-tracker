@@ -22,7 +22,7 @@ public partial class App : Application
             desktop.MainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(new TsvDatasource()),
-                Position = new PixelPoint(0, 500),
+                Position = new PixelPoint(0, 1000),
                 WindowState = WindowState.Maximized
             };
         }
