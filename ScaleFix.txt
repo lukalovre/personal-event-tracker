@@ -1,0 +1,2 @@
+Add into ~/.profile
+export AVALONIA_SCREEN_SCALE_FACTORS='DP-2=1.5;DP-4=1.5'
