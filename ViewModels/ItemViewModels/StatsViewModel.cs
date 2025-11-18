@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using EventTracker.Models;
 using EventTracker.Models.Interfaces;
@@ -16,8 +17,8 @@ public partial class StatsViewModel : ViewModelBase
 {
     private readonly IDatasource _datasource;
     private readonly List<int> _yearLabels;
-    private Dictionary<int, int> _all = [];
-    private List<Info> _allInfo = [];
+    private readonly Dictionary<int, int> _all = [];
+    private readonly List<Info> _allInfo = [];
 
     public class Info
     {
@@ -117,7 +118,7 @@ public partial class StatsViewModel : ViewModelBase
         All.Add(
             new ColumnSeries<int>
             {
-                Values = _all.Select(o => o.Value),
+                Values = new ReadOnlyCollection<int>(_all.Select(o => o.Value).ToList()),
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B))
             });
 
