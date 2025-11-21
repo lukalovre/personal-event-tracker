@@ -22,8 +22,8 @@ public partial class App : Application
             desktop.MainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(new TsvDatasource()),
-                Position = new PixelPoint(0, 1000),
-                WindowState = WindowState.Maximized
+                Position = new PixelPoint(930, 2000),
+                WindowState = WindowState.Maximized                
             };
         }
 
