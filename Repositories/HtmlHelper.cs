@@ -70,6 +70,12 @@ public static class HtmlHelper
     {
         using var httpClient = new HttpClient();
         using var response = await httpClient.GetAsync(imageUrl, HttpCompletionOption.ResponseHeadersRead);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return;
+        }
+
         response.EnsureSuccessStatusCode();
         using var ms = await response.Content.ReadAsStreamAsync();
         using var fs = File.Create(imagePath);
