@@ -54,6 +54,7 @@
                             <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
                             <DataGridTextColumn Binding="{Binding Minutes}" Header="Min" Width="67" />
                             <DataGridTextColumn Binding="{Binding Played}" Header="#" Width="51" />
+                            <DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="60" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
