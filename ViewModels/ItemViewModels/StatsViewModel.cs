@@ -209,6 +209,11 @@ public partial class StatsViewModel : ViewModelBase
 
         foreach (var eventItem in events)
         {
+            // if (eventItem.Rating < 5)
+            // {
+            //     continue;
+            // }
+
             var console = eventItem.Platform;
             var minutes = eventItem.Amount;
 
