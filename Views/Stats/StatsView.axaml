@@ -2,6 +2,9 @@
     <ScrollViewer>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
+                <lvc:CartesianChart Series="{Binding Consoles}" XAxes="{Binding ConsolesXAxes}" Width="2000" Height="600"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <lvc:CartesianChart Series="{Binding Books}" XAxes="{Binding BooksXAxes}" Width="425" Height="350"/>
                 <lvc:CartesianChart Series="{Binding Games}" XAxes="{Binding GamesXAxes}" Width="425" Height="350"/>
                 <lvc:CartesianChart Series="{Binding Music}" XAxes="{Binding MusicXAxes}" Width="425" Height="350"/>

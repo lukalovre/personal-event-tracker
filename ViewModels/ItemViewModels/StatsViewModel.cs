@@ -6,6 +6,7 @@ using EventTracker.Models;
 using EventTracker.Models.Interfaces;
 using EventTracker.Repositories;
 using LiveChartsCore;
+using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Repositories;
@@ -68,6 +69,9 @@ public partial class StatsViewModel : ViewModelBase
     public List<ISeries> YearPie_3 { get; } = [];
     public List<ISeries> YearPie_4 { get; } = [];
     public List<ISeries> YearPie_5 { get; } = [];
+    
+    public List<ISeries> Consoles { get; } = [];
+    public List<Axis> ConsolesXAxes { get; set; } = [];
 
     public StatsViewModel(IDatasource datasource)
     {
@@ -81,6 +85,8 @@ public partial class StatsViewModel : ViewModelBase
         {
             _all.Add(item, 0);
         }
+
+        FillDataConsoles(Consoles, ConsolesXAxes);
 
         FillData<Book>(Books, BooksXAxes);
         FillData<Game>(Games, GamesXAxes);
@@ -191,6 +197,48 @@ public partial class StatsViewModel : ViewModelBase
                 Values = GetInfo<T>(pureAmount),
                 // Stroke = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B))
+            });
+    }
+
+    private void FillDataConsoles(List<ISeries> series, List<Axis> xAxes)
+    {
+        var color = ChartColors.GetColor(Helpers.GetClassName<Game>());
+        var events = _datasource.GetEventList(Helpers.GetClassName<Game>());
+
+        var result = new Dictionary<string,int>();
+
+        foreach (var eventItem in events)
+        {
+            var console = eventItem.Platform;
+            var minutes = eventItem.Amount;
+
+            if (!result.TryAdd(console, minutes))
+            {
+                result[console] += minutes;
+            }
+        }
+
+        var resultSorted = from entry in result orderby entry.Value descending select entry;
+
+        xAxes.Add(
+            new Axis
+            {
+                Labels = resultSorted.Select(o => o.Key.ToString()).ToList(),
+                LabelsRotation = 0,
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                SeparatorsAtCenter = false,
+                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+                TicksAtCenter = true
+            });
+
+        series.Add(
+            new ColumnSeries<int>
+            {
+                Values = resultSorted.Select(o => o.Value / 60).ToList(),
+                // Stroke = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
+                Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
+                DataLabelsPosition = DataLabelsPosition.Top,
+                DataLabelsPaint = new SolidColorPaint(new SKColor(0, 255, 30)),
             });
     }
 
