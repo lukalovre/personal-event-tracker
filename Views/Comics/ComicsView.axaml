@@ -61,7 +61,9 @@
 						</StackPanel>
 						<TextBox Watermark="Year" Text="{Binding NewItem.Year}" />
 						<TextBox Watermark="GoodreadsID" Text="{Binding NewItem.ExternalID}" />
-						<Image Source="{Binding NewImage}" />
+						<Button Command="{Binding OpenImage}" Margin="5">
+							<Image Source="{Binding NewImage}" Width="430" Height="400" />
+						</Button>
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
 							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />

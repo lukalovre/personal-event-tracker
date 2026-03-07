@@ -71,8 +71,8 @@
 							<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewItem.Platform}" />
 							<TextBox Watermark="Igdb" Text="{Binding NewItem.ExternalID}" Width="150" />
 						</StackPanel>
-						<Button>
-							<Image Source="{Binding NewImage}" />
+						<Button Command="{Binding OpenImage}" Margin="5">
+							<Image Source="{Binding NewImage}" Width="430" Height="400" />
 						</Button>
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
