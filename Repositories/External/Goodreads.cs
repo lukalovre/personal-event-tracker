@@ -62,9 +62,9 @@ public class Goodreads
 
     }
 
-    private static int GetGoogreadsID(string url)
+    private static string GetGoogreadsID(string url)
     {
-        return Convert.ToInt32(
+        var id = Convert.ToInt32(
             url.TrimStart("https://www.goodreads.com/book/show/")
                 .TrimStart("https://www.goodreads.com/en/book/show/")
                 .Trim()
@@ -73,6 +73,8 @@ public class Goodreads
                 .Split('-')
                 .First()
         );
+
+        return $"https://www.goodreads.com/book/show/{id}";
     }
 
     private static int GetYear(HtmlDocument htmlDocument)

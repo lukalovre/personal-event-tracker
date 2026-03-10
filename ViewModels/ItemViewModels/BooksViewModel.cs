@@ -6,7 +6,8 @@ using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class BooksViewModel(IDatasource datasource, IExternal<Book> external) : ItemViewModel<Book, BookGridItem>(datasource, external)
+public partial class BooksViewModel(IDatasource datasource, IExternal<Book> external)
+: ItemViewModel<Book, BookGridItem>(datasource, external)
 {
     protected override BookGridItem Convert(Event e, Book i, IEnumerable<Event> eventList)
     {

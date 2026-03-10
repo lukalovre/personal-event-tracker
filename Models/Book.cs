@@ -9,7 +9,7 @@ public record Book : IItem
 {
     [Key]
     public int ID { get; set; }
-    public int ExternalID { get; set; }
+    public string ExternalID { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
     public int Year { get; set; }

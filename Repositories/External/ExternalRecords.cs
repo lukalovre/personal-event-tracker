@@ -13,7 +13,7 @@ public record GoodreadsItem(
     string Writer,
     string Illustrator,
     int Year,
-    int GoodreadsID,
+    string GoodreadsID,
     int Pages,
     string ImageUrl);
 

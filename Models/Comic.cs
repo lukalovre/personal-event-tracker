@@ -9,7 +9,7 @@ public record Comic : IItem
 {
     [Key]
     public int ID { get; set; }
-    public int ExternalID { get; set; }
+    public string ExternalID { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Writer { get; set; } = string.Empty;
     public string Illustrator { get; set; } = string.Empty;

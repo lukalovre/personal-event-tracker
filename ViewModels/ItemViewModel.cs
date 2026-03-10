@@ -14,7 +14,9 @@ using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TItem : IItem where TGridItem : IGridItem
+public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid
+where TItem : IItem
+where TGridItem : IGridItem
 {
     public ItemViewModel(IDatasource datasource, IExternal<TItem> external)
     {
@@ -388,6 +390,7 @@ public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid where TI
         var type = Helpers.GetClassName<TItem>();
 
         _itemList = _datasource.GetList<TItem>(type);
+
         _eventList = _datasource.GetEventList(type);
         searchText ??= GridFilterViewModel.SearchText;
 
