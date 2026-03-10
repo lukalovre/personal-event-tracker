@@ -61,7 +61,7 @@
 							<TextBox Watermark="Author" Text="{Binding NewItem.Author}" HorizontalAlignment="Stretch" />
 							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
-						<TextBox Watermark="Year" Text="{Binding NewItem.Year}" />
+						<TextBox Watermark="Year" Text="{Binding NewItem.Year}" Width="70"/>
 						<TextBox Watermark="GoodreadsID" Text="{Binding NewItem.ExternalID}" />
 						<CheckBox IsChecked="{Binding NewItem.is1001}">
 							1001
@@ -77,13 +77,10 @@
 							<TextBlock Text="Rating" />
 							<NumericUpDown Value="{Binding NewEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" />
 						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">
-							★
-						</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
 						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<TextBox Watermark="Pages" Text="{Binding NewItemAmount}" />
-						<view:PeopleSelectionView DataContext="{Binding People}" />
-						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
+						<TextBox Watermark="Pages" Text="{Binding NewItemAmount}" Width="70"/>
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
