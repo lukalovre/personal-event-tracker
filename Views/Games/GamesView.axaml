@@ -40,6 +40,8 @@
 							<TextBlock Text="{Binding SelectedItem.Year}" FontSize="15" />
 							<TextBlock Text="			" FontSize="15" />
 							<TextBlock Text="{Binding SelectedItem.Platform}" FontSize="15"/>
+							<TextBlock Text="			" FontSize="15" />
+							<TextBlock Text="{Binding SelectedItem.Developer}" FontSize="15"/>
 						</StackPanel>
 						<Button>
 							<Image Source="{Binding Image}" Width="315" Height="419" />
@@ -67,6 +69,7 @@
 						</StackPanel>
 						<StackPanel>
 							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" Width="150" />
+							<TextBox Watermark="Developer" Text="{Binding NewItem.Developer}" Width="150" />
 							<TextBox Watermark="Year" Text="{Binding NewItem.Year}" Width="150" />
 							<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewItem.Platform}" />
 							<TextBox Watermark="Igdb" Text="{Binding NewItem.ExternalID}" Width="150" />
