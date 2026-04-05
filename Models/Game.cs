@@ -11,6 +11,7 @@ public record Game : IItem
     public int ID { get; set; }
 
     public string Title { get; set; } = string.Empty;
+    public string Developer { get; set; } = string.Empty;
     public int Year { get; set; }
     public string Platform { get; set; } = string.Empty;
     public int ExternalID { get; set; }

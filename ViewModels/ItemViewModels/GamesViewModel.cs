@@ -15,6 +15,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
         return new GameGridItem(
             i.ID,
             i.Title,
+            i.Developer,
             i.Year,
             i.Platform,
             eventList.Sum(o => o.Amount),

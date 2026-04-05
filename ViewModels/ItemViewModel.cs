@@ -11,6 +11,7 @@ using DynamicData;
 using Newtonsoft.Json;
 using ReactiveUI;
 using Repositories;
+using System.Threading.Tasks;
 
 namespace EventTracker.ViewModels;
 
@@ -367,10 +368,10 @@ where TGridItem : IGridItem
         ClearNewItemControls();
     }
 
-    protected virtual void ReloadData()
+    protected virtual async void ReloadData()
     {
         GridItems.Clear();
-        GridItems.AddRange(LoadData());
+        GridItems.AddRange(await LoadData());
         GridFilterViewModel.GridCountItems = GridItems.Count;
 
         GridItemsBookmarked.Clear();
@@ -385,7 +386,7 @@ where TGridItem : IGridItem
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
     }
 
-    internal List<TGridItem> LoadData(string searchText = null!)
+    internal async Task<List<TGridItem>> LoadData(string searchText = null!)
     {
         var type = Helpers.GetClassName<TItem>();
 
@@ -536,7 +537,7 @@ where TGridItem : IGridItem
     {
         var selectedGrid = GetSelectedGrid();
         selectedGrid.Clear();
-        selectedGrid.AddRange(LoadData());
+        selectedGrid.AddRange(LoadData().Result);
         return selectedGrid.Count;
     }
 }

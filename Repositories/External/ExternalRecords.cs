@@ -52,4 +52,5 @@ public record YoutubeItem(
 public record IgdbItem(
     int ExternalID,
     string Title,
+    string Developer,
     int Year);
