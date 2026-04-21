@@ -62,10 +62,10 @@
 						<TextBlock Text="Platform" VerticalAlignment="Center" Width="75"/>
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}" Width="100" />
 						<TextBlock Text="		 " />
-						<TextBox Watermark = "ExternalID" Text="{Binding SelectedEvent.ExternalID}" Width="185" />
+						<TextBox PlaceholderText = "ExternalID" Text="{Binding SelectedEvent.ExternalID}" Width="185" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBox Watermark = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap"/>
+						<TextBox PlaceholderText = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap"/>
 						<TextBlock Text="		 " />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>

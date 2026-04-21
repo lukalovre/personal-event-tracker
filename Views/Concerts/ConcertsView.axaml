@@ -89,7 +89,7 @@
 							<TextBox Text="{Binding NewItemAmount}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
-						<TextBox Watermark = "Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap"/>
+						<TextBox PlaceholderText = "Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap"/>
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 					</StackPanel>

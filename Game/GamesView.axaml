@@ -52,7 +52,7 @@
 								Add minutes
 							</Button>
 							<CheckBox IsChecked="{Binding IsFullAmount}">Full</CheckBox>
-							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
+							<TextBox Text="{Binding AddAmount}" PlaceholderText="Pages" />
 							<TextBlock Text="{Binding AddAmountString}" />
 						</StackPanel>
 					</StackPanel>
@@ -65,14 +65,14 @@
 							<Button Command="{Binding AddItemClick}" Margin="15">
 								Add
 							</Button>
-							<TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
+							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" />
 						</StackPanel>
 						<StackPanel>
-							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" Width="150" />
-							<TextBox Watermark="Developer" Text="{Binding NewItem.Developer}" Width="150" />
-							<TextBox Watermark="Year" Text="{Binding NewItem.Year}" Width="150" />
+							<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" Width="150" />
+							<TextBox PlaceholderText="Developer" Text="{Binding NewItem.Developer}" Width="150" />
+							<TextBox PlaceholderText="Year" Text="{Binding NewItem.Year}" Width="150" />
 							<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewItem.Platform}" />
-							<TextBox Watermark="Igdb" Text="{Binding NewItem.ExternalID}" Width="150" />
+							<TextBox PlaceholderText="Igdb" Text="{Binding NewItem.ExternalID}" Width="150" />
 						</StackPanel>
 						<Button Command="{Binding OpenImage}" Margin="5">
 							<Image Source="{Binding NewImage}" Width="430" Height="400" />
@@ -87,8 +87,8 @@
 						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
 						<CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
-						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<TextBox Watermark="Minutes" Text="{Binding NewItemAmount}" />
+						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
+						<TextBox PlaceholderText="Minutes" Text="{Binding NewItemAmount}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>

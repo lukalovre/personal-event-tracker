@@ -40,7 +40,7 @@
 							<Button Command="{Binding AddEventClick}">
 								Add minutes
 							</Button>
-							<TextBox Text="{Binding AddAmount}" Watermark="Minutes" />
+							<TextBox Text="{Binding AddAmount}" PlaceholderText="Minutes" />
 							<TextBlock Text="{Binding AddAmountString}" />
 						</StackPanel>
 					</StackPanel>
@@ -55,9 +55,9 @@
 							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+							<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
-						<TextBox Watermark="Type" Text="{Binding NewItem.Type}" Width="200" />
+						<TextBox PlaceholderText="Type" Text="{Binding NewItem.Type}" Width="200" />
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
 							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
@@ -69,8 +69,8 @@
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">
 							★
 						</CheckBox>
-						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<TextBox Watermark="Minutes" Text="{Binding NewItemAmount}" />
+						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
+						<TextBox PlaceholderText="Minutes" Text="{Binding NewItemAmount}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>
 				</ScrollViewer>

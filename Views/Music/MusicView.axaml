@@ -96,7 +96,7 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button Command="{Binding AddItemClick}" Margin="10">Add</Button>
-                            <TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
+                            <TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <TextBlock Text="Artist  " VerticalAlignment="Center"/>
@@ -126,7 +126,7 @@
                             <NumericUpDown Value="{Binding NewEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" Width="250" Height="125" TextWrapping="Wrap"/>
+                            <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="250" Height="125" TextWrapping="Wrap"/>
                             <TextBlock Text="   " VerticalAlignment="Center"/>
                             <view:PeopleSelectionView DataContext="{Binding People}" />
                         </StackPanel>

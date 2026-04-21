@@ -42,7 +42,7 @@
 							<Button Command="{Binding AddEventClick}">
 								Add pages
 							</Button>
-							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
+							<TextBox Text="{Binding AddAmount}" PlaceholderText="Pages" />
 							<TextBlock Text="{Binding AddAmountString}" />
 						</StackPanel>
 					</StackPanel>
@@ -55,14 +55,14 @@
 							<Button Command="{Binding AddItemClick}" Margin="15">
 								Add
 							</Button>
-							<TextBox Watermark="Paste url" Text="{Binding InputUrl}" Margin="15" />
+							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBox Watermark="Author" Text="{Binding NewItem.Author}" HorizontalAlignment="Stretch" />
-							<TextBox Watermark="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+							<TextBox PlaceholderText="Author" Text="{Binding NewItem.Author}" HorizontalAlignment="Stretch" />
+							<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
-						<TextBox Watermark="Year" Text="{Binding NewItem.Year}" Width="70"/>
-						<TextBox Watermark="GoodreadsID" Text="{Binding NewItem.ExternalID}" />
+						<TextBox PlaceholderText="Year" Text="{Binding NewItem.Year}" Width="70"/>
+						<TextBox PlaceholderText="GoodreadsID" Text="{Binding NewItem.ExternalID}" />
 						<CheckBox IsChecked="{Binding NewItem.is1001}">
 							1001
 						</CheckBox>
@@ -79,8 +79,8 @@
 						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
 						<CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
-						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
-						<TextBox Watermark="Pages" Text="{Binding NewItemAmount}" Width="70"/>
+						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
+						<TextBox PlaceholderText="Pages" Text="{Binding NewItemAmount}" Width="70"/>
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>

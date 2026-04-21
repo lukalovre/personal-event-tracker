@@ -2,7 +2,7 @@
 	<Border Background="Teal" BorderBrush="Black" BorderThickness="1" CornerRadius="3" Padding="2" Margin="2">
 		<StackPanel Orientation="Horizontal">
 			<TextBlock Text="{Binding GridCountItems}" Margin="3" VerticalAlignment="Center" Width="35"/>
-			<TextBox Text="{Binding SearchText}" Watermark="Filter" Width="150" Margin="1"/>
+			<TextBox Text="{Binding SearchText}" PlaceholderText="Filter" Width="150" Margin="1"/>
 			<Button Command="{Binding Search}" HotKey="Enter" Margin="1">🔍</Button>
 			<NumericUpDown Value="{Binding YearFilter}" Increment="1" Margin="1" IsVisible="{Binding ShowYearFilter}" />
 			<Button Command="{Binding Reload}" HotKey="Enter" Margin="1">↺</Button>

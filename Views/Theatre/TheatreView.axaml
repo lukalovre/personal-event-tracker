@@ -28,7 +28,7 @@
 							<Button Command="{Binding AddEventClick}">
 								Add minutes
 							</Button>
-							<TextBox Text="{Binding AddAmount}" Watermark="Pages" />
+							<TextBox Text="{Binding AddAmount}" PlaceholderText="Pages" />
 							<TextBlock Text="{Binding AddAmountString}" />
 						</StackPanel>
 					</StackPanel>
@@ -71,7 +71,7 @@
 							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
 						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
-						<TextBox Watermark="Comment" Text="{Binding NewEvent.Comment}" />
+						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 					</StackPanel>
 				</ScrollViewer>
