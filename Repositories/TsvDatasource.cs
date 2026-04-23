@@ -254,7 +254,7 @@ internal class TsvDatasource : IDatasource
     //         ExternalID = null,
     //         ItemID = item.ID,
     //         People = ShemaZenNull(string.Join(",", pepleList)),
-    //         Bookmakred = false,
+    //         Bookmarked = false,
     //         Chapter = null,
     //         LocationID = null
     //     };

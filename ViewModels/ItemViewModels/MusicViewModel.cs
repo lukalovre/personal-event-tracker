@@ -61,7 +61,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
             i.Title,
             i.Year,
             i.Runtime,
-            e.Bookmakred,
+            e.Bookmarked,
             eventList.Count(),
             e.Platform
         );

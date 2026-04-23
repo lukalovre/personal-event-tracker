@@ -27,6 +27,6 @@ public partial class SongsViewModel(IDatasource datasource, IExternal<Song> exte
             i.Title,
             i.Year,
             eventList.Count(),
-            e.Bookmakred);
+            e.Bookmarked);
     }
 }

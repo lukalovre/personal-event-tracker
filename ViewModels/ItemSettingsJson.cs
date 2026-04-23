@@ -11,7 +11,7 @@ public record ItemSettingsJson
     public string DefaultNewItemPlatform { get; set; } = string.Empty;
     public bool OpenItemLinkUrl { get; set; }
     public string AmountVerb { get; set; } = "minutes";
-    public bool DefaultNewItemBookmakred { get; set; }
+    public bool DefaultNewItemBookmarked { get; set; }
     public float AmountToMinutesModifier { get; set; } = 1f;
     public bool IsFullAmountDefaultValue { get; set; } = true;
     public eAmountType? AmountType { get; set; } = eAmountType.Minutes;

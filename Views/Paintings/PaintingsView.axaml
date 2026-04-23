@@ -79,7 +79,7 @@
 							<TextBlock Text="Season" />
 							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
 						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmakred}">★</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
 						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />

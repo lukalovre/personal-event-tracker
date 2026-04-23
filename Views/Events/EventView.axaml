@@ -15,7 +15,7 @@
 						<TextBlock Text="{Binding SelectedEvent.Rating}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">★</CheckBox>
+						<CheckBox IsChecked="{Binding SelectedEvent.Bookmarked, Mode=TwoWay}">★</CheckBox>
 						<TextBlock Text="		" />
 						<CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
 					</StackPanel>
@@ -54,7 +54,7 @@
 						<TextBlock Text="Chapter" VerticalAlignment="Center" Width="75" />
 						<NumericUpDown Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
 						<TextBlock Text="		 " />
-						<CheckBox IsChecked="{Binding SelectedEvent.Bookmakred, Mode=TwoWay}">★</CheckBox>
+						<CheckBox IsChecked="{Binding SelectedEvent.Bookmarked, Mode=TwoWay}">★</CheckBox>
 						<TextBlock Text="		 " />
 						<CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
 					</StackPanel>

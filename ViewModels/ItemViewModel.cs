@@ -219,7 +219,7 @@ where TGridItem : IGridItem
             Rating = _settings.DefaultNewItemRating,
             Platform = _settings.DefaultNewItemPlatform,
             Completed = _settings.DefaultNewItemCompleted,
-            Bookmakred = _settings.DefaultNewItemBookmakred
+            Bookmarked = _settings.DefaultNewItemBookmarked
         };
 
         _inputUrl = string.Empty;
@@ -294,7 +294,7 @@ where TGridItem : IGridItem
             ExternalID = string.Empty,
             DateEnd = dateEnd,
             Rating = NewEvent.Rating,
-            Bookmakred = NewEvent.Bookmakred,
+            Bookmarked = NewEvent.Bookmarked,
             Chapter = chapter,
             Amount = amount,
             AmountType = amountType,
@@ -351,7 +351,7 @@ where TGridItem : IGridItem
             ExternalID = string.Empty,
             DateEnd = dateEnd,
             Rating = lastEvent?.Rating ?? 0,
-            Bookmakred = lastEvent?.Bookmakred ?? false,
+            Bookmarked = lastEvent?.Bookmarked ?? false,
             Chapter = chapter,
             Amount = amount,
             AmountType = lastEvent?.AmountType ?? 0,
@@ -448,7 +448,7 @@ where TGridItem : IGridItem
             .DistinctBy(o => o.ItemID)
             .OrderBy(o => o.DateEnd)
             .Where(o => o.DateEnd.HasValue && o.DateEnd.Value <= dateFilter)
-            .Where(o => o.Bookmakred)
+            .Where(o => o.Bookmarked)
             .Select(
                 o =>
                     Convert(

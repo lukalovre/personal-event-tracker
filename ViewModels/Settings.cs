@@ -65,7 +65,7 @@ public class Settings
             AmountVerb = result.AmountVerb,
             DateTimeFilter = ConvertDateTimeFilter(result.DateTimeFilter),
             DefaultAddAmount = result.DefaultAddAmount,
-            DefaultNewItemBookmakred = result.DefaultNewItemBookmakred,
+            DefaultNewItemBookmarked = result.DefaultNewItemBookmarked,
             DefaultNewItemChapter = result.DefaultNewItemChapter,
             DefaultNewItemCompleted = result.DefaultNewItemCompleted,
             DefaultNewItemPlatform = result.DefaultNewItemPlatform,
