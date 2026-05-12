@@ -94,10 +94,20 @@ public static class HtmlHelper
 
     internal async static Task<HtmlDocument> DownloadWebpage(string url)
     {
-        using var client = new HttpClient();
-        var text = await client.GetStringAsync(url);
+        // https://
+
         var htmlDocument = new HtmlDocument();
-        htmlDocument.LoadHtml(text);
+
+        try
+        {
+            using var client = new HttpClient();
+            var text = await client.GetStringAsync(url);
+            htmlDocument.LoadHtml(text);
+        }
+        catch (InvalidOperationException)
+        {
+            return new();
+        }
 
         return htmlDocument;
     }
