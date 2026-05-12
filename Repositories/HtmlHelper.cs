@@ -94,7 +94,10 @@ public static class HtmlHelper
 
     internal async static Task<HtmlDocument> DownloadWebpage(string url)
     {
-        // https://
+        if (!url.StartsWith("https://"))
+        {
+            url = $"https://{url}";
+        }
 
         var htmlDocument = new HtmlDocument();
 
