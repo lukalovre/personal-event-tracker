@@ -44,7 +44,7 @@ public static class HtmlHelper
 
         destinationFile = $"{destinationFile}.png";
 
-        FileRepsitory.Delete(destinationFile);
+        FileRepository.Delete(destinationFile);
 
         if (File.Exists(destinationFile))
         {

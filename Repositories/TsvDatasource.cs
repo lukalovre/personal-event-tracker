@@ -48,7 +48,7 @@ internal class TsvDatasource : IDatasource
 
             csvItem.NextRecord();
             csvItem.WriteRecord(item);
-            FileRepsitory.MoveTempImage<T>(item.ID);
+            FileRepository.MoveTempImage<T>(item.ID);
         }
 
         var events = GetEventList<T>();
@@ -72,9 +72,9 @@ internal class TsvDatasource : IDatasource
         csvEvent.NextRecord();
         csvEvent.WriteRecord(e);
 
-        if (!FileRepsitory.ImageExists<T>(item.ID))
+        if (!FileRepository.ImageExists<T>(item.ID))
         {
-            FileRepsitory.MoveTempImage<T>(item.ID);
+            FileRepository.MoveTempImage<T>(item.ID);
         }
     }
 

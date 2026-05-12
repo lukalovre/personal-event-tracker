@@ -213,7 +213,7 @@ where TGridItem : IGridItem
     {
         NewItem = await _external.GetItem(InputUrl);
 
-        NewImage = FileRepsitory.GetImageTemp<TItem>();
+        NewImage = FileRepository.GetImageTemp<TItem>();
         NewEvent = new Event
         {
             Rating = _settings.DefaultNewItemRating,
@@ -514,7 +514,7 @@ where TGridItem : IGridItem
         }
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
-        Image = FileRepsitory.GetImage<TItem>(item.ID);
+        Image = FileRepository.GetImage<TItem>(item.ID);
 
         if (_settings.DefaultAddAmount == -1)
         {

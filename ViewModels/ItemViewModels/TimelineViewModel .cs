@@ -62,7 +62,7 @@ public partial class TimelineViewModel : ViewModelBase
             return;
         }
 
-        Image = FileRepsitory.GetImage(SelectedGridItem.Type, SelectedGridItem.ID);
+        Image = FileRepository.GetImage(SelectedGridItem.Type, SelectedGridItem.ID);
         Comment = SelectedGridItem.Comment;
 
     }
