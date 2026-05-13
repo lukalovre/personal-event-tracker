@@ -8,6 +8,7 @@ using EventTracker.Repositories;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
+using System.Threading.Tasks;
 
 namespace EventTracker.ViewModels;
 
@@ -18,6 +19,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
 
     public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; } = [];
     public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; } = [];
+    public ObservableCollection<ArtistGridItem> GridItemsArtists { get; set; } = [];
 
     protected override List<string> GetAlternativeOpenLinkSearchParams()
     {
@@ -40,7 +42,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         private set => this.RaiseAndSetIfChanged(ref _gridCountMusicTodo2, value);
     }
 
-    protected override void ReloadData()
+    protected override async void ReloadData()
     {
         base.ReloadData();
 
@@ -51,6 +53,39 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         MusicTodo2.Clear();
         MusicTodo2.AddRange(LoadDataBookmarked(2));
         GridCountMusicTodo2 = MusicTodo2.Count;
+
+        GridItemsArtists.Clear();
+        var items = await LoadDataByArtist();
+        GridItemsArtists.AddRange(items);
+    }
+
+    private async Task<List<ArtistGridItem>> LoadDataByArtist()
+    {
+        var resultGrid = new List<ArtistGridItem>();
+
+        var type = Helpers.GetClassName<Music>();
+        var itemList = _datasource.GetList<Music>(type);
+        var eventList = _datasource.GetEventList(type);
+
+        var artistList = itemList.DistinctBy(o => o.Artist).Select(o => o.Artist);
+
+        foreach (var artist in artistList)
+        {
+            var albumsList = itemList.Where(o => o.Artist == artist);
+            var minutesArtist = 0;
+
+            foreach (var album in albumsList)
+            {
+                var minutesAlbum = eventList.Where(o => o.ItemID == album.ID).Sum(o => o.Amount);
+                minutesArtist += minutesAlbum;
+            }
+
+            var gridItem = new ArtistGridItem(1, artist, minutesArtist, albumsList.Count());
+            resultGrid.Add(gridItem);
+        }
+
+        resultGrid = resultGrid.OrderByDescending(o => o.Minutes).ToList();
+        return resultGrid;
     }
 
     protected override MusicGridItem Convert(Event e, Music i, IEnumerable<Event> eventList)

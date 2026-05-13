@@ -63,7 +63,7 @@ where TGridItem : IGridItem
 
     public ObservableCollection<string> PlatformTypes => _settings.PlatformTypes;
     private readonly ItemSettings _settings = new();
-    private readonly IDatasource _datasource;
+    protected readonly IDatasource _datasource;
     private readonly IExternal<TItem> _external;
     private TGridItem _selectedGridItem = default!;
     private List<TItem> _itemList = [];
