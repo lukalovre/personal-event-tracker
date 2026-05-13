@@ -20,6 +20,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     public ObservableCollection<MusicGridItem> MusicTodo1 { get; set; } = [];
     public ObservableCollection<MusicGridItem> MusicTodo2 { get; set; } = [];
     public ObservableCollection<ArtistGridItem> GridItemsArtists { get; set; } = [];
+    public ObservableCollection<AlbumGridItem> GridItemsAlbums { get; set; } = [];
 
     protected override List<string> GetAlternativeOpenLinkSearchParams()
     {
@@ -57,6 +58,8 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         GridItemsArtists.Clear();
         GridItemsArtists.AddRange(await LoadDataByArtist());
 
+        GridItemsAlbums.Clear();
+        GridItemsAlbums.AddRange(await LoadDataByAlbum());
     }
 
     private async Task<List<ArtistGridItem>> LoadDataByArtist()
@@ -81,6 +84,27 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
             }
 
             var gridItem = new ArtistGridItem(1, artist, minutesArtist, albumsList.Count());
+            resultGrid.Add(gridItem);
+        }
+
+        resultGrid = resultGrid.OrderByDescending(o => o.Minutes).ToList();
+        return resultGrid;
+    }
+
+    private async Task<List<AlbumGridItem>> LoadDataByAlbum()
+    {
+        var resultGrid = new List<AlbumGridItem>();
+
+        var type = Helpers.GetClassName<Music>();
+        var albumList = _datasource.GetList<Music>(type);
+        var eventList = _datasource.GetEventList(type);
+
+        foreach (var album in albumList)
+        {
+            var events = eventList.Where(o => o.ItemID == album.ID);
+            var minutesAlbum = events.Sum(o => o.Amount);
+
+            var gridItem = new AlbumGridItem(1, album.Artist, album.Title, minutesAlbum, events.Count());
             resultGrid.Add(gridItem);
         }
 

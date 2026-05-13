@@ -61,7 +61,7 @@
                     </DataGrid>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Artist">
+            <TabItem Header="Artists">
                 <DockPanel>
                     <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
                     <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsArtists}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
@@ -69,6 +69,19 @@
                             <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="200" />
                             <DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="100" />
                             <DataGridTextColumn Binding="{Binding Albums}" Header="Albums" Width="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Albums">
+                <DockPanel>
+                    <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
+                    <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsAlbums}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="200" />
+                            <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="200" />
+                            <DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="100" />
+                            <DataGridTextColumn Binding="{Binding Times}" Header="Times" Width="70" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
