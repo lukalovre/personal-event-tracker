@@ -386,7 +386,7 @@ where TGridItem : IGridItem
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
     }
 
-    internal async Task<List<TGridItem>> LoadData(string searchText = null!)
+    internal async Task<List<TGridItem>> LoadData(string searchText = null!, bool skipFilters = false)
     {
         var type = Helpers.GetClassName<TItem>();
 
@@ -401,7 +401,8 @@ where TGridItem : IGridItem
                     .OrderByDescending(o => o.DateEnd)
                     .ToList();
 
-        if (DateTimeFilter.HasValue
+        if (!skipFilters
+            && DateTimeFilter.HasValue
             && DateTimeFilter != DateTime.MinValue
             && string.IsNullOrWhiteSpace(searchText))
         {
@@ -421,7 +422,7 @@ where TGridItem : IGridItem
                         )
                         ).ToList();
 
-        if (!string.IsNullOrWhiteSpace(searchText))
+        if (!skipFilters && !string.IsNullOrWhiteSpace(searchText))
         {
             resultGrid = resultGrid
             .Where(o =>

@@ -30,6 +30,21 @@
 					</DataGrid>
 				</DockPanel>
 			</TabItem>
+			<TabItem Header="Time">
+				<DockPanel>
+					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
+					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GameTimeList}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+							<DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="70" />
+							<DataGridTextColumn Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="80" />
+							<DataGridCheckBoxColumn Binding="{Binding Completed}" Header="Completed" Width="55" />
+							<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</DockPanel>
+			</TabItem>
 		</TabControl>
 		<TabControl Margin="5">
 			<TabItem Header="Info">
