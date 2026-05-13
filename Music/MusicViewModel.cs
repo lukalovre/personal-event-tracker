@@ -55,8 +55,8 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         GridCountMusicTodo2 = MusicTodo2.Count;
 
         GridItemsArtists.Clear();
-        var items = await LoadDataByArtist();
-        GridItemsArtists.AddRange(items);
+        GridItemsArtists.AddRange(await LoadDataByArtist());
+
     }
 
     private async Task<List<ArtistGridItem>> LoadDataByArtist()
