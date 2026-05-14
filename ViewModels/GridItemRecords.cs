@@ -9,6 +9,7 @@ public record ComicGridItem(int ID, string Title, string Writer, int? Chapter, i
 public record GameGridItem(int ID, string Title, string Developer, int Year, string Platform, int Time, bool Completed, int Rating, DateTime? LastDate) : IGridItem;
 public record DeveloperGridItem(int ID, string Developer, int Minutes, int Games) : IGridItem;
 public record MovieGridItem(int ID, string Title, string Director, int Year, int Rating) : IGridItem;
+public record DiretorGridItem(int ID, string Director, int Minutes, int Movies) : IGridItem;
 public record MusicGridItem(int ID, string Artist, string Title, int Year, int Minutes, bool Bookmarked, int Played, string Platform) : IGridItem;
 public record ArtistGridItem(int ID, string Artist, int Minutes, int Albums) : IGridItem;
 public record AlbumGridItem(int ID, string Artist, string Title, int Minutes, int Times) : IGridItem;

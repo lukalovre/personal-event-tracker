@@ -14,6 +14,18 @@
 					</DataGrid>
 				</DockPanel>
 			</TabItem>
+			<TabItem Header="Directors">
+				<DockPanel>
+					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
+					<DataGrid Margin="1" Width="570" ItemsSource="{Binding DirectorGridList}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Director}" Header="Director" Width="*" />
+							<DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="90" />
+							<DataGridTextColumn Binding="{Binding Movies}" Header="Movies" Width="70" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</DockPanel>
+			</TabItem>
 		</TabControl>
 		<TabControl Margin="5">
 			<TabItem Header="Info">
