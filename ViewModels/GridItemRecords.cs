@@ -6,6 +6,7 @@ namespace EventTracker.ViewModels;
 public record BookGridItem(int ID, string Title, string Author, int Year, int? Rating, bool Completed, int Pages, DateTime LastDate) : IGridItem;
 public record ComicGridItem(int ID, string Title, string Writer, int? Chapter, int Pages, int? Rating, DateTime LastDate) : IGridItem;
 public record GameGridItem(int ID, string Title, string Developer, int Year, string Platform, int Time, bool Completed, int Rating, DateTime? LastDate) : IGridItem;
+public record DeveloperGridItem(int ID, string Developer, int Minutes, int Games) : IGridItem;
 public record MovieGridItem(int ID, string Title, string Director, int Year, int Rating) : IGridItem;
 public record MusicGridItem(int ID, string Artist, string Title, int Year, int Minutes, bool Bookmarked, int Played, string Platform) : IGridItem;
 public record ArtistGridItem(int ID, string Artist, int Minutes, int Albums) : IGridItem;
