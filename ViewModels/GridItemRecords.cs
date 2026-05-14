@@ -4,6 +4,7 @@ using EventTracker.Models.Interfaces;
 namespace EventTracker.ViewModels;
 
 public record BookGridItem(int ID, string Title, string Author, int Year, int? Rating, bool Completed, int Pages, DateTime LastDate) : IGridItem;
+public record AuthorGridItem(int ID, string Author, int Pages, int Books) : IGridItem;
 public record ComicGridItem(int ID, string Title, string Writer, int? Chapter, int Pages, int? Rating, DateTime LastDate) : IGridItem;
 public record GameGridItem(int ID, string Title, string Developer, int Year, string Platform, int Time, bool Completed, int Rating, DateTime? LastDate) : IGridItem;
 public record DeveloperGridItem(int ID, string Developer, int Minutes, int Games) : IGridItem;
