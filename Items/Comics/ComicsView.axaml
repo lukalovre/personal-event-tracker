@@ -29,6 +29,18 @@
 					</DataGrid>
 				</DockPanel>
 			</TabItem>
+			<TabItem Header="Comics">
+				<DockPanel>
+					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
+					<DataGrid Margin="1" Width="570" ItemsSource="{Binding ComicsList}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+							<DataGridTextColumn Binding="{Binding Writer}" Header="Author" Width="150" />
+							<DataGridTextColumn Binding="{Binding Pages}" Header="Pages" Width="80" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</DockPanel>
+			</TabItem>
 		</TabControl>
 		<TabControl Margin="5">
 			<TabItem Header="Info">
