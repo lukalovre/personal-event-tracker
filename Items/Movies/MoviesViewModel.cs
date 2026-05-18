@@ -60,5 +60,4 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
         resultGrid = resultGrid.OrderByDescending(o => o.Minutes).ToList();
         return resultGrid;
     }
-
 }

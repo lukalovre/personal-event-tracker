@@ -17,6 +17,7 @@ public record SongGridItem(int ID, string Artist, string Title, int Year, int Ti
 public record StandupGridItem(int ID, string Title, string Performer, int Year, int Rating) : IGridItem;
 public record TheatreGridItem(int ID, string Title, string Writer, string Director, int Rating, DateTime? LastDate) : IGridItem;
 public record TVShowGridItem(int ID, string Title, int Season, int Episode, int Rating, DateTime? LastDate) : IGridItem;
+public record TVShowsGridItem(int ID, string Title, int Episodes, int Minutes) : IGridItem;
 public record ClipGridItem(int ID, string Author, string Title, int Rating) : IGridItem;
 public record WorkGridItem(int ID, string Title, string Type, int Minutes, DateTime LastDate) : IGridItem;
 public record ZooGridItem(int ID, string Title, string City, string Country, int Year) : IGridItem;
