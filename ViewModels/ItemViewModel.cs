@@ -388,7 +388,7 @@ where TGridItem : IGridItem
 
     internal async Task<List<TGridItem>> LoadData(string searchText = null!, bool skipFilters = false)
     {
-        LoadItemsAndEvents(out _, out _);
+        LoadItemsAndEvents(out _, out _, realLoad: true);
 
         searchText ??= GridFilterViewModel.SearchText;
 
@@ -431,14 +431,19 @@ where TGridItem : IGridItem
         return resultGrid;
     }
 
-    protected void LoadItemsAndEvents(out List<TItem> itemList, out List<Event> eventList)
+    protected void LoadItemsAndEvents(out List<TItem> itemList, out List<Event> eventList, bool realLoad = false)
     {
+        itemList = _itemList;
+        eventList = _eventList;
+
+        if (!realLoad)
+        {
+            return;
+        }
+
         var type = Helpers.GetClassName<TItem>();
         _itemList = _datasource.GetList<TItem>(type);
         _eventList = _datasource.GetEventList(type);
-
-        itemList = _itemList;
-        eventList = _eventList;
     }
 
     protected List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
