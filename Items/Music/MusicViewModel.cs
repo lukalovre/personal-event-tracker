@@ -66,9 +66,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     {
         var resultGrid = new List<ArtistGridItem>();
 
-        var type = Helpers.GetClassName<Music>();
-        var itemList = _datasource.GetList<Music>(type);
-        var eventList = _datasource.GetEventList(type);
+        LoadItemsAndEvents(out List<Music> itemList, out List<Event> eventList);
 
         var artistList = itemList.DistinctBy(o => o.Artist).Select(o => o.Artist);
 
@@ -95,11 +93,9 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     {
         var resultGrid = new List<AlbumGridItem>();
 
-        var type = Helpers.GetClassName<Music>();
-        var albumList = _datasource.GetList<Music>(type);
-        var eventList = _datasource.GetEventList(type);
+        LoadItemsAndEvents(out List<Music> itemList, out List<Event> eventList);
 
-        foreach (var album in albumList)
+        foreach (var album in itemList)
         {
             var events = eventList.Where(o => o.ItemID == album.ID);
             var minutesAlbum = events.Sum(o => o.Amount);

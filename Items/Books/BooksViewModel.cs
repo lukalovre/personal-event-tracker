@@ -41,9 +41,7 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
     {
         var resultGrid = new List<AuthorGridItem>();
 
-        var type = Helpers.GetClassName<Book>();
-        var itemList = _datasource.GetList<Book>(type);
-        var eventList = _datasource.GetEventList(type);
+        LoadItemsAndEvents(out List<Book> itemList, out List<Event> eventList);
 
         var authorList = itemList.DistinctBy(o => o.Author).Select(o => o.Author);
 

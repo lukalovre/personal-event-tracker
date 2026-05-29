@@ -40,11 +40,9 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
     {
         var resultGrid = new List<TVShowsGridItem>();
 
-        var type = Helpers.GetClassName<TVShow>();
-        var tvShowList = _datasource.GetList<TVShow>(type);
-        var eventList = _datasource.GetEventList(type);
+        LoadItemsAndEvents(out List<TVShow> itemList, out List<Event> eventList);
 
-        foreach (var tvShow in tvShowList)
+        foreach (var tvShow in itemList)
         {
             var events = eventList.Where(o => o.ItemID == tvShow.ID);
             var minutesPerTVShow = events.Sum(o => o.Amount);

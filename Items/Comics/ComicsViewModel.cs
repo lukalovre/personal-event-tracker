@@ -40,11 +40,9 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
     {
         var resultGrid = new List<ComicGridItem>();
 
-        var type = Helpers.GetClassName<Comic>();
-        var comicList = _datasource.GetList<Comic>(type);
-        var eventList = _datasource.GetEventList(type);
+        LoadItemsAndEvents(out List<Comic> itemList, out List<Event> eventList);
 
-        foreach (var comic in comicList)
+        foreach (var comic in itemList)
         {
             var pagesPerComic = eventList.Where(o => o.ItemID == comic.ID).Sum(o => o.Amount);
             var gridItem = new ComicGridItem(comic.ID, comic.Title, comic.Writer, null, pagesPerComic, null, DateTime.MinValue);

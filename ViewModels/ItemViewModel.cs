@@ -388,11 +388,8 @@ where TGridItem : IGridItem
 
     internal async Task<List<TGridItem>> LoadData(string searchText = null!, bool skipFilters = false)
     {
-        var type = Helpers.GetClassName<TItem>();
+        LoadItemsAndEvents(out _, out _);
 
-        _itemList = _datasource.GetList<TItem>(type);
-
-        _eventList = _datasource.GetEventList(type);
         searchText ??= GridFilterViewModel.SearchText;
 
         var result = _eventList
@@ -434,11 +431,19 @@ where TGridItem : IGridItem
         return resultGrid;
     }
 
-    protected List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
+    protected void LoadItemsAndEvents(out List<TItem> itemList, out List<Event> eventList)
     {
         var type = Helpers.GetClassName<TItem>();
         _itemList = _datasource.GetList<TItem>(type);
         _eventList = _datasource.GetEventList(type);
+
+        itemList = _itemList;
+        eventList = _eventList;
+    }
+
+    protected List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
+    {
+        LoadItemsAndEvents(out _, out _);
 
         var dateFilter = yearsAgo.HasValue
             ? DateTime.Now.AddYears(-yearsAgo.Value)

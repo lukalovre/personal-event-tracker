@@ -57,9 +57,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
     {
         var resultGrid = new List<DeveloperGridItem>();
 
-        var type = Helpers.GetClassName<Game>();
-        var itemList = _datasource.GetList<Game>(type);
-        var eventList = _datasource.GetEventList(type);
+        LoadItemsAndEvents(out List<Game> itemList, out List<Event> eventList);
 
         var developerList = itemList.DistinctBy(o => o.Developer).Select(o => o.Developer);
 

@@ -102,7 +102,6 @@ public partial class PersonEventsViewModel : ViewModelBase
         var peopleEventGridList = new List<PersonEventGridItem>();
 
         var type = Helpers.GetClassName<T>();
-
         var eventList = _datasource.GetEventList(type);
         var itemList = _datasource.GetList<T>(type);
 

@@ -36,9 +36,7 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
     {
         var resultGrid = new List<DiretorGridItem>();
 
-        var type = Helpers.GetClassName<Movie>();
-        var itemList = _datasource.GetList<Movie>(type);
-        var eventList = _datasource.GetEventList(type);
+        LoadItemsAndEvents(out List<Movie> itemList, out List<Event> eventList);
 
         var directorList = itemList.DistinctBy(o => o.Director).Select(o => o.Director);
 
