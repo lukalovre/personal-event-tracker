@@ -29,4 +29,9 @@ public partial class SongsViewModel(IDatasource datasource, IExternal<Song> exte
             eventList.Count(),
             e.Bookmarked);
     }
+
+    protected override string GetFilterByOnNewItem()
+    {
+        return NewItem.Artist;
+    }
 }
