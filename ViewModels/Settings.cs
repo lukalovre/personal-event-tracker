@@ -95,6 +95,7 @@ public class Settings
             "Game" => new(Enum.GetValues(typeof(eGamePlatformTypes)).Cast<eGamePlatformTypes>().Select(v => v.ToString())),
             "Music" => new(Enum.GetValues(typeof(eMusicPlatformType)).Cast<eMusicPlatformType>().Select(v => v.ToString())),
             "Song" => new(Enum.GetValues(typeof(eMusicPlatformType)).Cast<eMusicPlatformType>().Select(v => v.ToString())),
+            "Classical" => new(Enum.GetValues(typeof(eMusicPlatformType)).Cast<eMusicPlatformType>().Select(v => v.ToString())),
             _ => []
         };
     }
