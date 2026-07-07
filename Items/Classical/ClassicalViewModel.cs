@@ -11,6 +11,7 @@ public partial class ClassicalViewModel(IDatasource datasource) : ItemViewModel<
     {
         return new ClassicalGridItem(
             i.ID,
+            i.Composser,
             i.Title,
             eventList.LastEventDate());
     }

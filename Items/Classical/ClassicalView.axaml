@@ -6,6 +6,7 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarked}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Composser}" Header="Composser" Width="*" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
@@ -17,6 +18,7 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
+							<DataGridTextColumn Binding="{Binding Composser}" Header="Composser" Width="*" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
@@ -28,6 +30,7 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
+						<TextBlock Text="{Binding SelectedItem.Composser}" FontSize="20" FontWeight="Bold" />
 						<TextBlock Text="{Binding SelectedItem.Title}" />
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
