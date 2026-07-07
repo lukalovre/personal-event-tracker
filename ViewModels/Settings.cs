@@ -10,7 +10,6 @@ namespace EventTracker.ViewModels;
 
 public class Settings
 {
-
     public string DatasourcePath { get; set; } = string.Empty;
 
     public Dictionary<string, ItemSettingsJson> ItemSettings { get; set; } = [];
@@ -92,10 +91,10 @@ public class Settings
     {
         return itemTypeName switch
         {
-            "Game" => new(Enum.GetValues(typeof(eGamePlatformTypes)).Cast<eGamePlatformTypes>().Select(v => v.ToString())),
-            "Music" => new(Enum.GetValues(typeof(eMusicPlatformType)).Cast<eMusicPlatformType>().Select(v => v.ToString())),
-            "Song" => new(Enum.GetValues(typeof(eMusicPlatformType)).Cast<eMusicPlatformType>().Select(v => v.ToString())),
-            "Classical" => new(Enum.GetValues(typeof(eMusicPlatformType)).Cast<eMusicPlatformType>().Select(v => v.ToString())),
+            "Game" => new(Enum.GetValues<eGamePlatformTypes>().Cast<eGamePlatformTypes>().Select(v => v.ToString())),
+            "Music" => new(Enum.GetValues<eMusicPlatformType>().Cast<eMusicPlatformType>().Select(v => v.ToString())),
+            "Song" => new(Enum.GetValues<eMusicPlatformType>().Cast<eMusicPlatformType>().Select(v => v.ToString())),
+            "Classical" => new(Enum.GetValues<eMusicPlatformType>().Cast<eMusicPlatformType>().Select(v => v.ToString())),
             _ => []
         };
     }
