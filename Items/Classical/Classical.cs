@@ -10,5 +10,6 @@ public record Classical : IItem, IExternal
     public string Title { get; set; } = string.Empty;
     public string Composser { get; set; } = string.Empty;
     public int? Year { get; set; } = null!;
+    public int? Runtime { get; set; } = null!;
     public string ExternalID { get; set; } = string.Empty;
 }

@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using EventTracker.Models;
+using EventTracker.Repositories;
 using EventTracker.ViewModels.Extensions;
 using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class ClassicalViewModel(IDatasource datasource) : ItemViewModel<Classical, ClassicalGridItem>(datasource, null!)
+public partial class ClassicalViewModel(IDatasource datasource, IExternal<Classical> external)
+: ItemViewModel<Classical, ClassicalGridItem>(datasource, external)
 {
     protected override ClassicalGridItem Convert(Event e, Classical i, IEnumerable<Event> eventList)
     {
