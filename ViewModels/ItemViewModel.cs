@@ -539,6 +539,14 @@ where TGridItem : IGridItem
         EventViewModel.FillStats<TItem>(Events);
     }
 
+    public virtual void SelectFirstItem()
+    {
+        if (GridItems.Count > 0)
+        {
+            SelectedGridItem = GridItems[0];
+        }
+    }
+
     private ObservableCollection<TGridItem> GetSelectedGrid()
     {
         return GridItems;

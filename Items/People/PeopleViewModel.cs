@@ -49,6 +49,14 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
         }
     }
 
+    public override void SelectFirstItem()
+    {
+        if (PeopleGrid.Count > 0)
+        {
+            SelectedPersonGridItem = PeopleGrid[0];
+        }
+    }
+
     public void SelectedPersonChanged()
     {
         if (SelectedPersonGridItem == null)

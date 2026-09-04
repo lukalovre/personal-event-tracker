@@ -9,7 +9,7 @@
 	<DockPanel>
 		<TabControl Margin="5">
 			<TabItem Header="Main">
-				<TabControl TabStripPlacement="Left">
+				<TabControl TabStripPlacement="Left" SelectionChanged="ItemTabControl_OnSelectionChanged">
 					<TabItem Header="Music">
 						<v:MusicView DataContext="{Binding MusicViewModel}" />
 					</TabItem>
@@ -67,7 +67,7 @@
 				</TabControl>
 			</TabItem>
 			<TabItem Header="My">
-				<TabControl TabStripPlacement="Left">
+				<TabControl TabStripPlacement="Left" SelectionChanged="ItemTabControl_OnSelectionChanged">
 					<TabItem Header="Work" Width="150">
 						<v:WorkView DataContext="{Binding WorkViewModel}" />
 					</TabItem>
