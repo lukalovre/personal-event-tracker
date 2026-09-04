@@ -40,11 +40,6 @@ public class MusicExternal : IExternal<Music>
             };
         }
 
-        if (url.Contains(Spotify.UrlIdentifier))
-        {
-            return await Spotify.GetItem(url);
-        }
-
         if (url.Contains(Soundcloud.UrlIdentifier))
         {
             var item = await Soundcloud.GetSoundcloudItem<Music>(url);
