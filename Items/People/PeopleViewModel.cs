@@ -18,6 +18,7 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
     public PersonEventsViewModel PersonEventsViewModel { get; } = new PersonEventsViewModel(datasource, null);
     public ObservableCollection<PersonGridItem> PeopleGrid { get; set; } = [];
     public ObservableCollection<BirthdayGridItem> BirthdaysGrid { get; set; } = [];
+    public ObservableCollection<PersonGridItem> MissingBirthdaysGrid { get; set; } = [];
 
     protected override void ReloadData()
     {
@@ -27,6 +28,8 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
         PeopleGrid.AddRange(LoadPeople());
         BirthdaysGrid.Clear();
         BirthdaysGrid.AddRange(LoadBirthdays());
+        MissingBirthdaysGrid.Clear();
+        MissingBirthdaysGrid.AddRange(LoadPeople().Where(person => string.IsNullOrWhiteSpace(person.Birthday)));
     }
 
     private List<PersonGridItem> LoadPeople()
@@ -136,6 +139,8 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
         PeopleGrid.AddRange(LoadPeople());
         BirthdaysGrid.Clear();
         BirthdaysGrid.AddRange(LoadBirthdays());
+        MissingBirthdaysGrid.Clear();
+        MissingBirthdaysGrid.AddRange(LoadPeople().Where(person => string.IsNullOrWhiteSpace(person.Birthday)));
         return PeopleGrid.Count;
     }
 
