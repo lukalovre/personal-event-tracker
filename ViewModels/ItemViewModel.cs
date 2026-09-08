@@ -12,10 +12,13 @@ using Newtonsoft.Json;
 using ReactiveUI;
 using Repositories;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace EventTracker.ViewModels;
 
-public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid
+public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid, IImagePickerViewModel
 where TItem : IItem
 where TGridItem : IGridItem
 {
@@ -45,7 +48,7 @@ where TGridItem : IGridItem
 
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         Search = ReactiveCommand.Create(SearchAction);
-        OpenImage = ReactiveCommand.Create(OpenImageAction);
+        OpenImage = ReactiveCommand.CreateFromTask(() => PickImageAsync(GetMainWindow()));
 
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
@@ -245,9 +248,30 @@ where TGridItem : IGridItem
         return string.Empty;
     }
 
-    private void OpenImageAction()
+    public async Task PickImageAsync(Window window, bool isNewImage = false)
     {
-        throw new NotImplementedException();
+        if (isNewImage)
+        {
+            if (NewImage is not null)
+            {
+                return;
+            }
+
+            NewImage = await ImagePicker.PickAndSaveAsync(window, $"{Paths.GetTempPath<TItem>()}.png");
+            return;
+        }
+
+        if (Image is not null || SelectedItem is null)
+        {
+            return;
+        }
+
+        Image = await ImagePicker.PickAndSaveAsync(window, Paths.GetImagePath<TItem>(SelectedItem.ID));
+    }
+
+    private static Window GetMainWindow()
+    {
+        return ((ClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
     }
 
     protected virtual List<string> GetAlternativeOpenLinkSearchParams() => [];

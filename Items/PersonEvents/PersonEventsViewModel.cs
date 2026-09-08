@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Window = Avalonia.Controls.Window;
 using Avalonia.Media.Imaging;
 using EventTracker.Models;
 using EventTracker.Models.Interfaces;
@@ -11,7 +13,7 @@ using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class PersonEventsViewModel : ViewModelBase
+public partial class PersonEventsViewModel : ViewModelBase, IImagePickerViewModel
 {
 
     private Event _selectedEvent = null!;
@@ -68,6 +70,18 @@ public partial class PersonEventsViewModel : ViewModelBase
         Image = FileRepository.GetImage(SelectedGridItem.Type, SelectedGridItem.ID);
         Comment = SelectedGridItem.Comment;
 
+    }
+
+    public async Task PickImageAsync(Window window, bool isNewImage = false)
+    {
+        if (Image is not null || SelectedGridItem is null)
+        {
+            return;
+        }
+
+        Image = await global::Repositories.ImagePicker.PickAndSaveAsync(
+            window,
+            Paths.GetImagePath(SelectedGridItem.Type, SelectedGridItem.ID));
     }
 
     private List<PersonEventGridItem> LoadEvents(int id)

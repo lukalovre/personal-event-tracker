@@ -14,6 +14,8 @@ public static class Paths
 
     public static string GetImagePath<T>(int itemID) => Path.Combine(Images, Helpers.GetClassName<T>(), $"{itemID}.png");
 
+    public static string GetImagePath(string type, int itemID) => Path.Combine(Images, type, $"{itemID}.png");
+
     public static string GetTempPath<T>()
     {
         var path = Path.Combine(GetRootPath(), ".Temp", Helpers.GetClassName<T>());

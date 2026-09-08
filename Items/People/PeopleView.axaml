@@ -77,7 +77,7 @@
 				<ScrollViewer>
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<Button>
+							<Button Tag="New">
 								<Image Source="{Binding NewImage}" Width="200" Height="200" />
 							</Button>
 							<StackPanel>
