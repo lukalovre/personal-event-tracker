@@ -90,6 +90,10 @@
 									<TextBox Text="{Binding SelectedItem.Country}" Width="150"/>
 									<TextBlock Text=" Country" VerticalAlignment="Center"/>
 								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Tags}" Width="150"/>
+									<TextBlock Text=" Tags" VerticalAlignment="Center"/>
+								</StackPanel>
 							</StackPanel>
 						</StackPanel>
 						<view:PersonEventsView DataContext="{Binding PersonEventsViewModel}" />
@@ -152,6 +156,14 @@
 									<TextBox Text="{Binding NewItem.Country}" Width="150"/>
 									<TextBlock Text=" Country" VerticalAlignment="Center"/>
 								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Tags}" Width="150"/>
+									<TextBlock Text=" Tags" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<ComboBox ItemsSource="{Binding ExistingTags}" SelectedItem="{Binding SelectedExistingTag}" Width="150"/>
+									<Button Command="{Binding AddTag}" CommandParameter="New">Add tag</Button>
+								</StackPanel>
 							</StackPanel>
 						</StackPanel>
 						<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
@@ -201,6 +213,12 @@
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Country" VerticalAlignment="Center" />
 							<TextBox Text="{Binding SelectedItem.Country}" Width="150" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Tags" VerticalAlignment="Center" />
+							<TextBox Text="{Binding SelectedItem.Tags}" Width="150" />
+							<ComboBox ItemsSource="{Binding ExistingTags}" SelectedItem="{Binding SelectedExistingTag}" Width="150" />
+							<Button Command="{Binding AddTag}" CommandParameter="Selected">Add tag</Button>
 						</StackPanel>
 					</StackPanel>
 				</Viewbox>

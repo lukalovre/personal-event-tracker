@@ -3,22 +3,39 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Reactive;
 using EventTracker.Models;
 using EventTracker.Repositories;
 using DynamicData;
+using ReactiveUI;
 using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Person, PersonGridItem>(datasource, null!), IDataGrid
+public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, IDataGrid
 {
     private PersonGridItem _selectedPersonGridItem;
     private BirthdayGridItem _selectedBirthdayGridItem = null!;
+    private string _selectedExistingTag = string.Empty;
 
-    public PersonEventsViewModel PersonEventsViewModel { get; } = new PersonEventsViewModel(datasource, null);
+    public PeopleViewModel(IDatasource datasource) : base(datasource, null!)
+    {
+        PersonEventsViewModel = new PersonEventsViewModel(datasource, null);
+        AddTag = ReactiveCommand.Create<string, Unit>(AddTagAction);
+    }
+
+    public PersonEventsViewModel PersonEventsViewModel { get; }
     public ObservableCollection<PersonGridItem> PeopleGrid { get; set; } = [];
     public ObservableCollection<BirthdayGridItem> BirthdaysGrid { get; set; } = [];
     public ObservableCollection<PersonGridItem> MissingBirthdaysGrid { get; set; } = [];
+    public ObservableCollection<string> ExistingTags { get; set; } = [];
+    public ReactiveCommand<string, Unit> AddTag { get; }
+
+    public string SelectedExistingTag
+    {
+        get => _selectedExistingTag;
+        set => this.RaiseAndSetIfChanged(ref _selectedExistingTag, value);
+    }
 
     protected override void ReloadData()
     {
@@ -26,6 +43,8 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
 
         PeopleGrid.Clear();
         PeopleGrid.AddRange(LoadPeople());
+        ExistingTags.Clear();
+        ExistingTags.AddRange(LoadExistingTags());
         BirthdaysGrid.Clear();
         BirthdaysGrid.AddRange(LoadBirthdays());
         MissingBirthdaysGrid.Clear();
@@ -34,7 +53,7 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
 
     private List<PersonGridItem> LoadPeople()
     {
-        var itemList = datasource.GetList<Person>(Helpers.GetClassName<Person>());
+        var itemList = _datasource.GetList<Person>(Helpers.GetClassName<Person>());
         var searchText = GridFilterViewModel.SearchText?.Trim() ?? string.Empty;
 
         return itemList
@@ -44,6 +63,51 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
                 || MatchesSearch(person.Nickname, searchText))
             .Select(o => Convert(null!, o, null!))
             .ToList();
+    }
+
+    private List<string> LoadExistingTags()
+    {
+        return _datasource.GetList<Person>(Helpers.GetClassName<Person>())
+            .SelectMany(person => person.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+            .Where(tag => !string.IsNullOrWhiteSpace(tag))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(tag => tag, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    private Unit AddTagAction(string target)
+    {
+        if (string.IsNullOrWhiteSpace(SelectedExistingTag))
+        {
+            return Unit.Default;
+        }
+
+        var person = target == "New" ? NewItem : SelectedItem;
+        if (person is not Person selectedPerson)
+        {
+            return Unit.Default;
+        }
+
+        var tags = selectedPerson.Tags
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .ToList();
+
+        if (tags.Any(tag => string.Equals(tag, SelectedExistingTag, StringComparison.OrdinalIgnoreCase)))
+        {
+            return Unit.Default;
+        }
+
+        var updatedPerson = selectedPerson with { Tags = string.Join(", ", tags.Append(SelectedExistingTag.Trim())) };
+        if (target == "New")
+        {
+            NewItem = (Person)(object)updatedPerson;
+        }
+        else
+        {
+            SelectedItem = (Person)(object)updatedPerson;
+        }
+
+        return Unit.Default;
     }
 
     private List<BirthdayGridItem> LoadBirthdays()
@@ -137,6 +201,8 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
     {
         PeopleGrid.Clear();
         PeopleGrid.AddRange(LoadPeople());
+        ExistingTags.Clear();
+        ExistingTags.AddRange(LoadExistingTags());
         BirthdaysGrid.Clear();
         BirthdaysGrid.AddRange(LoadBirthdays());
         MissingBirthdaysGrid.Clear();
