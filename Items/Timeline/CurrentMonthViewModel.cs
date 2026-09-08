@@ -29,6 +29,7 @@ public class CurrentMonthViewModel : ViewModelBase
     private string _selectedMonth = string.Empty;
     private int _selectedYear;
     private string? _selectedCategory;
+    private bool _excludeMusic = true;
     private List<ISeries> _amountByType = [];
 
     public CurrentMonthViewModel(IDatasource datasource)
@@ -81,6 +82,26 @@ public class CurrentMonthViewModel : ViewModelBase
             }
 
             this.RaiseAndSetIfChanged(ref _selectedYear, value);
+            RefreshReport();
+        }
+    }
+
+    public bool ExcludeMusic
+    {
+        get => _excludeMusic;
+        set
+        {
+            if (_excludeMusic == value)
+            {
+                return;
+            }
+
+            this.RaiseAndSetIfChanged(ref _excludeMusic, value);
+            if (value && string.Equals(_selectedCategory, Helpers.GetClassName<Music>(), StringComparison.OrdinalIgnoreCase))
+            {
+                _selectedCategory = null;
+            }
+
             RefreshReport();
         }
     }
@@ -198,6 +219,11 @@ public class CurrentMonthViewModel : ViewModelBase
     private List<PersonEventGridItem> GetEvents<T>() where T : IItem
     {
         var type = Helpers.GetClassName<T>();
+        if (ExcludeMusic && type == Helpers.GetClassName<Music>())
+        {
+            return [];
+        }
+
         if (_selectedCategory is not null && !string.Equals(_selectedCategory, type, StringComparison.OrdinalIgnoreCase))
         {
             return [];
@@ -264,6 +290,11 @@ public class CurrentMonthViewModel : ViewModelBase
     private void AddMinutes<T>(Dictionary<string, int> groupedMinutes) where T : IItem
     {
         var type = Helpers.GetClassName<T>();
+        if (ExcludeMusic && type == Helpers.GetClassName<Music>())
+        {
+            return;
+        }
+
         var modifier = Settings.Instance.GetItemSettigns<T>().AmountToMinutesModifier;
         var minutes = _datasource.GetEventList(type)
             .Where(item => IsInSelectedPeriod(item.DateEnd))

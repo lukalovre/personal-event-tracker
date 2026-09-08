@@ -4,6 +4,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <ComboBox ItemsSource="{Binding MonthNames}" SelectedItem="{Binding SelectedMonth}" Width="140" />
                 <ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Width="90" Margin="8,0,0,0" />
+                <CheckBox Content="Exclude Music" IsChecked="{Binding ExcludeMusic}" Margin="12,0,0,0" VerticalAlignment="Center" />
             </StackPanel>
             <TextBlock Text="{Binding MonthName}" FontWeight="Bold" FontSize="18" />
             <TextBlock Text="{Binding TotalHoursText}" Margin="0,0,0,10" />
