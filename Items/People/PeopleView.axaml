@@ -14,12 +14,12 @@
 				</DockPanel>
 			</TabItem>
 			<TabItem Header="Birthdays">
-				<DataGrid Margin="1" Width="500" ItemsSource="{Binding BirthdaysGrid}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedBirthdayGridItem}">
+				<DataGrid Margin="1" Width="420" ItemsSource="{Binding BirthdaysGrid}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedBirthdayGridItem}">
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding FirstName}" Header="First name" Width="100" />
-						<DataGridTextColumn Binding="{Binding LastName}" Header="Last name" Width="100" />
-						<DataGridTextColumn Binding="{Binding Birthday}" Header="Birthday" Width="100" />
-						<DataGridTextColumn Binding="{Binding Age}" Header="Age this year" Width="120" />
+						<DataGridTextColumn Binding="{Binding FirstName}" Header="First name" Width="90" />
+						<DataGridTextColumn Binding="{Binding LastName}" Header="Last name" Width="90" />
+						<DataGridTextColumn Binding="{Binding Birthday}" Header="Birthday" Width="130" />
+						<DataGridTextColumn Binding="{Binding Age}" Header="Age this year" Width="100" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>

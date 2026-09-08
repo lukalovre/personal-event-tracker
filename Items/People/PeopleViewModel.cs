@@ -62,7 +62,7 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
                 item.Person.ID,
                 item.Person.FirstName,
                 item.Person.LastName,
-                item.Birthday!.Value.ToString("dd/MM", CultureInfo.InvariantCulture),
+                item.Birthday!.Value.ToString("MMMM, d", CultureInfo.InvariantCulture),
                 today.Year - item.Birthday.Value.Year))
             .ToList();
     }
