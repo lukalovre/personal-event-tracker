@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -75,7 +76,12 @@ public class PeopleSelectionViewModel : INotifyPropertyChanged
 
         foreach (var item in Items)
         {
-            if (string.IsNullOrWhiteSpace(SearchText) || item.FullName.Contains(SearchText, StringComparison.OrdinalIgnoreCase) || item.IsSelected)
+            if (string.IsNullOrWhiteSpace(SearchText)
+                || CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+                    item.FullName,
+                    SearchText,
+                    CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0
+                || item.IsSelected)
             {
                 FilteredItems.Add(item);
             }
