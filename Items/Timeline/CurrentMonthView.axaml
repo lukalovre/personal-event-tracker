@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:EventTracker.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia" mc:Ignorable="d" x:DataType="vm:CurrentMonthViewModel" x:Class="EventTracker.Views.CurrentMonthView">
+    <Border BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
+        <StackPanel>
+            <TextBlock Text="{Binding MonthName}" FontWeight="Bold" FontSize="18" />
+            <TextBlock Text="{Binding TotalHoursText}" Margin="0,0,0,10" />
+            <StackPanel Orientation="Horizontal">
+                <DataGrid Margin="1" Width="400" Height="550" ItemsSource="{Binding Events}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="70" />
+                        <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+                        <DataGridTextColumn Binding="{Binding Date, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock Text="   " />
+                <lvc:PieChart Series="{Binding AmountByType}" Width="500" Height="500" />
+                <TextBlock Text="   " />
+                <ScrollViewer>
+                    <StackPanel>
+                        <Button>
+                            <Image Source="{Binding Image}" Width="300" Height="300" />
+                        </Button>
+                        <TextBlock Text="" />
+                        <TextBlock Text="{Binding Comment}" Width="250" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -88,6 +88,9 @@
 			<TabItem Header="Timeline">
 				<v:TimelineView DataContext="{Binding TimelineViewModel}" />
 			</TabItem>
+			<TabItem Header="Current Month">
+				<v:CurrentMonthView DataContext="{Binding CurrentMonthViewModel}" />
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>
