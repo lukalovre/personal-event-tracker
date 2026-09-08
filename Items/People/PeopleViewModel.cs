@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using EventTracker.Models;
 using EventTracker.Repositories;
@@ -8,7 +9,7 @@ using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Person, PersonGridItem>(datasource, null!)
+public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Person, PersonGridItem>(datasource, null!), IDataGrid
 {
     private PersonGridItem _selectedPersonGridItem;
 
@@ -26,7 +27,24 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
     private List<PersonGridItem> LoadPeople()
     {
         var itemList = datasource.GetList<Person>(Helpers.GetClassName<Person>());
-        return itemList.Select(o => Convert(null!, o, null!)).ToList();
+        var searchText = GridFilterViewModel.SearchText?.Trim() ?? string.Empty;
+
+        return itemList
+            .Where(person => string.IsNullOrWhiteSpace(searchText)
+                || MatchesSearch(person.FirstName, searchText)
+                || MatchesSearch(person.LastName, searchText)
+                || MatchesSearch(person.Nickname, searchText))
+            .Select(o => Convert(null!, o, null!))
+            .ToList();
+    }
+
+    private static bool MatchesSearch(string? value, string searchText)
+    {
+        return value is not null
+            && CultureInfo.InvariantCulture.CompareInfo.IndexOf(
+                value,
+                searchText,
+                CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
     }
 
     protected override PersonGridItem Convert(Event e, Person i, IEnumerable<Event> eventList)
@@ -55,6 +73,13 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
         {
             SelectedPersonGridItem = PeopleGrid[0];
         }
+    }
+
+    int IDataGrid.ReloadData()
+    {
+        PeopleGrid.Clear();
+        PeopleGrid.AddRange(LoadPeople());
+        return PeopleGrid.Count;
     }
 
     public void SelectedPersonChanged()
