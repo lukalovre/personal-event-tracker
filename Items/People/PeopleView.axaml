@@ -74,7 +74,7 @@
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="New">
-				<ScrollViewer>
+				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<Button Tag="New">
@@ -129,7 +129,7 @@
 						</StackPanel>
 						<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 					</StackPanel>
-				</ScrollViewer>
+				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<TextBlock Text="Event" />

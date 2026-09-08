@@ -45,7 +45,7 @@
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="New">
-				<ScrollViewer>
+				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
@@ -59,7 +59,7 @@
 							<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<Button Command="{Binding OpenImage}" Margin="5">
-							<Image Source="{Binding NewImage}" Width="430" Height="400" />
+							<Image Source="{Binding NewImage}" Width="240" Height="220" />
 						</Button>
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
@@ -78,7 +78,7 @@
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 					</StackPanel>
-				</ScrollViewer>
+				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<TextBlock Text="Event" />

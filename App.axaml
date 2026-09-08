@@ -6,5 +6,18 @@
 	<Application.Styles>
 		<FluentTheme />
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+		<Style Selector=".compact-new TextBox">
+			<Setter Property="MinHeight" Value="28" />
+			<Setter Property="Padding" Value="7,4" />
+		</Style>
+		<Style Selector=".compact-new ComboBox">
+			<Setter Property="MinHeight" Value="28" />
+		</Style>
+		<Style Selector=".compact-new NumericUpDown">
+			<Setter Property="MinHeight" Value="28" />
+		</Style>
+		<Style Selector=".compact-new Button">
+			<Setter Property="Padding" Value="10,5" />
+		</Style>
 	</Application.Styles>
 </Application>
