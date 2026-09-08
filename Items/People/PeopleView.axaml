@@ -32,6 +32,15 @@
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
+			<TabItem Header="Active">
+				<DataGrid Margin="1" Width="300" ItemsSource="{Binding ActivePeopleGrid}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedPersonGridItem}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding FirstName}" Header="First name" Width="100" />
+						<DataGridTextColumn Binding="{Binding LastName}" Header="Last name" Width="100" />
+						<DataGridTextColumn Binding="{Binding Nickname}" Header="Nickname" Width="100" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</TabItem>
 		</TabControl>
 		<TabControl Margin="5">
 			<TabItem Header="Info">

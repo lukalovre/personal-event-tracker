@@ -28,6 +28,7 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
     public ObservableCollection<PersonGridItem> PeopleGrid { get; set; } = [];
     public ObservableCollection<BirthdayGridItem> BirthdaysGrid { get; set; } = [];
     public ObservableCollection<PersonGridItem> MissingBirthdaysGrid { get; set; } = [];
+    public ObservableCollection<PersonGridItem> ActivePeopleGrid { get; set; } = [];
     public ObservableCollection<string> ExistingTags { get; set; } = [];
     public ReactiveCommand<string, Unit> AddTag { get; }
 
@@ -49,6 +50,8 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         BirthdaysGrid.AddRange(LoadBirthdays());
         MissingBirthdaysGrid.Clear();
         MissingBirthdaysGrid.AddRange(LoadPeople().Where(person => string.IsNullOrWhiteSpace(person.Birthday)));
+        ActivePeopleGrid.Clear();
+        ActivePeopleGrid.AddRange(LoadPeople().Where(person => HasTag(person.Tags, "Active")));
     }
 
     private List<PersonGridItem> LoadPeople()
@@ -154,6 +157,12 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
                 CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace) >= 0;
     }
 
+    private static bool HasTag(string tags, string tag)
+    {
+        return tags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Any(value => string.Equals(value, tag, StringComparison.OrdinalIgnoreCase));
+    }
+
     protected override PersonGridItem Convert(Event e, Person i, IEnumerable<Event> eventList)
     {
         return new PersonGridItem(
@@ -161,7 +170,8 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
             i.FirstName,
             i.LastName,
             i.Nickname,
-            i.Birthday);
+            i.Birthday,
+            i.Tags);
     }
 
     public PersonGridItem SelectedPersonGridItem
@@ -207,6 +217,8 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         BirthdaysGrid.AddRange(LoadBirthdays());
         MissingBirthdaysGrid.Clear();
         MissingBirthdaysGrid.AddRange(LoadPeople().Where(person => string.IsNullOrWhiteSpace(person.Birthday)));
+        ActivePeopleGrid.Clear();
+        ActivePeopleGrid.AddRange(LoadPeople().Where(person => HasTag(person.Tags, "Active")));
         return PeopleGrid.Count;
     }
 
