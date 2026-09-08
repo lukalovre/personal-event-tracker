@@ -64,6 +64,10 @@
 									<TextBlock Text=" Postcode" VerticalAlignment="Center"/>
 								</StackPanel>
 								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding SelectedItem.Birthday}" Width="150"/>
+									<TextBlock Text=" Birthday" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
 									<TextBox Text="{Binding SelectedItem.Country}" Width="150"/>
 									<TextBlock Text=" Country" VerticalAlignment="Center"/>
 								</StackPanel>
@@ -122,6 +126,10 @@
 									<TextBlock Text=" Postcode" VerticalAlignment="Center"/>
 								</StackPanel>
 								<StackPanel Orientation="Horizontal">
+									<TextBox Text="{Binding NewItem.Birthday}" Width="150"/>
+									<TextBlock Text=" Birthday" VerticalAlignment="Center"/>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal">
 									<TextBox Text="{Binding NewItem.Country}" Width="150"/>
 									<TextBlock Text=" Country" VerticalAlignment="Center"/>
 								</StackPanel>
@@ -166,6 +174,10 @@
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Postcode" VerticalAlignment="Center" />
 							<TextBox Text="{Binding SelectedItem.Postcode}" Width="150" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Birthday" VerticalAlignment="Center" />
+							<TextBox Text="{Binding SelectedItem.Birthday}" Width="150" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Country" VerticalAlignment="Center" />
