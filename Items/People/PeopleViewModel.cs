@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -12,9 +13,11 @@ namespace EventTracker.ViewModels;
 public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Person, PersonGridItem>(datasource, null!), IDataGrid
 {
     private PersonGridItem _selectedPersonGridItem;
+    private BirthdayGridItem _selectedBirthdayGridItem = null!;
 
     public PersonEventsViewModel PersonEventsViewModel { get; } = new PersonEventsViewModel(datasource, null);
     public ObservableCollection<PersonGridItem> PeopleGrid { get; set; } = [];
+    public ObservableCollection<BirthdayGridItem> BirthdaysGrid { get; set; } = [];
 
     protected override void ReloadData()
     {
@@ -22,6 +25,8 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
 
         PeopleGrid.Clear();
         PeopleGrid.AddRange(LoadPeople());
+        BirthdaysGrid.Clear();
+        BirthdaysGrid.AddRange(LoadBirthdays());
     }
 
     private List<PersonGridItem> LoadPeople()
@@ -36,6 +41,41 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
                 || MatchesSearch(person.Nickname, searchText))
             .Select(o => Convert(null!, o, null!))
             .ToList();
+    }
+
+    private List<BirthdayGridItem> LoadBirthdays()
+    {
+        var today = DateTime.Today;
+
+        return LoadPeople()
+            .Select(person => new
+            {
+                Person = person,
+                Birthday = ParseBirthday(person.Birthday)
+            })
+            .Where(item => item.Birthday.HasValue
+                && (item.Birthday.Value.Month > today.Month
+                    || item.Birthday.Value.Month == today.Month && item.Birthday.Value.Day >= today.Day))
+            .OrderBy(item => item.Birthday!.Value.Month)
+            .ThenBy(item => item.Birthday!.Value.Day)
+            .Select(item => new BirthdayGridItem(
+                item.Person.ID,
+                item.Person.FirstName,
+                item.Person.LastName,
+                item.Birthday!.Value.ToString("dd/MM", CultureInfo.InvariantCulture),
+                today.Year - item.Birthday.Value.Year))
+            .ToList();
+    }
+
+    private static DateTime? ParseBirthday(string birthday)
+    {
+        if (DateTime.TryParse(birthday, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out var result)
+            || DateTime.TryParse(birthday, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out result))
+        {
+            return result;
+        }
+
+        return null;
     }
 
     private static bool MatchesSearch(string? value, string searchText)
@@ -53,7 +93,8 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
             i.ID,
             i.FirstName,
             i.LastName,
-            i.Nickname);
+            i.Nickname,
+            i.Birthday);
     }
 
     public PersonGridItem SelectedPersonGridItem
@@ -64,6 +105,20 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
             _selectedPersonGridItem = value;
             SelectedPersonChanged();
             SelectedGridItem = value;
+        }
+    }
+
+    public BirthdayGridItem SelectedBirthdayGridItem
+    {
+        get => _selectedBirthdayGridItem;
+        set
+        {
+            _selectedBirthdayGridItem = value;
+            var person = PeopleGrid.FirstOrDefault(item => item.ID == value.ID);
+            if (person is not null)
+            {
+                SelectedPersonGridItem = person;
+            }
         }
     }
 
@@ -79,6 +134,8 @@ public partial class PeopleViewModel(IDatasource datasource) : ItemViewModel<Per
     {
         PeopleGrid.Clear();
         PeopleGrid.AddRange(LoadPeople());
+        BirthdaysGrid.Clear();
+        BirthdaysGrid.AddRange(LoadBirthdays());
         return PeopleGrid.Count;
     }
 
