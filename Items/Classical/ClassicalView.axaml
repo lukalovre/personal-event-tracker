@@ -94,7 +94,23 @@
 				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
-				<TextBlock Text="Event" />
+				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
+					<StackPanel>
+						<Button Command="{Binding UpdateItemClick}" Margin="15">Save</Button>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Title" VerticalAlignment="Center" />
+							<TextBox Text="{Binding SelectedItem.Title}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Composer" VerticalAlignment="Center" />
+							<TextBox Text="{Binding SelectedItem.Composser}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Year" VerticalAlignment="Center" />
+							<TextBox Text="{Binding SelectedItem.Year}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+					</StackPanel>
+				</Viewbox>
 			</TabItem>
 		</TabControl>
 	</DockPanel>
