@@ -41,7 +41,7 @@
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="New">
-				<ScrollViewer>
+				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddItemClick}" Margin="15">
@@ -50,44 +50,46 @@
 							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Imdb" />
+							<TextBlock Text="IMDb" VerticalAlignment="Center" />
 							<TextBox Text="{Binding NewItem.ExternalID}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Title" />
+							<TextBlock Text="Title" VerticalAlignment="Center" />
 							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Year" />
+							<TextBlock Text="Director" VerticalAlignment="Center" />
+							<TextBox Text="{Binding NewItem.Director}" HorizontalAlignment="Stretch" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Year" VerticalAlignment="Center" />
 							<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Runtime" />
+							<TextBlock Text="Runtime" VerticalAlignment="Center" />
 							<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<Button Command="{Binding OpenImage}" Margin="5">
-							<Image Source="{Binding NewImage}" Width="430" Height="400" />
+							<Image Source="{Binding NewImage}" Width="240" Height="220" />
 						</Button>
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
 							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Rating" />
+							<TextBlock Text="Rating" VerticalAlignment="Center" />
 							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Season" />
+							<TextBlock Text="Season" VerticalAlignment="Center" />
 							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
 						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmarked}">
-							★
-						</CheckBox>
+						<CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
 						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
 					</StackPanel>
-				</ScrollViewer>
+				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<TextBlock Text="Event" />
