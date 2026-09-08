@@ -9,6 +9,7 @@ using EventTracker.Models.Interfaces;
 using EventTracker.Repositories;
 using DynamicData;
 using LiveChartsCore;
+using LiveChartsCore.Kernel;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using ReactiveUI;
@@ -27,6 +28,7 @@ public class CurrentMonthViewModel : ViewModelBase
     private string _totalHoursText = string.Empty;
     private string _selectedMonth = string.Empty;
     private int _selectedYear;
+    private string? _selectedCategory;
     private List<ISeries> _amountByType = [];
 
     public CurrentMonthViewModel(IDatasource datasource)
@@ -84,6 +86,7 @@ public class CurrentMonthViewModel : ViewModelBase
     }
 
     public int TotalMinutes { get; private set; }
+    public string? SelectedCategory => _selectedCategory;
     public string TotalHoursText
     {
         get => _totalHoursText;
@@ -140,6 +143,19 @@ public class CurrentMonthViewModel : ViewModelBase
         TotalHoursText = $"{TotalMinutes / 60d:F1} hours total";
     }
 
+    public void ToggleCategory(string? category)
+    {
+        if (string.IsNullOrWhiteSpace(category))
+        {
+            return;
+        }
+
+        _selectedCategory = string.Equals(_selectedCategory, category, StringComparison.OrdinalIgnoreCase)
+            ? null
+            : category;
+        RefreshReport();
+    }
+
     private DateTime SelectedPeriod => new(
         SelectedYear,
         DateTime.ParseExact(SelectedMonth, "MMMM", CultureInfo.CurrentCulture).Month,
@@ -182,6 +198,11 @@ public class CurrentMonthViewModel : ViewModelBase
     private List<PersonEventGridItem> GetEvents<T>() where T : IItem
     {
         var type = Helpers.GetClassName<T>();
+        if (_selectedCategory is not null && !string.Equals(_selectedCategory, type, StringComparison.OrdinalIgnoreCase))
+        {
+            return [];
+        }
+
         var itemList = _datasource.GetList<T>(type);
         var eventList = _datasource.GetEventList(type)
             .Where(item => IsInSelectedPeriod(item.DateEnd))
@@ -231,9 +252,9 @@ public class CurrentMonthViewModel : ViewModelBase
         foreach (var entry in groupedMinutes.Where(entry => entry.Value > 0).OrderByDescending(entry => entry.Value))
         {
             var color = ChartColors.GetColor(entry.Key);
-            AmountByType.Add(new PieSeries<int>
+            AmountByType.Add(new PieSeries<double>
             {
-                Values = [entry.Value],
+                Values = [Math.Round(entry.Value / 60d, 1)],
                 Name = entry.Key,
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B))
             });

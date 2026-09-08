@@ -16,7 +16,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <TextBlock Text="   " />
-                <lvc:PieChart Series="{Binding AmountByType}" Width="500" Height="500" />
+                <lvc:PieChart Series="{Binding AmountByType}" DataPointerDown="PieChartOnDataPointerDown" Width="500" Height="500" />
                 <TextBlock Text="   " />
                 <ScrollViewer>
                     <StackPanel>
