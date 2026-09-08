@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using Avalonia.Media.Imaging;
 using EventTracker.Models;
@@ -22,20 +23,72 @@ public class CurrentMonthViewModel : ViewModelBase
     private PersonEventGridItem _selectedGridItem;
     private Bitmap? _itemImage;
     private string _comment;
+    private string _monthName = string.Empty;
+    private string _totalHoursText = string.Empty;
+    private string _selectedMonth = string.Empty;
+    private int _selectedYear;
+    private List<ISeries> _amountByType = [];
 
     public CurrentMonthViewModel(IDatasource datasource)
     {
         _datasource = datasource;
-        Events.AddRange(LoadEvents());
-        TotalHoursText = $"{TotalMinutes / 60d:F1} hours total";
-        AddPieSeries();
+        MonthNames = new ObservableCollection<string>(Enumerable.Range(1, 12).Select(month => new DateTime(2000, month, 1).ToString("MMMM")));
+        Years = new ObservableCollection<int>(Enumerable.Range(2010, DateTime.Today.Year - 2009));
+        _selectedMonth = MonthNames[DateTime.Today.Month - 1];
+        _selectedYear = DateTime.Today.Year;
+        RefreshReport();
     }
 
     public ObservableCollection<PersonEventGridItem> Events { get; } = [];
-    public List<ISeries> AmountByType { get; } = [];
-    public string MonthName { get; } = DateTime.Today.ToString("MMMM");
+    public ObservableCollection<string> MonthNames { get; }
+    public ObservableCollection<int> Years { get; }
+    public List<ISeries> AmountByType
+    {
+        get => _amountByType;
+        private set => this.RaiseAndSetIfChanged(ref _amountByType, value);
+    }
+    public string MonthName
+    {
+        get => _monthName;
+        private set => this.RaiseAndSetIfChanged(ref _monthName, value);
+    }
+
+    public string SelectedMonth
+    {
+        get => _selectedMonth;
+        set
+        {
+            if (_selectedMonth == value)
+            {
+                return;
+            }
+
+            this.RaiseAndSetIfChanged(ref _selectedMonth, value);
+            RefreshReport();
+        }
+    }
+
+    public int SelectedYear
+    {
+        get => _selectedYear;
+        set
+        {
+            if (_selectedYear == value)
+            {
+                return;
+            }
+
+            this.RaiseAndSetIfChanged(ref _selectedYear, value);
+            RefreshReport();
+        }
+    }
+
     public int TotalMinutes { get; private set; }
-    public string TotalHoursText { get; }
+    public string TotalHoursText
+    {
+        get => _totalHoursText;
+        private set => this.RaiseAndSetIfChanged(ref _totalHoursText, value);
+    }
 
     public Bitmap? Image
     {
@@ -73,6 +126,32 @@ public class CurrentMonthViewModel : ViewModelBase
         Comment = SelectedGridItem.Comment;
     }
 
+    private void RefreshReport()
+    {
+        Events.Clear();
+        AmountByType = [];
+        TotalMinutes = 0;
+        SelectedGridItem = null!;
+
+        Events.AddRange(LoadEvents());
+        AddPieSeries();
+
+        MonthName = SelectedMonth;
+        TotalHoursText = $"{TotalMinutes / 60d:F1} hours total";
+    }
+
+    private DateTime SelectedPeriod => new(
+        SelectedYear,
+        DateTime.ParseExact(SelectedMonth, "MMMM", CultureInfo.CurrentCulture).Month,
+        1);
+
+    private bool IsInSelectedPeriod(DateTime? date)
+    {
+        return date.HasValue
+            && date.Value.Year == SelectedPeriod.Year
+            && date.Value.Month == SelectedPeriod.Month;
+    }
+
     private List<PersonEventGridItem> LoadEvents()
     {
         var events = new List<PersonEventGridItem>();
@@ -105,7 +184,7 @@ public class CurrentMonthViewModel : ViewModelBase
         var type = Helpers.GetClassName<T>();
         var itemList = _datasource.GetList<T>(type);
         var eventList = _datasource.GetEventList(type)
-            .Where(item => item.DateEnd.HasValue && item.DateEnd.Value.Year == DateTime.Today.Year && item.DateEnd.Value.Month == DateTime.Today.Month)
+            .Where(item => IsInSelectedPeriod(item.DateEnd))
             .ToList();
 
         foreach (var eventItem in eventList)
@@ -166,7 +245,7 @@ public class CurrentMonthViewModel : ViewModelBase
         var type = Helpers.GetClassName<T>();
         var modifier = Settings.Instance.GetItemSettigns<T>().AmountToMinutesModifier;
         var minutes = _datasource.GetEventList(type)
-            .Where(item => item.DateEnd.HasValue && item.DateEnd.Value.Year == DateTime.Today.Year && item.DateEnd.Value.Month == DateTime.Today.Month)
+            .Where(item => IsInSelectedPeriod(item.DateEnd))
             .Sum(item => (int)Math.Round(item.Amount * modifier));
 
         groupedMinutes[type] = minutes;

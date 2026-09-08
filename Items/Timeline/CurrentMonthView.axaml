@@ -1,6 +1,10 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:EventTracker.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia" mc:Ignorable="d" x:DataType="vm:CurrentMonthViewModel" x:Class="EventTracker.Views.CurrentMonthView">
     <Border BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
         <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <ComboBox ItemsSource="{Binding MonthNames}" SelectedItem="{Binding SelectedMonth}" Width="140" />
+                <ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Width="90" Margin="8,0,0,0" />
+            </StackPanel>
             <TextBlock Text="{Binding MonthName}" FontWeight="Bold" FontSize="18" />
             <TextBlock Text="{Binding TotalHoursText}" Margin="0,0,0,10" />
             <StackPanel Orientation="Horizontal">
