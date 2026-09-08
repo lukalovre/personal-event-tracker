@@ -13,6 +13,11 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
 {
     public ObservableCollection<DiretorGridItem> DirectorGridList { get; set; } = [];
 
+    protected override string GetOpenLink()
+    {
+        return $"https://www.imdb.com/title/{SelectedItem?.ExternalID}";
+    }
+
     protected override MovieGridItem Convert(Event e, Movie i, IEnumerable<Event> eventList)
     {
         return new MovieGridItem(

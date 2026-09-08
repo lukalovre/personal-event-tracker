@@ -276,13 +276,18 @@ where TGridItem : IGridItem
 
     protected virtual List<string> GetAlternativeOpenLinkSearchParams() => [];
 
+    protected virtual string GetOpenLink()
+    {
+        return (SelectedItem as IExternal)?.ExternalID ?? string.Empty;
+    }
+
     private void OpenLinkAction()
     {
         var link = string.Empty;
 
         if (_settings.OpenItemLinkUrl)
         {
-            link = (SelectedItem as IExternal)?.ExternalID ?? string.Empty;
+            link = GetOpenLink();
         }
 
         HtmlHelper.OpenLink(link, [.. GetAlternativeOpenLinkSearchParams()]);
