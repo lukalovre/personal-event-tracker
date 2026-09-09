@@ -83,8 +83,20 @@ public partial class EventViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _newEventChapter, value);
     }
 
-    public List<Axis> StatsXAxes { get; set; } = [];
-    public List<ISeries> Stats { get; } = [];
+    private List<Axis> _statsXAxes = [];
+    private List<ISeries> _stats = [];
+
+    public List<Axis> StatsXAxes
+    {
+        get => _statsXAxes;
+        private set => this.RaiseAndSetIfChanged(ref _statsXAxes, value);
+    }
+
+    public List<ISeries> Stats
+    {
+        get => _stats;
+        private set => this.RaiseAndSetIfChanged(ref _stats, value);
+    }
 
     public EventViewModel(ObservableCollection<Event> events, ObservableCollection<string> platformTypes)
     {
@@ -99,8 +111,10 @@ public partial class EventViewModel : ViewModelBase
         var amountModifier = Settings.Instance.GetItemSettigns<TItem>().AmountToMinutesModifier;
         var dateEvents = events.Where(o => o.DateEnd.HasValue).ToList();
 
-        if (dateEvents is null || dateEvents.Count == 0)
+        if (dateEvents.Count == 0)
         {
+            StatsXAxes = [];
+            Stats = [];
             return;
         }
 
@@ -128,10 +142,8 @@ public partial class EventViewModel : ViewModelBase
 
         var color = ChartColors.GetColor("All");
 
-        StatsXAxes.Clear();
-        Stats.Clear();
-
-        StatsXAxes.Add(
+        var statsXAxes = new List<Axis>
+        {
             new Axis
             {
                 Labels = yearLabels.Select(o => o.ToString()).ToList(),
@@ -140,15 +152,21 @@ public partial class EventViewModel : ViewModelBase
                 SeparatorsAtCenter = false,
                 TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
                 TicksAtCenter = true
-            });
+            }
+        };
 
-        Stats.Add(
+        var stats = new List<ISeries>
+        {
             new ColumnSeries<int>
             {
                 Values = values,
                 // Stroke = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B))
-            });
+            }
+        };
+
+        StatsXAxes = statsXAxes;
+        Stats = stats;
     }
 
     private void SelectedEventChanged()
