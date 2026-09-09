@@ -65,14 +65,14 @@
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
-							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" />
+							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBox PlaceholderText="Writer" Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
 							<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<TextBox PlaceholderText="Year" Text="{Binding NewItem.Year}" />
-						<TextBox PlaceholderText="GoodreadsID" Text="{Binding NewItem.ExternalID}" />
+						<TextBox PlaceholderText="GoodreadsID" Text="{Binding NewItem.ExternalID}" Width="150" />
 						<Button Command="{Binding OpenImage}" Margin="5">
 							<Image Source="{Binding NewImage}" Width="240" Height="220" />
 						</Button>

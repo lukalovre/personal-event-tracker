@@ -49,7 +49,7 @@
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<Button Command="{Binding AddItemClick}" Margin="10">Add</Button>
-							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" />
+							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="5">
 							<TextBlock Text="Composser  " VerticalAlignment="Center"/>
@@ -67,7 +67,7 @@
 							<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
 							<TextBlock Text="   " VerticalAlignment="Center"/>
 							<TextBlock Text="ExternalID  " VerticalAlignment="Center"/>
-							<TextBox Text="{Binding NewItem.ExternalID}" HorizontalAlignment="Stretch" />
+							<TextBox Text="{Binding NewItem.ExternalID}" Width="150" />
 						</StackPanel>
 						<Button Command="{Binding OpenImage}" Margin="5">
 							<Image Source="{Binding NewImage}" Width="240" Height="220" />

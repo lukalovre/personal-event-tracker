@@ -92,7 +92,7 @@
 							<Button Command="{Binding AddItemClick}" Margin="15">
 								Add
 							</Button>
-							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" />
+							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 						</StackPanel>
 						<StackPanel>
 							<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" Width="150" />
