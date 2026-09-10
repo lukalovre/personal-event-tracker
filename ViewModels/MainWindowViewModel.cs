@@ -30,4 +30,5 @@ public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
     public StatsViewModel StatsViewModel { get; } = new StatsViewModel(datasource);
     public TimelineViewModel TimelineViewModel { get; } = new TimelineViewModel(datasource);
     public CurrentMonthViewModel CurrentMonthViewModel { get; } = new CurrentMonthViewModel(datasource);
+    public YearlyTrendsViewModel YearlyTrendsViewModel { get; } = new YearlyTrendsViewModel(datasource);
 }

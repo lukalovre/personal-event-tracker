@@ -91,6 +91,9 @@
 			<TabItem Header="Current Month">
 				<v:CurrentMonthView DataContext="{Binding CurrentMonthViewModel}" />
 			</TabItem>
+			<TabItem Header="Yearly Trends">
+				<v:YearlyTrendsView DataContext="{Binding YearlyTrendsViewModel}" />
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>
