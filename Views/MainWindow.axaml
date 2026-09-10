@@ -94,6 +94,9 @@
 			<TabItem Header="Yearly Trends">
 				<v:YearlyTrendsView DataContext="{Binding YearlyTrendsViewModel}" />
 			</TabItem>
+			<TabItem Header="Settings">
+				<v:YearlyTrendsSettingsView DataContext="{Binding YearlyTrendsSettingsViewModel}" />
+			</TabItem>
 		</TabControl>
 	</DockPanel>
 </Window>

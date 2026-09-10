@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using EventTracker.Models;
 using EventTracker.Models.Interfaces;
@@ -32,52 +33,67 @@ public class YearlyTrendsViewModel : ViewModelBase
     private const int StartYear = 2010;
     private readonly IDatasource _datasource;
     private readonly List<int> _years;
-    private readonly List<double> _combinedHours;
 
     public YearlyTrendsViewModel(IDatasource datasource)
     {
         _datasource = datasource;
         _years = Enumerable.Range(StartYear, DateTime.Today.Year - StartYear + 1).ToList();
-        _combinedHours = Enumerable.Repeat(0d, _years.Count).ToList();
         Reports = [];
-
-        AddReport<Boardgame>();
-        AddReport<Book>();
-        AddReport<Clip>();
-        AddReport<Comic>();
-        AddReport<Concert>();
-        AddReport<DnD>();
-        AddReport<Game>();
-        AddReport<Location>();
-        AddReport<Magazine>();
-        AddReport<Movie>();
-        AddReport<Music>();
-        AddReport<Painting>();
-        AddReport<Pinball>();
-        AddReport<Song>();
-        AddReport<Standup>();
-        AddReport<Theatre>();
-        AddReport<TVShow>();
-        AddReport<Work>();
-        AddReport<Zoo>();
-        AddReport<Adventure>();
-
-        Reports.Insert(0, CreateReport("All Items", _combinedHours, "All"));
+        Settings.Saved += RefreshReports;
+        RefreshReports();
     }
 
-    public List<YearlyChartReport> Reports { get; }
+    public ObservableCollection<YearlyChartReport> Reports { get; }
 
-    private void AddReport<T>() where T : IItem
+    public void RefreshReports()
+    {
+        var categoryReports = new Dictionary<string, YearlyChartReport>(StringComparer.OrdinalIgnoreCase);
+        var combinedHours = Enumerable.Repeat(0d, _years.Count).ToList();
+
+        AddReport<Boardgame>(categoryReports, combinedHours);
+        AddReport<Book>(categoryReports, combinedHours);
+        AddReport<Clip>(categoryReports, combinedHours);
+        AddReport<Comic>(categoryReports, combinedHours);
+        AddReport<Concert>(categoryReports, combinedHours);
+        AddReport<DnD>(categoryReports, combinedHours);
+        AddReport<Game>(categoryReports, combinedHours);
+        AddReport<Location>(categoryReports, combinedHours);
+        AddReport<Magazine>(categoryReports, combinedHours);
+        AddReport<Movie>(categoryReports, combinedHours);
+        AddReport<Music>(categoryReports, combinedHours);
+        AddReport<Painting>(categoryReports, combinedHours);
+        AddReport<Pinball>(categoryReports, combinedHours);
+        AddReport<Song>(categoryReports, combinedHours);
+        AddReport<Standup>(categoryReports, combinedHours);
+        AddReport<Theatre>(categoryReports, combinedHours);
+        AddReport<TVShow>(categoryReports, combinedHours);
+        AddReport<Work>(categoryReports, combinedHours);
+        AddReport<Zoo>(categoryReports, combinedHours);
+        AddReport<Adventure>(categoryReports, combinedHours);
+
+        Reports.Clear();
+        Reports.Add(CreateReport("All Items", combinedHours, "All"));
+
+        foreach (var category in Settings.Instance.YearlyTrends.Categories.Where(category => category.IsVisible))
+        {
+            if (categoryReports.TryGetValue(category.Name, out var report))
+            {
+                Reports.Add(report);
+            }
+        }
+    }
+
+    private void AddReport<T>(Dictionary<string, YearlyChartReport> categoryReports, List<double> combinedHours) where T : IItem
     {
         var category = Helpers.GetClassName<T>();
         var yearlyHours = GetYearlyHours<T>();
 
         for (var index = 0; index < yearlyHours.Count; index++)
         {
-            _combinedHours[index] += yearlyHours[index];
+            combinedHours[index] += yearlyHours[index];
         }
 
-        Reports.Add(CreateReport(category, yearlyHours, category));
+        categoryReports[category] = CreateReport(category, yearlyHours, category);
     }
 
     private List<double> GetYearlyHours<T>() where T : IItem

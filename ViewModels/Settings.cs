@@ -13,6 +13,7 @@ public class Settings
     public string DatasourcePath { get; set; } = string.Empty;
 
     public Dictionary<string, ItemSettingsJson> ItemSettings { get; set; } = [];
+    public YearlyTrendsSettings YearlyTrends { get; set; } = new();
 
     private static readonly JsonSerializerSettings _jsonSettings = new()
     {
@@ -21,6 +22,7 @@ public class Settings
     };
 
     private static Settings? _instance;
+    internal static event Action? Saved;
 
     public static Settings Instance
     {
@@ -39,13 +41,17 @@ public class Settings
         }
 
         var settingsText = File.ReadAllText(Paths.SettingsFilePath);
-        return JsonConvert.DeserializeObject<Settings>(settingsText) ?? new Settings();
+        var settings = JsonConvert.DeserializeObject<Settings>(settingsText) ?? new Settings();
+        settings.YearlyTrends ??= new YearlyTrendsSettings();
+        settings.YearlyTrends.Normalize();
+        return settings;
     }
 
     internal static void Save()
     {
         var text = JsonConvert.SerializeObject(Instance, Formatting.Indented);
         File.WriteAllText(Paths.SettingsFilePath, text);
+        Saved?.Invoke();
     }
 
     internal ItemSettings GetItemSettigns<T>()
