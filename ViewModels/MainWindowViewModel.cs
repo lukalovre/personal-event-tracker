@@ -27,7 +27,6 @@ public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
     public ConcertsViewModel ConcertsViewModel { get; } = new ConcertsViewModel(datasource);
     public LocationsViewModel LocationsViewModel { get; } = new LocationsViewModel(datasource);
     public AdventuresViewModel AdventuresViewModel { get; } = new AdventuresViewModel(datasource);
-    public StatsViewModel StatsViewModel { get; } = new StatsViewModel(datasource);
     public TimelineViewModel TimelineViewModel { get; } = new TimelineViewModel(datasource);
     public CurrentMonthViewModel CurrentMonthViewModel { get; } = new CurrentMonthViewModel(datasource);
     public YearlyTrendsViewModel YearlyTrendsViewModel { get; } = new YearlyTrendsViewModel(datasource);
