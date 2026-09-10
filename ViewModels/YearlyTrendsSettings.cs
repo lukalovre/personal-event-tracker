@@ -87,7 +87,7 @@ public sealed class YearlyTrendsSettings
         }
 
         _categories.Clear();
-        foreach (var category in normalized)
+        foreach (var category in normalized.OrderByDescending(category => category.IsVisible))
         {
             _categories.Add(category);
         }

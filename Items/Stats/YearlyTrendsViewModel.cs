@@ -88,9 +88,12 @@ public class YearlyTrendsViewModel : ViewModelBase
         var category = Helpers.GetClassName<T>();
         var yearlyHours = GetYearlyHours<T>();
 
-        for (var index = 0; index < yearlyHours.Count; index++)
+        if (typeof(T) != typeof(Music) && typeof(T) != typeof(Song))
         {
-            combinedHours[index] += yearlyHours[index];
+            for (var index = 0; index < yearlyHours.Count; index++)
+            {
+                combinedHours[index] += yearlyHours[index];
+            }
         }
 
         categoryReports[category] = CreateReport(category, yearlyHours, category);
@@ -131,7 +134,9 @@ public class YearlyTrendsViewModel : ViewModelBase
                 Values = values,
                 Name = name,
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
-                DataLabelsPosition = DataLabelsPosition.Top
+                DataLabelsPosition = DataLabelsPosition.Top,
+                DataLabelsFormatter = point => point.Coordinate.PrimaryValue.ToString("F1"),
+                YToolTipLabelFormatter = point => point.Coordinate.PrimaryValue.ToString("F1")
             }
         };
 
