@@ -13,7 +13,7 @@ public partial class ClassicalViewModel(IDatasource datasource, IExternal<Classi
     {
         return new ClassicalGridItem(
             i.ID,
-            i.Composser,
+            i.Composer,
             i.Title,
             eventList.LastEventDate());
     }

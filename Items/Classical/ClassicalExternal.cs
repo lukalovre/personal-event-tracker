@@ -16,7 +16,7 @@ public class ClassicalExternal : IExternal<Classical>
             return new Classical
             {
                 Title = item.MusicTitle,
-                Composser = item.Artist,
+                Composer = item.Artist,
                 Year = item.Year,
                 Runtime = item.Runtime,
                 ExternalID = item.Link
@@ -31,7 +31,7 @@ public class ClassicalExternal : IExternal<Classical>
 
             return new Classical
             {
-                Composser = item.Artist,
+                Composer = item.Artist,
                 Title = item.Title,
                 Year = item.Year,
                 Runtime = item.Runtime,
@@ -46,7 +46,7 @@ public class ClassicalExternal : IExternal<Classical>
             return new Classical
             {
                 Title = item.Title,
-                Composser = item.Artist,
+                Composer = item.Artist,
                 Year = item.Year,
                 Runtime = item.Runtime,
                 ExternalID = item.ExternalID

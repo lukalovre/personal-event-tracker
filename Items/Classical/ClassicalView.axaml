@@ -6,7 +6,7 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarked}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Composser}" Header="Composser" Width="*" />
+							<DataGridTextColumn Binding="{Binding Composer}" Header="Composer" Width="*" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
@@ -18,7 +18,7 @@
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
 					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItems}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Composser}" Header="Composser" Width="*" />
+							<DataGridTextColumn Binding="{Binding Composer}" Header="Composer" Width="*" />
 							<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
 							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
@@ -30,7 +30,7 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
-						<TextBlock Text="{Binding SelectedItem.Composser}" FontSize="20" FontWeight="Bold" />
+						<TextBlock Text="{Binding SelectedItem.Composer}" FontSize="20" FontWeight="Bold" />
 						<TextBlock Text="{Binding SelectedItem.Title}" />
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
@@ -52,8 +52,8 @@
 							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="5">
-							<TextBlock Text="Composser  " VerticalAlignment="Center"/>
-							<TextBox Text="{Binding NewItem.Composser}" HorizontalAlignment="Stretch" />
+							<TextBlock Text="Composer  " VerticalAlignment="Center"/>
+							<TextBox Text="{Binding NewItem.Composer}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="5">
 							<TextBlock Text="Title  " VerticalAlignment="Center"/>
@@ -103,7 +103,7 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Composer" VerticalAlignment="Center" />
-							<TextBox Text="{Binding SelectedItem.Composser}" HorizontalAlignment="Stretch" />
+							<TextBox Text="{Binding SelectedItem.Composer}" HorizontalAlignment="Stretch" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Year" VerticalAlignment="Center" />
