@@ -1,6 +1,16 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:EventTracker.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:EventTracker.Views;assembly=EventTracker" mc:Ignorable="d" x:DataType="vm:PeopleViewModel" x:Class="EventTracker.Views.PeopleView" xmlns:view="using:EventTracker.Views">
 	<DockPanel>
 		<TabControl>
+			<TabItem Header="Birthdays">
+				<DataGrid Margin="1" Width="420" ItemsSource="{Binding BirthdaysGrid}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedBirthdayGridItem}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding FirstName}" Header="First name" Width="90" />
+						<DataGridTextColumn Binding="{Binding LastName}" Header="Last name" Width="90" />
+						<DataGridTextColumn Binding="{Binding Birthday}" Header="Birthday" Width="130" />
+						<DataGridTextColumn Binding="{Binding Age}" Header="Age this year" Width="100" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</TabItem>
 			<TabItem Header="All">
 				<DockPanel>
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
@@ -12,16 +22,6 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>
-			</TabItem>
-			<TabItem Header="Birthdays">
-				<DataGrid Margin="1" Width="420" ItemsSource="{Binding BirthdaysGrid}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedBirthdayGridItem}">
-					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding FirstName}" Header="First name" Width="90" />
-						<DataGridTextColumn Binding="{Binding LastName}" Header="Last name" Width="90" />
-						<DataGridTextColumn Binding="{Binding Birthday}" Header="Birthday" Width="130" />
-						<DataGridTextColumn Binding="{Binding Age}" Header="Age this year" Width="100" />
-					</DataGrid.Columns>
-				</DataGrid>
 			</TabItem>
 			<TabItem Header="Missing BDay">
 				<DataGrid Margin="1" Width="300" ItemsSource="{Binding MissingBirthdaysGrid}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedPersonGridItem}">
