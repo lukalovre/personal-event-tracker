@@ -10,6 +10,7 @@
 							<DataGridTextColumn Binding="{Binding City}" Header="City" Width="70" />
 							<DataGridTextColumn Binding="{Binding Country}" Header="Country" Width="70" />
 							<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+							<DataGridTextColumn Binding="{Binding LastDate, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="70" />
 						</DataGrid.Columns>
 					</DataGrid>
 				</DockPanel>

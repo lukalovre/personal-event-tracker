@@ -14,6 +14,7 @@ public partial class LocationsViewModel(IDatasource datasource) : ItemViewModel<
             i.Title,
             i.City,
             i.Country,
-            eventList.LastEventDate().Date.Year);
+            eventList.LastEventDate().Date.Year,
+            eventList.LastEventDate());
     }
 }
