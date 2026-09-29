@@ -149,7 +149,45 @@ where TGridItem : IGridItem
     public Event NewEvent
     {
         get => _newEvent;
-        set => this.RaiseAndSetIfChanged(ref _newEvent, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _newEvent, value);
+            this.RaisePropertyChanged(nameof(NewEventPlatform));
+            this.RaisePropertyChanged(nameof(IsCinemaPlatform));
+        }
+    }
+
+    public string NewEventPlatform
+    {
+        get => NewEvent.Platform;
+        set
+        {
+            var platform = value ?? string.Empty;
+            if (NewEvent.Platform == platform)
+            {
+                return;
+            }
+
+            NewEvent.Platform = platform;
+            this.RaisePropertyChanged();
+            this.RaisePropertyChanged(nameof(IsCinemaPlatform));
+        }
+    }
+
+    public bool IsCinemaPlatform
+    {
+        get => string.Equals(NewEvent.Platform, "Cinema", StringComparison.OrdinalIgnoreCase);
+        set
+        {
+            if (value)
+            {
+                NewEventPlatform = "Cinema";
+            }
+            else if (IsCinemaPlatform)
+            {
+                NewEventPlatform = string.Empty;
+            }
+        }
     }
 
     public Bitmap? Image

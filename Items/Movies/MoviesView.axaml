@@ -90,14 +90,13 @@
 							<TextBlock Text="Rating" VerticalAlignment="Center" />
 							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Season" VerticalAlignment="Center" />
-							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
-						</StackPanel>
 						<CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
 						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
-						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
+						<StackPanel Orientation="Horizontal">
+							<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEventPlatform}" />
+							<CheckBox IsChecked="{Binding IsCinemaPlatform}" Margin="8,0,0,0">Cinema</CheckBox>
+						</StackPanel>
 					</StackPanel>
 				</Viewbox>
 			</TabItem>
