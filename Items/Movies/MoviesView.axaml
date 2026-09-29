@@ -26,6 +26,16 @@
 					</DataGrid>
 				</DockPanel>
 			</TabItem>
+			<TabItem Header="Cinema">
+				<DataGrid Margin="1" Width="570" ItemsSource="{Binding CinemaMovies}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+						<DataGridTextColumn Binding="{Binding Director}" Header="Director" Width="150" />
+						<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+						<DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="81" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</TabItem>
 		</TabControl>
 		<TabControl Margin="5">
 			<TabItem Header="Info">

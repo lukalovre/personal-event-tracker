@@ -12,6 +12,7 @@ namespace EventTracker.ViewModels;
 public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> external) : ItemViewModel<Movie, MovieGridItem>(datasource, external)
 {
     public ObservableCollection<DiretorGridItem> DirectorGridList { get; set; } = [];
+    public ObservableCollection<MovieGridItem> CinemaMovies { get; set; } = [];
 
     protected override string GetOpenLink()
     {
@@ -35,6 +36,17 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
 
         DirectorGridList.Clear();
         DirectorGridList.AddRange(await LoadDataByDirector());
+
+        LoadItemsAndEvents(out List<Movie> itemList, out List<Event> eventList);
+        var cinemaMovies = eventList
+            .Where(o => string.Equals(o.Platform, "Cinema", System.StringComparison.OrdinalIgnoreCase))
+            .OrderByDescending(o => o.DateEnd)
+            .DistinctBy(o => o.ItemID)
+            .Select(e => Convert(e, itemList.First(m => m.ID == e.ItemID), eventList.Where(o => o.ItemID == e.ItemID)))
+            .ToList();
+
+        CinemaMovies.Clear();
+        CinemaMovies.AddRange(cinemaMovies);
     }
 
     private async Task<List<DiretorGridItem>> LoadDataByDirector()
