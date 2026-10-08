@@ -1,6 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:EventTracker.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:uc="clr-namespace:EventTracker.Views;assembly=EventTracker" mc:Ignorable="d" x:DataType="vm:GamesViewModel" x:Class="EventTracker.Views.GamesView" xmlns:view="using:EventTracker.Views">
 	<DockPanel>
-		<TabControl>
+		<TabControl SelectedIndex="{Binding SelectedGameTabIndex}">
 			<TabItem Header="★">
 				<DockPanel>
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
@@ -48,9 +48,9 @@
 			<TabItem Header="Developers">
 				<DockPanel>
 					<view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
-					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GameDeveloperList}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+					<DataGrid Margin="1" Width="570" ItemsSource="{Binding GameDeveloperList}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedDeveloperGridItem}">
 						<DataGrid.Columns>
-							<DataGridTextColumn Binding="{Binding Developer}" Header="Title" Width="*" />
+							<DataGridTextColumn Binding="{Binding Developer}" Header="Developer" Width="*" />
 							<DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="90" />
 							<DataGridTextColumn Binding="{Binding Games}" Header="Games" Width="100" />
 						</DataGrid.Columns>
@@ -58,7 +58,7 @@
 				</DockPanel>
 			</TabItem>
 		</TabControl>
-		<TabControl Margin="5">
+		<TabControl Margin="5" SelectedIndex="{Binding SelectedRightTabIndex}">
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
@@ -143,6 +143,16 @@
 						</StackPanel>
 					</StackPanel>
 				</Viewbox>
+			</TabItem>
+			<TabItem Header="Developer Games" IsVisible="{Binding IsDeveloperGameTabVisible}">
+				<DataGrid ItemsSource="{Binding DeveloperGameList}" SelectedItem="{Binding SelectedDeveloperGame}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+						<DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+						<DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="90" />
+						<DataGridTextColumn Binding="{Binding Time, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="90" />
+					</DataGrid.Columns>
+				</DataGrid>
 			</TabItem>
 		</TabControl>
 	</DockPanel>
