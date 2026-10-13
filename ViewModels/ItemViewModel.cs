@@ -466,6 +466,7 @@ where TGridItem : IGridItem
                     .ToList();
 
         if (!skipFilters
+            && GridFilterViewModel.IsYearFilterEnabled
             && DateTimeFilter.HasValue
             && DateTimeFilter != DateTime.MinValue
             && string.IsNullOrWhiteSpace(searchText))

@@ -35,6 +35,17 @@ public class GridFilterViewModel : ViewModelBase
 
     private int _yearFilter = DateTime.Now.Year;
     private string _searchText = string.Empty;
+    private bool _isYearFilterEnabled = true;
+
+    public bool IsYearFilterEnabled
+    {
+        get => _isYearFilterEnabled;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isYearFilterEnabled, value);
+            GridCountItems = _dataGrid.ReloadData();
+        }
+    }
 
     public int YearFilter
     {
