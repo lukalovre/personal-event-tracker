@@ -26,6 +26,16 @@
 					</DataGrid>
 				</DockPanel>
 			</TabItem>
+			<TabItem Header="Completed">
+				<DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsCompleted}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+						<DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="150" />
+						<DataGridTextColumn Binding="{Binding LastDate.Year}" Header="Year" Width="80" />
+						<DataGridTextColumn Binding="{Binding Minutes, Converter={StaticResource TimeToStringConverter}}" Header="Time" Width="120" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</TabItem>
 		</TabControl>
 		<TabControl Margin="5">
 			<TabItem Header="Info">
