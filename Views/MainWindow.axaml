@@ -88,6 +88,9 @@
 			<TabItem Header="Current Month">
 				<v:CurrentMonthView DataContext="{Binding CurrentMonthViewModel}" />
 			</TabItem>
+			<TabItem Header="Current Year">
+				<v:CurrentYearView DataContext="{Binding CurrentYearViewModel}" />
+			</TabItem>
 			<TabItem Header="Yearly Trends">
 				<v:YearlyTrendsView DataContext="{Binding YearlyTrendsViewModel}" />
 			</TabItem>

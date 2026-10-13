@@ -29,6 +29,7 @@ public class MainWindowViewModel(IDatasource datasource) : ViewModelBase
     public AdventuresViewModel AdventuresViewModel { get; } = new AdventuresViewModel(datasource);
     public TimelineViewModel TimelineViewModel { get; } = new TimelineViewModel(datasource);
     public CurrentMonthViewModel CurrentMonthViewModel { get; } = new CurrentMonthViewModel(datasource);
+    public CurrentYearViewModel CurrentYearViewModel { get; } = new CurrentYearViewModel(datasource);
     public YearlyTrendsViewModel YearlyTrendsViewModel { get; } = new YearlyTrendsViewModel(datasource);
     public YearlyTrendsSettingsViewModel YearlyTrendsSettingsViewModel { get; } = new YearlyTrendsSettingsViewModel();
 }
