@@ -31,6 +31,8 @@ public class CurrentMonthViewModel : ViewModelBase
     private string? _selectedCategory;
     private bool _excludeMusic = true;
     private List<ISeries> _amountByType = [];
+    private List<ISeries> _yearProgress = [];
+    private List<Axis> _yearProgressXAxes = [];
 
     public CurrentMonthViewModel(IDatasource datasource)
     {
@@ -49,6 +51,16 @@ public class CurrentMonthViewModel : ViewModelBase
     {
         get => _amountByType;
         private set => this.RaiseAndSetIfChanged(ref _amountByType, value);
+    }
+    public List<ISeries> YearProgress
+    {
+        get => _yearProgress;
+        private set => this.RaiseAndSetIfChanged(ref _yearProgress, value);
+    }
+    public List<Axis> YearProgressXAxes
+    {
+        get => _yearProgressXAxes;
+        private set => this.RaiseAndSetIfChanged(ref _yearProgressXAxes, value);
     }
     public string MonthName
     {
@@ -159,6 +171,7 @@ public class CurrentMonthViewModel : ViewModelBase
 
         Events.AddRange(LoadEvents());
         AddPieSeries();
+        AddYearProgressSeries();
 
         MonthName = SelectedMonth;
         TotalHoursText = $"{TotalMinutes / 60d:F1} hours total";
@@ -301,5 +314,75 @@ public class CurrentMonthViewModel : ViewModelBase
             .Sum(item => (int)Math.Round(item.Amount * modifier));
 
         groupedMinutes[type] = minutes;
+    }
+
+    private void AddYearProgressSeries()
+    {
+        var monthlyMinutes = new double[12];
+
+        AddMonthlyMinutes<Boardgame>(monthlyMinutes);
+        AddMonthlyMinutes<Book>(monthlyMinutes);
+        AddMonthlyMinutes<Clip>(monthlyMinutes);
+        AddMonthlyMinutes<Comic>(monthlyMinutes);
+        AddMonthlyMinutes<Concert>(monthlyMinutes);
+        AddMonthlyMinutes<DnD>(monthlyMinutes);
+        AddMonthlyMinutes<Game>(monthlyMinutes);
+        AddMonthlyMinutes<Location>(monthlyMinutes);
+        AddMonthlyMinutes<Magazine>(monthlyMinutes);
+        AddMonthlyMinutes<Movie>(monthlyMinutes);
+        AddMonthlyMinutes<Music>(monthlyMinutes);
+        AddMonthlyMinutes<Painting>(monthlyMinutes);
+        AddMonthlyMinutes<Pinball>(monthlyMinutes);
+        AddMonthlyMinutes<Song>(monthlyMinutes);
+        AddMonthlyMinutes<Standup>(monthlyMinutes);
+        AddMonthlyMinutes<Theatre>(monthlyMinutes);
+        AddMonthlyMinutes<TVShow>(monthlyMinutes);
+        AddMonthlyMinutes<Work>(monthlyMinutes);
+        AddMonthlyMinutes<Zoo>(monthlyMinutes);
+        AddMonthlyMinutes<Adventure>(monthlyMinutes);
+
+        var labels = Enumerable.Range(1, 12)
+            .Select(month => CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(month))
+            .ToList();
+        var color = ChartColors.GetColor(_selectedCategory ?? "Year progress");
+
+        YearProgressXAxes =
+        [
+            new Axis
+            {
+                Labels = labels,
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                SeparatorsAtCenter = false,
+                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+                TicksAtCenter = true
+            }
+        ];
+        YearProgress =
+        [
+            new ColumnSeries<double>
+            {
+                Name = _selectedCategory ?? "All Items",
+                Values = monthlyMinutes.Select(minutes => Math.Round(minutes / 60d, 1)).ToList(),
+                Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
+                DataLabelsPosition = LiveChartsCore.Measure.DataLabelsPosition.Top,
+                DataLabelsFormatter = point => point.Coordinate.PrimaryValue.ToString("F1")
+            }
+        ];
+    }
+
+    private void AddMonthlyMinutes<T>(double[] monthlyMinutes) where T : IItem
+    {
+        var type = Helpers.GetClassName<T>();
+        if ((ExcludeMusic && type == Helpers.GetClassName<Music>())
+            || (_selectedCategory is not null && !string.Equals(_selectedCategory, type, StringComparison.OrdinalIgnoreCase)))
+        {
+            return;
+        }
+
+        var modifier = Settings.Instance.GetItemSettigns<T>().AmountToMinutesModifier;
+        foreach (var eventItem in _datasource.GetEventList(type).Where(item => item.DateEnd.HasValue && item.DateEnd.Value.Year == SelectedYear))
+        {
+            monthlyMinutes[eventItem.DateEnd!.Value.Month - 1] += Math.Round(eventItem.Amount * modifier);
+        }
     }
 }

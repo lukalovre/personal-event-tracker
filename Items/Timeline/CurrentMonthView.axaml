@@ -1,34 +1,39 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:EventTracker.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia" mc:Ignorable="d" x:DataType="vm:CurrentMonthViewModel" x:Class="EventTracker.Views.CurrentMonthView">
     <Border BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
-        <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+        <Grid RowDefinitions="Auto,Auto,*">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
                 <ComboBox ItemsSource="{Binding MonthNames}" SelectedItem="{Binding SelectedMonth}" Width="140" />
                 <ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" Width="90" Margin="8,0,0,0" />
                 <CheckBox Content="Exclude Music" IsChecked="{Binding ExcludeMusic}" Margin="12,0,0,0" VerticalAlignment="Center" />
             </StackPanel>
-            <TextBlock Text="{Binding MonthName}" FontWeight="Bold" FontSize="18" />
-            <TextBlock Text="{Binding TotalHoursText}" Margin="0,0,0,10" />
-            <StackPanel Orientation="Horizontal">
-                <DataGrid Margin="1" Width="400" Height="550" ItemsSource="{Binding Events}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+            <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                <TextBlock Text="{Binding MonthName}" FontWeight="Bold" FontSize="18" />
+                <TextBlock Text="{Binding TotalHoursText}" />
+            </StackPanel>
+            <Grid Grid.Row="2" ColumnDefinitions="2*,3*,2*" ColumnSpacing="8">
+                <DataGrid Grid.Column="0" Margin="0" MinWidth="280" ItemsSource="{Binding Events}" IsReadOnly="True" GridLinesVisibility="Horizontal" RowHeight="28" ColumnHeaderHeight="30" BorderThickness="1" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="70" />
                         <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
                         <DataGridTextColumn Binding="{Binding Date, Converter={StaticResource DaysAgoToStringConverter}}" Header="Ago" Width="100" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock Text="   " />
-                <lvc:PieChart Series="{Binding AmountByType}" DataPointerDown="PieChartOnDataPointerDown" Width="500" Height="500" />
-                <TextBlock Text="   " />
-                <ScrollViewer>
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <Button>
-                            <Image Source="{Binding Image}" Width="300" Height="300" />
-                        </Button>
-                        <TextBlock Text="" />
-                        <TextBlock Text="{Binding Comment}" Width="250" TextWrapping="Wrap" />
+                        <lvc:PieChart Series="{Binding AmountByType}" DataPointerDown="PieChartOnDataPointerDown" Height="380" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="Year Progress" FontWeight="Bold" FontSize="16" Margin="0,10,0,4" />
+                        <lvc:CartesianChart Series="{Binding YearProgress}" XAxes="{Binding YearProgressXAxes}" Height="280" HorizontalAlignment="Stretch" />
                     </StackPanel>
                 </ScrollViewer>
-            </StackPanel>
-        </StackPanel>
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Button HorizontalAlignment="Left">
+                            <Image Source="{Binding Image}" Width="300" Height="300" />
+                        </Button>
+                        <TextBlock Text="{Binding Comment}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
     </Border>
 </UserControl>
