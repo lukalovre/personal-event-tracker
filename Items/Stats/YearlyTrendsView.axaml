@@ -13,7 +13,8 @@
                         <Border BorderBrush="Gray" BorderThickness="1" Padding="8" Margin="0,0,10,10">
                             <StackPanel>
                                 <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,0,0,4" />
-                                <lvc:CartesianChart Series="{Binding Series}" XAxes="{Binding XAxes}" Width="600" Height="320" />
+                                <TextBlock Text="{Binding Unit}" Margin="0,0,0,4" />
+                                <lvc:CartesianChart Series="{Binding Series}" XAxes="{Binding XAxes}" DataPointerDown="ChartOnDataPointerDown" Width="600" Height="320" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>

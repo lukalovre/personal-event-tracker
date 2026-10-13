@@ -16,14 +16,16 @@ namespace EventTracker.ViewModels;
 
 public sealed class YearlyChartReport
 {
-    public YearlyChartReport(string name, List<ISeries> series, List<Axis> xAxes)
+    public YearlyChartReport(string name, string unit, List<ISeries> series, List<Axis> xAxes)
     {
         Name = name;
+        Unit = unit;
         Series = series;
         XAxes = xAxes;
     }
 
     public string Name { get; }
+    public string Unit { get; }
     public List<ISeries> Series { get; }
     public List<Axis> XAxes { get; }
 }
@@ -33,6 +35,7 @@ public class YearlyTrendsViewModel : ViewModelBase
     private const int StartYear = 2010;
     private readonly IDatasource _datasource;
     private readonly List<int> _years;
+    private readonly HashSet<string> _showingActualValues = new(StringComparer.OrdinalIgnoreCase);
 
     public YearlyTrendsViewModel(IDatasource datasource)
     {
@@ -83,6 +86,36 @@ public class YearlyTrendsViewModel : ViewModelBase
         }
     }
 
+    public void ToggleChartUnits(string? category)
+    {
+        if (string.IsNullOrWhiteSpace(category) || category == "All Items")
+        {
+            return;
+        }
+
+        if (!_showingActualValues.Add(category))
+        {
+            _showingActualValues.Remove(category);
+        }
+
+        var reportIndex = -1;
+        for (var index = 0; index < Reports.Count; index++)
+        {
+            if (string.Equals(Reports[index].Name, category, StringComparison.OrdinalIgnoreCase))
+            {
+                reportIndex = index;
+                break;
+            }
+        }
+
+        if (reportIndex < 0)
+        {
+            return;
+        }
+
+        Reports[reportIndex] = CreateCategoryReport(category);
+    }
+
     private void AddReport<T>(Dictionary<string, YearlyChartReport> categoryReports, List<double> combinedHours) where T : IItem
     {
         var category = Helpers.GetClassName<T>();
@@ -96,7 +129,44 @@ public class YearlyTrendsViewModel : ViewModelBase
             }
         }
 
-        categoryReports[category] = CreateReport(category, yearlyHours, category);
+        categoryReports[category] = CreateCategoryReport<T>(yearlyHours);
+    }
+
+    private YearlyChartReport CreateCategoryReport(string category)
+    {
+        return category switch
+        {
+            "Boardgame" => CreateCategoryReport<Boardgame>(),
+            "Book" => CreateCategoryReport<Book>(),
+            "Clip" => CreateCategoryReport<Clip>(),
+            "Comic" => CreateCategoryReport<Comic>(),
+            "Concert" => CreateCategoryReport<Concert>(),
+            "DnD" => CreateCategoryReport<DnD>(),
+            "Game" => CreateCategoryReport<Game>(),
+            "Location" => CreateCategoryReport<Location>(),
+            "Magazine" => CreateCategoryReport<Magazine>(),
+            "Movie" => CreateCategoryReport<Movie>(),
+            "Music" => CreateCategoryReport<Music>(),
+            "Painting" => CreateCategoryReport<Painting>(),
+            "Pinball" => CreateCategoryReport<Pinball>(),
+            "Song" => CreateCategoryReport<Song>(),
+            "Standup" => CreateCategoryReport<Standup>(),
+            "Theatre" => CreateCategoryReport<Theatre>(),
+            "TVShow" => CreateCategoryReport<TVShow>(),
+            "Work" => CreateCategoryReport<Work>(),
+            "Zoo" => CreateCategoryReport<Zoo>(),
+            "Adventure" => CreateCategoryReport<Adventure>(),
+            _ => throw new ArgumentOutOfRangeException(nameof(category), category, "Unknown yearly trends category.")
+        };
+    }
+
+    private YearlyChartReport CreateCategoryReport<T>(List<double>? yearlyHours = null) where T : IItem
+    {
+        var category = Helpers.GetClassName<T>();
+        var showActualValues = _showingActualValues.Contains(category);
+        var values = showActualValues ? GetYearlyAmounts<T>() : yearlyHours ?? GetYearlyHours<T>();
+        var unit = showActualValues ? Settings.Instance.GetItemSettigns<T>().AmountVerb : "hours";
+        return CreateReport(category, values, category, unit);
     }
 
     private List<double> GetYearlyHours<T>() where T : IItem
@@ -111,7 +181,18 @@ public class YearlyTrendsViewModel : ViewModelBase
             .ToList();
     }
 
-    private YearlyChartReport CreateReport(string name, List<double> values, string colorName)
+    private List<double> GetYearlyAmounts<T>() where T : IItem
+    {
+        var events = _datasource.GetEventList(Helpers.GetClassName<T>());
+
+        return _years
+            .Select(year => events
+                .Where(item => item.DateEnd.HasValue && item.DateEnd.Value.Year == year)
+                .Sum(item => (double)item.Amount))
+            .ToList();
+    }
+
+    private YearlyChartReport CreateReport(string name, List<double> values, string colorName, string unit = "hours")
     {
         var color = ChartColors.GetColor(colorName);
         var axes = new List<Axis>
@@ -135,11 +216,18 @@ public class YearlyTrendsViewModel : ViewModelBase
                 Name = name,
                 Fill = new SolidColorPaint(new SKColor(color.R, color.G, color.B)),
                 DataLabelsPosition = DataLabelsPosition.Top,
-                DataLabelsFormatter = point => point.Coordinate.PrimaryValue.ToString("F1"),
-                YToolTipLabelFormatter = point => point.Coordinate.PrimaryValue.ToString("F1")
+                DataLabelsFormatter = point => FormatValue(point.Coordinate.PrimaryValue, unit),
+                YToolTipLabelFormatter = point => FormatValue(point.Coordinate.PrimaryValue, unit)
             }
         };
 
-        return new YearlyChartReport(name, series, axes);
+        return new YearlyChartReport(name, unit, series, axes);
+    }
+
+    private static string FormatValue(double value, string unit)
+    {
+        return string.Equals(unit, "hours", StringComparison.OrdinalIgnoreCase)
+            ? value.ToString("F1")
+            : value.ToString("F0");
     }
 }
