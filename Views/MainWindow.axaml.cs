@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -7,9 +8,11 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
 using Avalonia.Controls.Selection;
 using EventTracker.ViewModels;
+using Repositories;
 
 namespace EventTracker.Views;
 
@@ -18,8 +21,27 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        HtmlHelper.LocalHtmlFilePicker = OpenLocalHtmlFileAsync;
         AddHandler(Button.ClickEvent, OnButtonClick, RoutingStrategies.Bubble);
         AddHandler(TabControl.SelectionChangedEvent, OnTabSelectionChanged, RoutingStrategies.Bubble);
+    }
+
+    private async Task<string?> OpenLocalHtmlFileAsync()
+    {
+        var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open downloaded webpage",
+            AllowMultiple = false,
+            FileTypeFilter =
+            [
+                new FilePickerFileType("HTML files")
+                {
+                    Patterns = ["*.html", "*.htm"]
+                }
+            ]
+        });
+
+        return files.FirstOrDefault()?.Path.LocalPath;
     }
 
     private async void OnButtonClick(object? sender, RoutedEventArgs e)

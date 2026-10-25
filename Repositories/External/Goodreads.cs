@@ -26,7 +26,7 @@ public class Goodreads
         string illustrator = GetIllustrator(htmlDocument);
 
         var destinationFile = Paths.GetTempPath<T>();
-        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+        await HtmlHelper.DownloadPNG(imageUrl, destinationFile, htmlDocument);
 
         return new GoodreadsItem(
             title.Trim(),
