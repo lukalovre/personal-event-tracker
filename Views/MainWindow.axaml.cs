@@ -138,16 +138,56 @@ public partial class MainWindow : Window
         }
     }
 
-    private static void LoadSelectedTab(TabItem selectedTab)
+    private void LoadSelectedTab(TabItem selectedTab)
     {
-        if (selectedTab.Content is TabControl tabControl && tabControl.SelectedItem is TabItem childTab)
+        if (selectedTab.Header?.ToString() == "My"
+            && selectedTab.Content is TabControl myTabs
+            && DataContext is MainWindowViewModel mainViewModel)
         {
-            LoadSelectedTab(childTab);
+            var selectedMyTab = myTabs.SelectedItem as TabItem
+                ?? myTabs.Items.OfType<TabItem>().FirstOrDefault();
+            var selectedMyTabHeader = selectedMyTab?.Header?.ToString();
+
+            switch (selectedMyTabHeader)
+            {
+                case "D&D":
+                    mainViewModel.DnDViewModel.LoadDefaultGridOnSelection();
+                    break;
+                case "People":
+                    mainViewModel.PeopleViewModel.LoadGridOnSelection("Birthdays");
+                    break;
+                case "Adventures":
+                    mainViewModel.AdventuresViewModel.LoadDefaultGridOnSelection();
+                    break;
+                default:
+                    mainViewModel.WorkViewModel.LoadDefaultGridOnSelection();
+                    break;
+            }
+
+            return;
+        }
+
+        if (selectedTab.Content is TabControl tabControl)
+        {
+            var childTab = tabControl.SelectedItem as TabItem
+                ?? tabControl.Items.OfType<TabItem>().FirstOrDefault();
+            if (childTab is not null)
+            {
+                LoadSelectedTab(childTab);
+            }
+
             return;
         }
 
         if (selectedTab.Content is not Control content)
         {
+            return;
+        }
+
+        if (selectedTab.Content is UserControl
+            && content.DataContext is ILoadGridOnSelection defaultGridViewModel)
+        {
+            defaultGridViewModel.LoadDefaultGridOnSelection();
             return;
         }
 
