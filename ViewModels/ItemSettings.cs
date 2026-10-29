@@ -12,7 +12,6 @@ public record ItemSettings
     public int DefaultNewItemRating { get; set; } = 1;
     public int DefaultAddAmount { get; set; }
     public string DefaultNewItemPlatform { get; set; } = string.Empty;
-    public bool OpenItemLinkUrl { get; set; }
     public string AmountVerb { get; set; } = "minutes";
     public ObservableCollection<string> PlatformTypes { get; set; } = [];
     public bool DefaultNewItemBookmarked { get; set; }

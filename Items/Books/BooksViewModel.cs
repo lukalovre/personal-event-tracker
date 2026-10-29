@@ -15,6 +15,19 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
 {
     public ObservableCollection<AuthorGridItem> BookAuthorList { get; set; } = [];
 
+    protected override string GetOpenLink()
+    {
+        return SelectedItem?.ExternalID ?? string.Empty;
+    }
+
+    protected override List<string> GetAlternativeOpenLinkSearchParams()
+    {
+        var searchParams = SelectedItem.Title.Split(' ').ToList();
+        searchParams.AddRange(SelectedItem.Author.Split(' '));
+        searchParams.Add(SelectedItem.Year.ToString());
+        return searchParams;
+    }
+
     protected override BookGridItem Convert(Event e, Book i, IEnumerable<Event> eventList)
     {
         return new BookGridItem(

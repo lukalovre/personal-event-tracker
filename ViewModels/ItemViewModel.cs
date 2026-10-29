@@ -331,7 +331,7 @@ where TGridItem : IGridItem
             return string.Empty;
         }
 
-        var link = _settings.OpenItemLinkUrl ? GetOpenLink() : string.Empty;
+        var link = GetOpenLink();
         return HtmlHelper.GetLinkUrl(link, [.. GetAlternativeOpenLinkSearchParams()]);
     }
 

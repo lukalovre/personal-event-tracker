@@ -19,6 +19,9 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
+						<Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}" HorizontalAlignment="Left" Margin="0,5">
+							<TextBlock Text="Open ↗" />
+						</Button>
 						<Button>
 							<Image Source="{Binding Image}" Width="315" Height="419" />
 						</Button>

@@ -77,7 +77,6 @@ public class Settings
             DefaultNewItemRating = result.DefaultNewItemRating,
             IsFullAmountDefaultValue = result.IsFullAmountDefaultValue,
             NewItemAmountOverride = result.NewItemAmountOverride,
-            OpenItemLinkUrl = result.OpenItemLinkUrl,
             AmountType = result.AmountType,
             ShowYearFilter = result.ShowYearFilter
         };

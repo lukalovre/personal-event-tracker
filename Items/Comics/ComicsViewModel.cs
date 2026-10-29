@@ -15,6 +15,19 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
 {
     public ObservableCollection<ComicGridItem> ComicsList { get; set; } = [];
 
+    protected override string GetOpenLink()
+    {
+        return SelectedItem?.ExternalID ?? string.Empty;
+    }
+
+    protected override List<string> GetAlternativeOpenLinkSearchParams()
+    {
+        var searchParams = SelectedItem.Title.Split(' ').ToList();
+        searchParams.AddRange(SelectedItem.Writer.Split(' '));
+        searchParams.Add(SelectedItem.Year.ToString());
+        return searchParams;
+    }
+
     protected override ComicGridItem Convert(Event e, Comic i, IEnumerable<Event> eventList)
     {
         return new ComicGridItem(

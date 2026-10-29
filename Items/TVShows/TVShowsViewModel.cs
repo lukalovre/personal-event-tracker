@@ -16,6 +16,27 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
 {
     public ObservableCollection<TVShowsGridItem> TVShowList { get; set; } = [];
 
+    protected override string GetOpenLink()
+    {
+        var externalId = SelectedItem?.ExternalID;
+        if (string.IsNullOrWhiteSpace(externalId))
+        {
+            return string.Empty;
+        }
+
+        return Uri.TryCreate(externalId, UriKind.Absolute, out var uri)
+            && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps)
+                ? externalId
+                : $"https://www.imdb.com/title/{externalId}";
+    }
+
+    protected override List<string> GetAlternativeOpenLinkSearchParams()
+    {
+        var searchParams = SelectedItem.Title.Split(' ').ToList();
+        searchParams.Add(SelectedItem.Year.ToString());
+        return searchParams;
+    }
+
     protected override TVShowGridItem Convert(Event e, TVShow i, IEnumerable<Event> eventList)
     {
         return new TVShowGridItem(

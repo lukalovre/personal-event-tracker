@@ -63,6 +63,9 @@
 				<ScrollViewer>
 					<StackPanel>
 						<TextBlock Text="{Binding SelectedItem.Title}" FontSize="20" FontWeight="Bold" />
+						<Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}" HorizontalAlignment="Left" Margin="0,5">
+							<TextBlock Text="Open ↗" />
+						</Button>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding SelectedItem.Year}" FontSize="15" />
 							<TextBlock Text="			" FontSize="15" />

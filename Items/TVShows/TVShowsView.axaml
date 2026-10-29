@@ -46,6 +46,9 @@
 				<ScrollViewer>
 					<StackPanel>
 						<TextBlock Text="{Binding SelectedItem.Title}" FontSize="20" FontWeight="Bold" />
+						<Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}" HorizontalAlignment="Left" Margin="0,5">
+							<TextBlock Text="Open ↗" />
+						</Button>
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
 						</Button>

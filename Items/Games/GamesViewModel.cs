@@ -19,6 +19,15 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
     public ObservableCollection<DeveloperGridItem> GameDeveloperList { get; set; } = [];
     public ObservableCollection<GameGridItem> DeveloperGameList { get; set; } = [];
 
+    protected override List<string> GetAlternativeOpenLinkSearchParams()
+    {
+        var searchParams = SelectedItem.Title.Split(' ').ToList();
+        searchParams.AddRange(SelectedItem.Developer.Split(' '));
+        searchParams.Add(SelectedItem.Year.ToString());
+        searchParams.AddRange(SelectedItem.Platform.Split(' '));
+        return searchParams;
+    }
+
     private int _selectedGameTabIndex;
     public int SelectedGameTabIndex
     {
