@@ -21,9 +21,22 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        Loaded += OnLoaded;
         HtmlHelper.LocalHtmlFilePicker = OpenLocalHtmlFileAsync;
         AddHandler(Button.ClickEvent, OnButtonClick, RoutingStrategies.Bubble);
         AddHandler(TabControl.SelectionChangedEvent, OnTabSelectionChanged, RoutingStrategies.Bubble);
+    }
+
+    private void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        var mainTabControl = (Content as Control)?.GetVisualDescendants().OfType<TabControl>().FirstOrDefault();
+        if (mainTabControl?.SelectedItem is not TabItem selectedTab)
+        {
+            return;
+        }
+
+        LoadSelectedTab(selectedTab, selectFirstItem: true);
+        UpdateSelectedGridCount(selectedTab);
     }
 
     private async Task<string?> OpenLocalHtmlFileAsync()
@@ -112,6 +125,7 @@ public partial class MainWindow : Window
             return;
         }
 
+        viewModel.LoadOnSelection();
         viewModel.SelectFirstItem();
         UpdateSelectedGridCount((sender as TabControl)?.SelectedItem as TabItem);
     }
@@ -120,7 +134,27 @@ public partial class MainWindow : Window
     {
         if (e.Source is TabControl { SelectedItem: TabItem selectedTab })
         {
+            LoadSelectedTab(selectedTab);
             UpdateSelectedGridCount(selectedTab);
+        }
+    }
+
+    private static void LoadSelectedTab(TabItem selectedTab, bool selectFirstItem = false)
+    {
+        if (selectedTab.Content is TabControl tabControl && tabControl.SelectedItem is TabItem childTab)
+        {
+            LoadSelectedTab(childTab, selectFirstItem);
+            return;
+        }
+
+        if (selectedTab.Content is Control { DataContext: ILoadOnSelection viewModel })
+        {
+            viewModel.LoadOnSelection();
+
+            if (selectFirstItem && viewModel is IDataGrid dataGrid)
+            {
+                dataGrid.SelectFirstItem();
+            }
         }
     }
 

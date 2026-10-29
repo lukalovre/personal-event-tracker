@@ -37,7 +37,6 @@ where TGridItem : IGridItem
 
         GridItems = [];
         GridItemsBookmarked = [];
-        ReloadData();
 
         Events = [];
         EventViewModel = new EventViewModel(Events, _settings.PlatformTypes);
@@ -76,6 +75,7 @@ where TGridItem : IGridItem
     private Bitmap? _newItemImage;
     private Event _newEvent = new();
     private bool _useNewDate;
+    private bool _hasLoaded;
     private TItem _selectedItem = default!;
 
     private int _gridCountItemsBookmarked;
@@ -635,6 +635,19 @@ where TGridItem : IGridItem
         {
             SelectedGridItem = GridItems[0];
         }
+    }
+
+    public void LoadOnSelection()
+    {
+        if (_hasLoaded)
+        {
+            return;
+        }
+
+        _hasLoaded = true;
+        People.LoadData();
+        EventViewModel.People.LoadData();
+        ReloadData();
     }
 
     private ObservableCollection<TGridItem> GetSelectedGrid()

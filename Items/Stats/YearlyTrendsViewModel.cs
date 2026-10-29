@@ -30,19 +30,30 @@ public sealed class YearlyChartReport
     public List<Axis> XAxes { get; }
 }
 
-public class YearlyTrendsViewModel : ViewModelBase
+public class YearlyTrendsViewModel : ViewModelBase, ILoadOnSelection
 {
     private const int StartYear = 2010;
     private readonly IDatasource _datasource;
     private readonly List<int> _years;
     private readonly HashSet<string> _showingActualValues = new(StringComparer.OrdinalIgnoreCase);
+    private bool _hasLoaded;
 
     public YearlyTrendsViewModel(IDatasource datasource)
     {
         _datasource = datasource;
         _years = Enumerable.Range(StartYear, DateTime.Today.Year - StartYear + 1).ToList();
         Reports = [];
-        Settings.Saved += RefreshReports;
+        Settings.Saved += SettingsSaved;
+    }
+
+    public void LoadOnSelection()
+    {
+        if (_hasLoaded)
+        {
+            return;
+        }
+
+        _hasLoaded = true;
         RefreshReports();
     }
 
@@ -83,6 +94,14 @@ public class YearlyTrendsViewModel : ViewModelBase
             {
                 Reports.Add(report);
             }
+        }
+    }
+
+    private void SettingsSaved()
+    {
+        if (_hasLoaded)
+        {
+            RefreshReports();
         }
     }
 

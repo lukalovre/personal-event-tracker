@@ -11,12 +11,13 @@ using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class TimelineViewModel : ViewModelBase
+public partial class TimelineViewModel : ViewModelBase, ILoadOnSelection
 {
     private Event _selectedEvent = null!;
     private PersonEventGridItem _selectedGridItem;
     private Bitmap? _itemImage;
     private string _comment;
+    private bool _hasLoaded;
 
     public ObservableCollection<PersonEventGridItem> Events { get; set; } = [];
 
@@ -37,7 +38,16 @@ public partial class TimelineViewModel : ViewModelBase
     public TimelineViewModel(IDatasource datasource)
     {
         _datasource = datasource;
+    }
 
+    public void LoadOnSelection()
+    {
+        if (_hasLoaded)
+        {
+            return;
+        }
+
+        _hasLoaded = true;
         Events.Clear();
         Events.AddRange(LoadEvents());
     }

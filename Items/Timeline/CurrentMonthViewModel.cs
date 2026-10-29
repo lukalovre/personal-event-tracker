@@ -18,9 +18,10 @@ using SkiaSharp;
 
 namespace EventTracker.ViewModels;
 
-public class CurrentMonthViewModel : ViewModelBase
+public class CurrentMonthViewModel : ViewModelBase, ILoadOnSelection
 {
     private readonly IDatasource _datasource;
+    private bool _hasLoaded;
     private PersonEventGridItem _selectedGridItem;
     private Bitmap? _itemImage;
     private string _comment;
@@ -41,6 +42,16 @@ public class CurrentMonthViewModel : ViewModelBase
         Years = new ObservableCollection<int>(Enumerable.Range(2010, DateTime.Today.Year - 2009));
         _selectedMonth = MonthNames[DateTime.Today.Month - 1];
         _selectedYear = DateTime.Today.Year;
+    }
+
+    public void LoadOnSelection()
+    {
+        if (_hasLoaded)
+        {
+            return;
+        }
+
+        _hasLoaded = true;
         RefreshReport();
     }
 

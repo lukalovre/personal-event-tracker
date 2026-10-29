@@ -18,16 +18,18 @@ public class PeopleSelectionViewModel : INotifyPropertyChanged
     }
 
     private string _searchText = string.Empty;
+    private bool _hasLoaded;
     private ObservableCollection<PersonCheckbox> _items = [];
     private ObservableCollection<PersonCheckbox> _filteredItems = [];
 
-    public PeopleSelectionViewModel()
+    internal void LoadData()
     {
-        LoadData();
-    }
+        if (_hasLoaded)
+        {
+            return;
+        }
 
-    private void LoadData()
-    {
+        _hasLoaded = true;
         Items = new ObservableCollection<PersonCheckbox>(PeopleManager.Instance.GetComboboxList()
         .Select(o => new PersonCheckbox
         {
