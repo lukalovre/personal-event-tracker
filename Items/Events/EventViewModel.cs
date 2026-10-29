@@ -227,4 +227,5 @@ public partial class EventViewModel : ViewModelBase
     {
         IsDateTimePickerOpen = !IsDateTimePickerOpen;
     }
+
 }

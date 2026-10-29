@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="EventTracker.Views.StarRatingView">
+	<UserControl.Styles>
+		<Style Selector="ToggleButton.rating-star">
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Foreground" Value="Gray" />
+		</Style>
+		<Style Selector="ToggleButton.rating-star:checked">
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="Foreground" Value="#E1A400" />
+		</Style>
+	</UserControl.Styles>
+	<StackPanel Orientation="Horizontal" Spacing="0">
+		<ToggleButton x:Name="StarOne" Classes="rating-star" Tag="1" Click="OnStarClicked" Width="24" Height="30" FontSize="20">★</ToggleButton>
+		<ToggleButton x:Name="StarTwo" Classes="rating-star" Tag="2" Click="OnStarClicked" Width="24" Height="30" FontSize="20">★</ToggleButton>
+		<ToggleButton x:Name="StarThree" Classes="rating-star" Tag="3" Click="OnStarClicked" Width="24" Height="30" FontSize="20">★</ToggleButton>
+		<ToggleButton x:Name="StarFour" Classes="rating-star" Tag="4" Click="OnStarClicked" Width="24" Height="30" FontSize="20">★</ToggleButton>
+		<ToggleButton x:Name="StarFive" Classes="rating-star" Tag="5" Click="OnStarClicked" Width="24" Height="30" FontSize="20">★</ToggleButton>
+	</StackPanel>
+</UserControl>
