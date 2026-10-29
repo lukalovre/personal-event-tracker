@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reactive;
 using EventTracker.Models;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
@@ -16,29 +17,39 @@ public partial class EventViewModel : ViewModelBase
 {
     private Event _selectedEvent = null!;
     private bool _isEditDate;
-    private TimeSpan _time;
-    private DateTime _date;
+    private bool _isDateTimePickerOpen;
+    private DateTimeOffset? _pendingEventDate;
+    private TimeSpan? _pendingEventTime;
 
     public ObservableCollection<Event> Events { get; set; }
 
-    public DateTime Date
+    public string SelectedEventDateTimeText => SelectedEvent?.DateEnd?.ToString("yyyy-MM-dd HH:mm:ss") ?? string.Empty;
+
+    public bool IsDateTimePickerOpen
     {
-        get => _date;
+        get => _isDateTimePickerOpen;
         set
         {
-            this.RaiseAndSetIfChanged(ref _date, value);
-            DateTimeChanged();
+            this.RaiseAndSetIfChanged(ref _isDateTimePickerOpen, value);
+            if (value)
+            {
+                var dateEnd = SelectedEvent?.DateEnd ?? DateTime.Now;
+                PendingEventDate = new DateTimeOffset(dateEnd);
+                PendingEventTime = dateEnd.TimeOfDay;
+            }
         }
     }
 
-    public TimeSpan Time
+    public DateTimeOffset? PendingEventDate
     {
-        get => _time;
-        set
-        {
-            this.RaiseAndSetIfChanged(ref _time, value);
-            DateTimeChanged();
-        }
+        get => _pendingEventDate;
+        set => this.RaiseAndSetIfChanged(ref _pendingEventDate, value);
+    }
+
+    public TimeSpan? PendingEventTime
+    {
+        get => _pendingEventTime;
+        set => this.RaiseAndSetIfChanged(ref _pendingEventTime, value);
     }
 
     public bool IsEditDate
@@ -54,6 +65,7 @@ public partial class EventViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref _selectedEvent, value);
             SelectedEventChanged();
+            this.RaisePropertyChanged(nameof(SelectedEventDateTimeText));
         }
     }
 
@@ -70,6 +82,9 @@ public partial class EventViewModel : ViewModelBase
     public ObservableCollection<string> PlatformTypes { get; set; }
 
     public PeopleSelectionViewModel People { get; }
+
+    public ReactiveCommand<Unit, Unit> ToggleDateTimePicker { get; }
+    public ReactiveCommand<Unit, Unit> ConfirmDateTime { get; }
 
     public string SelectedPlatformType
     {
@@ -104,6 +119,8 @@ public partial class EventViewModel : ViewModelBase
         Events.CollectionChanged += CollectionChanged;
         PlatformTypes = platformTypes;
         People = new PeopleSelectionViewModel();
+        ToggleDateTimePicker = ReactiveCommand.Create(ToggleDateTimePickerAction);
+        ConfirmDateTime = ReactiveCommand.Create(ConfirmDateTimeAction);
     }
 
     internal void FillStats<TItem>(ObservableCollection<Event> events)
@@ -190,15 +207,24 @@ public partial class EventViewModel : ViewModelBase
             return;
         }
 
-        _date = SelectedEvent.DateEnd ?? DateTime.MinValue;
-        _time = _date.TimeOfDay;
-
         SelectedPlatformType = SelectedEvent.Platform;
         NewEventChapter = SelectedEvent.Chapter ?? 1;
     }
 
-    private void DateTimeChanged()
+    private void ConfirmDateTimeAction()
     {
-        SelectedEvent.DateEnd = Date + Time;
+        if (SelectedEvent is null || PendingEventDate is null || PendingEventTime is null)
+        {
+            return;
+        }
+
+        SelectedEvent.DateEnd = PendingEventDate.Value.Date.Add(PendingEventTime.Value);
+        this.RaisePropertyChanged(nameof(SelectedEventDateTimeText));
+        IsDateTimePickerOpen = false;
+    }
+
+    private void ToggleDateTimePickerAction()
+    {
+        IsDateTimePickerOpen = !IsDateTimePickerOpen;
     }
 }
