@@ -59,14 +59,14 @@
 							</Popup>
 						</Grid>
 					</Grid>
-					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBlock Text="Chapter" VerticalAlignment="Center" Width="75" />
-						<NumericUpDown Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
-						<TextBlock Text="		 " />
-						<CheckBox IsChecked="{Binding SelectedEvent.Bookmarked, Mode=TwoWay}">★</CheckBox>
-						<TextBlock Text="		 " />
-						<CheckBox IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
-					</StackPanel>
+					<Grid ColumnDefinitions="75,100,Auto,Auto,Auto,Auto" Margin="1">
+						<TextBlock Grid.Column="0" Text="Chapter" VerticalAlignment="Center" />
+						<NumericUpDown Grid.Column="1" Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
+						<TextBlock Grid.Column="2" Text="		 " />
+						<CheckBox Grid.Column="3" IsChecked="{Binding SelectedEvent.Bookmarked, Mode=TwoWay}">★</CheckBox>
+						<TextBlock Grid.Column="4" Text="		 " />
+						<CheckBox Grid.Column="5" IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
+					</Grid>
 					<StackPanel Orientation="Horizontal" Margin="1">
 						<TextBlock Text="Platform" VerticalAlignment="Center" Width="75"/>
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}" Width="100" />
