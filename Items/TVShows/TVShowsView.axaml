@@ -53,7 +53,7 @@
 							<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Height="32" Margin="5">🔍</Button>
 						</StackPanel>
 						<Button>
-							<Image Source="{Binding Image}" Width="430" Height="430" />
+							<Image Source="{Binding Image}" Width="400" Height="400" />
 						</Button>
 						<view:EventView DataContext="{Binding EventViewModel}" />
 						<StackPanel Orientation="Horizontal">
