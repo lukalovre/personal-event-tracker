@@ -35,13 +35,18 @@ public static class HtmlHelper
 
     public static void OpenLink(string link, List<string> arguments)
     {
+        OpenLink(GetLinkUrl(link, arguments));
+    }
+
+    public static string GetLinkUrl(string link, List<string> arguments)
+    {
         if (string.IsNullOrWhiteSpace(link))
         {
             // Make this a search engine choice in settings
             link = $"https://duckduckgo.com/?q={string.Join("+", arguments)}";
         }
 
-        OpenLink(link);
+        return link;
     }
 
     internal async static Task DownloadPNG(string webFile, string destinationFile, HtmlDocument? sourceDocument = null)

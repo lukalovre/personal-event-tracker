@@ -101,7 +101,7 @@
                             <TextBlock Text="   " />
                             <TextBlock Text="{Binding SelectedItem.Runtime, Converter={StaticResource TimeToStringConverter}}" Width="65" FontSize="15" VerticalAlignment="Center" />
                             <TextBlock Text="  " />
-                            <Button Command="{Binding OpenLink}">
+                            <Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}">
                                 <TextBlock Text="Open ↗" />
                             </Button>
                             <Button Command="{Binding Search}" Margin="5">Search</Button>

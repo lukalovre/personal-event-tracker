@@ -16,7 +16,16 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
 
     protected override string GetOpenLink()
     {
-        return $"https://www.imdb.com/title/{SelectedItem?.ExternalID}";
+        var externalId = SelectedItem?.ExternalID;
+        return string.IsNullOrWhiteSpace(externalId) ? string.Empty : $"https://www.imdb.com/title/{externalId}";
+    }
+
+    protected override List<string> GetAlternativeOpenLinkSearchParams()
+    {
+        var searchParams = SelectedItem.Title.Split(' ').ToList();
+        searchParams.AddRange(SelectedItem.Director.Split(' '));
+        searchParams.Add(SelectedItem.Year.ToString());
+        return searchParams;
     }
 
     protected override MovieGridItem Convert(Event e, Movie i, IEnumerable<Event> eventList)

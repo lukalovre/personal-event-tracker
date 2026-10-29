@@ -126,7 +126,11 @@ where TGridItem : IGridItem
     public TItem SelectedItem
     {
         get => _selectedItem;
-        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedItem, value);
+            this.RaisePropertyChanged(nameof(OpenLinkToolTip));
+        }
     }
 
     public ObservableCollection<Event> Events { get; set; }
@@ -137,6 +141,7 @@ where TGridItem : IGridItem
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
     public ReactiveCommand<Unit, Unit> Search { get; }
     public ReactiveCommand<Unit, Unit> OpenImage { get; }
+    public string OpenLinkToolTip => GetLinkToOpen();
 
     public TItem NewItem
     {
@@ -319,16 +324,20 @@ where TGridItem : IGridItem
         return (SelectedItem as IExternal)?.ExternalID ?? string.Empty;
     }
 
-    private void OpenLinkAction()
+    private string GetLinkToOpen()
     {
-        var link = string.Empty;
-
-        if (_settings.OpenItemLinkUrl)
+        if (SelectedItem is null)
         {
-            link = GetOpenLink();
+            return string.Empty;
         }
 
-        HtmlHelper.OpenLink(link, [.. GetAlternativeOpenLinkSearchParams()]);
+        var link = _settings.OpenItemLinkUrl ? GetOpenLink() : string.Empty;
+        return HtmlHelper.GetLinkUrl(link, [.. GetAlternativeOpenLinkSearchParams()]);
+    }
+
+    private void OpenLinkAction()
+    {
+        HtmlHelper.OpenLink(GetLinkToOpen());
     }
 
     private void SearchAction()
