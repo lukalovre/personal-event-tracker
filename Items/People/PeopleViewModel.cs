@@ -18,7 +18,7 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
     protected override string DefaultGridTabHeader => "Birthdays";
 
     private PersonGridItem _selectedPersonGridItem;
-    private BirthdayGridItem _selectedBirthdayGridItem = null!;
+    private BirthdayGridItem? _selectedBirthdayGridItem;
     private string _selectedExistingTag = string.Empty;
 
     public PeopleViewModel(IDatasource datasource) : base(datasource, null!)
@@ -252,12 +252,17 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         }
     }
 
-    public BirthdayGridItem SelectedBirthdayGridItem
+    public BirthdayGridItem? SelectedBirthdayGridItem
     {
         get => _selectedBirthdayGridItem;
         set
         {
             _selectedBirthdayGridItem = value;
+            if (value is null)
+            {
+                return;
+            }
+
             var person = PeopleGrid.FirstOrDefault(item => item.ID == value.ID)
                 ?? _datasource.GetList<Person>(Helpers.GetClassName<Person>())
                     .Where(item => item.ID == value.ID)

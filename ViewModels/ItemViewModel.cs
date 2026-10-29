@@ -48,6 +48,7 @@ where TGridItem : IGridItem
         OpenLink = ReactiveCommand.Create(OpenLinkAction);
         Search = ReactiveCommand.Create(SearchAction);
         OpenImage = ReactiveCommand.CreateFromTask(() => PickImageAsync(GetMainWindow()));
+        ReplaceImage = ReactiveCommand.CreateFromTask(() => ReplaceSelectedImageAsync(GetMainWindow()));
 
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
@@ -75,6 +76,7 @@ where TGridItem : IGridItem
     private TItem _newItem = default!;
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
+    private readonly ObservableCollection<ItemEditField> _editFields = [];
     private Event _newEvent = new();
     private bool _useNewDate;
     private readonly HashSet<string> _loadedGridTabs = new(StringComparer.OrdinalIgnoreCase);
@@ -131,9 +133,12 @@ where TGridItem : IGridItem
         set
         {
             this.RaiseAndSetIfChanged(ref _selectedItem, value);
+            RefreshEditFields();
             this.RaisePropertyChanged(nameof(OpenLinkToolTip));
         }
     }
+
+    public ObservableCollection<ItemEditField> EditFields => _editFields;
 
     public ObservableCollection<Event> Events { get; set; }
 
@@ -143,6 +148,7 @@ where TGridItem : IGridItem
     public ReactiveCommand<Unit, Unit> OpenLink { get; }
     public ReactiveCommand<Unit, Unit> Search { get; }
     public ReactiveCommand<Unit, Unit> OpenImage { get; }
+    public ReactiveCommand<Unit, Unit> ReplaceImage { get; }
     public string OpenLinkToolTip => GetLinkToOpen();
 
     public TItem NewItem
@@ -409,9 +415,48 @@ where TGridItem : IGridItem
             return;
         }
 
+        if (EditFields.Any(field => !field.TryApply()))
+        {
+            return;
+        }
+
         _datasource.Update(SelectedItem);
         ReloadData();
         ClearNewItemControls();
+    }
+
+    private void RefreshEditFields()
+    {
+        EditFields.Clear();
+
+        if (SelectedItem is null)
+        {
+            return;
+        }
+
+        foreach (var property in typeof(TItem).GetProperties()
+                     .Where(property => property.Name != nameof(IItem.ID)
+                         && property.CanRead
+                         && property.CanWrite
+                         && property.GetIndexParameters().Length == 0)
+                     .OrderBy(property => property.MetadataToken))
+        {
+            EditFields.Add(ItemEditField.Create(SelectedItem, property));
+        }
+    }
+
+    private async Task ReplaceSelectedImageAsync(Window window)
+    {
+        if (SelectedItem is null)
+        {
+            return;
+        }
+
+        var image = await ImagePicker.PickAndSaveAsync(window, Paths.GetImagePath<TItem>(SelectedItem.ID));
+        if (image is not null)
+        {
+            Image = image;
+        }
     }
 
     private void AddEventClickAction()

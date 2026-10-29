@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:EventTracker.ViewModels" x:Class="EventTracker.Views.ItemEditView" x:CompileBindings="False">
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="vm:ItemEditTextField">
+            <Grid ColumnDefinitions="150,*" Margin="0,2">
+                <TextBlock Grid.Column="0" Text="{Binding Label}" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate DataType="vm:ItemEditNumberField">
+            <Grid ColumnDefinitions="150,*" Margin="0,2">
+                <TextBlock Grid.Column="0" Text="{Binding Label}" VerticalAlignment="Center" />
+                <NumericUpDown Grid.Column="1" Value="{Binding Value, Mode=TwoWay}" FormatString="0.##" Minimum="-999999999" Maximum="999999999" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate DataType="vm:ItemEditBooleanField">
+            <Grid ColumnDefinitions="150,*" Margin="0,2">
+                <TextBlock Grid.Column="0" Text="{Binding Label}" VerticalAlignment="Center" />
+                <CheckBox Grid.Column="1" IsChecked="{Binding Value, Mode=TwoWay}" VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate DataType="vm:ItemEditDateTimeField">
+            <Grid ColumnDefinitions="150,*" Margin="0,2">
+                <TextBlock Grid.Column="0" Text="{Binding Label}" VerticalAlignment="Center" />
+                <Grid Grid.Column="1" ColumnDefinitions="*,34">
+                    <TextBox Grid.Column="0" Text="{Binding DisplayValue}" IsReadOnly="True" />
+                    <Button x:Name="DateTimePickerButton" Grid.Column="1" Command="{Binding TogglePicker}" ToolTip.Tip="Choose date and time" Height="30">
+                        <TextBlock Text="📅" />
+                    </Button>
+                    <Popup IsOpen="{Binding IsPickerOpen}" PlacementTarget="{Binding #DateTimePickerButton}" Placement="Bottom">
+                        <Border Background="{DynamicResource SystemControlBackgroundAltHighBrush}" BorderBrush="Gray" BorderThickness="1" Padding="10">
+                            <StackPanel Spacing="8">
+                                <DatePicker SelectedDate="{Binding PendingDate, Mode=TwoWay}" />
+                                <TimePicker SelectedTime="{Binding PendingTime, Mode=TwoWay}" />
+                                <Button Command="{Binding ConfirmDateTime}" HorizontalAlignment="Right">OK</Button>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </UserControl.DataTemplates>
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <StackPanel MinWidth="420" Spacing="6" Margin="10">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Command="{Binding UpdateItemClick}">Save</Button>
+                <Button Command="{Binding ReplaceImage}">Replace image</Button>
+                <Image Source="{Binding Image}" Width="56" Height="56" Stretch="Uniform" />
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding EditFields}" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
