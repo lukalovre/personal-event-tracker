@@ -317,7 +317,15 @@ where TGridItem : IGridItem
         return ((ClassicDesktopStyleApplicationLifetime)Application.Current!.ApplicationLifetime!).MainWindow!;
     }
 
-    protected virtual List<string> GetAlternativeOpenLinkSearchParams() => [];
+    protected virtual List<string> GetAlternativeOpenLinkSearchParams()
+    {
+        if (SelectedItem is null || string.IsNullOrWhiteSpace(SelectedItem.Title))
+        {
+            return [];
+        }
+
+        return SelectedItem.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+    }
 
     protected virtual string GetOpenLink()
     {
@@ -342,6 +350,11 @@ where TGridItem : IGridItem
 
     private void SearchAction()
     {
+        if (SelectedItem is null)
+        {
+            return;
+        }
+
         HtmlHelper.OpenLink(string.Empty, [.. GetAlternativeOpenLinkSearchParams()]);
     }
 

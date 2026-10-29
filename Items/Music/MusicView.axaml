@@ -101,11 +101,10 @@
                             <TextBlock Text="   " />
                             <TextBlock Text="{Binding SelectedItem.Runtime, Converter={StaticResource TimeToStringConverter}}" Width="65" FontSize="15" VerticalAlignment="Center" />
                             <TextBlock Text="  " />
-                            <Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}">
+                            <Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}" Height="32">
                                 <TextBlock Text="Open ↗" />
                             </Button>
-                            <Button Command="{Binding Search}" Margin="5">Search</Button>
-                            <TextBox Text="{Binding SelectedItem.ExternalID}" Width="100"/>
+                            <Button Command="{Binding Search}" ToolTip.Tip="Search the web" Height="32" Margin="5">🔍</Button>
                         </StackPanel>
                         <Button Command="{Binding OpenImage}">
                             <Image Source="{Binding Image}" Width="430" Height="400" />

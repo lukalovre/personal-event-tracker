@@ -23,6 +23,7 @@
 						<TextBlock Text="{Binding SelectedItem.Title}" />
 						<TextBlock Text="{Binding SelectedItem.City}" />
 						<TextBlock Text="{Binding SelectedItem.Country}" />
+						<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Margin="5">🔍</Button>
 						<Button>
 							<Image Source="{Binding Image}" Width="400" Height="400" />
 						</Button>

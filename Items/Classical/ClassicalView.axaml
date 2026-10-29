@@ -32,6 +32,7 @@
 					<StackPanel>
 						<TextBlock Text="{Binding SelectedItem.Composer}" FontSize="20" FontWeight="Bold" />
 						<TextBlock Text="{Binding SelectedItem.Title}" />
+						<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Margin="5">🔍</Button>
 						<Button>
 							<Image Source="{Binding Image}" Width="430" Height="430" />
 						</Button>

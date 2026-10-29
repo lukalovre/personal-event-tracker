@@ -20,6 +20,7 @@
 				<ScrollViewer>
 					<StackPanel>
 						<TextBox Text="{Binding SelectedItem.Title}" HorizontalAlignment="Stretch" />
+						<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Margin="5">🔍</Button>
 						<Button>
 							<Image Source="{Binding Image}" Width="400" Height="400" />
 						</Button>

@@ -32,6 +32,14 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
     public ObservableCollection<string> ExistingTags { get; set; } = [];
     public ReactiveCommand<string, Unit> AddTag { get; }
 
+    protected override List<string> GetAlternativeOpenLinkSearchParams()
+    {
+        return new[] { SelectedItem.FirstName, SelectedItem.LastName, SelectedItem.Nickname }
+            .Where(value => !string.IsNullOrWhiteSpace(value))
+            .SelectMany(value => value.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            .ToList();
+    }
+
     public string SelectedExistingTag
     {
         get => _selectedExistingTag;
