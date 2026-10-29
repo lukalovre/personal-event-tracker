@@ -8,7 +8,6 @@ using EventTracker.Repositories;
 using DynamicData;
 using ReactiveUI;
 using Repositories;
-using System.Threading.Tasks;
 
 namespace EventTracker.ViewModels;
 
@@ -56,13 +55,13 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         GridCountMusicTodo2 = MusicTodo2.Count;
 
         GridItemsArtists.Clear();
-        GridItemsArtists.AddRange(await LoadDataByArtist());
+        GridItemsArtists.AddRange(LoadDataByArtist());
 
         GridItemsAlbums.Clear();
-        GridItemsAlbums.AddRange(await LoadDataByAlbum());
+        GridItemsAlbums.AddRange(LoadDataByAlbum());
     }
 
-    private async Task<List<ArtistGridItem>> LoadDataByArtist()
+    private List<ArtistGridItem> LoadDataByArtist()
     {
         var resultGrid = new List<ArtistGridItem>();
 
@@ -89,7 +88,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         return resultGrid;
     }
 
-    private async Task<List<AlbumGridItem>> LoadDataByAlbum()
+    private List<AlbumGridItem> LoadDataByAlbum()
     {
         var resultGrid = new List<AlbumGridItem>();
 
