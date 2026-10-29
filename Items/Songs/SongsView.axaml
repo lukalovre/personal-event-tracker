@@ -40,7 +40,6 @@
 								<TextBlock Text="Open ↗" />
 							</Button>
 							<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Height="32" Margin="5">🔍</Button>
-							<Button Command="{Binding UpdateItemClick}" Margin="5">Update</Button>
 						</StackPanel>
 						<Button>
 							<Image Source="{Binding Image}" Width="370" Height="370" />
