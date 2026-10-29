@@ -135,6 +135,32 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
         GameDeveloperList.AddRange(await LoadDataByDeveloper());
     }
 
+    protected override async Task LoadGridTabData(string? tabHeader)
+    {
+        if (tabHeader == "Time")
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            var list = await LoadData(skipFilters: true);
+            GameTimeList.AddRange(list.OrderByDescending(o => o.Time));
+            GridCountGameTimeList = GameTimeList.Count;
+            return;
+        }
+
+        if (tabHeader == "Developers")
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            GameDeveloperList.AddRange(await LoadDataByDeveloper());
+            if (GameDeveloperList.Count > 0)
+            {
+                SelectedDeveloperGridItem = GameDeveloperList[0];
+            }
+
+            return;
+        }
+
+        await base.LoadGridTabData(tabHeader);
+    }
+
     private async Task<List<DeveloperGridItem>> LoadDataByDeveloper()
     {
         var resultGrid = new List<DeveloperGridItem>();

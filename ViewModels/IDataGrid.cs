@@ -10,3 +10,8 @@ public interface ILoadOnSelection
 {
     public void LoadOnSelection();
 }
+
+public interface ILoadGridOnSelection
+{
+    public void LoadGridOnSelection(string? tabHeader);
+}

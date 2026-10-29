@@ -50,6 +50,19 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
         BookAuthorList.AddRange(await LoadDataByAuthor());
     }
 
+    protected override async Task LoadGridTabData(string? tabHeader)
+    {
+        if (tabHeader == "Authors")
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            BookAuthorList.Clear();
+            BookAuthorList.AddRange(await LoadDataByAuthor());
+            return;
+        }
+
+        await base.LoadGridTabData(tabHeader);
+    }
+
     private async Task<List<AuthorGridItem>> LoadDataByAuthor()
     {
         var resultGrid = new List<AuthorGridItem>();

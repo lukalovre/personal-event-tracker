@@ -49,6 +49,19 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
         ComicsList.AddRange(await LoadDataByComic());
     }
 
+    protected override async Task LoadGridTabData(string? tabHeader)
+    {
+        if (tabHeader == "Comics")
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            ComicsList.Clear();
+            ComicsList.AddRange(await LoadDataByComic());
+            return;
+        }
+
+        await base.LoadGridTabData(tabHeader);
+    }
+
     private async Task<List<ComicGridItem>> LoadDataByComic()
     {
         var resultGrid = new List<ComicGridItem>();

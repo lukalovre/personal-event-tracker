@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reactive;
+using System.Threading.Tasks;
 using EventTracker.Models;
 using EventTracker.Repositories;
 using DynamicData;
@@ -60,6 +61,50 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         MissingBirthdaysGrid.AddRange(LoadPeople().Where(person => string.IsNullOrWhiteSpace(person.Birthday)));
         ActivePeopleGrid.Clear();
         ActivePeopleGrid.AddRange(LoadPeople().Where(person => HasTag(person.Tags, "Active")));
+    }
+
+    protected override Task LoadGridTabData(string? tabHeader)
+    {
+        LoadItemsAndEvents(out _, out _, realLoad: true);
+
+        switch (tabHeader)
+        {
+            case "Birthdays":
+                BirthdaysGrid.AddRange(LoadBirthdays());
+                if (BirthdaysGrid.Count > 0)
+                {
+                    SelectedBirthdayGridItem = BirthdaysGrid[0];
+                }
+
+                return Task.CompletedTask;
+            case "All":
+                PeopleGrid.AddRange(LoadPeople());
+                ExistingTags.AddRange(LoadExistingTags());
+                if (PeopleGrid.Count > 0)
+                {
+                    SelectedPersonGridItem = PeopleGrid[0];
+                }
+
+                return Task.CompletedTask;
+            case "Missing BDay":
+                MissingBirthdaysGrid.AddRange(LoadPeople().Where(person => string.IsNullOrWhiteSpace(person.Birthday)));
+                if (MissingBirthdaysGrid.Count > 0)
+                {
+                    SelectedPersonGridItem = MissingBirthdaysGrid[0];
+                }
+
+                return Task.CompletedTask;
+            case "Active":
+                ActivePeopleGrid.AddRange(LoadPeople().Where(person => HasTag(person.Tags, "Active")));
+                if (ActivePeopleGrid.Count > 0)
+                {
+                    SelectedPersonGridItem = ActivePeopleGrid[0];
+                }
+
+                return Task.CompletedTask;
+            default:
+                return base.LoadGridTabData(tabHeader);
+        }
     }
 
     private List<PersonGridItem> LoadPeople()
@@ -199,7 +244,11 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         set
         {
             _selectedBirthdayGridItem = value;
-            var person = PeopleGrid.FirstOrDefault(item => item.ID == value.ID);
+            var person = PeopleGrid.FirstOrDefault(item => item.ID == value.ID)
+                ?? _datasource.GetList<Person>(Helpers.GetClassName<Person>())
+                    .Where(item => item.ID == value.ID)
+                    .Select(item => Convert(null!, item, null!))
+                    .FirstOrDefault();
             if (person is not null)
             {
                 SelectedPersonGridItem = person;

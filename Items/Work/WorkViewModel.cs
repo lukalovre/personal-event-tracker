@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using EventTracker.Models;
 using EventTracker.ViewModels.Extensions;
 using Repositories;
@@ -48,5 +49,41 @@ public partial class WorkViewModel(IDatasource datasource) : ItemViewModel<Work,
         {
             GridItemsUnfinished.Add(item);
         }
+    }
+
+    protected override async Task LoadGridTabData(string? tabHeader)
+    {
+        if (tabHeader is "Completed" or "Unfinished")
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            var allItems = await LoadData(skipFilters: true);
+            var latestEvents = _eventList
+                .OrderByDescending(o => o.DateEnd)
+                .DistinctBy(o => o.ItemID)
+                .ToList();
+            var completedItemIDs = latestEvents.Where(o => o.Completed).Select(o => o.ItemID).ToHashSet();
+            var unfinishedItemIDs = latestEvents.Where(o => !o.Completed && !o.Bookmarked).Select(o => o.ItemID).ToHashSet();
+
+            if (tabHeader == "Completed")
+            {
+                GridItemsCompleted.Clear();
+                foreach (var item in allItems.Where(o => completedItemIDs.Contains(o.ID)))
+                {
+                    GridItemsCompleted.Add(item);
+                }
+            }
+            else
+            {
+                GridItemsUnfinished.Clear();
+                foreach (var item in allItems.Where(o => unfinishedItemIDs.Contains(o.ID)))
+                {
+                    GridItemsUnfinished.Add(item);
+                }
+            }
+
+            return;
+        }
+
+        await base.LoadGridTabData(tabHeader);
     }
 }

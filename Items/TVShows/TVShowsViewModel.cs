@@ -57,6 +57,19 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
         TVShowList.AddRange(await LoadDataByDirector());
     }
 
+    protected override async Task LoadGridTabData(string? tabHeader)
+    {
+        if (tabHeader == "Shows")
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            TVShowList.Clear();
+            TVShowList.AddRange(await LoadDataByDirector());
+            return;
+        }
+
+        await base.LoadGridTabData(tabHeader);
+    }
+
     private async Task<List<TVShowsGridItem>> LoadDataByDirector()
     {
         var resultGrid = new List<TVShowsGridItem>();

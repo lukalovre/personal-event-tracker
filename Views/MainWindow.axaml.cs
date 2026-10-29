@@ -35,7 +35,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        LoadSelectedTab(selectedTab, selectFirstItem: true);
+        LoadSelectedTab(selectedTab);
         UpdateSelectedGridCount(selectedTab);
     }
 
@@ -120,14 +120,13 @@ public partial class MainWindow : Window
     private void ItemTabControl_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (e.Source != sender
-            || sender is not TabControl { SelectedItem: TabItem { Content: Control { DataContext: IDataGrid viewModel } } })
+            || sender is not TabControl { SelectedItem: TabItem selectedTab })
         {
             return;
         }
 
-        viewModel.LoadOnSelection();
-        viewModel.SelectFirstItem();
-        UpdateSelectedGridCount((sender as TabControl)?.SelectedItem as TabItem);
+        LoadSelectedTab(selectedTab);
+        UpdateSelectedGridCount(selectedTab);
     }
 
     private void OnTabSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -139,22 +138,33 @@ public partial class MainWindow : Window
         }
     }
 
-    private static void LoadSelectedTab(TabItem selectedTab, bool selectFirstItem = false)
+    private static void LoadSelectedTab(TabItem selectedTab)
     {
         if (selectedTab.Content is TabControl tabControl && tabControl.SelectedItem is TabItem childTab)
         {
-            LoadSelectedTab(childTab, selectFirstItem);
+            LoadSelectedTab(childTab);
             return;
         }
 
-        if (selectedTab.Content is Control { DataContext: ILoadOnSelection viewModel })
+        if (selectedTab.Content is not Control content)
+        {
+            return;
+        }
+
+        var nestedTabControl = content.GetVisualDescendants().OfType<TabControl>().FirstOrDefault();
+        if (nestedTabControl?.SelectedItem is TabItem nestedTab)
+        {
+            LoadSelectedTab(nestedTab);
+            return;
+        }
+
+        if (content.DataContext is ILoadGridOnSelection gridViewModel)
+        {
+            gridViewModel.LoadGridOnSelection(selectedTab.Header?.ToString());
+        }
+        else if (content.DataContext is ILoadOnSelection viewModel)
         {
             viewModel.LoadOnSelection();
-
-            if (selectFirstItem && viewModel is IDataGrid dataGrid)
-            {
-                dataGrid.SelectFirstItem();
-            }
         }
     }
 

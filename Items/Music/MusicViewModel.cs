@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using EventTracker.Models;
 using EventTracker.Repositories;
 using DynamicData;
@@ -59,6 +60,34 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
 
         GridItemsAlbums.Clear();
         GridItemsAlbums.AddRange(LoadDataByAlbum());
+    }
+
+    protected override async Task LoadGridTabData(string? tabHeader)
+    {
+        switch (tabHeader)
+        {
+            case "Todo 1":
+                LoadItemsAndEvents(out _, out _, realLoad: true);
+                MusicTodo1.AddRange(LoadDataBookmarked(1));
+                GridCountMusicTodo1 = MusicTodo1.Count;
+                return;
+            case "Todo 2":
+                LoadItemsAndEvents(out _, out _, realLoad: true);
+                MusicTodo2.AddRange(LoadDataBookmarked(2));
+                GridCountMusicTodo2 = MusicTodo2.Count;
+                return;
+            case "Artists":
+                LoadItemsAndEvents(out _, out _, realLoad: true);
+                GridItemsArtists.AddRange(LoadDataByArtist());
+                return;
+            case "Albums":
+                LoadItemsAndEvents(out _, out _, realLoad: true);
+                GridItemsAlbums.AddRange(LoadDataByAlbum());
+                return;
+            default:
+                await base.LoadGridTabData(tabHeader);
+                return;
+        }
     }
 
     private List<ArtistGridItem> LoadDataByArtist()

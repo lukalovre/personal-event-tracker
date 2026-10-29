@@ -18,7 +18,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 
 namespace EventTracker.ViewModels;
 
-public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid, IImagePickerViewModel
+public class ItemViewModel<TItem, TGridItem> : ViewModelBase, IDataGrid, IImagePickerViewModel, ILoadGridOnSelection
 where TItem : IItem
 where TGridItem : IGridItem
 {
@@ -75,7 +75,7 @@ where TGridItem : IGridItem
     private Bitmap? _newItemImage;
     private Event _newEvent = new();
     private bool _useNewDate;
-    private bool _hasLoaded;
+    private readonly HashSet<string> _loadedGridTabs = new(StringComparer.OrdinalIgnoreCase);
     private TItem _selectedItem = default!;
 
     private int _gridCountItemsBookmarked;
@@ -639,15 +639,45 @@ where TGridItem : IGridItem
 
     public void LoadOnSelection()
     {
-        if (_hasLoaded)
+        LoadGridOnSelection(null);
+    }
+
+    public async void LoadGridOnSelection(string? tabHeader)
+    {
+        var tabKey = tabHeader ?? string.Empty;
+        if (!_loadedGridTabs.Add(tabKey))
         {
             return;
         }
 
-        _hasLoaded = true;
         People.LoadData();
         EventViewModel.People.LoadData();
-        ReloadData();
+        await LoadGridTabData(tabHeader);
+    }
+
+    protected virtual async Task LoadGridTabData(string? tabHeader)
+    {
+        if (string.Equals(tabHeader, "★", StringComparison.Ordinal))
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            GridItemsBookmarked.AddRange(LoadDataBookmarked());
+
+            if (GridItemsBookmarked.Count > 0)
+            {
+                SelectedGridItem = GridItemsBookmarked[0];
+            }
+
+            return;
+        }
+
+        var gridItems = await LoadData();
+        GridItems.AddRange(gridItems);
+        GridFilterViewModel.GridCountItems = GridItems.Count;
+
+        if (GridItems.Count > 0)
+        {
+            SelectedGridItem = GridItems[0];
+        }
     }
 
     private ObservableCollection<TGridItem> GetSelectedGrid()

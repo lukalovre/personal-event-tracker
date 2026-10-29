@@ -58,6 +58,34 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
         CinemaMovies.AddRange(cinemaMovies);
     }
 
+    protected override async Task LoadGridTabData(string? tabHeader)
+    {
+        if (tabHeader == "Directors")
+        {
+            LoadItemsAndEvents(out _, out _, realLoad: true);
+            DirectorGridList.Clear();
+            DirectorGridList.AddRange(await LoadDataByDirector());
+            return;
+        }
+
+        if (tabHeader == "Cinema")
+        {
+            LoadItemsAndEvents(out List<Movie> itemList, out List<Event> eventList, realLoad: true);
+            var cinemaMovies = eventList
+                .Where(o => string.Equals(o.Platform, "Cinema", System.StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(o => o.DateEnd)
+                .DistinctBy(o => o.ItemID)
+                .Select(e => Convert(e, itemList.First(m => m.ID == e.ItemID), eventList.Where(o => o.ItemID == e.ItemID)))
+                .ToList();
+
+            CinemaMovies.Clear();
+            CinemaMovies.AddRange(cinemaMovies);
+            return;
+        }
+
+        await base.LoadGridTabData(tabHeader);
+    }
+
     private async Task<List<DiretorGridItem>> LoadDataByDirector()
     {
         var resultGrid = new List<DiretorGridItem>();
