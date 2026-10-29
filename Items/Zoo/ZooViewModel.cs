@@ -7,6 +7,8 @@ namespace EventTracker.ViewModels;
 
 public partial class ZooViewModel(IDatasource datasource) : ItemViewModel<Zoo, ZooGridItem>(datasource, null!)
 {
+    protected override string DefaultGridTabHeader => "All";
+
     protected override ZooGridItem Convert(Event e, Zoo i, IEnumerable<Event> eventList)
     {
         return new ZooGridItem(

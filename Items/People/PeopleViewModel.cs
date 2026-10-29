@@ -15,6 +15,8 @@ namespace EventTracker.ViewModels;
 
 public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, IDataGrid
 {
+    protected override string DefaultGridTabHeader => "Birthdays";
+
     private PersonGridItem _selectedPersonGridItem;
     private BirthdayGridItem _selectedBirthdayGridItem = null!;
     private string _selectedExistingTag = string.Empty;

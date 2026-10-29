@@ -7,6 +7,8 @@ namespace EventTracker.ViewModels;
 
 public partial class TheatreViewModel(IDatasource datasource) : ItemViewModel<Theatre, TheatreGridItem>(datasource, null!)
 {
+    protected override string DefaultGridTabHeader => "All";
+
     protected override TheatreGridItem Convert(Event e, Theatre i, IEnumerable<Event> eventList)
     {
         return new TheatreGridItem(

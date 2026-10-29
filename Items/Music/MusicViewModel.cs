@@ -14,6 +14,8 @@ namespace EventTracker.ViewModels;
 
 public partial class MusicViewModel(IDatasource datasource, IExternal<Music> external) : ItemViewModel<Music, MusicGridItem>(datasource, external)
 {
+    protected override string DefaultGridTabHeader => "Info";
+
     private int _gridCountMusicTodo1;
     private int _gridCountMusicTodo2;
 

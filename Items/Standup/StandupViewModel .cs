@@ -9,6 +9,8 @@ namespace EventTracker.ViewModels;
 
 public partial class StandupViewModel(IDatasource datasource, IExternal<Standup> external) : ItemViewModel<Standup, StandupGridItem>(datasource, external)
 {
+    protected override string DefaultGridTabHeader => "Year";
+
     protected override string GetOpenLink()
     {
         var link = SelectedItem?.Link;

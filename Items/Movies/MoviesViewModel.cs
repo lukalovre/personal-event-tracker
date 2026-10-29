@@ -11,6 +11,8 @@ namespace EventTracker.ViewModels;
 
 public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> external) : ItemViewModel<Movie, MovieGridItem>(datasource, external)
 {
+    protected override string DefaultGridTabHeader => "Year";
+
     public ObservableCollection<DiretorGridItem> DirectorGridList { get; set; } = [];
     public ObservableCollection<MovieGridItem> CinemaMovies { get; set; } = [];
 

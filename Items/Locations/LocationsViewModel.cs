@@ -7,6 +7,8 @@ namespace EventTracker.ViewModels;
 
 public partial class LocationsViewModel(IDatasource datasource) : ItemViewModel<Location, LocationGridItem>(datasource, null!)
 {
+    protected override string DefaultGridTabHeader => "All";
+
     protected override LocationGridItem Convert(Event e, Location i, IEnumerable<Event> eventList)
     {
         return new LocationGridItem(

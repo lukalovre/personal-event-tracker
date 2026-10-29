@@ -63,6 +63,8 @@ where TGridItem : IGridItem
         }
     }
 
+    protected virtual string DefaultGridTabHeader => "★";
+
     public ObservableCollection<string> PlatformTypes => _settings.PlatformTypes;
     private readonly ItemSettings _settings = new();
     protected readonly IDatasource _datasource;
@@ -644,7 +646,7 @@ where TGridItem : IGridItem
 
     public async void LoadGridOnSelection(string? tabHeader)
     {
-        var tabKey = tabHeader ?? string.Empty;
+        var tabKey = tabHeader ?? DefaultGridTabHeader;
         if (!_loadedGridTabs.Add(tabKey))
         {
             return;
@@ -652,7 +654,12 @@ where TGridItem : IGridItem
 
         People.LoadData();
         EventViewModel.People.LoadData();
-        await LoadGridTabData(tabHeader);
+        await LoadGridTabData(tabKey);
+    }
+
+    public void LoadDefaultGridOnSelection()
+    {
+        LoadGridOnSelection(DefaultGridTabHeader);
     }
 
     protected virtual async Task LoadGridTabData(string? tabHeader)

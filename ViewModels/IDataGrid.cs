@@ -14,4 +14,5 @@ public interface ILoadOnSelection
 public interface ILoadGridOnSelection
 {
     public void LoadGridOnSelection(string? tabHeader);
+    public void LoadDefaultGridOnSelection();
 }

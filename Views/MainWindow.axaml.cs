@@ -160,7 +160,14 @@ public partial class MainWindow : Window
 
         if (content.DataContext is ILoadGridOnSelection gridViewModel)
         {
-            gridViewModel.LoadGridOnSelection(selectedTab.Header?.ToString());
+            if (selectedTab.Content is UserControl)
+            {
+                gridViewModel.LoadDefaultGridOnSelection();
+            }
+            else
+            {
+                gridViewModel.LoadGridOnSelection(selectedTab.Header?.ToString());
+            }
         }
         else if (content.DataContext is ILoadOnSelection viewModel)
         {
