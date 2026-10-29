@@ -63,6 +63,11 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
         await base.LoadGridTabData(tabHeader);
     }
 
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader == "Authors" ? BookAuthorList.Count : base.GetLoadedGridCount(tabHeader);
+    }
+
     private async Task<List<AuthorGridItem>> LoadDataByAuthor()
     {
         var resultGrid = new List<AuthorGridItem>();

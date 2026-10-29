@@ -161,6 +161,17 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
         await base.LoadGridTabData(tabHeader);
     }
 
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader switch
+        {
+            "Time" => GameTimeList.Count,
+            "Developers" => GameDeveloperList.Count,
+            "Developer Games" => DeveloperGameList.Count,
+            _ => base.GetLoadedGridCount(tabHeader)
+        };
+    }
+
     private async Task<List<DeveloperGridItem>> LoadDataByDeveloper()
     {
         var resultGrid = new List<DeveloperGridItem>();

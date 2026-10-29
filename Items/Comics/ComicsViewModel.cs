@@ -62,6 +62,11 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
         await base.LoadGridTabData(tabHeader);
     }
 
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader == "Comics" ? ComicsList.Count : base.GetLoadedGridCount(tabHeader);
+    }
+
     private async Task<List<ComicGridItem>> LoadDataByComic()
     {
         var resultGrid = new List<ComicGridItem>();

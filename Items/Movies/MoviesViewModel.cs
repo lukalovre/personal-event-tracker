@@ -88,6 +88,16 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
         await base.LoadGridTabData(tabHeader);
     }
 
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader switch
+        {
+            "Directors" => DirectorGridList.Count,
+            "Cinema" => CinemaMovies.Count,
+            _ => base.GetLoadedGridCount(tabHeader)
+        };
+    }
+
     private async Task<List<DiretorGridItem>> LoadDataByDirector()
     {
         var resultGrid = new List<DiretorGridItem>();

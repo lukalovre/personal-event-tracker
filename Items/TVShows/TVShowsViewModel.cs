@@ -70,6 +70,11 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
         await base.LoadGridTabData(tabHeader);
     }
 
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader == "Shows" ? TVShowList.Count : base.GetLoadedGridCount(tabHeader);
+    }
+
     private async Task<List<TVShowsGridItem>> LoadDataByDirector()
     {
         var resultGrid = new List<TVShowsGridItem>();

@@ -109,6 +109,18 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         }
     }
 
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader switch
+        {
+            "Birthdays" => BirthdaysGrid.Count,
+            "All" => PeopleGrid.Count,
+            "Missing BDay" => MissingBirthdaysGrid.Count,
+            "Active" => ActivePeopleGrid.Count,
+            _ => base.GetLoadedGridCount(tabHeader)
+        };
+    }
+
     private List<PersonGridItem> LoadPeople()
     {
         var itemList = _datasource.GetList<Person>(Helpers.GetClassName<Person>());

@@ -655,6 +655,7 @@ where TGridItem : IGridItem
         People.LoadData();
         EventViewModel.People.LoadData();
         await LoadGridTabData(tabKey);
+        GridFilterViewModel.GridCountItems = GetLoadedGridCount(tabKey);
     }
 
     public void LoadDefaultGridOnSelection()
@@ -685,6 +686,13 @@ where TGridItem : IGridItem
         {
             SelectedGridItem = GridItems[0];
         }
+    }
+
+    protected virtual int GetLoadedGridCount(string? tabHeader)
+    {
+        return string.Equals(tabHeader, "★", StringComparison.Ordinal)
+            ? GridItemsBookmarked.Count
+            : GridItems.Count;
     }
 
     private ObservableCollection<TGridItem> GetSelectedGrid()

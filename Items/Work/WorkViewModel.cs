@@ -86,4 +86,14 @@ public partial class WorkViewModel(IDatasource datasource) : ItemViewModel<Work,
 
         await base.LoadGridTabData(tabHeader);
     }
+
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader switch
+        {
+            "Completed" => GridItemsCompleted.Count,
+            "Unfinished" => GridItemsUnfinished.Count,
+            _ => base.GetLoadedGridCount(tabHeader)
+        };
+    }
 }

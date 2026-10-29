@@ -92,6 +92,18 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         }
     }
 
+    protected override int GetLoadedGridCount(string? tabHeader)
+    {
+        return tabHeader switch
+        {
+            "Todo 1" => MusicTodo1.Count,
+            "Todo 2" => MusicTodo2.Count,
+            "Artists" => GridItemsArtists.Count,
+            "Albums" => GridItemsAlbums.Count,
+            _ => base.GetLoadedGridCount(tabHeader)
+        };
+    }
+
     private List<ArtistGridItem> LoadDataByArtist()
     {
         var resultGrid = new List<ArtistGridItem>();
