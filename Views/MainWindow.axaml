@@ -98,7 +98,7 @@
 					</TabItem>
 				</TabControl>
 			</TabItem>
-			<TabItem Header="Settings">
+			<TabItem Header="&#x2699;" ToolTip.Tip="Settings" AutomationProperties.Name="Settings">
 				<v:YearlyTrendsSettingsView DataContext="{Binding YearlyTrendsSettingsViewModel}" />
 			</TabItem>
 		</TabControl>
