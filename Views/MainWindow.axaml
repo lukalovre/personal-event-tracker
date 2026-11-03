@@ -85,14 +85,18 @@
 			<TabItem Header="Timeline">
 				<v:TimelineView DataContext="{Binding TimelineViewModel}" />
 			</TabItem>
-			<TabItem Header="Current Month">
-				<v:CurrentMonthView DataContext="{Binding CurrentMonthViewModel}" />
-			</TabItem>
-			<TabItem Header="Current Year">
-				<v:CurrentYearView DataContext="{Binding CurrentYearViewModel}" />
-			</TabItem>
-			<TabItem Header="Yearly Trends">
-				<v:YearlyTrendsView DataContext="{Binding YearlyTrendsViewModel}" />
+			<TabItem Header="Stats">
+				<TabControl>
+					<TabItem Header="Current Month">
+						<v:CurrentMonthView DataContext="{Binding CurrentMonthViewModel}" />
+					</TabItem>
+					<TabItem Header="Current Year">
+						<v:CurrentYearView DataContext="{Binding CurrentYearViewModel}" />
+					</TabItem>
+					<TabItem Header="Yearly Trends">
+						<v:YearlyTrendsView DataContext="{Binding YearlyTrendsViewModel}" />
+					</TabItem>
+				</TabControl>
 			</TabItem>
 			<TabItem Header="Settings">
 				<v:YearlyTrendsSettingsView DataContext="{Binding YearlyTrendsSettingsViewModel}" />
