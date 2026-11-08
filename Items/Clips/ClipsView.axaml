@@ -80,8 +80,11 @@
 							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Rating" />
-							<NumericUpDown Value="{Binding NewEvent.Rating, Mode=TwoWay}" FormatString="0" Minimum="1" Maximum="5" />
+
+														<TextBlock Text="Rating" VerticalAlignment="Center" />
+
+														<view:StarRatingView Rating="{Binding NewEvent.Rating, Mode=TwoWay}" />
+
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Season" />

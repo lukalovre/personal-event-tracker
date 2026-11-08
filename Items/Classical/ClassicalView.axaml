@@ -76,8 +76,13 @@
 						<StackPanel Orientation="Horizontal" Margin="5">
 							<CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
 							<TextBlock Text="   " VerticalAlignment="Center"/>
-							<TextBlock Text="Rating " VerticalAlignment="Center"/>
-							<NumericUpDown Value="{Binding NewEvent.Rating}" FormatString="0" Minimum="1" Maximum="5" />
+							<StackPanel Orientation="Horizontal">
+
+															<TextBlock Text="Rating" VerticalAlignment="Center" />
+
+															<view:StarRatingView Rating="{Binding NewEvent.Rating, Mode=TwoWay}" />
+
+							</StackPanel>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Margin="5">
 							<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="250" Height="125" TextWrapping="Wrap"/>

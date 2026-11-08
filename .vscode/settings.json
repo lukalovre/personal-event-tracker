@@ -1,6 +1,14 @@
 {
     "chat.tools.terminal.autoApprove": {
-        "dotnet build": true
+        "dotnet build": true,
+        "/^python3 - <<'PY'\nfrom pathlib import Path\nimport re\nbase = Path\\('/home/luka/Documents/github/personal-event-tracker/Items'\\)\ncount = 0\npattern = re\\.compile\\(r'\\(\\?P<indent>\\\\s\\*\\)<StackPanel Orientation=\"Horizontal\">\\\\s\\*<StackPanel Orientation=\"Horizontal\">\\\\s\\*\\(\\?P<body>\\.\\*\\?\\)\\\\s\\*</StackPanel>\\\\s\\*</StackPanel>', re\\.S\\)\nfor path in base\\.rglob\\('\\*\\.axaml'\\):\n    text = path\\.read_text\\(\\)\n    new_text = text\n    def repl\\(m\\):\n        indent = m\\.group\\('indent'\\)\n        body = m\\.group\\('body'\\)\\.strip\\('\\\\n'\\)\n        body = '\\\\n'\\.join\\(line\\.rstrip\\(\\) for line in body\\.splitlines\\(\\)\\)\n        # normalize indentation after inner panel\n        lines = body\\.splitlines\\(\\)\n        if lines:\n            lines = \\[re\\.sub\\(r'\\^\\\\s\\{4,\\}', '    ', line\\) for line in lines\\]\n        body = '\\\\n'\\.join\\(lines\\)\n        return f'\\{indent\\}<StackPanel Orientation=\"Horizontal\">\\\\n\\{body\\}\\\\n\\{indent\\}</StackPanel>'\n    new_text = pattern\\.sub\\(repl, text\\)\n    if new_text != text:\n        path\\.write_text\\(new_text\\)\n        count \\+= 1\nprint\\(f'collapsed \\{count\\} nested rating blocks'\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^dotnet build EventTracker\\.csproj /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary;ForceNoAlign$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
     },
     "cSpell.words": [
         "Viewbox"
