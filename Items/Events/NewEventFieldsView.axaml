@@ -1,5 +1,5 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:view="using:EventTracker.Views" x:Class="EventTracker.Views.NewEventFieldsView" x:CompileBindings="False">
-    <Border Background="Teal" BorderThickness="0" CornerRadius="3" Padding="10" Margin="10">
+    <Border Background="Teal" BorderThickness="0" CornerRadius="3" Padding="6" Margin="0" Height="240">
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="1">
                 <StackPanel Orientation="Horizontal" IsVisible="{Binding ShowRatingInNewEvent}" Margin="0,0,12,0">
@@ -40,7 +40,7 @@
                 <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" Width="100" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="1">
-                <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap" IsVisible="{Binding ShowCommentInNewEvent}" Margin="0,0,12,0" />
+                <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="65" TextWrapping="Wrap" IsVisible="{Binding ShowCommentInNewEvent}" Margin="0,0,12,0" />
                 <StackPanel IsVisible="{Binding ShowPeopleInNewEvent}">
                     <view:PeopleSelectionView DataContext="{Binding People}" />
                 </StackPanel>
