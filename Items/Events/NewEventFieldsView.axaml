@@ -1,37 +1,39 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:view="using:EventTracker.Views" x:Class="EventTracker.Views.NewEventFieldsView" x:CompileBindings="False">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <CheckBox IsChecked="{Binding UseNewDate}" />
-            <TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
-        </StackPanel>
+    <Border Background="Teal" BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <CheckBox IsChecked="{Binding UseNewDate}" />
+                <TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
-            <TextBlock Text="   " VerticalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Rating" VerticalAlignment="Center" />
-                <view:StarRatingView Rating="{Binding NewEvent.Rating, Mode=TwoWay}" />
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
+                <TextBlock Text="   " VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Rating" VerticalAlignment="Center" />
+                    <view:StarRatingView Rating="{Binding NewEvent.Rating, Mode=TwoWay}" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Chapter" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding NewEvent.Chapter}" Width="70" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Amount" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding NewItemAmount}" Width="70" />
+            </StackPanel>
+
+            <CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
+
+            <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Margin="5" />
+            <view:PeopleSelectionView DataContext="{Binding People}" />
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Platform " VerticalAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" Width="120" />
             </StackPanel>
         </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Chapter" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding NewEvent.Chapter}" Width="70" />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Amount" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding NewItemAmount}" Width="70" />
-        </StackPanel>
-
-        <CheckBox IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
-
-        <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Margin="5" />
-        <view:PeopleSelectionView DataContext="{Binding People}" />
-
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Platform " VerticalAlignment="Center"/>
-            <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" Width="120" />
-        </StackPanel>
-    </StackPanel>
+    </Border>
 </UserControl>
