@@ -34,6 +34,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -- CsvHelper
 
+Copyright (c) 2009-2024 Josh Close
+
 Dual licensing under MS-PL and Apache 2.0
 
 Microsoft Public License (MS-PL)
@@ -141,6 +143,8 @@ To apply the Apache License to your work, attach the following boilerplate notic
 
 -- HtmlAgilityPack
 
+Copyright (c) ZZZ Projects Inc.
+
 The MIT License (MIT)
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -161,6 +165,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 -- IGDB
+
+Copyright 2020-2022 Kamran Ayub
 
                                  Apache License
                            Version 2.0, January 2004
