@@ -1,5 +1,5 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:view="using:EventTracker.Views" x:Class="EventTracker.Views.NewEventFieldsView" x:CompileBindings="False">
-    <Border Background="Teal" BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
+    <Border Background="Teal" BorderThickness="0" CornerRadius="3" Padding="10" Margin="10">
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="1">
                 <StackPanel Orientation="Horizontal" IsVisible="{Binding ShowRatingInNewEvent}" Margin="0,0,12,0">
@@ -9,6 +9,18 @@
                 <StackPanel Orientation="Horizontal" IsVisible="{Binding ShowDateInNewEvent}">
                     <CheckBox IsChecked="{Binding UseNewDate}" ToolTip.Tip="Set event date and time" />
                     <TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
+                    <Button x:Name="DateTimePickerButton" Command="{Binding ToggleDateTimePicker}" ToolTip.Tip="Choose date and time" Width="34" Height="30">
+                        <TextBlock Text="📅︎" FontSize="14" />
+                    </Button>
+                    <Popup IsOpen="{Binding IsDateTimePickerOpen}" PlacementTarget="{Binding #DateTimePickerButton}" Placement="Bottom">
+                        <Border Background="{DynamicResource SystemControlBackgroundAltHighBrush}" BorderBrush="Gray" BorderThickness="1" Padding="10">
+                            <StackPanel Spacing="8">
+                                <DatePicker SelectedDate="{Binding PendingEventDate, Mode=TwoWay}" />
+                                <TimePicker SelectedTime="{Binding PendingEventTime, Mode=TwoWay}" />
+                                <Button Command="{Binding ConfirmDateTime}" HorizontalAlignment="Right">OK</Button>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
                 </StackPanel>
             </StackPanel>
             <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Margin="1">
@@ -29,7 +41,9 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="1">
                 <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap" IsVisible="{Binding ShowCommentInNewEvent}" Margin="0,0,12,0" />
-                <view:PeopleSelectionView DataContext="{Binding People}" IsVisible="{Binding ShowPeopleInNewEvent}" />
+                <StackPanel IsVisible="{Binding ShowPeopleInNewEvent}">
+                    <view:PeopleSelectionView DataContext="{Binding People}" />
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Border>

@@ -66,6 +66,9 @@ public partial class EventViewModel : ViewModelBase
         {
             this.RaiseAndSetIfChanged(ref _selectedEvent, value);
             SelectedEventChanged();
+            this.RaisePropertyChanged(nameof(NewEvent));
+            this.RaisePropertyChanged(nameof(NewItemAmount));
+            this.RaisePropertyChanged(nameof(NewDate));
             this.RaisePropertyChanged(nameof(SelectedEventDateTimeText));
         }
     }
@@ -81,6 +84,45 @@ public partial class EventViewModel : ViewModelBase
     }
 
     public ObservableCollection<string> PlatformTypes { get; set; }
+    public Event NewEvent
+    {
+        get => SelectedEvent;
+        set => SelectedEvent = value;
+    }
+    public int NewItemAmount
+    {
+        get => SelectedEvent?.Amount ?? 0;
+        set
+        {
+            if (SelectedEvent is null)
+            {
+                return;
+            }
+
+            SelectedEvent.Amount = value;
+            this.RaisePropertyChanged();
+        }
+    }
+    public DateTime NewDate
+    {
+        get => SelectedEvent?.DateEnd ?? DateTime.Now;
+        set
+        {
+            if (SelectedEvent is null)
+            {
+                return;
+            }
+
+            SelectedEvent.DateEnd = value;
+            this.RaisePropertyChanged();
+            this.RaisePropertyChanged(nameof(SelectedEventDateTimeText));
+        }
+    }
+    public bool UseNewDate
+    {
+        get => IsEditDate;
+        set => IsEditDate = value;
+    }
     public bool ShowRatingInNewEvent => _settings.ShowRatingInNewEvent;
     public bool ShowDateInNewEvent => _settings.ShowDateInNewEvent;
     public bool ShowChapterInNewEvent => _settings.ShowChapterInNewEvent;
@@ -230,6 +272,7 @@ public partial class EventViewModel : ViewModelBase
         }
 
         SelectedEvent.DateEnd = PendingEventDate.Value.Date.Add(PendingEventTime.Value);
+        this.RaisePropertyChanged(nameof(NewDate));
         this.RaisePropertyChanged(nameof(SelectedEventDateTimeText));
         IsDateTimePickerOpen = false;
     }

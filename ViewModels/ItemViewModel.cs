@@ -49,6 +49,8 @@ where TGridItem : IGridItem
         Search = ReactiveCommand.Create(SearchAction);
         OpenImage = ReactiveCommand.CreateFromTask(() => PickImageAsync(GetMainWindow()));
         ReplaceImage = ReactiveCommand.CreateFromTask(() => ReplaceSelectedImageAsync(GetMainWindow()));
+        ToggleDateTimePicker = ReactiveCommand.Create(ToggleDateTimePickerAction);
+        ConfirmDateTime = ReactiveCommand.Create(ConfirmDateTimeAction);
 
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
@@ -67,6 +69,8 @@ where TGridItem : IGridItem
     protected virtual string DefaultGridTabHeader => "★";
 
     public ObservableCollection<string> PlatformTypes => _settings.PlatformTypes;
+    public ReactiveCommand<Unit, Unit> ToggleDateTimePicker { get; }
+    public ReactiveCommand<Unit, Unit> ConfirmDateTime { get; }
     public bool ShowChapterInNewEvent => _settings.ShowChapterInNewEvent;
     public bool ShowRatingInNewEvent => _settings.ShowRatingInNewEvent;
     public bool ShowDateInNewEvent => _settings.ShowDateInNewEvent;
@@ -89,6 +93,10 @@ where TGridItem : IGridItem
     private readonly ObservableCollection<ItemEditField> _newItemFields = [];
     private Event _newEvent = new();
     private bool _useNewDate;
+    private bool _isDateTimePickerOpen;
+    private DateTimeOffset? _pendingEventDate;
+    private TimeSpan? _pendingEventTime;
+    private DateTime _newDate = DateTime.Now;
     private readonly HashSet<string> _loadedGridTabs = new(StringComparer.OrdinalIgnoreCase);
     private TItem _selectedItem = default!;
 
@@ -124,6 +132,32 @@ where TGridItem : IGridItem
     {
         get => _useNewDate;
         set => this.RaiseAndSetIfChanged(ref _useNewDate, value);
+    }
+
+    public bool IsDateTimePickerOpen
+    {
+        get => _isDateTimePickerOpen;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _isDateTimePickerOpen, value);
+            if (value)
+            {
+                PendingEventDate = new DateTimeOffset(NewDate);
+                PendingEventTime = NewDate.TimeOfDay;
+            }
+        }
+    }
+
+    public DateTimeOffset? PendingEventDate
+    {
+        get => _pendingEventDate;
+        set => this.RaiseAndSetIfChanged(ref _pendingEventDate, value);
+    }
+
+    public TimeSpan? PendingEventTime
+    {
+        get => _pendingEventTime;
+        set => this.RaiseAndSetIfChanged(ref _pendingEventTime, value);
     }
 
     public bool IsFullAmount
@@ -173,7 +207,11 @@ where TGridItem : IGridItem
 
     public ObservableCollection<ItemEditField> NewItemFields => _newItemFields;
 
-    public DateTime NewDate { get; set; } = DateTime.Now;
+    public DateTime NewDate
+    {
+        get => _newDate;
+        set => this.RaiseAndSetIfChanged(ref _newDate, value);
+    }
 
     public Event NewEvent
     {
@@ -427,6 +465,23 @@ where TGridItem : IGridItem
 
         ReloadData();
         ClearNewItemControls();
+    }
+
+    private void ToggleDateTimePickerAction()
+    {
+        IsDateTimePickerOpen = !IsDateTimePickerOpen;
+    }
+
+    private void ConfirmDateTimeAction()
+    {
+        if (PendingEventDate is null || PendingEventTime is null)
+        {
+            return;
+        }
+
+        NewDate = PendingEventDate.Value.Date.Add(PendingEventTime.Value);
+        UseNewDate = true;
+        IsDateTimePickerOpen = false;
     }
 
     private void UpdateItemClickAction()
