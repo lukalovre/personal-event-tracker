@@ -68,29 +68,28 @@
 			</TabItem>
 			<TabItem Header="New">
 				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <StackPanel Spacing="12">
-        <StackPanel>
-            <TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
-<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
-							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
+					<StackPanel Spacing="12">
+						<StackPanel>
+							<TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
+							<StackPanel Orientation="Horizontal">
+								<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+								<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBox PlaceholderText="Writer" Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
+								<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<TextBox PlaceholderText="Year" Text="{Binding NewItem.Year}" />
+							<TextBox PlaceholderText="GoodreadsID" Text="{Binding NewItem.ExternalID}" Width="150" />
+							<Button Command="{Binding OpenImage}" Margin="5">
+								<Image Source="{Binding NewImage}" Width="240" Height="220" />
+							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBox PlaceholderText="Writer" Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
-							<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+						<StackPanel>
+							<view:NewEventFieldsView />
 						</StackPanel>
-						<TextBox PlaceholderText="Year" Text="{Binding NewItem.Year}" />
-						<TextBox PlaceholderText="GoodreadsID" Text="{Binding NewItem.ExternalID}" Width="150" />
-						<Button Command="{Binding OpenImage}" Margin="5">
-							<Image Source="{Binding NewImage}" Width="240" Height="220" />
-						</Button>
-        </StackPanel>
-        <StackPanel>
-            <TextBlock Text="New Event" FontWeight="Bold" Margin="0,0,0,8" />
-            <view:NewEventFieldsView />
-        </StackPanel>
-    </StackPanel>
-</Viewbox>
+					</StackPanel>
+				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<view:ItemEditView />

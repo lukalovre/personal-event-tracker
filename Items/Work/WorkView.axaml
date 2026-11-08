@@ -69,25 +69,24 @@
 			</TabItem>
 			<TabItem Header="New">
 				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <StackPanel Spacing="12">
-        <StackPanel>
-            <TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
-<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddItemClick}" Margin="15">
+					<StackPanel Spacing="12">
+						<StackPanel>
+							<TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
+							<StackPanel Orientation="Horizontal">
+								<Button Command="{Binding AddItemClick}" Margin="15">
 								Add
-							</Button>
+								</Button>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<TextBox PlaceholderText="Type" Text="{Binding NewItem.Type}" Width="200" />
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+						<StackPanel>
+							<view:NewEventFieldsView />
 						</StackPanel>
-						<TextBox PlaceholderText="Type" Text="{Binding NewItem.Type}" Width="200" />
-        </StackPanel>
-        <StackPanel>
-            <TextBlock Text="New Event" FontWeight="Bold" Margin="0,0,0,8" />
-            <view:NewEventFieldsView />
-        </StackPanel>
-    </StackPanel>
-</Viewbox>
+					</StackPanel>
+				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<view:ItemEditView />

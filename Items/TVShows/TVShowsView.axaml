@@ -66,39 +66,38 @@
 			</TabItem>
 			<TabItem Header="New">
 				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <StackPanel Spacing="12">
-        <StackPanel>
-            <TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
-<StackPanel Orientation="Horizontal">
-							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
-							<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
+					<StackPanel Spacing="12">
+						<StackPanel>
+							<TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
+							<StackPanel Orientation="Horizontal">
+								<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+								<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Imdb" />
+								<TextBox Text="{Binding NewItem.ExternalID}" Width="150" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Title" />
+								<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Year" />
+								<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Runtime" />
+								<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<Button Command="{Binding OpenImage}" Margin="5">
+								<Image Source="{Binding NewImage}" Width="240" Height="220" />
+							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Imdb" />
-							<TextBox Text="{Binding NewItem.ExternalID}" Width="150" />
+						<StackPanel>
+							<view:NewEventFieldsView />
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Title" />
-							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Year" />
-							<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Runtime" />
-							<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<Button Command="{Binding OpenImage}" Margin="5">
-							<Image Source="{Binding NewImage}" Width="240" Height="220" />
-						</Button>
-        </StackPanel>
-        <StackPanel>
-            <TextBlock Text="New Event" FontWeight="Bold" Margin="0,0,0,8" />
-            <view:NewEventFieldsView />
-        </StackPanel>
-    </StackPanel>
-</Viewbox>
+					</StackPanel>
+				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<view:ItemEditView />

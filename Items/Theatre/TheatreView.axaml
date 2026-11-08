@@ -37,41 +37,40 @@
 			</TabItem>
 			<TabItem Header="New">
 				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <StackPanel Spacing="12">
-        <StackPanel>
-            <TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
-<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Title" />
-							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+					<StackPanel Spacing="12">
+						<StackPanel>
+							<TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
+							<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Title" />
+								<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Writer" />
+								<TextBox Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Director" />
+								<TextBox Text="{Binding NewItem.Director}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Runtime" />
+								<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Location" />
+								<TextBox Text="{Binding NewItem.Location}" HorizontalAlignment="Stretch" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="City" />
+								<TextBox Text="{Binding NewItem.City}" HorizontalAlignment="Stretch" />
+							</StackPanel>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Writer" />
-							<TextBox Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
+						<StackPanel>
+							<view:NewEventFieldsView />
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Director" />
-							<TextBox Text="{Binding NewItem.Director}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Runtime" />
-							<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Location" />
-							<TextBox Text="{Binding NewItem.Location}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="City" />
-							<TextBox Text="{Binding NewItem.City}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-        </StackPanel>
-        <StackPanel>
-            <TextBlock Text="New Event" FontWeight="Bold" Margin="0,0,0,8" />
-            <view:NewEventFieldsView />
-        </StackPanel>
-    </StackPanel>
-</Viewbox>
+					</StackPanel>
+				</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<view:ItemEditView />
