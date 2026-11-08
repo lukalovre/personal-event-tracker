@@ -37,8 +37,10 @@
 			</TabItem>
 			<TabItem Header="New">
 				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
-					<StackPanel>
-						<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
+    <StackPanel Spacing="12">
+        <StackPanel>
+            <TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
+<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Title" />
 							<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
@@ -63,7 +65,10 @@
 							<TextBlock Text="City" />
 							<TextBox Text="{Binding NewItem.City}" HorizontalAlignment="Stretch" />
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Text="New Event" FontWeight="Bold" Margin="0,0,0,8" />
+<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding UseNewDate}" />
 							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
 						</StackPanel>
@@ -77,8 +82,9 @@
 						<CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
 						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
 						<view:PeopleSelectionView DataContext="{Binding People}" />
-					</StackPanel>
-				</Viewbox>
+        </StackPanel>
+    </StackPanel>
+</Viewbox>
 			</TabItem>
 			<TabItem Header="Edit">
 				<view:ItemEditView />
