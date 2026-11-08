@@ -95,25 +95,7 @@
         </StackPanel>
         <StackPanel>
             <TextBlock Text="New Event" FontWeight="Bold" Margin="0,0,0,8" />
-<StackPanel Orientation="Horizontal">
-							<CheckBox IsChecked="{Binding UseNewDate}" />
-							<TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-
-														<TextBlock Text="Rating" VerticalAlignment="Center" />
-
-														<view:StarRatingView Rating="{Binding NewEvent.Rating, Mode=TwoWay}" />
-
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Season" />
-							<TextBox Text="{Binding NewEvent.Chapter}" HorizontalAlignment="Stretch" />
-						</StackPanel>
-						<CheckBox IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
-						<TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" />
-						<view:PeopleSelectionView DataContext="{Binding People}" />
-						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" />
+            <view:NewEventFieldsView />
         </StackPanel>
     </StackPanel>
 </Viewbox>
