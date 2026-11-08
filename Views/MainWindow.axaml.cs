@@ -191,6 +191,11 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (content is not DataGrid && !content.GetVisualDescendants().OfType<DataGrid>().Any())
+        {
+            return;
+        }
+
         var nestedTabControl = content.GetVisualDescendants().OfType<TabControl>().FirstOrDefault();
         if (nestedTabControl?.SelectedItem is TabItem nestedTab)
         {
