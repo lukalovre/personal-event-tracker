@@ -20,6 +20,7 @@ public partial class EventViewModel : ViewModelBase
     private bool _isDateTimePickerOpen;
     private DateTimeOffset? _pendingEventDate;
     private TimeSpan? _pendingEventTime;
+    private readonly ItemSettings _settings;
 
     public ObservableCollection<Event> Events { get; set; }
 
@@ -80,6 +81,15 @@ public partial class EventViewModel : ViewModelBase
     }
 
     public ObservableCollection<string> PlatformTypes { get; set; }
+    public bool ShowRatingInNewEvent => _settings.ShowRatingInNewEvent;
+    public bool ShowDateInNewEvent => _settings.ShowDateInNewEvent;
+    public bool ShowChapterInNewEvent => _settings.ShowChapterInNewEvent;
+    public bool ShowAmountInNewEvent => _settings.ShowAmountInNewEvent;
+    public bool ShowBookmarkedInNewEvent => _settings.ShowBookmarkedInNewEvent;
+    public bool ShowCompletedInNewEvent => _settings.ShowCompletedInNewEvent;
+    public bool ShowPlatformInNewEvent => _settings.ShowPlatformInNewEvent;
+    public bool ShowCommentInNewEvent => _settings.ShowCommentInNewEvent;
+    public bool ShowPeopleInNewEvent => _settings.ShowPeopleInNewEvent;
 
     public PeopleSelectionViewModel People { get; }
 
@@ -113,11 +123,12 @@ public partial class EventViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _stats, value);
     }
 
-    public EventViewModel(ObservableCollection<Event> events, ObservableCollection<string> platformTypes)
+    public EventViewModel(ObservableCollection<Event> events, ObservableCollection<string> platformTypes, ItemSettings settings)
     {
         Events = events;
         Events.CollectionChanged += CollectionChanged;
         PlatformTypes = platformTypes;
+        _settings = settings;
         People = new PeopleSelectionViewModel();
         ToggleDateTimePicker = ReactiveCommand.Create(ToggleDateTimePickerAction);
         ConfirmDateTime = ReactiveCommand.Create(ConfirmDateTimeAction);

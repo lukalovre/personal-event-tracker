@@ -7,6 +7,15 @@ public record ItemSettings
 {
     public int? NewItemAmountOverride { get; set; } = null;
     public int? DefaultNewItemChapter { get; set; } = 1;
+    public bool ShowChapterInNewEvent { get; set; } = true;
+    public bool ShowRatingInNewEvent { get; set; } = true;
+    public bool ShowDateInNewEvent { get; set; } = true;
+    public bool ShowAmountInNewEvent { get; set; } = true;
+    public bool ShowBookmarkedInNewEvent { get; set; } = true;
+    public bool ShowCompletedInNewEvent { get; set; } = true;
+    public bool ShowPlatformInNewEvent { get; set; } = true;
+    public bool ShowCommentInNewEvent { get; set; } = true;
+    public bool ShowPeopleInNewEvent { get; set; } = true;
     public bool DefaultNewItemCompleted { get; set; }
     public DateTime? DateTimeFilter { get; set; }
     public int DefaultNewItemRating { get; set; } = 1;

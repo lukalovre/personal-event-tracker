@@ -28,4 +28,3 @@ internal sealed class Program
 // People list also to load only once
 // All images to be consistent resolution in pixels, investigate the current set
 // Edit image button to have a square movable editor to make images square
-// Make Chapter in the New Event be visible/invisible based off a setting

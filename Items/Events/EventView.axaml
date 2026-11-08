@@ -40,9 +40,9 @@
 			<TabItem Header="New">
 				<StackPanel Height="240">
 					<Grid ColumnDefinitions="Auto,Auto,*,Auto" Margin="1">
-						<TextBlock Grid.Column="0" Text="Rating" VerticalAlignment="Center" Width="50"/>
-						<view:StarRatingView Grid.Column="1" Rating="{Binding SelectedEvent.Rating, Mode=TwoWay}" />
-						<Grid Grid.Column="3" ColumnDefinitions="Auto,160,34" Width="226">
+						<TextBlock Grid.Column="0" Text="Rating" VerticalAlignment="Center" Width="50" IsVisible="{Binding ShowRatingInNewEvent}" />
+						<view:StarRatingView Grid.Column="1" Rating="{Binding SelectedEvent.Rating, Mode=TwoWay}" IsVisible="{Binding ShowRatingInNewEvent}" />
+						<Grid Grid.Column="3" ColumnDefinitions="Auto,160,34" Width="226" IsVisible="{Binding ShowDateInNewEvent}">
 							<CheckBox Grid.Column="0" IsChecked="{Binding IsEditDate}" ToolTip.Tip="Edit date and time" />
 							<TextBox Grid.Column="1" Text="{Binding SelectedEventDateTimeText}" IsReadOnly="True" Width="160" />
 							<Button x:Name="DateTimePickerButton" Grid.Column="2" Command="{Binding ToggleDateTimePicker}" ToolTip.Tip="Choose date and time" Width="34" Height="30">
@@ -59,22 +59,27 @@
 							</Popup>
 						</Grid>
 					</Grid>
-					<Grid ColumnDefinitions="75,100,Auto,Auto,Auto,Auto" Margin="1">
-						<TextBlock Grid.Column="0" Text="Chapter" VerticalAlignment="Center" />
-						<NumericUpDown Grid.Column="1" Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
-						<TextBlock Grid.Column="2" Text="		 " />
-						<CheckBox Grid.Column="3" IsChecked="{Binding SelectedEvent.Bookmarked, Mode=TwoWay}">★</CheckBox>
-						<TextBlock Grid.Column="4" Text="		 " />
-						<CheckBox Grid.Column="5" IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
+					<Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Margin="1">
+						<StackPanel Grid.Column="0" Orientation="Horizontal" IsVisible="{Binding ShowChapterInNewEvent}" Margin="0,0,12,0">
+							<TextBlock Text="Chapter" VerticalAlignment="Center" Width="75" />
+							<NumericUpDown Value="{Binding NewEventChapter}" FormatString="0" Minimum="1" Maximum="999" Width="100" />
+						</StackPanel>
+						<StackPanel Grid.Column="1" Orientation="Horizontal" IsVisible="{Binding ShowAmountInNewEvent}" Margin="0,0,12,0">
+							<TextBlock Text="Amount" VerticalAlignment="Center" Width="75" />
+							<TextBox Text="{Binding SelectedEvent.Amount}" Width="70" />
+						</StackPanel>
+						<CheckBox Grid.Column="2" IsVisible="{Binding ShowBookmarkedInNewEvent}" IsChecked="{Binding SelectedEvent.Bookmarked, Mode=TwoWay}">★</CheckBox>
+						<CheckBox Grid.Column="3" IsVisible="{Binding ShowCompletedInNewEvent}" IsChecked="{Binding SelectedEvent.Completed, Mode=TwoWay}">Completed</CheckBox>
 					</Grid>
-					<StackPanel Orientation="Horizontal" Margin="1">
+					<StackPanel Orientation="Horizontal" Margin="1" IsVisible="{Binding ShowPlatformInNewEvent}">
 						<TextBlock Text="Platform" VerticalAlignment="Center" Width="75"/>
 						<ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding SelectedPlatformType, Mode=TwoWay}" Width="100" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Margin="1">
-						<TextBox PlaceholderText = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap"/>
-						<TextBlock Text="		 " />
-						<view:PeopleSelectionView DataContext="{Binding People}" />
+						<TextBox PlaceholderText = "Comment" Text="{Binding SelectedEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap" IsVisible="{Binding ShowCommentInNewEvent}" Margin="0,0,12,0" />
+						<StackPanel IsVisible="{Binding ShowPeopleInNewEvent}">
+							<view:PeopleSelectionView DataContext="{Binding People}" />
+						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 			</TabItem>

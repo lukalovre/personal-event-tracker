@@ -1,28 +1,35 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:view="using:EventTracker.Views" x:Class="EventTracker.Views.NewEventFieldsView" x:CompileBindings="False">
     <Border Background="Teal" BorderBrush="Black" BorderThickness="2" CornerRadius="3" Padding="10" Margin="10">
         <StackPanel>
-            <Grid ColumnDefinitions="Auto,Auto,*,Auto,200" Margin="1">
-                <TextBlock Grid.Column="0" Text="Rating" VerticalAlignment="Center" Width="50" />
-                <view:StarRatingView Grid.Column="1" Rating="{Binding NewEvent.Rating, Mode=TwoWay}" />
-                <CheckBox Grid.Column="3" IsChecked="{Binding UseNewDate}" ToolTip.Tip="Set event date and time" />
-                <TextBox Grid.Column="4" Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
-            </Grid>
-            <Grid ColumnDefinitions="75,100,75,70,Auto,Auto" Margin="1">
-                <TextBlock Grid.Column="0" Text="Chapter" VerticalAlignment="Center" />
-                <TextBox Grid.Column="1" Text="{Binding NewEvent.Chapter}" Width="100" />
-                <TextBlock Grid.Column="2" Text="Amount" VerticalAlignment="Center" />
-                <TextBox Grid.Column="3" Text="{Binding NewItemAmount}" Width="70" />
-                <CheckBox Grid.Column="4" IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
-                <CheckBox Grid.Column="5" IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
-            </Grid>
             <StackPanel Orientation="Horizontal" Margin="1">
+                <StackPanel Orientation="Horizontal" IsVisible="{Binding ShowRatingInNewEvent}" Margin="0,0,12,0">
+                    <TextBlock Text="Rating" VerticalAlignment="Center" Width="50" />
+                    <view:StarRatingView Rating="{Binding NewEvent.Rating, Mode=TwoWay}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" IsVisible="{Binding ShowDateInNewEvent}">
+                    <CheckBox IsChecked="{Binding UseNewDate}" ToolTip.Tip="Set event date and time" />
+                    <TextBox Text="{Binding NewDate, Converter={StaticResource DateTimeToStringConverter}, ConverterParameter=yyyy-MM-dd HH:mm:ss}}" Width="200" />
+                </StackPanel>
+            </StackPanel>
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Margin="1">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" IsVisible="{Binding ShowChapterInNewEvent}" Margin="0,0,12,0">
+                    <TextBlock Text="Chapter" VerticalAlignment="Center" Width="75" />
+                    <TextBox Text="{Binding NewEvent.Chapter}" Width="100" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" IsVisible="{Binding ShowAmountInNewEvent}" Margin="0,0,12,0">
+                    <TextBlock Text="Amount" VerticalAlignment="Center" Width="75" />
+                    <TextBox Text="{Binding NewItemAmount}" Width="70" />
+                </StackPanel>
+                <CheckBox Grid.Column="2" IsVisible="{Binding ShowBookmarkedInNewEvent}" IsChecked="{Binding NewEvent.Bookmarked}">★</CheckBox>
+                <CheckBox Grid.Column="3" IsVisible="{Binding ShowCompletedInNewEvent}" IsChecked="{Binding NewEvent.Completed}">Completed</CheckBox>
+            </Grid>
+            <StackPanel Orientation="Horizontal" Margin="1" IsVisible="{Binding ShowPlatformInNewEvent}">
                 <TextBlock Text="Platform" VerticalAlignment="Center" Width="75" />
                 <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" Width="100" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="1">
-                <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap" />
-                <TextBlock Text="   " />
-                <view:PeopleSelectionView DataContext="{Binding People}" />
+                <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="125" TextWrapping="Wrap" IsVisible="{Binding ShowCommentInNewEvent}" Margin="0,0,12,0" />
+                <view:PeopleSelectionView DataContext="{Binding People}" IsVisible="{Binding ShowPeopleInNewEvent}" />
             </StackPanel>
         </StackPanel>
     </Border>

@@ -39,7 +39,7 @@ where TGridItem : IGridItem
         GridItemsBookmarked = [];
 
         Events = [];
-        EventViewModel = new EventViewModel(Events, _settings.PlatformTypes);
+        EventViewModel = new EventViewModel(Events, _settings.PlatformTypes, _settings);
 
         AddItemClick = ReactiveCommand.Create(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
@@ -67,6 +67,15 @@ where TGridItem : IGridItem
     protected virtual string DefaultGridTabHeader => "★";
 
     public ObservableCollection<string> PlatformTypes => _settings.PlatformTypes;
+    public bool ShowChapterInNewEvent => _settings.ShowChapterInNewEvent;
+    public bool ShowRatingInNewEvent => _settings.ShowRatingInNewEvent;
+    public bool ShowDateInNewEvent => _settings.ShowDateInNewEvent;
+    public bool ShowAmountInNewEvent => _settings.ShowAmountInNewEvent;
+    public bool ShowBookmarkedInNewEvent => _settings.ShowBookmarkedInNewEvent;
+    public bool ShowCompletedInNewEvent => _settings.ShowCompletedInNewEvent;
+    public bool ShowPlatformInNewEvent => _settings.ShowPlatformInNewEvent;
+    public bool ShowCommentInNewEvent => _settings.ShowCommentInNewEvent;
+    public bool ShowPeopleInNewEvent => _settings.ShowPeopleInNewEvent;
     private readonly ItemSettings _settings = new();
     protected readonly IDatasource _datasource;
     private readonly IExternal<TItem> _external;
