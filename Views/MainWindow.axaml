@@ -99,7 +99,14 @@
 				</TabControl>
 			</TabItem>
 			<TabItem Header="&#x2699;" ToolTip.Tip="Settings" AutomationProperties.Name="Settings">
-				<v:YearlyTrendsSettingsView DataContext="{Binding YearlyTrendsSettingsViewModel}" />
+				<TabControl>
+					<TabItem Header="Item Categories">
+						<v:ItemCategoriesSettingsView DataContext="{Binding ItemCategoriesSettingsViewModel}" />
+					</TabItem>
+					<TabItem Header="Yearly Trends">
+						<v:YearlyTrendsSettingsView DataContext="{Binding YearlyTrendsSettingsViewModel}" />
+					</TabItem>
+				</TabControl>
 			</TabItem>
 		</TabControl>
 	</DockPanel>
