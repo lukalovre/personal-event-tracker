@@ -117,64 +117,11 @@
 							<Button Tag="New">
 								<Image Source="{Binding NewImage}" Width="200" Height="200" />
 							</Button>
-							<StackPanel>
-								<TextBlock Text="   "/>
-							</StackPanel>
-							<StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.FirstName}" Width="150"/>
-									<TextBlock Text=" FirstName" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.LastName}" Width="150"/>
-									<TextBlock Text=" LastName" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Nickname}" Width="150"/>
-									<TextBlock Text=" Nickname" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Phone}" Width="150"/>
-									<TextBlock Text=" Phone" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Email}" Width="150"/>
-									<TextBlock Text=" Email" VerticalAlignment="Center"/>
-								</StackPanel>
-							</StackPanel>
-							<StackPanel>
-								<TextBlock Text="      "/>
-							</StackPanel>
-							<StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Address}" Width="150"/>
-									<TextBlock Text=" Address" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.City}" Width="150"/>
-									<TextBlock Text=" City" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Postcode}" Width="150"/>
-									<TextBlock Text=" Postcode" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Birthday}" Width="150"/>
-									<TextBlock Text=" Birthday" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Country}" Width="150"/>
-									<TextBlock Text=" Country" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<TextBox Text="{Binding NewItem.Tags}" Width="150"/>
-									<TextBlock Text=" Tags" VerticalAlignment="Center"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal">
-									<ComboBox ItemsSource="{Binding ExistingTags}" SelectedItem="{Binding SelectedExistingTag}" Width="150"/>
-									<Button Command="{Binding AddTag}" CommandParameter="New">Add tag</Button>
-								</StackPanel>
-							</StackPanel>
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<ComboBox ItemsSource="{Binding ExistingTags}" SelectedItem="{Binding SelectedExistingTag}" Width="150" />
+							<Button Command="{Binding AddTag}" CommandParameter="New">Add tag</Button>
 						</StackPanel>
 						<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 					</StackPanel>

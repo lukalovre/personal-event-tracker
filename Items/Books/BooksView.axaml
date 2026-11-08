@@ -77,15 +77,7 @@
 								</Button>
 								<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBox PlaceholderText="Author" Text="{Binding NewItem.Author}" HorizontalAlignment="Stretch" />
-								<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<TextBox PlaceholderText="Year" Text="{Binding NewItem.Year}" Width="70"/>
-							<TextBox PlaceholderText="GoodreadsID" Text="{Binding NewItem.ExternalID}" Width="150" />
-							<CheckBox IsChecked="{Binding NewItem.is1001}">
-							1001
-							</CheckBox>
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
 							<Button Command="{Binding OpenImage}" Margin="5">
 								<Image Source="{Binding NewImage}" Width="240" Height="220" />
 							</Button>

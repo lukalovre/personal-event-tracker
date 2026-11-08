@@ -58,22 +58,7 @@
 								<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 								<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Imdb" />
-								<TextBox Text="{Binding NewItem.ExternalID}" Width="150" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Author" />
-								<TextBox Text="{Binding NewItem.Author}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Title" />
-								<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Runtime" />
-								<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
-							</StackPanel>
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
 							<Button Command="{Binding OpenImage}" Margin="5">
 								<Image Source="{Binding NewImage}" Width="240" Height="220" />
 							</Button>

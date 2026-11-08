@@ -77,10 +77,7 @@
 								Add
 								</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBox PlaceholderText="Title" Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<TextBox PlaceholderText="Type" Text="{Binding NewItem.Type}" Width="200" />
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
 						</StackPanel>
 						<StackPanel>
 							<view:NewEventFieldsView />

@@ -50,42 +50,7 @@
 								</Button>
 								<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Link" />
-								<TextBox Text="{Binding NewItem.Link}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Performer" />
-								<TextBox Text="{Binding NewItem.Performer}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Title" />
-								<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Year" />
-								<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Runtime" />
-								<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Writer" />
-								<TextBox Text="{Binding NewItem.Writer}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Director" />
-								<TextBox Text="{Binding NewItem.Director}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Country" />
-								<TextBox Text="{Binding NewItem.Country}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Plot" />
-								<TextBox Text="{Binding NewItem.Plot}" HorizontalAlignment="Stretch" />
-							</StackPanel>
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
 							<Button Command="{Binding OpenImage}" Margin="5">
 								<Image Source="{Binding NewImage}" Width="240" Height="220" />
 							</Button>

@@ -52,30 +52,7 @@
 							<StackPanel Orientation="Horizontal">
 								<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Artist" />
-								<TextBox Text="{Binding NewItem.Artist}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Festival" />
-								<TextBox Text="{Binding NewItem.Festival}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Venue" />
-								<TextBox Text="{Binding NewItem.Venue}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="City" />
-								<TextBox Text="{Binding NewItem.City}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Country" />
-								<TextBox Text="{Binding NewItem.Country}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Price" />
-								<TextBox Text="{Binding NewItem.Price}" HorizontalAlignment="Stretch" />
-							</StackPanel>
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
 							<Button Command="{Binding OpenImage}" Margin="5">
 								<Image Source="{Binding NewImage}" Width="240" Height="220" />
 							</Button>

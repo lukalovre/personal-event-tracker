@@ -55,18 +55,7 @@
 							<StackPanel Orientation="Horizontal">
 								<Button Command="{Binding AddItemClick}" Margin="15">Add</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Title" />
-								<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Author" />
-								<TextBox Text="{Binding NewItem.Author}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Year" />
-								<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
-							</StackPanel>
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
 							<Button Command="{Binding OpenImage}" Margin="5">
 								<Image Source="{Binding NewImage}" Width="240" Height="220" />
 							</Button>

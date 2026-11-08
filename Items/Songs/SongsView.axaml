@@ -60,22 +60,7 @@
 								</Button>
 								<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Artist  " />
-								<TextBox Text="{Binding NewItem.Artist}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Title  " />
-								<TextBox Text="{Binding NewItem.Title}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Year  " />
-								<TextBox Text="{Binding NewItem.Year}" HorizontalAlignment="Stretch" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Runtime  " />
-								<TextBox Text="{Binding NewItem.Runtime}" HorizontalAlignment="Stretch" />
-							</StackPanel>
+							<view:ItemFieldsView DataContext="{Binding NewItemFields}" />
 							<Button Command="{Binding OpenImage}" Margin="5">
 								<Image Source="{Binding NewImage}" Width="240" Height="220" />
 							</Button>

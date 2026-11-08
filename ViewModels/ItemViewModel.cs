@@ -77,6 +77,7 @@ where TGridItem : IGridItem
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
     private readonly ObservableCollection<ItemEditField> _editFields = [];
+    private readonly ObservableCollection<ItemEditField> _newItemFields = [];
     private Event _newEvent = new();
     private bool _useNewDate;
     private readonly HashSet<string> _loadedGridTabs = new(StringComparer.OrdinalIgnoreCase);
@@ -154,8 +155,14 @@ where TGridItem : IGridItem
     public TItem NewItem
     {
         get => _newItem;
-        set => this.RaiseAndSetIfChanged(ref _newItem, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _newItem, value);
+            RefreshNewItemFields();
+        }
     }
+
+    public ObservableCollection<ItemEditField> NewItemFields => _newItemFields;
 
     public DateTime NewDate { get; set; } = DateTime.Now;
 
@@ -368,6 +375,11 @@ where TGridItem : IGridItem
 
     private void AddItemClickAction()
     {
+        if (NewItemFields.Any(field => !field.TryApply()))
+        {
+            return;
+        }
+
         var overrideAmount = _settings.NewItemAmountOverride;
 
         if (overrideAmount == -1)
@@ -434,15 +446,36 @@ where TGridItem : IGridItem
             return;
         }
 
-        foreach (var property in typeof(TItem).GetProperties()
-                     .Where(property => property.Name != nameof(IItem.ID)
-                         && property.CanRead
-                         && property.CanWrite
-                         && property.GetIndexParameters().Length == 0)
-                     .OrderBy(property => property.MetadataToken))
+        foreach (var field in CreateItemFields(SelectedItem))
         {
-            EditFields.Add(ItemEditField.Create(SelectedItem, property));
+            EditFields.Add(field);
         }
+    }
+
+    private void RefreshNewItemFields()
+    {
+        NewItemFields.Clear();
+
+        if (NewItem is null)
+        {
+            return;
+        }
+
+        foreach (var field in CreateItemFields(NewItem))
+        {
+            NewItemFields.Add(field);
+        }
+    }
+
+    private static IEnumerable<ItemEditField> CreateItemFields(TItem item)
+    {
+        return typeof(TItem).GetProperties()
+            .Where(property => property.Name != nameof(IItem.ID)
+                && property.CanRead
+                && property.CanWrite
+                && property.GetIndexParameters().Length == 0)
+            .OrderBy(property => property.MetadataToken)
+            .Select(property => ItemEditField.Create(item, property));
     }
 
     private async Task ReplaceSelectedImageAsync(Window window)
