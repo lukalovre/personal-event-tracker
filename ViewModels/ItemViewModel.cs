@@ -54,6 +54,7 @@ where TGridItem : IGridItem
 
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
+        SelectedItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
 
         IsFullAmount = _settings.IsFullAmountDefaultValue;
     }
@@ -176,7 +177,8 @@ where TGridItem : IGridItem
         get => _selectedItem;
         set
         {
-            this.RaiseAndSetIfChanged(ref _selectedItem, value);
+            var normalizedValue = value ?? (TItem)Activator.CreateInstance(typeof(TItem))!;
+            this.RaiseAndSetIfChanged(ref _selectedItem, normalizedValue);
             RefreshEditFields();
             this.RaisePropertyChanged(nameof(OpenLinkToolTip));
             OnSelectedItemChanged();
@@ -743,6 +745,7 @@ where TGridItem : IGridItem
 
     public void SelectedItemChanged()
     {
+        EventViewModel.SelectedEvent = null!;
         Events.Clear();
         Image = null;
 
@@ -762,6 +765,8 @@ where TGridItem : IGridItem
         {
             Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID));
         }
+
+        EventViewModel.SelectedEvent = Events.FirstOrDefault() ?? new Event();
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepository.GetImage<TItem>(item.ID);

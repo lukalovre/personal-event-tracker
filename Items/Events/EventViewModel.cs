@@ -61,10 +61,16 @@ public partial class EventViewModel : ViewModelBase
 
     public Event SelectedEvent
     {
-        get => _selectedEvent;
+        get => _selectedEvent ??= new Event();
         set
         {
-            this.RaiseAndSetIfChanged(ref _selectedEvent, value);
+            var normalizedValue = value ?? new Event();
+            if (Events.Count > 0 && Events.Contains(normalizedValue) is false)
+            {
+                normalizedValue = Events.FirstOrDefault() ?? Events[0];
+            }
+
+            this.RaiseAndSetIfChanged(ref _selectedEvent, normalizedValue);
             SelectedEventChanged();
             this.RaisePropertyChanged(nameof(NewEvent));
             this.RaisePropertyChanged(nameof(NewItemAmount));
@@ -174,6 +180,15 @@ public partial class EventViewModel : ViewModelBase
         People = new PeopleSelectionViewModel();
         ToggleDateTimePicker = ReactiveCommand.Create(ToggleDateTimePickerAction);
         ConfirmDateTime = ReactiveCommand.Create(ConfirmDateTimeAction);
+
+        if (Events.Count == 0)
+        {
+            SelectedEvent = new Event();
+        }
+        else
+        {
+            SelectedEvent = Events.FirstOrDefault() ?? new Event();
+        }
     }
 
     internal void FillStats<TItem>(ObservableCollection<Event> events)
@@ -253,13 +268,21 @@ public partial class EventViewModel : ViewModelBase
     private void CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         var events = sender as ObservableCollection<Event>;
-        SelectedEvent = events?.MaxBy(o => o.DateEnd)!;
-
-        if (SelectedEvent == null)
+        if (events is null)
         {
             return;
         }
 
+        if (events.Count == 0)
+        {
+            SelectedEvent = new Event();
+            SelectedPlatformType = string.Empty;
+            NewEventChapter = 1;
+            return;
+        }
+
+        var selectedEvent = events.MaxBy(o => o.DateEnd) ?? events[0];
+        SelectedEvent = selectedEvent;
         SelectedPlatformType = SelectedEvent.Platform;
         NewEventChapter = SelectedEvent.Chapter ?? 1;
     }
