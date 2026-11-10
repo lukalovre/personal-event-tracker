@@ -102,7 +102,13 @@
                             <TextBlock Text="{Binding SelectedItem.Runtime, Converter={StaticResource TimeToStringConverter}}" Width="65" FontSize="15" VerticalAlignment="Center" />
                             <TextBlock Text="  " />
                             <Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}" Height="32">
-                                <TextBlock Text="Open ↗" />
+                                <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Center">
+                                    <Image Source="avares://EventTracker/Assets/MusicPlatforms/youtube.png" IsVisible="{Binding IsOpenLinkYouTube}" Width="22" Height="22" ToolTip.Tip="{Binding OpenLinkProviderName}" />
+                                    <Image Source="avares://EventTracker/Assets/MusicPlatforms/spotify.png" IsVisible="{Binding IsOpenLinkSpotify}" Width="22" Height="22" ToolTip.Tip="{Binding OpenLinkProviderName}" />
+                                    <Image Source="avares://EventTracker/Assets/MusicPlatforms/soundcloud.png" IsVisible="{Binding IsOpenLinkSoundCloud}" Width="22" Height="22" ToolTip.Tip="{Binding OpenLinkProviderName}" />
+                                    <Image Source="avares://EventTracker/Assets/MusicPlatforms/bandcamp.png" IsVisible="{Binding IsOpenLinkBandcamp}" Width="22" Height="22" ToolTip.Tip="{Binding OpenLinkProviderName}" />
+                                    <TextBlock Text="Open ↗" />
+                                </StackPanel>
                             </Button>
                             <Button Command="{Binding Search}" ToolTip.Tip="Search the web" Height="32" Margin="5">🔍</Button>
                         </StackPanel>

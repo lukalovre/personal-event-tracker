@@ -16,6 +16,54 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
 {
     protected override string DefaultGridTabHeader => "Info";
 
+    public string OpenLinkProviderName => GetOpenLinkProvider();
+    public bool IsOpenLinkYouTube => GetOpenLinkProvider() == "YouTube";
+    public bool IsOpenLinkSpotify => GetOpenLinkProvider() == "Spotify";
+    public bool IsOpenLinkSoundCloud => GetOpenLinkProvider() == "SoundCloud";
+    public bool IsOpenLinkBandcamp => GetOpenLinkProvider() == "Bandcamp";
+
+    protected override void OnSelectedItemChanged()
+    {
+        this.RaisePropertyChanged(nameof(OpenLinkProviderName));
+        this.RaisePropertyChanged(nameof(IsOpenLinkYouTube));
+        this.RaisePropertyChanged(nameof(IsOpenLinkSpotify));
+        this.RaisePropertyChanged(nameof(IsOpenLinkSoundCloud));
+        this.RaisePropertyChanged(nameof(IsOpenLinkBandcamp));
+    }
+
+    private string GetOpenLinkProvider()
+    {
+        var link = SelectedItem?.ExternalID;
+        if (!Uri.TryCreate(link, UriKind.Absolute, out var uri))
+        {
+            return string.Empty;
+        }
+
+        var host = uri.Host;
+        if (host.Equals("youtu.be", StringComparison.OrdinalIgnoreCase)
+            || host.EndsWith("youtube.com", StringComparison.OrdinalIgnoreCase))
+        {
+            return "YouTube";
+        }
+
+        if (host.EndsWith("spotify.com", StringComparison.OrdinalIgnoreCase))
+        {
+            return "Spotify";
+        }
+
+        if (host.EndsWith("soundcloud.com", StringComparison.OrdinalIgnoreCase))
+        {
+            return "SoundCloud";
+        }
+
+        if (host.EndsWith("bandcamp.com", StringComparison.OrdinalIgnoreCase))
+        {
+            return "Bandcamp";
+        }
+
+        return string.Empty;
+    }
+
     private int _gridCountMusicTodo1;
     private int _gridCountMusicTodo2;
 

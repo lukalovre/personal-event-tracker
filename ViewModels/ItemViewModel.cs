@@ -179,7 +179,12 @@ where TGridItem : IGridItem
             this.RaiseAndSetIfChanged(ref _selectedItem, value);
             RefreshEditFields();
             this.RaisePropertyChanged(nameof(OpenLinkToolTip));
+            OnSelectedItemChanged();
         }
+    }
+
+    protected virtual void OnSelectedItemChanged()
+    {
     }
 
     public ObservableCollection<ItemEditField> EditFields => _editFields;
