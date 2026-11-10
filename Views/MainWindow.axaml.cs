@@ -70,6 +70,11 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (button.Command is not null)
+        {
+            return;
+        }
+
         if (button.DataContext is IImagePickerViewModel viewModel)
         {
             await viewModel.PickImageAsync(this, button.Tag is "New");
