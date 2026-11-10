@@ -80,7 +80,7 @@ public class Igdb
 
         if (game is null)
         {
-            return null;
+            return default!;
         }
 
         string companyName = await GetDeveloperName(client, game);

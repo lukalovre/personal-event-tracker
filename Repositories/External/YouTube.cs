@@ -26,6 +26,11 @@ public class YouTube
         }
 
         var node = htmlDocument.DocumentNode.SelectSingleNode("//title");
+        if (node is null)
+        {
+            return default!;
+        }
+
         var videoTitle = node.InnerHtml.Trim();
 
         var artist = GetArtist(videoTitle);
@@ -88,6 +93,12 @@ public class YouTube
         var runtimeNode = htmlDocument.DocumentNode.SelectSingleNode(
             "//meta[contains(@itemprop, 'duration')]"
         );
+
+        if (runtimeNode is null)
+        {
+            return 0;
+        }
+
         var runtimeText = runtimeNode.GetAttributeValue("content", string.Empty).Trim();
         var runtimeSplit = runtimeText.TrimStart("PT").TrimEnd("S").Split('M');
         var runtimeMinutes = Convert.ToInt32(runtimeSplit?.FirstOrDefault() ?? "0");

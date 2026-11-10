@@ -31,7 +31,7 @@ public static class ImagePicker
         var bitmap = new Bitmap(sourceStream);
         Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
 
-        bitmap.Save(destinationPath);
+        bitmap.Save(destinationPath, new PngBitmapEncoderOptions());
         return bitmap;
     }
 }

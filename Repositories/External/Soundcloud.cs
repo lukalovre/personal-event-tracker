@@ -51,19 +51,27 @@ public class Soundcloud
                         ?.SelectSingleNode("//meta[contains(@itemprop, 'duration')]")
                         ?.GetAttributeValue("content", string.Empty);
 
-        timeCode = timeCode?.Split("PT").LastOrDefault();
+        if (string.IsNullOrWhiteSpace(timeCode))
+        {
+            return 0;
+        }
 
-        var hourString = timeCode?.Split('H').FirstOrDefault();
-        timeCode = timeCode?.Split('H').LastOrDefault();
+        timeCode = timeCode.Split("PT").LastOrDefault() ?? string.Empty;
 
-        var minuteString = timeCode?.Split('M').FirstOrDefault();
-        timeCode = timeCode?.Split('M').LastOrDefault();
+        var hourString = timeCode.Split('H').FirstOrDefault();
+        timeCode = timeCode.Split('H').LastOrDefault() ?? string.Empty;
 
-        var secondString = timeCode?.Split('S').FirstOrDefault();
+        var minuteString = timeCode.Split('M').FirstOrDefault();
+        timeCode = timeCode.Split('M').LastOrDefault() ?? string.Empty;
 
-        var hours = Convert.ToInt32(hourString);
-        var minutes = Convert.ToInt32(minuteString);
-        var seconds = Convert.ToInt32(secondString);
+        var secondString = timeCode.Split('S').FirstOrDefault();
+
+        if (!int.TryParse(hourString, out var hours)
+            || !int.TryParse(minuteString, out var minutes)
+            || !int.TryParse(secondString, out var seconds))
+        {
+            return 0;
+        }
 
         var result = minutes
         + (int)Math.Round(seconds / 60f, MidpointRounding.AwayFromZero)
@@ -114,7 +122,7 @@ public class Soundcloud
         var result = htmlDocument
                     ?.DocumentNode
                     ?.SelectSingleNode("//meta[@property='og:title']")
-                    ?.Attributes["content"].Value
+                    ?.Attributes["content"]?.Value
                     ?.Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
                     ?.FirstOrDefault()
                     ?? string.Empty;

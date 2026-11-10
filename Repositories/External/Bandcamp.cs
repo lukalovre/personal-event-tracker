@@ -168,7 +168,7 @@ public class Bandcamp
         var result = htmlDocument
         ?.DocumentNode
         ?.SelectSingleNode("//meta[@property='og:title']")
-        ?.Attributes["content"].Value
+        ?.Attributes["content"]?.Value
         ?.Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
         ?.LastOrDefault()
         ?.Trim()
@@ -182,7 +182,7 @@ public class Bandcamp
         var result = htmlDocument
             ?.DocumentNode
             ?.SelectSingleNode("//meta[@property='og:title']")
-            ?.Attributes["content"].Value
+            ?.Attributes["content"]?.Value
             ?.Split(new string[] { ", by" }, StringSplitOptions.RemoveEmptyEntries)
             ?.FirstOrDefault()
             ?.Trim()

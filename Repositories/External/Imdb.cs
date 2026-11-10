@@ -26,15 +26,16 @@ public class Imdb
             return default!;
         }
 
-        if (imdbData.Title is null)
+        var title = imdbData.Title ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(title))
         {
             return default!;
         }
 
-        var split = imdbData.Title?.Split(':') ?? [];
+        var split = title.Split(':', 2, StringSplitOptions.TrimEntries);
 
-        string standupPerformer;
-        string standupTitle;
+        var standupPerformer = string.Empty;
+        var standupTitle = title;
 
         if (split.Length > 1)
         {
@@ -43,23 +44,22 @@ public class Imdb
         }
         else
         {
-            standupPerformer = imdbData.Writer;
-            standupTitle = imdbData.Title;
+            standupPerformer = imdbData.Writer ?? string.Empty;
         }
 
         return new ImdbItem(
-         imdbData.Title.Trim(),
-         GetRuntime(imdbData.Runtime),
-         GetYear(imdbData.Year),
-         imdbData.imdbID.Trim(),
-         imdbData.Actors.Trim(),
-         imdbData.Country.Trim(),
-         imdbData.Director.Trim(),
-         imdbData.Genre.Trim(),
-         imdbData.Language.Trim(),
-         imdbData.Plot.Trim(),
-         imdbData.Type.Trim(),
-         imdbData.Writer.Trim(),
+         title.Trim(),
+         GetRuntime(imdbData.Runtime ?? string.Empty),
+         GetYear(imdbData.Year ?? string.Empty),
+         (imdbData.imdbID ?? string.Empty).Trim(),
+         (imdbData.Actors ?? string.Empty).Trim(),
+         (imdbData.Country ?? string.Empty).Trim(),
+         (imdbData.Director ?? string.Empty).Trim(),
+         (imdbData.Genre ?? string.Empty).Trim(),
+         (imdbData.Language ?? string.Empty).Trim(),
+         (imdbData.Plot ?? string.Empty).Trim(),
+         (imdbData.Type ?? string.Empty).Trim(),
+         (imdbData.Writer ?? string.Empty).Trim(),
          standupPerformer.Trim(),
          standupTitle.Trim());
     }

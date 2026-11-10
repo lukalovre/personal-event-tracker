@@ -83,7 +83,7 @@ public static class HtmlHelper
             {
                 using var bitmap = new Bitmap(localImagePath);
                 using var destination = File.Create(destinationFile);
-                bitmap.Save(destination);
+                bitmap.Save(destination, new PngBitmapEncoderOptions());
             }
 
             return;

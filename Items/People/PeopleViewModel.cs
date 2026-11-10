@@ -17,13 +17,13 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
 {
     protected override string DefaultGridTabHeader => "Birthdays";
 
-    private PersonGridItem _selectedPersonGridItem;
+    private PersonGridItem _selectedPersonGridItem = null!;
     private BirthdayGridItem? _selectedBirthdayGridItem;
     private string _selectedExistingTag = string.Empty;
 
     public PeopleViewModel(IDatasource datasource) : base(datasource, null!)
     {
-        PersonEventsViewModel = new PersonEventsViewModel(datasource, null);
+        PersonEventsViewModel = new PersonEventsViewModel(datasource, []);
         AddTag = ReactiveCommand.Create<string, Unit>(AddTagAction);
     }
 
@@ -131,7 +131,7 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
                 || MatchesSearch(person.FirstName, searchText)
                 || MatchesSearch(person.LastName, searchText)
                 || MatchesSearch(person.Nickname, searchText))
-            .Select(o => Convert(null!, o, null!))
+            .Select(o => Convert(null!, o, Array.Empty<Event>()))
             .ToList();
     }
 

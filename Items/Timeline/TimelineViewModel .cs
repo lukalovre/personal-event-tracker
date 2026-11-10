@@ -13,10 +13,9 @@ namespace EventTracker.ViewModels;
 
 public partial class TimelineViewModel : ViewModelBase, ILoadOnSelection
 {
-    private Event _selectedEvent = null!;
-    private PersonEventGridItem _selectedGridItem;
+    private PersonEventGridItem _selectedGridItem = null!;
     private Bitmap? _itemImage;
-    private string _comment;
+    private string _comment = string.Empty;
     private bool _hasLoaded;
 
     public ObservableCollection<PersonEventGridItem> Events { get; set; } = [];

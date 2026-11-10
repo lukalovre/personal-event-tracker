@@ -22,9 +22,9 @@ public class CurrentMonthViewModel : ViewModelBase, ILoadOnSelection
 {
     private readonly IDatasource _datasource;
     private bool _hasLoaded;
-    private PersonEventGridItem _selectedGridItem;
+    private PersonEventGridItem _selectedGridItem = null!;
     private Bitmap? _itemImage;
-    private string _comment;
+    private string _comment = string.Empty;
     private string _monthName = string.Empty;
     private string _totalHoursText = string.Empty;
     private string _selectedMonth = string.Empty;
