@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using Avalonia.Media.Imaging;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using EventTracker.Views;
 
 namespace EventTracker.ViewModels;
 
@@ -49,6 +51,7 @@ where TGridItem : IGridItem
         Search = ReactiveCommand.Create(SearchAction);
         OpenImage = ReactiveCommand.CreateFromTask(() => PickImageAsync(GetMainWindow()));
         ReplaceImage = ReactiveCommand.CreateFromTask(() => ReplaceSelectedImageAsync(GetMainWindow()));
+        CropImage = ReactiveCommand.CreateFromTask(() => CropSelectedImageAsync(GetMainWindow()));
         ToggleDateTimePicker = ReactiveCommand.Create(ToggleDateTimePickerAction);
         ConfirmDateTime = ReactiveCommand.Create(ConfirmDateTimeAction);
 
@@ -200,6 +203,7 @@ where TGridItem : IGridItem
     public ReactiveCommand<Unit, Unit> Search { get; }
     public ReactiveCommand<Unit, Unit> OpenImage { get; }
     public ReactiveCommand<Unit, Unit> ReplaceImage { get; }
+    public ReactiveCommand<Unit, Unit> CropImage { get; }
     public string OpenLinkToolTip => GetLinkToOpen();
 
     public TItem NewItem
@@ -560,6 +564,27 @@ where TGridItem : IGridItem
         if (image is not null)
         {
             Image = image;
+        }
+    }
+
+    private async Task CropSelectedImageAsync(Window window)
+    {
+        if (SelectedItem is null)
+        {
+            return;
+        }
+
+        var imagePath = Paths.GetImagePath<TItem>(SelectedItem.ID);
+        if (!File.Exists(imagePath))
+        {
+            return;
+        }
+
+        var cropWindow = new SquareCropWindow(imagePath);
+        var result = await cropWindow.ShowDialog<bool?>(window);
+        if (result == true)
+        {
+            Image = FileRepository.GetImage<TItem>(SelectedItem.ID);
         }
     }
 

@@ -27,7 +27,8 @@ public class FileRepository
             return null;
         }
 
-        return new Bitmap(filePath);
+        using var stream = File.OpenRead(filePath);
+        return new Bitmap(stream);
     }
 
     public static Bitmap? GetImageTemp<T>() where T : IItem
@@ -39,7 +40,8 @@ public class FileRepository
             return null;
         }
 
-        return new Bitmap(filePath);
+        using var stream = File.OpenRead(filePath);
+        return new Bitmap(stream);
     }
 
     public static void Delete(string filePath)

@@ -4,6 +4,7 @@
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <Button Command="{Binding UpdateItemClick}">Save</Button>
                 <Button Command="{Binding ReplaceImage}">Replace image</Button>
+                <Button Command="{Binding CropImage}">Edit image</Button>
                 <Image Source="{Binding Image}" Width="56" Height="56" Stretch="Uniform" />
             </StackPanel>
             <view:ItemFieldsView DataContext="{Binding EditFields}" />

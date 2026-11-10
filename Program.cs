@@ -27,4 +27,3 @@ internal sealed class Program
 // Have a centra item and event loading place, and use those results, if there is any change to the list then update t just on this one place and reuse data. Have a flag that sets it to needs to update
 // People list also to load only once
 // All images to be consistent resolution in pixels, investigate the current set
-// Edit image button to have a square movable editor to make images square

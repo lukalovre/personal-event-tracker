@@ -1,0 +1,15 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="EventTracker.Views.SquareCropWindow" Title="Square crop" Width="700" Height="760" CanResize="False" WindowStartupLocation="CenterOwner">
+    <Grid RowDefinitions="*,Auto" Margin="12">
+        <Border Grid.Row="0" BorderBrush="#404040" BorderThickness="1" Padding="8" Background="#111111">
+            <Canvas x:Name="ImageCanvas" Background="Black">
+                <Image x:Name="ImageView" Stretch="Uniform" Width="640" Height="640" />
+                <Border x:Name="CropBox" BorderBrush="White" BorderThickness="2" Background="#33000000" CornerRadius="2" IsHitTestVisible="True" />
+            </Canvas>
+        </Border>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0" Spacing="8">
+            <Button Click="OnCancel" Content="Cancel" Width="90" />
+            <Button Click="OnApply" Content="Apply" Width="90" />
+        </StackPanel>
+    </Grid>
+</Window>
