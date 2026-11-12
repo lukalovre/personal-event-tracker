@@ -791,7 +791,7 @@ where TGridItem : IGridItem
             Events.AddRange(_eventList.Where(o => o.ItemID == SelectedItem.ID));
         }
 
-        EventViewModel.SelectedEvent = Events.FirstOrDefault() ?? new Event();
+        EventViewModel.SelectedEvent = Events.LastOrDefault() ?? new Event();
 
         var item = _itemList.First(o => o.ID == SelectedItem.ID);
         Image = FileRepository.GetImage<TItem>(item.ID);
