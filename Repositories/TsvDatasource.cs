@@ -15,6 +15,9 @@ namespace Repositories;
 
 internal class TsvDatasource : IDatasource
 {
+    private readonly Dictionary<Type, object> _itemLists = [];
+    private readonly Dictionary<string, object> _eventLists = new(StringComparer.Ordinal);
+
     private readonly CsvConfiguration _config = new(CultureInfo.InvariantCulture)
     {
         Delimiter = "\t",
@@ -26,13 +29,29 @@ internal class TsvDatasource : IDatasource
     {
         var type = Helpers.GetClassName<T>();
         var items = GetList<T>(type);
+        var events = GetEventList<T>();
         var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
+        var isNewItem = !items.Any(o => o.ID == item.ID);
 
-        if (!items.Any(o => o.ID == item.ID))
+        if (isNewItem)
         {
             var maxItemID = items.MaxBy(o => o.ID)?.ID ?? 0;
             item.ID = maxItemID + 1;
+        }
 
+        var maxEventID = events.MaxBy(o => o.ID)?.ID ?? 0;
+        e.ID = maxEventID + 1;
+        e.ItemID = item.ID;
+
+        if (isNewItem)
+        {
+            InvalidateItems<T>();
+        }
+
+        InvalidateEvents<T>();
+
+        if (isNewItem)
+        {
             var itemFilePath = GetFilePath<T>();
 
             using var writerItem = new StreamWriter(itemFilePath, true);
@@ -50,11 +69,6 @@ internal class TsvDatasource : IDatasource
             csvItem.WriteRecord(item);
             FileRepository.MoveTempImage<T>(item.ID);
         }
-
-        var events = GetEventList<T>();
-        var maxEventID = events.MaxBy(o => o.ID)?.ID ?? 0;
-        e.ID = maxEventID + 1;
-        e.ItemID = item.ID;
 
         var eventFilePath = GetEventFilePath<T>();
 
@@ -103,6 +117,24 @@ internal class TsvDatasource : IDatasource
 
     public List<T> GetList<T>(string type) where T : IItem
     {
+        if (!_itemLists.TryGetValue(typeof(T), out var cached))
+        {
+            cached = new CachedList<T>();
+            _itemLists[typeof(T)] = cached;
+        }
+
+        var itemCache = (CachedList<T>)cached;
+        if (itemCache.NeedsUpdate)
+        {
+            itemCache.Items = LoadList<T>();
+            itemCache.NeedsUpdate = false;
+        }
+
+        return itemCache.Items;
+    }
+
+    private List<T> LoadList<T>() where T : IItem
+    {
         var itemFilePath = GetFilePath<T>();
 
         if (!File.Exists(itemFilePath))
@@ -118,21 +150,28 @@ internal class TsvDatasource : IDatasource
 
     public List<Event> GetEventList<T>() where T : IItem
     {
-        var eventFilePath = GetEventFilePath<T>();
-
-        if (!File.Exists(eventFilePath))
-        {
-            return [];
-        }
-
-        var text = File.ReadAllText(eventFilePath);
-        var reader = new StringReader(text);
-        using var csv = new CsvReader(reader, _config);
-
-        return csv.GetRecords<Event>().ToList();
+        return GetEventList(Helpers.GetClassName<T>());
     }
 
     public List<Event> GetEventList(string type)
+    {
+        if (!_eventLists.TryGetValue(type, out var cached))
+        {
+            cached = new CachedList<Event>();
+            _eventLists[type] = cached;
+        }
+
+        var eventCache = (CachedList<Event>)cached;
+        if (eventCache.NeedsUpdate)
+        {
+            eventCache.Items = LoadEventList(type);
+            eventCache.NeedsUpdate = false;
+        }
+
+        return eventCache.Items;
+    }
+
+    private List<Event> LoadEventList(string type)
     {
         var eventFilePath = GetEventFilePath(type);
 
@@ -155,10 +194,11 @@ internal class TsvDatasource : IDatasource
 
     public void Update<T>(T item) where T : IItem
     {
-        var events = GetList<T>(nameof(T));
+        var items = GetList<T>(nameof(T));
 
-        var updateItem = events.First(o => o.ID == item.ID);
-        events[events.IndexOf(updateItem)] = item;
+        var updateItem = items.First(o => o.ID == item.ID);
+        items[items.IndexOf(updateItem)] = item;
+        InvalidateItems<T>();
 
         var itemFilePath = GetFilePath<T>();
         using var writer = new StreamWriter(itemFilePath, false, System.Text.Encoding.UTF8);
@@ -166,8 +206,31 @@ internal class TsvDatasource : IDatasource
         var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
         csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
         csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
-        csvText.WriteRecords(events);
+        csvText.WriteRecords(items);
         writer.Flush();
+    }
+
+    private void InvalidateItems<T>() where T : IItem
+    {
+        if (_itemLists.TryGetValue(typeof(T), out var itemCache))
+        {
+            ((CachedList<T>)itemCache).NeedsUpdate = true;
+        }
+    }
+
+    private void InvalidateEvents<T>() where T : IItem
+    {
+        var type = Helpers.GetClassName<T>();
+        if (_eventLists.TryGetValue(type, out var eventCache))
+        {
+            ((CachedList<Event>)eventCache).NeedsUpdate = true;
+        }
+    }
+
+    private sealed class CachedList<TItem>
+    {
+        public List<TItem> Items { get; set; } = [];
+        public bool NeedsUpdate { get; set; } = true;
     }
 
     public List<Event> GetEventListConvert<T>() where T : IItem

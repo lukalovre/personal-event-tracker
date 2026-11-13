@@ -24,7 +24,6 @@ internal sealed class Program
 
 // Make the Info/New/Edit item tabs be top level till the top of the screen
 // Have a separating line between item info and the grid, the color of the app 
-// Have a centra item and event loading place, and use those results, if there is any change to the list then update t just on this one place and reuse data. Have a flag that sets it to needs to update
 // People list also to load only once
 // All images to be consistent resolution in pixels, investigate the current set
 // Remove 1001 field for music, but first extract all albums with 1001 true as a tsv
