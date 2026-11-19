@@ -104,9 +104,9 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         private set => this.RaiseAndSetIfChanged(ref _gridCountMusicTodo2, value);
     }
 
-    protected override async void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         MusicTodo1.Clear();
         MusicTodo1.AddRange(LoadDataBookmarked(1));

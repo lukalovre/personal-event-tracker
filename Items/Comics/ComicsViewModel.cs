@@ -41,9 +41,9 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
         );
     }
 
-    protected override async void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         ComicsList.Clear();
         ComicsList.AddRange(await LoadDataByComic());

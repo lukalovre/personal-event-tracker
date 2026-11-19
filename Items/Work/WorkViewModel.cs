@@ -24,9 +24,9 @@ public partial class WorkViewModel(IDatasource datasource) : ItemViewModel<Work,
             eventList.LastEventDate());
     }
 
-    protected override async void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         var allItems = await LoadData(skipFilters: true);
         LoadItemsAndEvents(out _, out var eventList);

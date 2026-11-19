@@ -42,9 +42,9 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
         );
     }
 
-    protected override async void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         BookAuthorList.Clear();
         BookAuthorList.AddRange(await LoadDataByAuthor());

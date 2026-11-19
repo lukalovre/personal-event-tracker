@@ -49,9 +49,9 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         set => this.RaiseAndSetIfChanged(ref _selectedExistingTag, value);
     }
 
-    protected override void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         PeopleGrid.Clear();
         PeopleGrid.AddRange(LoadPeople());

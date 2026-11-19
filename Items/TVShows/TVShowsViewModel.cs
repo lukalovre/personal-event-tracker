@@ -49,9 +49,9 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
         );
     }
 
-    protected override async void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         TVShowList.Clear();
         TVShowList.AddRange(await LoadDataByDirector());

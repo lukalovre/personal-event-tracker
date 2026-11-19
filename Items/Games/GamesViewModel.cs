@@ -92,13 +92,6 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
         }
     }
 
-    private int _selectedRightTabIndex;
-    public int SelectedRightTabIndex
-    {
-        get => _selectedRightTabIndex;
-        set => this.RaiseAndSetIfChanged(ref _selectedRightTabIndex, value);
-    }
-
     private int _gridCountGameTimeList;
 
     public int GridCountGameTimeList
@@ -121,9 +114,9 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
             eventList.LastEventDate());
     }
 
-    protected override async void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         GameTimeList.Clear();
         var list = await LoadData(skipFilters: true);

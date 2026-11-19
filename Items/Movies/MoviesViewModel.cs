@@ -41,9 +41,9 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
         );
     }
 
-    protected override async void ReloadData()
+    protected override async Task ReloadDataAsync()
     {
-        base.ReloadData();
+        await base.ReloadDataAsync();
 
         DirectorGridList.Clear();
         DirectorGridList.AddRange(await LoadDataByDirector());

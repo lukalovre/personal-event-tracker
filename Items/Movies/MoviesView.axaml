@@ -37,7 +37,7 @@
 				</DataGrid>
 			</TabItem>
 		</TabControl>
-		<TabControl Margin="5">
+		<TabControl Margin="5" SelectedIndex="{Binding SelectedRightTabIndex}">
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>

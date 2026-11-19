@@ -43,7 +43,7 @@ where TGridItem : IGridItem
         Events = [];
         EventViewModel = new EventViewModel(Events, _settings.PlatformTypes, _settings);
 
-        AddItemClick = ReactiveCommand.Create(AddItemClickAction);
+        AddItemClick = ReactiveCommand.CreateFromTask(AddItemClickAction);
         AddEventClick = ReactiveCommand.Create(AddEventClickAction);
         UpdateItemClick = ReactiveCommand.Create(UpdateItemClickAction);
 
@@ -107,6 +107,7 @@ where TGridItem : IGridItem
     private int _gridCountItemsBookmarked;
     private int _addAmount;
     private string _addAmountString = string.Empty;
+    private int _selectedRightTabIndex;
 
     public EventViewModel EventViewModel { get; }
     public GridFilterViewModel GridFilterViewModel { get; }
@@ -174,6 +175,12 @@ where TGridItem : IGridItem
 
     public ObservableCollection<TGridItem> GridItems { get; set; }
     public ObservableCollection<TGridItem> GridItemsBookmarked { get; set; }
+
+    public int SelectedRightTabIndex
+    {
+        get => _selectedRightTabIndex;
+        set => this.RaiseAndSetIfChanged(ref _selectedRightTabIndex, value);
+    }
 
     public TItem SelectedItem
     {
@@ -435,7 +442,7 @@ where TGridItem : IGridItem
         HtmlHelper.OpenLink(string.Empty, [.. GetAlternativeOpenLinkSearchParams()]);
     }
 
-    private void AddItemClickAction()
+    private async Task AddItemClickAction()
     {
         if (NewItemFields.Any(field => !field.TryApply()))
         {
@@ -477,8 +484,17 @@ where TGridItem : IGridItem
         };
 
         _datasource.Add(NewItem, newEvent);
+        var newItemId = NewItem.ID;
 
-        ReloadData();
+        await ReloadDataAsync();
+
+        var newGridItem = GridItems.FirstOrDefault(item => item.ID == newItemId);
+        if (newGridItem is not null)
+        {
+            SelectedGridItem = newGridItem;
+        }
+
+        SelectedRightTabIndex = 0;
         ClearNewItemControls();
     }
 
@@ -646,7 +662,12 @@ where TGridItem : IGridItem
         ClearNewItemControls();
     }
 
-    protected virtual async void ReloadData()
+    protected async void ReloadData()
+    {
+        await ReloadDataAsync();
+    }
+
+    protected virtual async Task ReloadDataAsync()
     {
         GridItems.Clear();
         GridItems.AddRange(await LoadData());
