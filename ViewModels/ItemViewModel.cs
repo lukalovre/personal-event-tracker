@@ -376,7 +376,7 @@ where TGridItem : IGridItem
             NewImage = await ImagePicker.PickAndSaveAsync(
                 window,
                 $"{Paths.GetTempPath<TItem>()}.png",
-                typeof(TItem).Name == "Music");
+                ImageNormalizer.AppliesTo<TItem>());
             return;
         }
 
@@ -388,7 +388,7 @@ where TGridItem : IGridItem
         Image = await ImagePicker.PickAndSaveAsync(
             window,
             Paths.GetImagePath<TItem>(SelectedItem.ID),
-            typeof(TItem).Name == "Music");
+            ImageNormalizer.AppliesTo<TItem>());
     }
 
     private static Window GetMainWindow()
@@ -569,7 +569,7 @@ where TGridItem : IGridItem
         var image = await ImagePicker.PickAndSaveAsync(
             window,
             Paths.GetImagePath<TItem>(SelectedItem.ID),
-            typeof(TItem).Name == "Music");
+            ImageNormalizer.AppliesTo<TItem>());
         if (image is not null)
         {
             Image = image;
@@ -593,7 +593,7 @@ where TGridItem : IGridItem
         var result = await cropWindow.ShowDialog<bool?>(window);
         if (result == true)
         {
-            if (typeof(TItem).Name == "Music")
+            if (ImageNormalizer.AppliesTo<TItem>())
             {
                 ImageNormalizer.Normalize(imagePath);
             }

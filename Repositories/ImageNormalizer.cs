@@ -1,12 +1,15 @@
 using System;
 using System.IO;
+using EventTracker.Models;
 using SkiaSharp;
 
 namespace Repositories;
 
 public static class ImageNormalizer
 {
-    public const int TargetSize = 640;
+    public const int TargetSize = 320;
+
+    public static bool AppliesTo<T>() => typeof(T) == typeof(Music) || typeof(T) == typeof(Song);
 
     public static bool Normalize(string imagePath)
     {

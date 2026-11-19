@@ -8,7 +8,8 @@ using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class SongsViewModel(IDatasource datasource, IExternal<Song> external) : ItemViewModel<Song, SongGridItem>(datasource, external)
+public partial class SongsViewModel(IDatasource datasource, IExternal<Song> external)
+    : ItemViewModel<Song, SongGridItem>(datasource, external)
 {
     protected override List<string> GetAlternativeOpenLinkSearchParams()
     {

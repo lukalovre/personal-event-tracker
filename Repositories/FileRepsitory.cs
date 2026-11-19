@@ -15,7 +15,7 @@ public class FileRepository
 
     public static Bitmap? GetImage<T>(int itemID) where T : IItem
     {
-        return GetImage(Helpers.GetClassName<T>(), itemID, typeof(T).Name == "Music");
+        return GetImage(Helpers.GetClassName<T>(), itemID, ImageNormalizer.AppliesTo<T>());
     }
 
     public static Bitmap? GetImage(string type, int itemID, bool normalize = false)
@@ -47,7 +47,7 @@ public class FileRepository
             return null;
         }
 
-        if (typeof(T).Name == "Music")
+        if (ImageNormalizer.AppliesTo<T>())
         {
             ImageNormalizer.Normalize(filePath);
             using var normalizedStream = File.OpenRead(filePath);
@@ -78,7 +78,7 @@ public class FileRepository
             return;
         }
 
-        if (typeof(T).Name == "Music")
+        if (ImageNormalizer.AppliesTo<T>())
         {
             ImageNormalizer.Normalize(tempFile);
         }

@@ -12,7 +12,8 @@ using Repositories;
 
 namespace EventTracker.ViewModels;
 
-public partial class MusicViewModel(IDatasource datasource, IExternal<Music> external) : ItemViewModel<Music, MusicGridItem>(datasource, external)
+public partial class MusicViewModel(IDatasource datasource, IExternal<Music> external)
+    : ItemViewModel<Music, MusicGridItem>(datasource, external)
 {
     protected override string DefaultGridTabHeader => "Info";
 

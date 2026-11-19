@@ -86,7 +86,7 @@ public static class HtmlHelper
                 {
                     bitmap.Save(destination, new PngBitmapEncoderOptions());
                 }
-                if (typeof(T).Name == "Music")
+                if (ImageNormalizer.AppliesTo<T>())
                 {
                     ImageNormalizer.Normalize(destinationFile);
                 }
@@ -102,7 +102,7 @@ public static class HtmlHelper
         }
 
         await DownloadFile(imageUri.AbsoluteUri, destinationFile);
-        if (typeof(T).Name == "Music")
+        if (ImageNormalizer.AppliesTo<T>())
         {
             ImageNormalizer.Normalize(destinationFile);
         }
