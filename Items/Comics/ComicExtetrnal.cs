@@ -21,8 +21,7 @@ public class ComicExtetrnal : IExternal<Comic>
                 Writer = item.Writer,
                 Illustrator = item.Illustrator,
                 Year = item.Year,
-                ExternalID = item.GoodreadsID,
-                _1001 = false
+                ExternalID = item.GoodreadsID
             };
         }
 

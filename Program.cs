@@ -26,4 +26,3 @@ internal sealed class Program
 // Have a separating line between item info and the grid, the color of the app 
 // People list also to load only once
 // All images to be consistent resolution in pixels, investigate the current set
-// Explore and remove/extract for all others, it should be in the list tracker

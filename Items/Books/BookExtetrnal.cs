@@ -20,8 +20,7 @@ public class BookExtetrnal : IExternal<Book>
                 Title = item.Title,
                 Author = item.Writer,
                 Year = item.Year,
-                ExternalID = item.GoodreadsID,
-                is1001 = false
+                ExternalID = item.GoodreadsID
             };
         }
 

@@ -13,5 +13,4 @@ public record Book : IItem
     public string Title { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
     public int Year { get; set; }
-    public bool is1001 { get; set; }
 }
