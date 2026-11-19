@@ -341,8 +341,6 @@ where TGridItem : IGridItem
             Bookmarked = _settings.DefaultNewItemBookmarked
         };
 
-        _inputUrl = string.Empty;
-
         FilterByNewItem();
     }
 
@@ -660,7 +658,7 @@ where TGridItem : IGridItem
 
     private void ClearNewItemControls()
     {
-        this.RaiseAndSetIfChanged(ref _inputUrl, string.Empty);
+        this.RaiseAndSetIfChanged(ref _inputUrl, string.Empty, nameof(InputUrl));
         NewImage = default;
         NewEvent = new Event();
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
