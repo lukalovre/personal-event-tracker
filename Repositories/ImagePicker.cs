@@ -8,7 +8,7 @@ namespace Repositories;
 
 public static class ImagePicker
 {
-    public static async Task<Bitmap?> PickAndSaveAsync(Window window, string destinationPath)
+    public static async Task<Bitmap?> PickAndSaveAsync(Window window, string destinationPath, bool normalize = false)
     {
         var files = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
@@ -32,6 +32,14 @@ public static class ImagePicker
         Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
 
         bitmap.Save(destinationPath, new PngBitmapEncoderOptions());
-        return bitmap;
+        if (normalize)
+        {
+            ImageNormalizer.Normalize(destinationPath);
+            using var normalizedStream = File.OpenRead(destinationPath);
+            return new Bitmap(normalizedStream);
+        }
+
+        using var stream = File.OpenRead(destinationPath);
+        return new Bitmap(stream);
     }
 }

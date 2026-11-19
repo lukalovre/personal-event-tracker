@@ -373,7 +373,10 @@ where TGridItem : IGridItem
                 return;
             }
 
-            NewImage = await ImagePicker.PickAndSaveAsync(window, $"{Paths.GetTempPath<TItem>()}.png");
+            NewImage = await ImagePicker.PickAndSaveAsync(
+                window,
+                $"{Paths.GetTempPath<TItem>()}.png",
+                typeof(TItem).Name == "Music");
             return;
         }
 
@@ -382,7 +385,10 @@ where TGridItem : IGridItem
             return;
         }
 
-        Image = await ImagePicker.PickAndSaveAsync(window, Paths.GetImagePath<TItem>(SelectedItem.ID));
+        Image = await ImagePicker.PickAndSaveAsync(
+            window,
+            Paths.GetImagePath<TItem>(SelectedItem.ID),
+            typeof(TItem).Name == "Music");
     }
 
     private static Window GetMainWindow()
@@ -560,7 +566,10 @@ where TGridItem : IGridItem
             return;
         }
 
-        var image = await ImagePicker.PickAndSaveAsync(window, Paths.GetImagePath<TItem>(SelectedItem.ID));
+        var image = await ImagePicker.PickAndSaveAsync(
+            window,
+            Paths.GetImagePath<TItem>(SelectedItem.ID),
+            typeof(TItem).Name == "Music");
         if (image is not null)
         {
             Image = image;
@@ -584,6 +593,10 @@ where TGridItem : IGridItem
         var result = await cropWindow.ShowDialog<bool?>(window);
         if (result == true)
         {
+            if (typeof(TItem).Name == "Music")
+            {
+                ImageNormalizer.Normalize(imagePath);
+            }
             Image = FileRepository.GetImage<TItem>(SelectedItem.ID);
         }
     }

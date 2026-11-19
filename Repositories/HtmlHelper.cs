@@ -49,7 +49,7 @@ public static class HtmlHelper
         return link;
     }
 
-    internal async static Task DownloadPNG(string webFile, string destinationFile, HtmlDocument? sourceDocument = null)
+    internal async static Task DownloadPNG<T>(string webFile, string destinationFile, HtmlDocument? sourceDocument = null)
     {
         if (string.IsNullOrWhiteSpace(webFile))
         {
@@ -82,8 +82,14 @@ public static class HtmlHelper
             if (TryResolveLocalImage(webFile, sourceDocument, out var localImagePath))
             {
                 using var bitmap = new Bitmap(localImagePath);
-                using var destination = File.Create(destinationFile);
-                bitmap.Save(destination, new PngBitmapEncoderOptions());
+                using (var destination = File.Create(destinationFile))
+                {
+                    bitmap.Save(destination, new PngBitmapEncoderOptions());
+                }
+                if (typeof(T).Name == "Music")
+                {
+                    ImageNormalizer.Normalize(destinationFile);
+                }
             }
 
             return;
@@ -96,6 +102,10 @@ public static class HtmlHelper
         }
 
         await DownloadFile(imageUri.AbsoluteUri, destinationFile);
+        if (typeof(T).Name == "Music")
+        {
+            ImageNormalizer.Normalize(destinationFile);
+        }
     }
 
     private async static Task DownloadFile(string imageUrl, string imagePath)

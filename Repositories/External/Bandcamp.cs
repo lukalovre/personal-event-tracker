@@ -23,7 +23,7 @@ public class Bandcamp
         var imageUrl = GetImageUrl(htmlDocument);
 
         var destinationFile = Paths.GetTempPath<T>();
-        await HtmlHelper.DownloadPNG(imageUrl, destinationFile);
+        await HtmlHelper.DownloadPNG<T>(imageUrl, destinationFile);
 
         return new BandcampItem(
             title.Trim(),

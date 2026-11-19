@@ -41,7 +41,7 @@ public class Igdb
         var coverUrl = $"https://images.igdb.com/igdb/image/upload/t_cover_big/{imageId}.jpg";
 
         var destinationFile = Paths.GetTempPath<Game>();
-        await HtmlHelper.DownloadPNG(coverUrl, destinationFile);
+        await HtmlHelper.DownloadPNG<Game>(coverUrl, destinationFile);
 
         var externalID = (int)(game?.Id ?? 0);
         var title = game?.Name ?? string.Empty;

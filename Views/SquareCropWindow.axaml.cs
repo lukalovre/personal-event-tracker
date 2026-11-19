@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using SkiaSharp;
+using Repositories;
 
 namespace EventTracker.Views;
 

@@ -113,7 +113,7 @@ public class Imdb
         }
 
         var destinationFile = Paths.GetTempPath<T>();
-        await HtmlHelper.DownloadPNG(imdbData.Poster, destinationFile);
+        await HtmlHelper.DownloadPNG<T>(imdbData.Poster, destinationFile);
 
         return imdbData;
     }
