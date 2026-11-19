@@ -49,7 +49,6 @@
 				<Viewbox Classes="compact-new" Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Left" VerticalAlignment="Top">
 					<StackPanel Spacing="12">
 						<StackPanel>
-							<TextBlock Text="New Item" FontWeight="Bold" Margin="0,0,0,8" />
 							<StackPanel Orientation="Horizontal">
 								<Button Command="{Binding AddItemClick}" Margin="10">Add</Button>
 								<TextBox PlaceholderText="Paste url" Text="{Binding InputUrl}" Margin="15" Width="300" />
