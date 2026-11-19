@@ -34,7 +34,6 @@ public class MusicExternal : IExternal<Music>
                 Artist = item.Artist,
                 Title = item.Title,
                 Year = item.Year,
-                _1001 = false,
                 Runtime = item.Runtime,
                 ExternalID = item.Link
             };
@@ -50,7 +49,6 @@ public class MusicExternal : IExternal<Music>
                 Artist = item.Artist,
                 Year = item.Year,
                 Runtime = item.Runtime,
-                _1001 = false,
                 ExternalID = item.ExternalID
             };
         }

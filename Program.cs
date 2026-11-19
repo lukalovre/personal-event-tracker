@@ -26,5 +26,4 @@ internal sealed class Program
 // Have a separating line between item info and the grid, the color of the app 
 // People list also to load only once
 // All images to be consistent resolution in pixels, investigate the current set
-// Remove 1001 field for music, but first extract all albums with 1001 true as a tsv
 // Explore and remove/extract for all others, it should be in the list tracker

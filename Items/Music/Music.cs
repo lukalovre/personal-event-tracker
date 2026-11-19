@@ -13,6 +13,5 @@ public record Music : IItem, IExternal, IRuntime
     public string Title { get; set; } = string.Empty;
     public int Year { get; set; }
     public int Runtime { get; set; }
-    public bool _1001 { get; set; }
     public string ExternalID { get; set; } = string.Empty;
 }
