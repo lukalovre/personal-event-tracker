@@ -4,7 +4,8 @@ using EventTracker.Models.Interfaces;
 namespace EventTracker.Models;
 
 [Table("Concerts")]
-public record Concert : IItem
+[CsvHelper.CsvRecord]
+public partial record Concert : IItem
 {
     public int ID { get; set; }
     public string Title { get; set; } = string.Empty;

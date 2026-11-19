@@ -5,7 +5,8 @@ using EventTracker.Models.Interfaces;
 namespace EventTracker.Models;
 
 [Table("Comics")]
-public record Comic : IItem
+[CsvHelper.CsvRecord]
+public partial record Comic : IItem
 {
     [Key]
     public int ID { get; set; }

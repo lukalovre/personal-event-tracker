@@ -4,7 +4,8 @@ using EventTracker.Models.Interfaces;
 namespace EventTracker.Models;
 
 [Table("Magazines")]
-public record Magazine : IItem
+[CsvHelper.CsvRecord]
+public partial record Magazine : IItem
 {
     public int ID { get; set; }
     public string Title { get; set; } = string.Empty;

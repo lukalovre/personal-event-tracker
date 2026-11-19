@@ -5,7 +5,8 @@ using EventTracker.Models.Interfaces;
 namespace EventTracker.Models;
 
 [Table("Music")]
-public record Music : IItem, IExternal, IRuntime
+[CsvHelper.CsvRecord]
+public partial record Music : IItem, IExternal, IRuntime
 {
     [Key]
     public int ID { get; set; }

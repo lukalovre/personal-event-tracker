@@ -1,14 +1,17 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using CsvHelper;
 
 namespace EventTracker.Models;
 
-public record Event
+[CsvRecord]
+public partial record Event
 {
     [Key]
     public int ID { get; set; }
     public int ItemID { get; set; }
     public string ExternalID { get; set; } = string.Empty;
+    [CsvFormat("yyyy-MM-dd HH:mm:ss")]
     public DateTime? DateEnd { get; set; }
     public int? Rating { get; set; }
     public bool Bookmarked { get; set; }

@@ -8,8 +8,6 @@ using EventTracker.Models;
 using EventTracker.Models.Interfaces;
 using EventTracker.Repositories;
 using CsvHelper;
-using CsvHelper.Configuration;
-using CsvHelper.TypeConversion;
 
 namespace Repositories;
 
@@ -18,11 +16,20 @@ internal class TsvDatasource : IDatasource
     private readonly Dictionary<Type, object> _itemLists = [];
     private readonly Dictionary<string, object> _eventLists = new(StringComparer.Ordinal);
 
-    private readonly CsvConfiguration _config = new(CultureInfo.InvariantCulture)
+    private readonly CsvReaderOptions _readerOptions = new()
     {
-        Delimiter = "\t",
-        MissingFieldFound = null,
-        BadDataFound = null
+        Separator = '\t',
+        FormatProvider = CultureInfo.InvariantCulture,
+        MissingField = CsvMissingFieldHandling.ReturnEmpty,
+        MalformedData = CsvMalformedDataHandling.Recover,
+        FieldCountMismatch = CsvFieldCountHandling.Allow
+    };
+
+    private static readonly CsvWriterOptions _writerOptions = new()
+    {
+        Separator = '\t',
+        FormatProvider = CultureInfo.InvariantCulture,
+        NewLine = Environment.NewLine
     };
 
     public void Add<T>(T item, Event e) where T : IItem
@@ -30,7 +37,6 @@ internal class TsvDatasource : IDatasource
         var type = Helpers.GetClassName<T>();
         var items = GetList<T>(type);
         var events = GetEventList<T>();
-        var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
         var isNewItem = !items.Any(o => o.ID == item.ID);
 
         if (isNewItem)
@@ -53,11 +59,10 @@ internal class TsvDatasource : IDatasource
         if (isNewItem)
         {
             var itemFilePath = GetFilePath<T>();
+            EnsureTrailingNewline(itemFilePath);
 
             using var writerItem = new StreamWriter(itemFilePath, true);
-            using var csvItem = new CsvWriter(writerItem, _config);
-            csvItem.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
-            csvItem.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
+            using var csvItem = CsvWriter.Create(writerItem, _writerOptions);
 
             if (item.ID == 1)
             {
@@ -65,17 +70,15 @@ internal class TsvDatasource : IDatasource
                 csvItem.WriteHeader<T>();
             }
 
-            csvItem.NextRecord();
             csvItem.WriteRecord(item);
             FileRepository.MoveTempImage<T>(item.ID);
         }
 
         var eventFilePath = GetEventFilePath<T>();
+        EnsureTrailingNewline(eventFilePath);
 
         using var writerEvent = new StreamWriter(eventFilePath, true);
-        using var csvEvent = new CsvWriter(writerEvent, _config);
-        csvEvent.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
-        csvEvent.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
+        using var csvEvent = CsvWriter.Create(writerEvent, _writerOptions);
 
         if (e.ID == 1)
         {
@@ -83,12 +86,31 @@ internal class TsvDatasource : IDatasource
             csvEvent.WriteHeader<Event>();
         }
 
-        csvEvent.NextRecord();
         csvEvent.WriteRecord(e);
 
         if (!FileRepository.ImageExists<T>(item.ID))
         {
             FileRepository.MoveTempImage<T>(item.ID);
+        }
+    }
+
+    private static void EnsureTrailingNewline(string filePath)
+    {
+        if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
+        {
+            return;
+        }
+
+        using var stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+        stream.Seek(-1, SeekOrigin.End);
+        var lastByte = stream.ReadByte();
+
+        if (lastByte is not ('\n' or '\r'))
+        {
+            stream.Seek(0, SeekOrigin.End);
+            using var writer = new StreamWriter(stream, leaveOpen: true);
+            writer.Write(_writerOptions.NewLine);
+            writer.Flush();
         }
     }
 
@@ -144,7 +166,7 @@ internal class TsvDatasource : IDatasource
 
         var text = File.ReadAllText(itemFilePath);
         var reader = new StringReader(text);
-        using var csv = new CsvReader(reader, _config);
+        using var csv = CsvReader.Create(reader, _readerOptions);
         return csv.GetRecords<T>().ToList();
     }
 
@@ -182,7 +204,7 @@ internal class TsvDatasource : IDatasource
 
         var text = File.ReadAllText(eventFilePath);
         var reader = new StringReader(text);
-        using var csv = new CsvReader(reader, _config);
+        using var csv = CsvReader.Create(reader, _readerOptions);
 
         return csv.GetRecords<Event>().ToList();
     }
@@ -202,10 +224,7 @@ internal class TsvDatasource : IDatasource
 
         var itemFilePath = GetFilePath<T>();
         using var writer = new StreamWriter(itemFilePath, false, System.Text.Encoding.UTF8);
-        using var csvText = new CsvWriter(writer, _config);
-        var options = new TypeConverterOptions { Formats = ["yyyy-MM-dd HH:mm:ss"] };
-        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime>(options);
-        csvText.Context.TypeConverterOptionsCache.AddOptions<DateTime?>(options);
+        using var csvText = CsvWriter.Create(writer, _writerOptions);
         csvText.WriteRecords(items);
         writer.Flush();
     }
