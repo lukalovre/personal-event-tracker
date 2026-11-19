@@ -36,12 +36,19 @@ public class Bandcamp
 
     private static string GetImageUrl(HtmlDocument htmlDocument)
     {
-        return htmlDocument
+        var popupImageNode = htmlDocument
             ?.DocumentNode
-            ?.SelectSingleNode("//a[@class='popupImage']")
-            ?.Attributes["href"]
+            ?.SelectSingleNode("//a[@class='popupImage']");
+
+        var imageUrl = popupImageNode
+            ?.SelectSingleNode("./img")
+            ?.Attributes["src"]
             ?.Value
-            ?.Trim()
+            ?.Trim();
+
+        return !string.IsNullOrWhiteSpace(imageUrl)
+            ? imageUrl
+            : popupImageNode?.Attributes["href"]?.Value?.Trim()
             ?? string.Empty;
     }
 
