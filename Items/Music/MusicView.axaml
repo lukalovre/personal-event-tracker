@@ -61,6 +61,36 @@
                     </DataGrid>
                 </DockPanel>
             </TabItem>
+            <TabItem Header="1">
+                <DockPanel>
+                    <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
+                    <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarkedWithoutImage}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="150" />
+                            <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+                            <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+                            <DataGridTextColumn Binding="{Binding Minutes}" Header="Min" Width="67" />
+                            <DataGridTextColumn Binding="{Binding Played}" Header="#" Width="51" />
+                            <DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="60" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="2">
+                <DockPanel>
+                    <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
+                    <DataGrid Margin="1" Width="570" ItemsSource="{Binding GridItemsBookmarkedSpotify}" IsReadOnly="True" GridLinesVisibility="All" BorderThickness="2" BorderBrush="Teal" SelectedItem="{Binding SelectedGridItem}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Artist}" Header="Artist" Width="150" />
+                            <DataGridTextColumn Binding="{Binding Title}" Header="Title" Width="*" />
+                            <DataGridTextColumn Binding="{Binding Year}" Header="Year" Width="70" />
+                            <DataGridTextColumn Binding="{Binding Minutes}" Header="Min" Width="67" />
+                            <DataGridTextColumn Binding="{Binding Played}" Header="#" Width="51" />
+                            <DataGridTextColumn Binding="{Binding Platform}" Header="Platform" Width="60" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
             <TabItem Header="Artists">
                 <DockPanel>
                     <view:GridFilterView DataContext="{Binding GridFilterViewModel}" DockPanel.Dock="Top"/>
