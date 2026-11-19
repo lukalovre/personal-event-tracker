@@ -37,7 +37,7 @@
             </Grid>
             <StackPanel Orientation="Horizontal" Margin="1" IsVisible="{Binding ShowPlatformInNewEvent}">
                 <TextBlock Text="Platform" VerticalAlignment="Center" Width="75" />
-                <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEvent.Platform}" Width="100" />
+                <ComboBox ItemsSource="{Binding PlatformTypes}" SelectedItem="{Binding NewEventPlatform, Mode=TwoWay}" Width="100" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="1">
                 <TextBox PlaceholderText="Comment" Text="{Binding NewEvent.Comment}" Width="210" Height="65" TextWrapping="Wrap" IsVisible="{Binding ShowCommentInNewEvent}" Margin="0,0,12,0" />

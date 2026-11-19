@@ -593,7 +593,7 @@ where TGridItem : IGridItem
         var lastEvent = Events.MaxBy(o => o.DateEnd) ?? Events.LastOrDefault();
 
         var amount = _newAmount == 0
-        ? lastEvent?.Amount ?? 0
+        ? EventViewModel.NewItemAmount
         : _newAmount;
 
         var dateEnd = !EventViewModel.IsEditDate
@@ -609,22 +609,24 @@ where TGridItem : IGridItem
             chapter = EventViewModel?.NewEventChapter ?? _settings.DefaultNewItemChapter;
         }
 
+        var eventForm = EventViewModel?.NewEvent
+            ?? throw new InvalidOperationException("The event form is unavailable.");
         var newEvent = new Event
         {
             ID = 0,
             ItemID = 0,
             ExternalID = string.Empty,
             DateEnd = dateEnd,
-            Rating = lastEvent?.Rating ?? 0,
-            Bookmarked = lastEvent?.Bookmarked ?? false,
-            Chapter = chapter,
+            Rating = eventForm.Rating,
+            Bookmarked = eventForm.Bookmarked,
+            Chapter = eventForm.Chapter ?? chapter,
             Amount = amount,
             AmountType = lastEvent?.AmountType ?? 0,
-            Completed = lastEvent?.Completed ?? false,
-            Comment = lastEvent?.Comment ?? string.Empty,
+            Completed = eventForm.Completed,
+            Comment = eventForm.Comment,
             People = people,
-            Platform = EventViewModel?.SelectedPlatformType ?? string.Empty,
-            LocationID = lastEvent?.LocationID
+            Platform = eventForm.Platform,
+            LocationID = eventForm.LocationID ?? lastEvent?.LocationID
         };
 
         _datasource.Add(SelectedItem, newEvent);

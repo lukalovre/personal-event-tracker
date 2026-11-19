@@ -73,6 +73,7 @@ public partial class EventViewModel : ViewModelBase
             this.RaiseAndSetIfChanged(ref _selectedEvent, normalizedValue);
             SelectedEventChanged();
             this.RaisePropertyChanged(nameof(NewEvent));
+            this.RaisePropertyChanged(nameof(NewEventPlatform));
             this.RaisePropertyChanged(nameof(NewItemAmount));
             this.RaisePropertyChanged(nameof(NewDate));
             this.RaisePropertyChanged(nameof(SelectedEventDateTimeText));
@@ -148,6 +149,23 @@ public partial class EventViewModel : ViewModelBase
     {
         get => _selectedPlatformType;
         set => this.RaiseAndSetIfChanged(ref _selectedPlatformType, value);
+    }
+
+    public string NewEventPlatform
+    {
+        get => NewEvent.Platform;
+        set
+        {
+            var platform = value ?? string.Empty;
+            if (NewEvent.Platform == platform)
+            {
+                return;
+            }
+
+            NewEvent.Platform = platform;
+            this.RaisePropertyChanged();
+            SelectedPlatformType = platform;
+        }
     }
 
     public int NewEventChapter
