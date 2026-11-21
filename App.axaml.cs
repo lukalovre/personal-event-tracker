@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Threading;
 using EventTracker.ViewModels;
 using EventTracker.Views;
 using Repositories;
@@ -23,14 +22,8 @@ public partial class App : Application
             desktop.MainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(new TsvDatasource()),
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                Position = new PixelPoint(0, 1000)
+                WindowStartupLocation = WindowStartupLocation.Manual
             };
-
-            Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                desktop.MainWindow.WindowState = WindowState.Maximized;
-            }, DispatcherPriority.Background);
         }
 
         base.OnFrameworkInitializationCompleted();

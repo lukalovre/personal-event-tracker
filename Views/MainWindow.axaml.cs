@@ -29,6 +29,20 @@ public partial class MainWindow : Window
 
     private void OnLoaded(object? sender, RoutedEventArgs e)
     {
+        var primaryScreen = Screens.Primary;
+        if (primaryScreen is not null)
+        {
+            var leftScreen = Screens.All
+                .Where(screen => !screen.IsPrimary && screen.Bounds.X < primaryScreen.Bounds.X)
+                .OrderByDescending(screen => screen.Bounds.X + screen.Bounds.Width)
+                .FirstOrDefault();
+            var startupScreen = leftScreen ?? primaryScreen;
+
+            Position = new PixelPoint(startupScreen.WorkingArea.X, startupScreen.WorkingArea.Y);
+        }
+
+        WindowState = WindowState.Maximized;
+
         var mainTabControl = (Content as Control)?.GetVisualDescendants().OfType<TabControl>().FirstOrDefault();
         if (mainTabControl?.SelectedItem is not TabItem selectedTab)
         {
