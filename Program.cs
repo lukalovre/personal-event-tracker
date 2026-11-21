@@ -21,7 +21,3 @@ internal sealed class Program
 			.LogToTrace()
 			.UseReactiveUI();
 }
-
-// Make the Info/New/Edit item tabs be top level till the top of the screen
-// Have a separating line between item info and the grid, the color of the app 
-// People list also to load only once

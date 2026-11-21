@@ -61,7 +61,7 @@ public partial class TVShowsViewModel(IDatasource datasource, IExternal<TVShow> 
     {
         if (tabHeader == "Shows")
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             TVShowList.Clear();
             TVShowList.AddRange(await LoadDataByDirector());
             return;

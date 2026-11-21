@@ -53,7 +53,7 @@ public partial class ComicsViewModel(IDatasource datasource, IExternal<Comic> ex
     {
         if (tabHeader == "Comics")
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             ComicsList.Clear();
             ComicsList.AddRange(await LoadDataByComic());
             return;

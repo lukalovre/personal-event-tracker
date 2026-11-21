@@ -64,7 +64,7 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
     {
         if (tabHeader == "Directors")
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             DirectorGridList.Clear();
             DirectorGridList.AddRange(await LoadDataByDirector());
             return;
@@ -72,7 +72,7 @@ public partial class MoviesViewModel(IDatasource datasource, IExternal<Movie> ex
 
         if (tabHeader == "Cinema")
         {
-            LoadItemsAndEvents(out List<Movie> itemList, out List<Event> eventList, realLoad: true);
+            LoadItemsAndEvents(out List<Movie> itemList, out List<Event> eventList);
             var cinemaMovies = eventList
                 .Where(o => string.Equals(o.Platform, "Cinema", System.StringComparison.OrdinalIgnoreCase))
                 .OrderByDescending(o => o.DateEnd)

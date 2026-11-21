@@ -134,12 +134,12 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         switch (tabHeader)
         {
             case "Todo 1":
-                LoadItemsAndEvents(out _, out _, realLoad: true);
+                LoadItemsAndEvents(out _, out _);
                 MusicTodo1.AddRange(LoadDataBookmarked(1));
                 GridCountMusicTodo1 = MusicTodo1.Count;
                 return;
             case "Todo 2":
-                LoadItemsAndEvents(out _, out _, realLoad: true);
+                LoadItemsAndEvents(out _, out _);
                 MusicTodo2.AddRange(LoadDataBookmarked(2));
                 GridCountMusicTodo2 = MusicTodo2.Count;
                 return;
@@ -152,11 +152,11 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
                 GridItemsBookmarkedSpotify.AddRange(LoadBookmarkedMusic(item => IsSpotifyLink(item.ExternalID)));
                 return;
             case "Artists":
-                LoadItemsAndEvents(out _, out _, realLoad: true);
+                LoadItemsAndEvents(out _, out _);
                 GridItemsArtists.AddRange(LoadDataByArtist());
                 return;
             case "Albums":
-                LoadItemsAndEvents(out _, out _, realLoad: true);
+                LoadItemsAndEvents(out _, out _);
                 GridItemsAlbums.AddRange(LoadDataByAlbum());
                 return;
             default:
@@ -181,7 +181,7 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
 
     private List<MusicGridItem> LoadBookmarkedMusic(Func<Music, bool> predicate)
     {
-        LoadItemsAndEvents(out List<Music> itemList, out _, realLoad: true);
+        LoadItemsAndEvents(out List<Music> itemList, out _);
 
         var matchingItemIDs = itemList
             .Where(predicate)

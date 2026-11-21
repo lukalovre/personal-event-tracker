@@ -90,6 +90,7 @@ where TGridItem : IGridItem
     private TGridItem _selectedGridItem = default!;
     private List<TItem> _itemList = [];
     protected List<Event> _eventList = [];
+    private bool _hasLoadedItemsAndEvents;
     private TItem _newItem = default!;
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
@@ -669,6 +670,8 @@ where TGridItem : IGridItem
 
     protected virtual async Task ReloadDataAsync()
     {
+        LoadItemsAndEvents(out _, out _, realLoad: true);
+
         GridItems.Clear();
         GridItems.AddRange(await LoadData());
         GridFilterViewModel.GridCountItems = GridItems.Count;
@@ -687,7 +690,7 @@ where TGridItem : IGridItem
 
     internal async Task<List<TGridItem>> LoadData(string searchText = null!, bool skipFilters = false)
     {
-        LoadItemsAndEvents(out _, out _, realLoad: true);
+        LoadItemsAndEvents(out _, out _);
 
         searchText ??= GridFilterViewModel.SearchText;
 
@@ -733,17 +736,16 @@ where TGridItem : IGridItem
 
     protected void LoadItemsAndEvents(out List<TItem> itemList, out List<Event> eventList, bool realLoad = false)
     {
-        itemList = _itemList;
-        eventList = _eventList;
-
-        if (!realLoad)
+        if (realLoad || !_hasLoadedItemsAndEvents)
         {
-            return;
+            var type = Helpers.GetClassName<TItem>();
+            _itemList = _datasource.GetList<TItem>(type);
+            _eventList = _datasource.GetEventList(type);
+            _hasLoadedItemsAndEvents = true;
         }
 
-        var type = Helpers.GetClassName<TItem>();
-        _itemList = _datasource.GetList<TItem>(type);
-        _eventList = _datasource.GetEventList(type);
+        itemList = _itemList;
+        eventList = _eventList;
     }
 
     protected List<TGridItem> LoadDataBookmarked(int? yearsAgo = null)
@@ -878,7 +880,7 @@ where TGridItem : IGridItem
     {
         if (string.Equals(tabHeader, "★", StringComparison.Ordinal))
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             GridItemsBookmarked.AddRange(LoadDataBookmarked());
 
             if (GridItemsBookmarked.Count > 0)

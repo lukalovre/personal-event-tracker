@@ -132,7 +132,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
     {
         if (tabHeader == "Time")
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             var list = await LoadData(skipFilters: true);
             GameTimeList.AddRange(list.OrderByDescending(o => o.Time));
             GridCountGameTimeList = GameTimeList.Count;
@@ -141,7 +141,7 @@ public partial class GamesViewModel(IDatasource datasource, IExternal<Game> exte
 
         if (tabHeader == "Developers")
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             GameDeveloperList.AddRange(await LoadDataByDeveloper());
             if (GameDeveloperList.Count > 0)
             {

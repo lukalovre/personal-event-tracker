@@ -54,7 +54,7 @@ public partial class BooksViewModel(IDatasource datasource, IExternal<Book> exte
     {
         if (tabHeader == "Authors")
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             BookAuthorList.Clear();
             BookAuthorList.AddRange(await LoadDataByAuthor());
             return;

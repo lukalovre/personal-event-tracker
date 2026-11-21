@@ -67,7 +67,7 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
 
     protected override Task LoadGridTabData(string? tabHeader)
     {
-        LoadItemsAndEvents(out _, out _, realLoad: true);
+        LoadItemsAndEvents(out _, out _);
 
         switch (tabHeader)
         {
@@ -123,7 +123,7 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
 
     private List<PersonGridItem> LoadPeople()
     {
-        var itemList = _datasource.GetList<Person>(Helpers.GetClassName<Person>());
+        LoadItemsAndEvents(out List<Person> itemList, out _);
         var searchText = GridFilterViewModel.SearchText?.Trim() ?? string.Empty;
 
         return itemList
@@ -137,7 +137,8 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
 
     private List<string> LoadExistingTags()
     {
-        return _datasource.GetList<Person>(Helpers.GetClassName<Person>())
+        LoadItemsAndEvents(out List<Person> itemList, out _);
+        return itemList
             .SelectMany(person => person.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
             .Where(tag => !string.IsNullOrWhiteSpace(tag))
             .Distinct(StringComparer.OrdinalIgnoreCase)
@@ -264,7 +265,7 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
             }
 
             var person = PeopleGrid.FirstOrDefault(item => item.ID == value.ID)
-                ?? _datasource.GetList<Person>(Helpers.GetClassName<Person>())
+                ?? GetPeopleFromCache()
                     .Where(item => item.ID == value.ID)
                     .Select(item => Convert(null!, item, null!))
                     .FirstOrDefault();
@@ -296,6 +297,12 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
         ActivePeopleGrid.Clear();
         ActivePeopleGrid.AddRange(LoadPeople().Where(person => HasTag(person.Tags, "Active")));
         return PeopleGrid.Count;
+    }
+
+    private List<Person> GetPeopleFromCache()
+    {
+        LoadItemsAndEvents(out List<Person> people, out _);
+        return people;
     }
 
     public void SelectedPersonChanged()

@@ -55,7 +55,7 @@ public partial class WorkViewModel(IDatasource datasource) : ItemViewModel<Work,
     {
         if (tabHeader is "Completed" or "Unfinished")
         {
-            LoadItemsAndEvents(out _, out _, realLoad: true);
+            LoadItemsAndEvents(out _, out _);
             var allItems = await LoadData(skipFilters: true);
             var latestEvents = _eventList
                 .OrderByDescending(o => o.DateEnd)
