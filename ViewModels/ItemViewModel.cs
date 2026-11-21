@@ -91,6 +91,8 @@ where TGridItem : IGridItem
     private List<TItem> _itemList = [];
     protected List<Event> _eventList = [];
     private bool _hasLoadedItemsAndEvents;
+    private bool _hasLoadedGridData;
+    private List<(TGridItem Item, DateTime? DateEnd, string SearchableText)> _gridData = [];
     private TItem _newItem = default!;
     private Bitmap? _itemImage;
     private Bitmap? _newItemImage;
@@ -688,17 +690,17 @@ where TGridItem : IGridItem
         NewItem = (TItem)Activator.CreateInstance(typeof(TItem))!;
     }
 
-    internal async Task<List<TGridItem>> LoadData(string searchText = null!, bool skipFilters = false)
+    internal Task<List<TGridItem>> LoadData(string searchText = null!, bool skipFilters = false)
     {
         LoadItemsAndEvents(out _, out _);
 
         searchText ??= GridFilterViewModel.SearchText;
-
-        var result = _eventList
-                    .OrderByDescending(o => o.DateEnd)
-                    .DistinctBy(o => o.ItemID)
-                    .OrderByDescending(o => o.DateEnd)
-                    .ToList();
+        searchText = searchText.Trim();
+        if (searchText.Length < 3)
+        {
+            searchText = string.Empty;
+        }
+        var result = GetGridData();
 
         if (!skipFilters
             && GridFilterViewModel.IsYearFilterEnabled
@@ -707,31 +709,44 @@ where TGridItem : IGridItem
             && string.IsNullOrWhiteSpace(searchText))
         {
             result = result
-            .Where(o =>
-            o.DateEnd.HasValue
-            && o.DateEnd.Value >= DateTimeFilter.Value
-            && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
+            .Where(o => o.DateEnd.HasValue
+                && o.DateEnd.Value >= DateTimeFilter.Value
+                && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
             .ToList();
         }
-
-        var resultGrid = result.Select(o =>
-                        Convert(
-                            o,
-                            _itemList.First(m => m.ID == o.ItemID),
-                            _eventList.Where(e => e.ItemID == o.ItemID)
-                        )
-                        ).ToList();
 
         if (!skipFilters && !string.IsNullOrWhiteSpace(searchText))
         {
-            resultGrid = resultGrid
-            .Where(o =>
-                JsonConvert.SerializeObject(o)
-                .Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+            result = result
+            .Where(o => o.SearchableText.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
             .ToList();
         }
 
-        return resultGrid;
+        return Task.FromResult(result.Select(o => o.Item).ToList());
+    }
+
+    private List<(TGridItem Item, DateTime? DateEnd, string SearchableText)> GetGridData()
+    {
+        if (_hasLoadedGridData)
+        {
+            return _gridData;
+        }
+
+        _gridData = _eventList
+            .OrderByDescending(o => o.DateEnd)
+            .DistinctBy(o => o.ItemID)
+            .Select(e =>
+            {
+                var gridItem = Convert(
+                    e,
+                    _itemList.First(item => item.ID == e.ItemID),
+                    _eventList.Where(itemEvent => itemEvent.ItemID == e.ItemID));
+
+                return (gridItem, e.DateEnd, JsonConvert.SerializeObject(gridItem));
+            })
+            .ToList();
+        _hasLoadedGridData = true;
+        return _gridData;
     }
 
     protected void LoadItemsAndEvents(out List<TItem> itemList, out List<Event> eventList, bool realLoad = false)
@@ -742,6 +757,8 @@ where TGridItem : IGridItem
             _itemList = _datasource.GetList<TItem>(type);
             _eventList = _datasource.GetEventList(type);
             _hasLoadedItemsAndEvents = true;
+            _hasLoadedGridData = false;
+            _gridData.Clear();
         }
 
         itemList = _itemList;

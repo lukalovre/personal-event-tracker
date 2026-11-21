@@ -30,7 +30,17 @@ public class GridFilterViewModel : ViewModelBase
     public string SearchText
     {
         get => _searchText;
-        set => this.RaiseAndSetIfChanged(ref _searchText, value);
+        set
+        {
+            var searchText = value ?? string.Empty;
+            if (_searchText == searchText)
+            {
+                return;
+            }
+
+            this.RaiseAndSetIfChanged(ref _searchText, searchText);
+            GridCountItems = _dataGrid.ReloadData();
+        }
     }
 
     private int _yearFilter = DateTime.Now.Year;
@@ -65,12 +75,10 @@ public class GridFilterViewModel : ViewModelBase
     private void SearchAction()
     {
         SearchText = SearchText?.Trim() ?? string.Empty;
-        GridCountItems = _dataGrid.ReloadData();
     }
 
     private void ReloadAction()
     {
         SearchText = string.Empty;
-        GridCountItems = _dataGrid.ReloadData();
     }
 }

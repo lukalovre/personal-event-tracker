@@ -20,6 +20,8 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
     private PersonGridItem _selectedPersonGridItem = null!;
     private BirthdayGridItem? _selectedBirthdayGridItem;
     private string _selectedExistingTag = string.Empty;
+    private List<PersonGridItem> _allPeopleGrid = [];
+    private bool _hasLoadedPeopleGrid;
 
     public PeopleViewModel(IDatasource datasource) : base(datasource, null!)
     {
@@ -53,6 +55,7 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
     {
         await base.ReloadDataAsync();
 
+        _hasLoadedPeopleGrid = false;
         PeopleGrid.Clear();
         PeopleGrid.AddRange(LoadPeople());
         ExistingTags.Clear();
@@ -123,16 +126,33 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
 
     private List<PersonGridItem> LoadPeople()
     {
-        LoadItemsAndEvents(out List<Person> itemList, out _);
         var searchText = GridFilterViewModel.SearchText?.Trim() ?? string.Empty;
+        if (searchText.Length < 3)
+        {
+            searchText = string.Empty;
+        }
 
-        return itemList
+        return GetAllPeopleGrid()
             .Where(person => string.IsNullOrWhiteSpace(searchText)
                 || MatchesSearch(person.FirstName, searchText)
                 || MatchesSearch(person.LastName, searchText)
                 || MatchesSearch(person.Nickname, searchText))
-            .Select(o => Convert(null!, o, Array.Empty<Event>()))
             .ToList();
+    }
+
+    private List<PersonGridItem> GetAllPeopleGrid()
+    {
+        if (_hasLoadedPeopleGrid)
+        {
+            return _allPeopleGrid;
+        }
+
+        LoadItemsAndEvents(out List<Person> itemList, out _);
+        _allPeopleGrid = itemList
+            .Select(person => Convert(null!, person, Array.Empty<Event>()))
+            .ToList();
+        _hasLoadedPeopleGrid = true;
+        return _allPeopleGrid;
     }
 
     private List<string> LoadExistingTags()
@@ -288,14 +308,6 @@ public partial class PeopleViewModel : ItemViewModel<Person, PersonGridItem>, ID
     {
         PeopleGrid.Clear();
         PeopleGrid.AddRange(LoadPeople());
-        ExistingTags.Clear();
-        ExistingTags.AddRange(LoadExistingTags());
-        BirthdaysGrid.Clear();
-        BirthdaysGrid.AddRange(LoadBirthdays());
-        MissingBirthdaysGrid.Clear();
-        MissingBirthdaysGrid.AddRange(LoadPeople().Where(person => string.IsNullOrWhiteSpace(person.Birthday)));
-        ActivePeopleGrid.Clear();
-        ActivePeopleGrid.AddRange(LoadPeople().Where(person => HasTag(person.Tags, "Active")));
         return PeopleGrid.Count;
     }
 
