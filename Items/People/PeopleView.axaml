@@ -46,7 +46,7 @@
 			<TabItem Header="Info">
 				<ScrollViewer>
 					<StackPanel>
-						<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Margin="5">🔍</Button>
+						<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Margin="5">&#x1F50D;&#xFE0E;</Button>
 						<StackPanel Orientation="Horizontal">
 							<Button>
 								<Image Source="{Binding Image}" Width="200" Height="200" />

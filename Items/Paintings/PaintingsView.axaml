@@ -34,7 +34,7 @@
 					<StackPanel>
 						<TextBlock Text="{Binding SelectedItem.Title}" />
 						<TextBlock Text="{Binding SelectedItem.Year}" />
-						<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Margin="5">🔍</Button>
+						<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Margin="5">&#x1F50D;&#xFE0E;</Button>
 						<Button>
 							<Image Source="{Binding Image}" Width="400" Height="400" />
 						</Button>

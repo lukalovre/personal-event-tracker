@@ -46,7 +46,7 @@
 							<Button Command="{Binding OpenLink}" ToolTip.Tip="{Binding OpenLinkToolTip}" Height="32" Margin="0,5,0,5">
 								<TextBlock Text="Open ↗" />
 							</Button>
-							<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Height="32" Margin="5">🔍</Button>
+							<Button Command="{Binding Search}" ToolTip.Tip="Search the web" Height="32" Margin="5">&#x1F50D;&#xFE0E;</Button>
 						</StackPanel>
 						<Button>
 							<Image Source="{Binding Image}" Width="400" Height="400" />
