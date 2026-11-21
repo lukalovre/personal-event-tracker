@@ -23,9 +23,6 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
     public bool IsOpenLinkSoundCloud => GetOpenLinkProvider() == "SoundCloud";
     public bool IsOpenLinkBandcamp => GetOpenLinkProvider() == "Bandcamp";
 
-    public ObservableCollection<MusicGridItem> GridItemsBookmarkedWithoutImage { get; set; } = [];
-    public ObservableCollection<MusicGridItem> GridItemsBookmarkedSpotify { get; set; } = [];
-
     protected override void OnSelectedItemChanged()
     {
         this.RaisePropertyChanged(nameof(OpenLinkProviderName));
@@ -116,12 +113,6 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         MusicTodo2.AddRange(LoadDataBookmarked(2));
         GridCountMusicTodo2 = MusicTodo2.Count;
 
-        GridItemsBookmarkedWithoutImage.Clear();
-        GridItemsBookmarkedWithoutImage.AddRange(LoadBookmarkedMusic(item => !FileRepository.ImageExists<Music>(item.ID)));
-
-        GridItemsBookmarkedSpotify.Clear();
-        GridItemsBookmarkedSpotify.AddRange(LoadBookmarkedMusic(item => IsSpotifyLink(item.ExternalID)));
-
         GridItemsArtists.Clear();
         GridItemsArtists.AddRange(LoadDataByArtist());
 
@@ -143,14 +134,6 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
                 MusicTodo2.AddRange(LoadDataBookmarked(2));
                 GridCountMusicTodo2 = MusicTodo2.Count;
                 return;
-            case "1":
-                GridItemsBookmarkedWithoutImage.Clear();
-                GridItemsBookmarkedWithoutImage.AddRange(LoadBookmarkedMusic(item => !FileRepository.ImageExists<Music>(item.ID)));
-                return;
-            case "2":
-                GridItemsBookmarkedSpotify.Clear();
-                GridItemsBookmarkedSpotify.AddRange(LoadBookmarkedMusic(item => IsSpotifyLink(item.ExternalID)));
-                return;
             case "Artists":
                 LoadItemsAndEvents(out _, out _);
                 GridItemsArtists.AddRange(LoadDataByArtist());
@@ -171,26 +154,10 @@ public partial class MusicViewModel(IDatasource datasource, IExternal<Music> ext
         {
             "Todo 1" => MusicTodo1.Count,
             "Todo 2" => MusicTodo2.Count,
-            "1" => GridItemsBookmarkedWithoutImage.Count,
-            "2" => GridItemsBookmarkedSpotify.Count,
             "Artists" => GridItemsArtists.Count,
             "Albums" => GridItemsAlbums.Count,
             _ => base.GetLoadedGridCount(tabHeader)
         };
-    }
-
-    private List<MusicGridItem> LoadBookmarkedMusic(Func<Music, bool> predicate)
-    {
-        LoadItemsAndEvents(out List<Music> itemList, out _);
-
-        var matchingItemIDs = itemList
-            .Where(predicate)
-            .Select(item => item.ID)
-            .ToHashSet();
-
-        return LoadDataBookmarked()
-            .Where(item => matchingItemIDs.Contains(item.ID))
-            .ToList();
     }
 
     private List<ArtistGridItem> LoadDataByArtist()
