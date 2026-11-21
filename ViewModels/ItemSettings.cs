@@ -18,6 +18,7 @@ public record ItemSettings
     public bool ShowPeopleInNewEvent { get; set; } = true;
     public bool DefaultNewItemCompleted { get; set; }
     public DateTime? DateTimeFilter { get; set; }
+    public bool IsRelativeDateTimeFilter { get; set; }
     public int DefaultNewItemRating { get; set; } = 1;
     public int DefaultAddAmount { get; set; }
     public string DefaultNewItemPlatform { get; set; } = string.Empty;

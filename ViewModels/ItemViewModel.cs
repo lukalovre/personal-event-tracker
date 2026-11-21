@@ -705,14 +705,23 @@ where TGridItem : IGridItem
         if (!skipFilters
             && GridFilterViewModel.IsYearFilterEnabled
             && DateTimeFilter.HasValue
-            && DateTimeFilter != DateTime.MinValue
-            && string.IsNullOrWhiteSpace(searchText))
+            && DateTimeFilter != DateTime.MinValue)
         {
-            result = result
-            .Where(o => o.DateEnd.HasValue
-                && o.DateEnd.Value >= DateTimeFilter.Value
-                && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
-            .ToList();
+            if (_settings.IsRelativeDateTimeFilter)
+            {
+                var startOfToday = DateTime.Today;
+                result = result
+                    .Where(o => o.DateEnd.HasValue && o.DateEnd.Value >= startOfToday)
+                    .ToList();
+            }
+            else
+            {
+                result = result
+                    .Where(o => o.DateEnd.HasValue
+                        && o.DateEnd.Value >= DateTimeFilter.Value
+                        && o.DateEnd.Value < new DateTime(DateTimeFilter.Value.Year + 1, 1, 1))
+                    .ToList();
+            }
         }
 
         if (!skipFilters && !string.IsNullOrWhiteSpace(searchText))

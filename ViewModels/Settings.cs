@@ -69,6 +69,7 @@ public class Settings
             AmountToMinutesModifier = result.AmountToMinutesModifier,
             AmountVerb = result.AmountVerb,
             DateTimeFilter = ConvertDateTimeFilter(result.DateTimeFilter),
+            IsRelativeDateTimeFilter = result.DateTimeFilter == "-24",
             DefaultAddAmount = result.DefaultAddAmount,
             DefaultNewItemBookmarked = result.DefaultNewItemBookmarked,
             DefaultNewItemChapter = result.DefaultNewItemChapter,
